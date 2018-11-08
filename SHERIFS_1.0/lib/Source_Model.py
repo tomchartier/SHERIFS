@@ -226,8 +226,8 @@ class Source_Model_Creator:
                     faults_done = []
                     for i in range(len(faults_in_scenario)):
                         if not str(faults_in_scenario[i]).replace('\r','') in faults_done:
-                            scenario["f_%s" % str(i+1)] = [str(faults_in_scenario[i]).replace('\r','')]
-                            faults_done.append(str(faults_in_scenario[i]).replace('\r',''))
+                            scenario["f_%s" % str(i+1)] = [str(faults_in_scenario[i]).replace('\r','').replace('\n','').replace('\t','')]
+                            faults_done.append(str(faults_in_scenario[i]).replace('\r','').replace('\n','').replace('\t',''))
                     if len(scenario)!=0:
                         scenarios_names.append(scenario)
                 index_scenario += 1
