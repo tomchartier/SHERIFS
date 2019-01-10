@@ -21,7 +21,7 @@ from tkinter import ttk, Label, Text, INSERT,END, StringVar,Listbox,Button,Entry
 from tkinter.ttk import Combobox
 import matplotlib
 matplotlib.use('TkAgg')
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+#from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 
 class selecFAULT_tk():
