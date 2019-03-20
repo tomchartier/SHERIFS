@@ -354,7 +354,9 @@ class Source_Model_Creator:
 #                         slip_rate = np.random.uniform(slip_rate_min,slip_rate_max)
 
                     if sum(M_linked_lvl[index_fault])==0 : #the fault is alone
-                        slip_rate = np.random.uniform(slip_rate_min,slip_rate_max)
+                        slip_rate_inf = np.random.uniform(slip_rate_min,slip_rate_moy)
+                        slip_rate_sup = np.random.uniform(slip_rate_moy,slip_rate_max)
+                        slip_rate = np.random.choice([slip_rate_inf,slip_rate_sup])
                     else: #the fault is connected
                         value_lvl = 10
                         quarters_picked = []
@@ -368,7 +370,9 @@ class Source_Model_Creator:
                                     if M_linked_lvl[index_fault][index_c] == value_lvl :
                                             quarters_picked.append(list_quater_picked[index_c])
                         if quarters_picked == []: #none of the faults have bin picked yet
-                            slip_rate = np.random.uniform(slip_rate_min,slip_rate_max)
+                            slip_rate_inf = np.random.uniform(slip_rate_min,slip_rate_moy)
+                            slip_rate_sup = np.random.uniform(slip_rate_moy,slip_rate_max)
+                            slip_rate = np.random.choice([slip_rate_inf,slip_rate_sup])
                             if slip_rate < (slip_rate_min + 1./2. * (slip_rate_moy-slip_rate_min)):
                                 quarter_to_pick = 1
                             elif slip_rate < (slip_rate_moy):
@@ -436,7 +440,9 @@ class Source_Model_Creator:
                 if self.sample == 1 :
                     slip_rate = self.slip_rate_moy
                 else :
-                    slip_rate = np.random.uniform(slip_rate_min,slip_rate_max)
+                    slip_rate_inf = np.random.uniform(slip_rate_min,slip_rate_moy)
+                    slip_rate_sup = np.random.uniform(slip_rate_moy,slip_rate_max)
+                    slip_rate = np.random.choice([slip_rate_inf,slip_rate_sup])
                 
                 log_line = str(Fault_name) + '\t' + str(slip_rate) + '\n' #writting in the log file
                 log_sr_file.write(log_line)                        
