@@ -245,70 +245,75 @@ def sampling_analysis(Run_name,Model_list,m_Mmax,b_sample,a_s_model,mega_mfd_cum
         for fault in fault_set:
             NMS_set.append([])
         
-        
-        sr_sample=[]
-        for fault in fault_set:
-            sr_sample.append([])
-        
-        score_nms=[]
-        
-            
-        ####
-        # extract the slip-rate of each target fault and does the mean for that branch. 
-        # this can allow to see is some slip-rate values seam to work better
-        ####
-        srate_sample_file=str(Run_name) + '/analysis/txt_files/slip_rate_sampling.txt'
-        with open(srate_sample_file) as f:#finds where to start reading
-            lines_sr = f.readlines()
-        
-                
-                
-        srep_file=str(Run_name) + '/analysis/txt_files/slip_rep_on_faults_all_data.txt'
-        try:
-            with open(srep_file) as f:#finds where to start reading
-                lines = f.readlines()
-            line_number=0    
-            for line in lines:
-                #print(line)
-                if line.split('\t')[7] in fault_set and line.split('\t')[1]==model:
-                    index_fault=np.where(np.array(fault_set)==line.split('\t')[7])[0][0]
-                    NMS_set[index_fault].append(float(line.split('\t')[-1]))
-                    sr_sample[index_fault].append(float(lines_sr[line_number].split('\t')[-1]))
-                    
-                line_number+=1
-            if  np.sum(NMS_set) != 0. :       
-                #print('score NMS on target faults',np.mean(NMS_set,axis=0))
-                for i in range(len(p_chi_branch)):
-                    
-                    '''
-                    the score is 1 is MSN is less than 20%
-                    the score is 0 if:
-                        at least one of the NMS of the test faults if more than 50%
-                        the mean is more the 40%
-                    between 20 and 40 the score evolves linearily between 1 and 0
-                    (this is very much open to discussion!)
-                    '''
-                    if np.mean(NMS_set,axis=0)[i] > 40.:
-                        score_nms_i = 0.
-                    elif np.mean(NMS_set,axis=0)[i] < 20.:
-                        score_nms_i = 1.
-                    else :
-                        score_nms_i=2 - 1./20.*np.mean(NMS_set,axis=0)[i]
-                    #print('score NMS on target faults',round(score_nms_i,2))
-                    '''hard limit on acceptability'''    
-                    for nms_row in NMS_set:
-                        #print(nms_row[i])
-                        if nms_row[i] > 50.:
-                            score_nms_i = 0.
-                    
-                    score_nms.append(score_nms_i)    
-                    #print('score NMS on target faults',round(score_nms_i,2),'   NMS mean:',round(np.mean(NMS_set,axis=0)[i]))
-        except FileNotFoundError:
-            print('!!! you need to run the plot_sr_use if you want the NMS metric !!!')
-            print('Default value = 1.  Put weight to 0.')
-            for i in range(len(p_chi_branch)):
-                score_nms.append(1.)
-            
+        if len(NMS_set) != 0:
+
+          sr_sample=[]
+          for fault in fault_set:
+              sr_sample.append([])
+
+          score_nms=[]
+
+
+          ####
+          # extract the slip-rate of each target fault and does the mean for that branch. 
+          # this can allow to see is some slip-rate values seam to work better
+          ####
+          srate_sample_file=str(Run_name) + '/analysis/txt_files/slip_rate_sampling.txt'
+          with open(srate_sample_file) as f:#finds where to start reading
+              lines_sr = f.readlines()
+
+
+
+          srep_file=str(Run_name) + '/analysis/txt_files/slip_rep_on_faults_all_data.txt'
+          try:
+              with open(srep_file) as f:#finds where to start reading
+                  lines = f.readlines()
+              line_number=0    
+              for line in lines:
+                  #print(line)
+                  if line.split('\t')[7] in fault_set and line.split('\t')[1]==model:
+                      index_fault=np.where(np.array(fault_set)==line.split('\t')[7])[0][0]
+                      NMS_set[index_fault].append(float(line.split('\t')[-1]))
+                      sr_sample[index_fault].append(float(lines_sr[line_number].split('\t')[-1]))
+
+                  line_number+=1
+              if  np.sum(NMS_set) != 0. :       
+                  #print('score NMS on target faults',np.mean(NMS_set,axis=0))
+                  for i in range(len(p_chi_branch)):
+
+                      '''
+                      the score is 1 is MSN is less than 20%
+                      the score is 0 if:
+                          at least one of the NMS of the test faults if more than 50%
+                          the mean is more the 40%
+                      between 20 and 40 the score evolves linearily between 1 and 0
+                      (this is very much open to discussion!)
+                      '''
+                      if np.mean(NMS_set,axis=0)[i] > 40.:
+                          score_nms_i = 0.
+                      elif np.mean(NMS_set,axis=0)[i] < 20.:
+                          score_nms_i = 1.
+                      else :
+                          score_nms_i=2 - 1./20.*np.mean(NMS_set,axis=0)[i]
+                      #print('score NMS on target faults',round(score_nms_i,2))
+                      '''hard limit on acceptability'''    
+                      for nms_row in NMS_set:
+                          #print(nms_row[i])
+                          if nms_row[i] > 50.:
+                              score_nms_i = 0.
+
+                      score_nms.append(score_nms_i)    
+                      #print('score NMS on target faults',round(score_nms_i,2),'   NMS mean:',round(np.mean(NMS_set,axis=0)[i]))
+          except FileNotFoundError:
+              print('!!! you need to run the plot_sr_use if you want the NMS metric !!!')
+              print('Default value = 1. ')
+              for i in range(len(p_chi_branch)):
+                  score_nms.append(1.)
+        else:
+          print('modify Sampling_analysis.py for the NMS metric')
+          print('Default value = 1. ')
+          for i in range(len(p_chi_branch)):
+              score_nms.append(1.)
         
         #deos the mean sr of the faults for each branch
         mean_sr_branch = np.mean(sr_sample,axis=0)
