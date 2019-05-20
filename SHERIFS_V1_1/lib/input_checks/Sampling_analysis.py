@@ -240,17 +240,11 @@ def sampling_analysis(Run_name,Model_list,m_Mmax,b_sample,a_s_model,mega_mfd_cum
         The NMS on a set of faults as a metric for judging the quality of a model
         '''
         fault_set=['F1','F2','F3']
-        if Run_name == 'Marmara_29042019' or Run_name == 'Marmara_10052019' :
-            fault_set=['Adalar_1','Adalar_2','Adalar_3',
-                       'Avcilar_1','Avcilar_2',
-                       'Cinarcik_1','Cinarcik_2',
-                       'Kumburgaz_1','Kumburgaz_2','Kumburgaz_3',
-                       'Izmit_1','Izmit_2','Izmit_3','Izmit_4','Izmit_5',
-                       'Ganos_1','Ganos_2','Ganos_3','Ganos_4','Ganos_5','Ganos_6','Ganos_7']
         
         NMS_set=[]
         for fault in fault_set:
             NMS_set.append([])
+        
         
         sr_sample=[]
         for fault in fault_set:
