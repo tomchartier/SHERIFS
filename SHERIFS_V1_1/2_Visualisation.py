@@ -314,7 +314,8 @@ class checking_the_input():
         plot_FtF_GIF.map_faults(self.Run_name,Model_list,scenarios_names_list,
            ScL_complet_list, BG_hyp_list,
            sample_list,b_value_list,MFD_type_list,
-           self.llcrnrlon,self.llcrnrlat,self.urcrnrlon,self.urcrnrlat,self.File_bg,self.FileName_Prop,plot_sr_use,visual_FtF)
+           self.llcrnrlon,self.llcrnrlat,self.urcrnrlon,self.urcrnrlat,
+           self.File_bg,self.FileName_Prop,plot_sr_use,visual_FtF,self.sub_area_file)
         print('\nTime to plot the different FtF ruptures : ' + str(round(time.time() - time_i,2)) +' s.\n')
            
         
