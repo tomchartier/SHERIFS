@@ -61,17 +61,18 @@ def calculate_initial_compass_bearing(pointA, pointB):
 
     return compass_bearing
 
-def draw_screen_poly(lons, lats,  m , color , op, linewidth):
+def draw_screen_poly(lons, lats,  m , color , op, linewidth, edgecolor):
     x, y = m( lons, lats )
     xy = list(zip(x,y))
-    poly = Polygon( xy, facecolor=color, alpha= op , linewidth=linewidth, edgecolor = color)
+    poly = Polygon( xy, facecolor=color, alpha= op , linewidth=linewidth, edgecolor = edgecolor)
     plt.gca().add_patch(poly)
 
 
 def map_faults(Run_name,Model_list,scenarios_names_list,
                ScL_complet_list, BG_hyp_list,
                sample_list,b_value_list,MFD_type_list,
-               llcrnrlon,llcrnrlat,urcrnrlon,urcrnrlat,File_bg,FileName_Prop,plot_sr_use,visual_FtF):
+               llcrnrlon,llcrnrlat,urcrnrlon,urcrnrlat,File_bg,
+               FileName_Prop,plot_sr_use,visual_FtF,sub_area_file):
     nb_on_maps = False
     #tree = ET.parse("SHARE_WCR/Europe_SHARE_western_corinth_rift.xml")ScL_complet_list,
     for Model in Model_list :
@@ -198,7 +199,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                                       urcrnrlat=urcrnrlat,resolution='l')
                         
                         if len(Lon_bg) != 0 : #draw the background zone
-                            draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.02,0.05)
+                            draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.2, 0.5, 'k')
                             
                         Mmax = sources_Mmax[index_Mmax_0+index_scenario]
                         #for each fault  
@@ -423,15 +424,15 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                                     poly_lats = np.concatenate([lat_u,np.array(list(reversed(lat_d)))])
                                 
                                 if source_name_i in faults_in_scenario:
-                                    draw_screen_poly(poly_lons, poly_lats,  m ,'r' , 0.5, 0.05)
+                                    draw_screen_poly(poly_lons, poly_lats,  m ,'r' , 0.5, 0.05, 'r')
                                 else :
-                                    draw_screen_poly(poly_lons, poly_lats,  m ,'k' , 0.2, 0.05)
+                                    draw_screen_poly(poly_lons, poly_lats,  m ,'k' , 0.2, 0.05, 'r')
                                     
                             if fault_type[index_source] == 'cf':
                                 if source_name_i in faults_in_scenario:
-                                    draw_screen_poly(Lon[index_source], Lat[index_source],  m ,'r' , 0.5, 0.05)
+                                    draw_screen_poly(Lon[index_source], Lat[index_source],  m ,'r' , 0.5, 0.05, 'r')
                                 else :
-                                    draw_screen_poly(Lon[index_source], Lat[index_source],  m ,'k' , 0.2, 0.05)
+                                    draw_screen_poly(Lon[index_source], Lat[index_source],  m ,'k' , 0.2, 0.05, 'k')
                                                                                             
                             
                         Lon_bg = []
@@ -445,7 +446,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                         Lon_bg = list(map(lambda i : geom_bg[i][1],index_model))
                         Lat_bg = list(map(lambda i : geom_bg[i][2],index_model))
                         if len(Lon_bg) != 0 : #draw the background zone
-                            draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.05, 0.05)
+                            draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.05, 0.05, 'k')
                             
                         m.drawcoastlines(linewidth=0.2)
                         m.fillcontinents(color='grey',lake_color='w',alpha = 0.2)
@@ -471,27 +472,73 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     
                     
             # print the map for the model
-            m = Basemap(projection='mill',
+            m = Basemap(projection='cyl',
                           llcrnrlon=llcrnrlon, 
                           llcrnrlat=llcrnrlat, 
                           urcrnrlon=urcrnrlon, 
                           urcrnrlat=urcrnrlat,resolution='h')
+#            m.drawparallels(
+#                np.arange(round(llcrnrlat), round(urcrnrlat), 0.5),
+#                color = 'black', linewidth = 0.1,
+#                labels=[True, False, False, False])
+#            m.drawmeridians(
+#                np.arange(round(llcrnrlon), round(urcrnrlon), 0.5),
+#                color = '0.25', linewidth = 0.1,
+#                labels=[False, False, False, True])
             
             Lon_bg = []
             Lat_bg = []
         
             # manually defined  in the file Background geometry
-            geom_bg = np.genfromtxt(File_bg,dtype=[('U100'),('f8'),('f8')],skip_header = 1)
-            
+            geom_bg = np.genfromtxt(File_bg,dtype=[('U100'),('f8'),('f8')],skip_header = 1)            
             column_model = list(map(lambda i : geom_bg[i][0],range(len(geom_bg))))
             index_model = np.where(np.array(column_model) == Model)[0]
             Lon_bg = list(map(lambda i : geom_bg[i][1],index_model))
             Lat_bg = list(map(lambda i : geom_bg[i][2],index_model))
             if len(Lon_bg) != 0 : #draw the background zone
-                draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.02, 0.05)
-                
-            #for each fault  
+                draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.1, 0.1, 'k')
+                x, y = m(Lon_bg, Lat_bg) 
+                m.plot(x,y,linewidth=0.2,color='k',linestyle = 'dashed')
             
+                
+            #draw the sub_areas
+            
+            #bbPath_sub_areas = []
+            if os.path.exists(sub_area_file):
+                read_sub_area_file = open(sub_area_file,'rU')
+                lines_sub_area = read_sub_area_file.readlines()
+                sub_area_names = []
+                sub_area_coord = []
+#                sub_area_lon = []
+#                sub_area_lat = []
+                for line in lines_sub_area:
+                    model_sub_area = line.split('\t')[0]
+                    if model_sub_area in Model_list:
+                        sub_area_names.append(line.split('\t')[1])
+                        sub_area_coord.append(line.split('\t')[2:])
+                        sub_area_lon_i = []
+                        sub_area_lat_i = []
+                        for sub_area_coord_i in line.split('\t')[2:]:
+                            if not '\n' in sub_area_coord_i.split(','):
+                                if not '' in sub_area_coord_i.split(','):
+                                    sub_area_lon_i.append(float(sub_area_coord_i.split(',')[1]))
+                                    sub_area_lat_i.append(float(sub_area_coord_i.split(',')[0]))
+                        draw_screen_poly(sub_area_lon_i, sub_area_lat_i,  m ,'k' , 0.01, 0.1, 'k')
+                        x, y = m(sub_area_lon_i, sub_area_lat_i) 
+                        m.plot(x,y,linewidth=0.2,color='k',linestyle = 'dotted')
+                        
+#                        sub_area_lon.append(sub_area_lon_i)
+#                        sub_area_lat.append(sub_area_lat_i)
+#                        if not os.path.exists(str(Run_name) + '/analysis/figures/catalogue/sub_area'):
+#                            os.makedirs(str(Run_name) + '/analysis/figures/catalogue/sub_area')  
+#                                     
+#                        Poly_sub = []   
+#                        for x1,y1 in zip(sub_area_lon_i,sub_area_lat_i): # creation du polygon de la zone
+#                            Poly_sub.append((x1,y1))    
+#                        #bbPath_sub_areas.append(mplPath.Path(Poly_sub))
+            
+                
+            #for each fault              
             for index_source in range(nb_sources):
                 if fault_type[index_source] == 'sf':
                     dip_tan = math.tan(math.radians(Dip[index_source]))
@@ -561,7 +608,8 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     source_name_i = source_name[index_source].replace(Model+'_','')
                     
                     x, y = m(Lon[index_source], Lat[index_source]) 
-                    m.plot(x, y, 'D-', markersize=0.1, linewidth=0.2, color='k', markerfacecolor='b')
+                    #m.plot(x, y, 'D-', markersize=0.1, linewidth=0.2, color='k', markerfacecolor='b')
+                    m.plot(x,y,linewidth=0.3,color='k')
                 
                     poly_lons = np.concatenate([lon_u,np.array(list(reversed(lon_d)))])
                     poly_lats = np.concatenate([lat_u,np.array(list(reversed(lat_d)))])
@@ -569,13 +617,28 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     if len(Lon[index_source]) < 3 :
                         poly_lons = np.concatenate([lon_u,np.array(list(reversed(lon_d)))])
                         poly_lats = np.concatenate([lat_u,np.array(list(reversed(lat_d)))])
-                    draw_screen_poly(poly_lons, poly_lats,  m ,'k' , 0.2, 0.05)
+                    draw_screen_poly(poly_lons, poly_lats,  m ,'k' , 0.2, 0.05, 'k')
                 if fault_type[index_source] == 'cf':
-                    draw_screen_poly(Lon[index_source], Lat[index_source],  m ,'k' , 0.2, 0.05)
+                    draw_screen_poly(Lon[index_source], Lat[index_source],  m ,'k' , 0.2, 0.2, 'k')
             
                 
-            m.drawcoastlines(linewidth=0.2)
-            m.fillcontinents(color='grey',lake_color='w',alpha = 0.2)
+            m.drawcoastlines(linewidth=0.1)
+            try:
+                m.arcgisimage(service='World_Shaded_Relief', dpi = 400, alpha = 0.3, xpixels = 2000)
+            except:
+                m.fillcontinents(color='sienna',lake_color='w',alpha = 0.05)
+            
+            #m.shadedrelief(xpixels = 2000, alpha=0.3)
+#            m.drawmapscale(
+#                llcrnrlon+0.5, urcrnrlat-0.2, llcrnrlon+2., urcrnrlat+1.,
+#                100,
+#                units='km', fontsize=6,
+#                yoffset=None,
+#                barstyle='fancy', labelstyle='simple',
+#                fillcolor1='w', fillcolor2='#000000',
+#                fontcolor='#000000',
+#                zorder=5)
+            
             plt.savefig(str(Run_name) + '/analysis/figures/FtF/'+Model+'/'+'map.png',dpi=400)
 
             plt.close()
@@ -611,7 +674,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     Lon_bg = list(map(lambda i : geom_bg[i][1],index_model))
                     Lat_bg = list(map(lambda i : geom_bg[i][2],index_model))
                     if len(Lon_bg) != 0 : #draw the background zone
-                        draw_screen_poly(Lon_bg, Lat_bg,  m_nms ,'g' , 0.02, 0.05)
+                        draw_screen_poly(Lon_bg, Lat_bg,  m_nms ,'g' , 0.02, 0.5, 'k')
                         
                     #for each fault  
                     
@@ -710,7 +773,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                             if len(Lon[index_source]) < 3 :
                                 poly_lons = np.concatenate([lon_u,np.array(list(reversed(lon_d)))])
                                 poly_lats = np.concatenate([lat_u,np.array(list(reversed(lat_d)))])
-                            draw_screen_poly(poly_lons, poly_lats,  m_nms ,rgba , 0.5, 1.)
+                            draw_screen_poly(poly_lons, poly_lats,  m_nms ,rgba , 0.5, 1., rgba)
                         if fault_type[index_source] == 'cf':
                             source_name_i = source_name[index_source].replace(Model+'_','')
                             #print source_name_i
@@ -727,7 +790,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                             if NMS_i >= 50.:
                                 NMS_i = 50.
                             rgba = cmap(float(NMS_i*2.)/100.)
-                            draw_screen_poly(Lon[index_source], Lat[index_source],  m_nms ,rgba , 0.5, 1.)
+                            draw_screen_poly(Lon[index_source], Lat[index_source],  m_nms ,rgba , 0.5, 1., rgba)
                     
                     m_nms.drawcoastlines(linewidth=0.2)
                     m_nms.fillcontinents(color='grey',lake_color='w',alpha = 0.2)
@@ -802,7 +865,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
             Lon_bg =list( map(lambda i : geom_bg[i][1],index_model))
             Lat_bg = list(map(lambda i : geom_bg[i][2],index_model))
             if len(Lon_bg) != 0 : #draw the background zone
-                draw_screen_poly(Lon_bg, Lat_bg,  m_sr ,'g' , 0.02, 0.05)
+                draw_screen_poly(Lon_bg, Lat_bg,  m_sr ,'g' , 0.02, 0.05, 'k')
                 
             #for each fault  
             
@@ -898,7 +961,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     if len(Lon[index_source]) < 3 :
                         poly_lons = np.concatenate([lon_u,np.array(list(reversed(lon_d)))])
                         poly_lats = np.concatenate([lat_u,np.array(list(reversed(lat_d)))])
-                    draw_screen_poly(poly_lons, poly_lats,  m_sr ,rgba , 0.5, 1.)
+                    draw_screen_poly(poly_lons, poly_lats,  m_sr ,rgba , 0.5, 1., rgba)
                 if fault_type[index_source] == 'cf':
                     source_name_i = source_name[index_source].replace(Model+'_','')
                     index_fault = np.where(np.array(fault_name_mean_param)==source_name_i)[0][0]
@@ -910,7 +973,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     
                     cmap = matplotlib.cm.get_cmap('rainbow')
                     rgba = cmap(float(sr)/max(sr_mean))
-                    draw_screen_poly(Lon[index_source], Lat[index_source],  m_sr ,rgba , 0.5, 1.)
+                    draw_screen_poly(Lon[index_source], Lat[index_source],  m_sr ,rgba , 0.5, 1., rgba)
             
             m_sr.drawcoastlines(linewidth=0.2)
             m_sr.fillcontinents(color='grey',lake_color='w',alpha = 0.2)
@@ -989,7 +1052,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     Lon_bg =list( map(lambda i : geom_bg[i][1],index_model))
                     Lat_bg = list(map(lambda i : geom_bg[i][2],index_model))
                     if len(Lon_bg) != 0 : #draw the background zone
-                        draw_screen_poly(Lon_bg, Lat_bg,  m_sr_seismic ,'g' , 0.02, 0.05)
+                        draw_screen_poly(Lon_bg, Lat_bg,  m_sr_seismic ,'g' , 0.02, 0.05, 'k')
                         
                     #for each fault  
                     
@@ -1089,7 +1152,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                             if len(Lon[index_source]) < 3 :
                                 poly_lons = np.concatenate([lon_u,np.array(list(reversed(lon_d)))])
                                 poly_lats = np.concatenate([lat_u,np.array(list(reversed(lat_d)))])
-                            draw_screen_poly(poly_lons, poly_lats,  m_sr_seismic ,rgba , 0.5, 1.)
+                            draw_screen_poly(poly_lons, poly_lats,  m_sr_seismic ,rgba , 0.5, 1., rgba)
                         if fault_type[index_source] == 'cf':
                             source_name_i = source_name[index_source].replace(Model+'_','')
                             #print source_name_i
@@ -1107,7 +1170,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                             
                             cmap = matplotlib.cm.get_cmap('rainbow')
                             rgba = cmap(sr_seismic/max(sr_mean))
-                            draw_screen_poly(Lon[index_source], Lat[index_source],  m_sr_seismic ,rgba , 0.5, 1.)
+                            draw_screen_poly(Lon[index_source], Lat[index_source],  m_sr_seismic ,rgba , 0.5, 1., rgba)
                     
                     m_sr_seismic.drawcoastlines(linewidth=0.2)
                     m_sr_seismic.fillcontinents(color='grey',lake_color='w',alpha = 0.2)
@@ -1183,7 +1246,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
             Lon_bg = list(map(lambda i : geom_bg[i][1],index_model))
             Lat_bg = list(map(lambda i : geom_bg[i][2],index_model))
             if len(Lon_bg) != 0 : #draw the background zone
-                draw_screen_poly(Lon_bg, Lat_bg,  m_mmax ,'g' , 0.02, 0.05)
+                draw_screen_poly(Lon_bg, Lat_bg,  m_mmax ,'g' , 0.02, 0.05, 'k')
                 
             #for each fault  
             for index_source in range(nb_sources):
@@ -1277,7 +1340,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     if len(Lon[index_source]) < 3 :
                         poly_lons = np.concatenate([lon_u,np.array(list(reversed(lon_d)))])
                         poly_lats = np.concatenate([lat_u,np.array(list(reversed(lat_d)))])
-                    draw_screen_poly(poly_lons, poly_lats,  m_mmax ,rgba , 0.5, 1.)
+                    draw_screen_poly(poly_lons, poly_lats,  m_mmax ,rgba , 0.5, 1., rgba)
                 if fault_type[index_source] == 'cf':
                     source_name_i = source_name[index_source].replace(Model+'_','')
                     index_fault = np.where(np.array(fault_name_mean_param)==source_name_i)[0][0]
@@ -1290,7 +1353,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     
                     cmap = matplotlib.cm.get_cmap('rainbow')
                     rgba = cmap((float(Mmax)-min(Mmax_mean))/(max(Mmax_mean)-min(Mmax_mean)))
-                    draw_screen_poly(Lon[index_source], Lat[index_source],  m_mmax ,rgba , 0.5, 1.)
+                    draw_screen_poly(Lon[index_source], Lat[index_source],  m_mmax ,rgba , 0.5, 1., rgba)
             
             m_mmax.drawcoastlines(linewidth=0.2)
             m_mmax.fillcontinents(color='grey',lake_color='w',alpha = 0.2)
