@@ -319,20 +319,20 @@ def plt_catalog(do_catalog,Model_list,File_bg,catalog_file,Run_name,xmin,xmax,ym
             axes.set_xlim([xmin,xmax])
             axes.set_ylim([ymin,ymax])
             mean_nb_eq_in_cat = np.mean(number_of_earthquakes_for_rate, axis = 0)
+                    
+            nb_sample = 50
+            time_simu = 1000000
+            alphas=[]
+            
             for index_mag in range(len(bining_in_mag)): 
                 
                 #does a simulation of the catalog in order to check the statistical validity
                 
                 nb_eq = mean_nb_eq_in_cat[index_mag]
-                if completness[0][index_mag] == min(completness[0]): #if it's the last completness period, do the statistical représentativity
+                if nb_eq <= 10: #if there is less than 10 earthquakes, do the statistical représentativity
                     time_obs = int(round(end_year_of_catalog - completness[0][index_mag]))
                     
-                    
                     rate = float(nb_eq)/float(time_obs)
-                    
-                    time_simu = 1000000
-                    
-                    nb_sample = 50
                     
                     cat = []
                     #build the catalog
@@ -350,20 +350,21 @@ def plt_catalog(do_catalog,Model_list,File_bg,catalog_file,Run_name,xmin,xmax,ym
                         #print sum(cat_sampled), sum(cat_sampled)/float(time_obs)
                         rates_simu.append(sum(cat_sampled)/float(time_obs))
                        
-                    
-                    
-                    
-        #            rate_plus = np.percentile(rate_cat_cum_density,84,axis=0)[index_mag]
-        #            rate_minus = np.percentile(rate_cat_cum_density,16,axis=0)[index_mag]
                     unc_rate = (np.std(rate_cat_cum_density,axis=0)[index_mag])/(np.square(mean_nb_eq_in_cat[index_mag]))
                     unc_rate = np.std(rates_simu)
-                    #print(bining_in_mag[index_mag],nb_eq,time_obs,round(np.array(rate_cat_cum_density).mean(axis=0)[index_mag],6),round(unc_rate,6))
+                    
                     rate_plus = np.array(rate_cat_cum_density).mean(axis=0)[index_mag]+unc_rate
                     rate_minus = np.array(rate_cat_cum_density).mean(axis=0)[index_mag]-unc_rate
                     if rate_minus < 0. : # in order not to have negative values
-                        rate_minus = np.array(rate_cat_cum_density).mean(axis=0)[index_mag]/10.
+                        rate_minus = np.array(rate_cat_cum_density).mean(axis=0)[index_mag]/100.
                         
-                else:  #if it's another period, use the percentiles of the distribution
+                    #if this is smaller than the percentils, take percentiles
+                    if np.percentile(rate_cat_cum_density,84,axis=0)[index_mag] >rate_plus:
+                        rate_plus = np.percentile(rate_cat_cum_density,84,axis=0)[index_mag]
+                    if np.percentile(rate_cat_cum_density,16,axis=0)[index_mag]<rate_minus:
+                        rate_minus = np.percentile(rate_cat_cum_density,16,axis=0)[index_mag]
+                        
+                else:  #if there is more, use the percentiles of the distribution
                     rate_plus = np.percentile(rate_cat_cum_density,84,axis=0)[index_mag]
                     rate_minus = np.percentile(rate_cat_cum_density,16,axis=0)[index_mag]
                     
@@ -380,10 +381,13 @@ def plt_catalog(do_catalog,Model_list,File_bg,catalog_file,Run_name,xmin,xmax,ym
                          Path.LINETO,
                          Path.LINETO,
                          Path.CLOSEPOLY]
+                #alpha depending of the number of samples that are different to zero
+                alpha = float(np.count_nonzero(rate_cat_cum_density,axis=0)[index_mag])/float(nb_sample) * 0.2
+                alphas.append(alpha)
                          
                 path_poly = Path(verts, codes)
                 
-                patch = patches.PathPatch(path_poly,facecolor = 'k', lw = 0., alpha = 0.15)
+                patch = patches.PathPatch(path_poly,facecolor = 'k', lw = 0., alpha = alpha)
                 axes.add_patch(patch)
             
     #        plt.scatter(bining_in_mag,np.percentile(rate_cat_cum_density,50,axis=0),
@@ -396,8 +400,15 @@ def plt_catalog(do_catalog,Model_list,File_bg,catalog_file,Run_name,xmin,xmax,ym
     #            c='k', s=4, edgecolor='',marker = 'o',alpha = 0.8)
     #        plt.scatter(bining_in_mag,np.percentile(rate_cat_cum_density,95,axis=0),
     #                    c='k', s=4, edgecolor='',marker = 'o',alpha = 0.8)
+    
+            rgba_colors = np.zeros((len(bining_in_mag),4))
+            # for red the first column needs to be one
+            rgba_colors[:,0] = 0.
+            # the fourth column needs to be your alphas
+            rgba_colors[:, 3] = alphas
+            
             plt.scatter(bining_in_mag,np.array(rate_cat_cum_density).mean(axis=0),
-                    c='k', s=20, edgecolor='',marker = 's',alpha = 0.95)
+                    c=rgba_colors, s=20, edgecolor='',marker = 's')
                 
             plt.yscale('log')
             plt.title('earthquake catalog')
@@ -420,42 +431,51 @@ def plt_catalog(do_catalog,Model_list,File_bg,catalog_file,Run_name,xmin,xmax,ym
                 axes.set_xlim([xmin,xmax])
                 axes.set_ylim([ymin,ymax])
                 mean_nb_eq_in_cat = np.mean(number_of_earthquakes_for_rate_sub_area[index_sub_area], axis = 0)
+                alphas=[]
                 for index_mag in range(len(bining_in_mag)): 
                     
                     #does a simulation of the catalog in order to check the statistical validity
                     
                     nb_eq = mean_nb_eq_in_cat[index_mag]
-                    time_obs = int(round(end_year_of_catalog - completness[0][index_mag]))
-                    
-                    
-                    rate = float(nb_eq)/float(time_obs)
-                    
-                    time_simu = 1000000
-                    
-                    nb_sample = 50
-                    
-                    cat = []
-                    #build the catalog
-                    for i in range(time_simu):
-                        test = np.random.uniform(0.,1.)
-                        if test<=rate:
-                            cat.append(1)
-                        else:
-                            cat.append(0)
+                    if nb_eq <= 10: #if there is less than 10 earthquakes, do the statistical représentativity
+                        time_obs = int(round(end_year_of_catalog - completness[0][index_mag]))
+                        
+                        
+                        rate = float(nb_eq)/float(time_obs)
+                        
+                        cat = []
+                        #build the catalog
+                        for i in range(time_simu):
+                            test = np.random.uniform(0.,1.)
+                            if test<=rate:
+                                cat.append(1)
+                            else:
+                                cat.append(0)
+                                
+                        rates_simu = []
+                        for i in range(nb_sample):
+                            yrs_start = random.choice(range(time_simu-time_obs))
+                            cat_sampled = cat[yrs_start:yrs_start+time_obs]
+                            #print sum(cat_sampled), sum(cat_sampled)/float(time_obs)
+                            rates_simu.append(sum(cat_sampled)/float(time_obs))
+                           
+                        
+                        unc_rate = np.std(rates_simu)
+                        rate_plus = np.array(rate_in_sub_area_cum[index_sub_area]).mean(axis=0)[index_mag]+unc_rate
+                        rate_minus = np.array(rate_in_sub_area_cum[index_sub_area]).mean(axis=0)[index_mag]-unc_rate
+                        if rate_minus < 0. : # in order not to have negative values
+                            rate_minus = np.array(rate_in_sub_area_cum[index_sub_area]).mean(axis=0)[index_mag]/10.
                             
-                    rates_simu = []
-                    for i in range(nb_sample):
-                        yrs_start = random.choice(range(time_simu-time_obs))
-                        cat_sampled = cat[yrs_start:yrs_start+time_obs]
-                        #print sum(cat_sampled), sum(cat_sampled)/float(time_obs)
-                        rates_simu.append(sum(cat_sampled)/float(time_obs))
-                       
-                    
-                    unc_rate = np.std(rates_simu)
-                    rate_plus = np.array(rate_in_sub_area_cum[index_sub_area]).mean(axis=0)[index_mag]+unc_rate
-                    rate_minus = np.array(rate_in_sub_area_cum[index_sub_area]).mean(axis=0)[index_mag]-unc_rate
-                    if rate_minus < 0. : # in order not to have negative values
-                        rate_minus = np.array(rate_in_sub_area_cum[index_sub_area]).mean(axis=0)[index_mag]/10.
+                        #if this is smaller than the percentils, take percentiles
+                        if np.percentile(rate_in_sub_area_cum[index_sub_area],84,axis=0)[index_mag] >rate_plus:
+                            rate_plus = np.percentile(rate_in_sub_area_cum[index_sub_area],84,axis=0)[index_mag]
+                        if np.percentile(rate_in_sub_area_cum[index_sub_area],16,axis=0)[index_mag]<rate_minus:
+                            rate_minus = np.percentile(rate_in_sub_area_cum[index_sub_area],16,axis=0)[index_mag]
+                            
+                    else:  #if there is more, use the percentiles of the distribution
+                        rate_plus = np.percentile(rate_in_sub_area_cum[index_sub_area],84,axis=0)[index_mag]
+                        rate_minus = np.percentile(rate_in_sub_area_cum[index_sub_area],16,axis=0)[index_mag]
+                            
                     mag = bining_in_mag[index_mag]
                     mag_plus = mag+0.05
                     mag_minus = mag-0.05
@@ -471,26 +491,25 @@ def plt_catalog(do_catalog,Model_list,File_bg,catalog_file,Run_name,xmin,xmax,ym
                              Path.CLOSEPOLY]
                              
                     path_poly = Path(verts, codes)
-                    
-                    patch = patches.PathPatch(path_poly,facecolor = 'k', lw = 0., alpha = 0.15)
+                        
+                    #alpha depending of the number of samples that are different to zero
+                    alpha = float(np.count_nonzero(rate_in_sub_area_cum[index_sub_area],axis=0)[index_mag])/float(nb_sample) * 0.2
+                    alphas.append(alpha)
+                
+                    patch = patches.PathPatch(path_poly,facecolor = 'k', lw = 0., alpha = alpha)
                     axes.add_patch(patch)
                 
                 for i in range(nb_inter):
                     plt.scatter(bining_in_mag,rate_in_sub_area_cum[index_sub_area][i],c = 'brown' , marker = '_', s = 50, alpha = 0.2)#, linewidth = 0
                     
+                rgba_colors = np.zeros((len(bining_in_mag),4))
+                # for red the first column needs to be one
+                rgba_colors[:,0] = 0.
+                # the fourth column needs to be your alphas
+                rgba_colors[:, 3] = alphas
                 
-    #            plt.scatter(bining_in_mag,np.percentile(rate_in_sub_area_cum[index_sub_area],50,axis=0),
-    #                    c='k', s=15, edgecolor='',marker = 'o',alpha = 0.8)
-    #            plt.scatter(bining_in_mag,np.percentile(rate_in_sub_area_cum[index_sub_area],16,axis=0),
-    #                c='k', s=15, edgecolor='',marker = '+',alpha = 0.8)
-    #            plt.scatter(bining_in_mag,np.percentile(rate_in_sub_area_cum[index_sub_area],84,axis=0),
-    #                        c='k', s=15, edgecolor='',marker = '+',alpha = 0.8)
-    #            plt.scatter(bining_in_mag,np.percentile(rate_in_sub_area_cum[index_sub_area],5,axis=0),
-    #                c='k', s=5, edgecolor='',marker = 'o',alpha = 0.8)
-    #            plt.scatter(bining_in_mag,np.percentile(rate_in_sub_area_cum[index_sub_area],95,axis=0),
-    #                        c='k', s=5, edgecolor='',marker = 'o',alpha = 0.8)
                 plt.scatter(bining_in_mag,np.array(rate_in_sub_area_cum[index_sub_area]).mean(axis=0),
-                        c='k', s=20, edgecolor='',marker = 's',alpha = 0.95)
+                        c=rgba_colors, s=20, edgecolor='',marker = 's')
                 
                 
                     
@@ -573,18 +592,18 @@ def plt_catalog(do_catalog,Model_list,File_bg,catalog_file,Run_name,xmin,xmax,ym
                 for (Yr,M,lon,lat,nb) in zip(yr_cat_for_map,M_cat_for_map,lon_cat_for_map,lat_cat_for_map,nb_time_picked):
                     x, y = m(lon, lat)
                     # color scale
-                    if M< 5.5 :
-                        s = 6
-                        c = 'grey'
+                    if M< 5. :
+                        c='b'
+                        s = 3
                     elif M< 6.0:
-                        s = 8
-                        c = 'yellow'
-                    elif M< 6.5:
-                        s= 10
-                        c = 'orange'
+                        c='g'
+                        s = 5
+                    elif M< 7.:
+                        c='orange'
+                        s= 7
                     else:
-                        s = 12
-                        c = 'red'
+                        c='r'
+                        s = 10
                     
                     if nb >= 2*nb_inter/3 :
                         alpha = 1.
@@ -597,10 +616,11 @@ def plt_catalog(do_catalog,Model_list,File_bg,catalog_file,Run_name,xmin,xmax,ym
                         
                     c = plt.cm.jet((M-min(M_cat_for_map))/(max(M_cat_for_map)-min(M_cat_for_map)))
                     
-                    m.plot(x, y, 'o', markersize=s, linewidth=0.2, color = c, alpha = alpha)
+                    m.plot(x, y, '.', markersize=s, markeredgewidth=0., linewidth=0.2, color = c, alpha = alpha)
                     
-                    x_text, y_text = m(lon+0.005, lat+0.005)
-                    plt.text(x_text,y_text,str(int(Yr))+','+str(int(nb)),fontsize = 4)
+                    if M > max(M_cat_for_map) - 1.:
+                        x_text, y_text = m(lon+0.005, lat+0.005)
+                        plt.text(x_text,y_text,str(int(Yr))+','+str(int(nb)),fontsize = 4)
                                             
                                             
                 m.drawcoastlines(linewidth=0.1)
@@ -626,34 +646,35 @@ def plt_catalog(do_catalog,Model_list,File_bg,catalog_file,Run_name,xmin,xmax,ym
                               urcrnrlon = urcrnrlon, 
                               urcrnrlat = urcrnrlat,resolution='l')
                 
-                for (Yr,M,lon,lat) in zip(yr_cat_for_map,M_cat_for_map,lon_cat_for_map,lat_cat_for_map):
+                for (Yr,M,lon,lat,nb) in zip(yr_cat_for_map,M_cat_for_map,lon_cat_for_map,lat_cat_for_map,nb_time_picked):
                     x, y = m(lon, lat)
                     # color scale
-                    if M< 5.5 :
-                        s = 6
-                        c = 'grey'
+                    if M< 5. :
+                        c='b'
+                        s = 3
                     elif M< 6.0:
-                        s = 8
-                        c = 'yellow'
-                    elif M< 6.5:
-                        s= 10
-                        c = 'orange'
+                        c='g'
+                        s = 5
+                    elif M< 7.:
+                        c='orange'
+                        s= 7
                     else:
-                        s = 12
-                        c = 'red'
+                        c='r'
+                        s = 10
                         
-                    if nb >= 2*nb_inter/3 :
-                        alpha = 1.
-                    if nb <= 2*nb_inter/3 :
-                        alpha = 0.8
-                    if nb <= 1*nb_inter/2 :
-                        alpha = 0.3
-                    if nb < 1*nb_inter/3 :
-                        alpha = 0.001
+#                    if nb >= 2*nb_inter/3 :
+#                        alpha = 1.
+#                    if nb <= 2*nb_inter/3 :
+#                        alpha = 0.8
+#                    if nb <= 1*nb_inter/2 :
+#                        alpha = 0.3
+#                    if nb < 1*nb_inter/3 :
+#                        alpha = 0.001
+#                    
+                    #c = plt.cm.jet((M-min(M_cat_for_map))/(max(M_cat_for_map)-min(M_cat_for_map)))
                     
-                    c = plt.cm.jet((M-min(M_cat_for_map))/(max(M_cat_for_map)-min(M_cat_for_map)))
-                    
-                    m.plot(x, y, 'o', markersize=s, linewidth=0.2, color = c, alpha = 0.5)
+                    if nb >= float(nb_inter)/2. : #plot the earthquake if it's piccked more than 50% of the iterations
+                        m.plot(x, y, '.', markersize=s, markeredgewidth=0., linewidth=0., color = c, alpha = 0.6)
                     
                 plt.savefig(str(Run_name) + '/analysis/figures/catalogue/'+'earthquake_map_just_EQ_'+str(model)+'.png' , dpi = 180, transparent=True)
                 #plt.show()
