@@ -205,77 +205,79 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
         
             
         for fault_name in list_fault_names:
-            label_for_boxplot = []
-            #data_for_boxplot = []
-            data_for_boxplot_cum = []
-
-            #find if there is data conserning that fault
-            self_data_on_fault_available = False
-            self_data_type = []
-            self_data_M = []
-            self_data_sig_M = []
-            self_data_rate = []
-            self_data_sig_rate = []
-            if fault_name in data_fault_name:
-
-                index_fault_in_data = np.where(np.array(data_fault_name)==fault_name)[0]
-                for index_i in index_fault_in_data:
-                    if data_model[index_i] == model :
-                        self_data_on_fault_available = True
-                        self_data_type.append(data_type[index_i])
-                        self_data_M.append(data_M[index_i]) 
-                        self_data_sig_M.append(data_sig_M[index_i])
-                        self_data_rate.append(data_rate[index_i])
-                        self_data_sig_rate.append(data_sig_rate[index_i]) 
-            
-            df_fault_mfd = df_mega_MFD[(df_mega_MFD.Model == model) & (df_mega_MFD.source.str.contains(fault_name))]
-            if df_fault_mfd.empty == False:
-                df_fault_mfd.columns = ['selected_ScL','dim_used','str_all_data','Model','BG_hyp',
-                                            'b_min','b_max','MFD_type','scenario_set','sample','source',
-                                            '4.0','4.1','4.2','4.3','4.4','4.5','4.6','4.7','4.8','4.9',
-                                            '5.0','5.1','5.2','5.3','5.4','5.5','5.6','5.7','5.8','5.9',
-                                            '6.0','6.1','6.2','6.3','6.4','6.5','6.6','6.7','6.8','6.9',
-                                            '7.0','7.1','7.2','7.3','7.4','7.5','7.6','7.7','7.8','7.9',
-                                            '8.0','8.1','8.2','8.3','8.4','8.5','8.6','8.7','8.8','8.9',
-                                            '9.0','9.1','9.2','9.3','9.4','9.5','9.6','9.7','9.8','9.9']
-                grouped_df_mfd = df_fault_mfd.groupby(['selected_ScL','dim_used','str_all_data','BG_hyp',
-                'b_min','b_max','MFD_type','scenario_set','sample']).sum() 
+            plot_for_all_faults = True
+            if fault_name in data_fault_name or plot_for_all_faults == True:
+                label_for_boxplot = []
+                #data_for_boxplot = []
+                data_for_boxplot_cum = []
+    
+                #find if there is data conserning that fault
+                self_data_on_fault_available = False
+                self_data_type = []
+                self_data_M = []
+                self_data_sig_M = []
+                self_data_rate = []
+                self_data_sig_rate = []
+                if fault_name in data_fault_name:
+    
+                    index_fault_in_data = np.where(np.array(data_fault_name)==fault_name)[0]
+                    for index_i in index_fault_in_data:
+                        if data_model[index_i] == model :
+                            self_data_on_fault_available = True
+                            self_data_type.append(data_type[index_i])
+                            self_data_M.append(data_M[index_i]) 
+                            self_data_sig_M.append(data_sig_M[index_i])
+                            self_data_rate.append(data_rate[index_i])
+                            self_data_sig_rate.append(data_sig_rate[index_i]) 
                 
-#                #print 'grouped_df_mfd',grouped_df_mfd
-#                index_mag = 0    
-#                for group in magnitude_groups: #loop on the magnitudes
-#                     
-#                    reccurence_cum_fault_mag = []  #frequency this fault produce this magnitude cumulative
-#                    rec_cum_fault_in_model = grouped_df_mfd[str(round(group,1))].tolist()
-#                    reccurence_cum_fault_mag.append(rec_cum_fault_in_model)
-#                        
-#                    
-#                    if str(group)[-1] == '0' or str(group)[-1] == '5' :
-#                        label_for_boxplot.append(str(group))
-#                    else :
-#                        label_for_boxplot.append(' ')
-#                    
-#                    data_for_boxplot_cum.append(reccurence_cum_fault_mag)
+                df_fault_mfd = df_mega_MFD[(df_mega_MFD.Model == model) & (df_mega_MFD.source.str.contains(fault_name))]
+                if df_fault_mfd.empty == False:
+                    df_fault_mfd.columns = ['selected_ScL','dim_used','str_all_data','Model','BG_hyp',
+                                                'b_min','b_max','MFD_type','scenario_set','sample','source',
+                                                '4.0','4.1','4.2','4.3','4.4','4.5','4.6','4.7','4.8','4.9',
+                                                '5.0','5.1','5.2','5.3','5.4','5.5','5.6','5.7','5.8','5.9',
+                                                '6.0','6.1','6.2','6.3','6.4','6.5','6.6','6.7','6.8','6.9',
+                                                '7.0','7.1','7.2','7.3','7.4','7.5','7.6','7.7','7.8','7.9',
+                                                '8.0','8.1','8.2','8.3','8.4','8.5','8.6','8.7','8.8','8.9',
+                                                '9.0','9.1','9.2','9.3','9.4','9.5','9.6','9.7','9.8','9.9']
+                    grouped_df_mfd = df_fault_mfd.groupby(['selected_ScL','dim_used','str_all_data','BG_hyp',
+                    'b_min','b_max','MFD_type','scenario_set','sample']).sum() 
                     
-#                    
-#                index_mag += 1    
-                if not os.path.exists(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum'):
-                    os.makedirs(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum')
-                if not os.path.exists(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/' + fault_name):
-                    os.makedirs(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/' + fault_name)
-      
-                #data_for_boxplot = data_for_boxplot_cum
-                path_for_boxplot = str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/' + fault_name + '/'  + 'all_' + fault_name +'.png'     
-                title_for_boxplot = 'Frequency of rupture '+ model +' ' +'all_ ' +fault_name+' cumulative rate'
-#                box_plot_log(data_for_boxplot,label_for_boxplot,title_for_boxplot,self_data_on_fault_available,
-#                         self_data_M,self_data_sig_M,self_data_rate,self_data_sig_rate,self_data_type,path_for_boxplot)
-                grouped_df_mfd=grouped_df_mfd.drop('source',1)
-                grouped_df_mfd=grouped_df_mfd.drop('Model',1)
-                mfd_X =   grouped_df_mfd.values
-                mfd_X = np.array(mfd_X)
-                do_the_plots(mfd_X,mega_bining_in_mag,xmin,xmax,ymin,ymax,Run_name,
-                                     path_for_boxplot,title_for_boxplot,self_data_on_fault_available,
-                                     self_data_M,self_data_sig_M,self_data_rate,self_data_sig_rate,self_data_type,False)
+    #                #print 'grouped_df_mfd',grouped_df_mfd
+    #                index_mag = 0    
+    #                for group in magnitude_groups: #loop on the magnitudes
+    #                     
+    #                    reccurence_cum_fault_mag = []  #frequency this fault produce this magnitude cumulative
+    #                    rec_cum_fault_in_model = grouped_df_mfd[str(round(group,1))].tolist()
+    #                    reccurence_cum_fault_mag.append(rec_cum_fault_in_model)
+    #                        
+    #                    
+    #                    if str(group)[-1] == '0' or str(group)[-1] == '5' :
+    #                        label_for_boxplot.append(str(group))
+    #                    else :
+    #                        label_for_boxplot.append(' ')
+    #                    
+    #                    data_for_boxplot_cum.append(reccurence_cum_fault_mag)
+                        
+    #                    
+    #                index_mag += 1    
+                    if not os.path.exists(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum'):
+                        os.makedirs(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum')
+                    if not os.path.exists(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/' + fault_name):
+                        os.makedirs(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/' + fault_name)
+          
+                    #data_for_boxplot = data_for_boxplot_cum
+                    path_for_boxplot = str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/' + fault_name + '/'  + 'all_' + fault_name +'.png'     
+                    title_for_boxplot = 'Frequency of rupture '+ model +' ' +'all_ ' +fault_name+' cumulative rate'
+    #                box_plot_log(data_for_boxplot,label_for_boxplot,title_for_boxplot,self_data_on_fault_available,
+    #                         self_data_M,self_data_sig_M,self_data_rate,self_data_sig_rate,self_data_type,path_for_boxplot)
+                    grouped_df_mfd=grouped_df_mfd.drop('source',1)
+                    grouped_df_mfd=grouped_df_mfd.drop('Model',1)
+                    mfd_X =   grouped_df_mfd.values
+                    mfd_X = np.array(mfd_X)
+                    do_the_plots(mfd_X,mega_bining_in_mag,xmin,xmax,ymin,ymax,Run_name,
+                                         path_for_boxplot,title_for_boxplot,self_data_on_fault_available,
+                                         self_data_M,self_data_sig_M,self_data_rate,self_data_sig_rate,self_data_type,False)
                 
         #for the background    
         label_for_boxplot = []
@@ -664,6 +666,13 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
                     sub_area_lat.append(sub_area_lat_i)
                     if not os.path.exists(str(Run_name) + '/analysis/figures/catalogue/sub_area'):
                         os.makedirs(str(Run_name) + '/analysis/figures/catalogue/sub_area')  
+                        
+                        
+                    if not os.path.exists(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum'):
+                        os.makedirs(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum')
+                    if not os.path.exists(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/'+sub_area_names[-1]):
+                        os.makedirs(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/'+sub_area_names[-1])
+                        
                                  
                     Poly_sub = []   
                     for x1,y1 in zip(sub_area_lon_i,sub_area_lat_i): # creation du polygon de la zone
@@ -760,41 +769,20 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
                         '9.0','9.1','9.2','9.3','9.4','9.5','9.6','9.7','9.8','9.9']:
                             df_source_i_mfd[magnitude] = df_source_i_mfd[magnitude].astype(float)*float(area_of_the_sub_area)/float(area_of_the_bg)
                         #print source,df_source_i_mfd['5.0']
-                        df_subarea_mfd = pd.concat([df_subarea_mfd,df_source_i_mfd])         
+                        df_subarea_mfd = pd.concat([df_subarea_mfd,df_source_i_mfd])     
+                    #print in a file for later comparisons   
+                    grouped_df_mfd_for_print = df_subarea_mfd.groupby(['selected_ScL','dim_used','str_all_data','BG_hyp',
+                    'b_min','b_max','MFD_type','scenario_set','sample'], as_index = False).sum() 
+                    
+                    file_rate_sub_area = (str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' 
+                                              + model + '/'+sub_area_names[-1]+
+                                              '/eq_rate_all_'+model+'_'+sub_area_names[-1]+'.txt')
+                    grouped_df_mfd_for_print.to_csv(path_or_buf = file_rate_sub_area ,sep = '\t',index=False)
+                    del grouped_df_mfd_for_print
+                    
                     grouped_df_mfd = df_subarea_mfd.groupby(['selected_ScL','dim_used','str_all_data','BG_hyp',
                     'b_min','b_max','MFD_type','scenario_set','sample']).sum() 
                     
-#                    label_for_boxplot = []
-#                    data_for_boxplot = []
-#                    data_for_boxplot_cum = []
-#                    for group in magnitude_groups: #loop on the magnitudes
-#                         
-#                        reccurence_cum_fault_mag = []  #frequency this fault produce this magnitude cumulative
-#                        rec_cum_fault_in_model = grouped_df_mfd[str(round(group,1))].tolist()
-#                        
-#                        
-#                        reccurence_cum_fault_mag.append(rec_cum_fault_in_model)
-                            
-                        
-#                        if str(group)[-1] == '0' or str(group)[-1] == '5' :
-#                            label_for_boxplot.append(str(group))
-#                        else :
-#                            label_for_boxplot.append(' ')
-#                        
-#                        data_for_boxplot_cum.append(reccurence_cum_fault_mag)
-                        
-                    #find if there is data conserning that fault
-#                    self_data_on_fault_available = False
-#                    self_data_type = []
-#                    self_data_M = []
-#                    self_data_sig_M = []
-#                    self_data_rate = []
-#                    self_data_sig_rate = []    
-                    if not os.path.exists(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum'):
-                        os.makedirs(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum')
-                    if not os.path.exists(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/'+sub_area_names[-1]):
-                        os.makedirs(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/'+sub_area_names[-1])
-          
 #                    data_for_boxplot = data_for_boxplot_cum
                     path_for_boxplot = str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/'+sub_area_names[-1]+'/'  + sub_area_names[-1]+'.png'     
                     title_for_boxplot = 'Frequency of rupture '+ model +' ' +'all_ '  + sub_area_names[-1]+' cumulative rate'
