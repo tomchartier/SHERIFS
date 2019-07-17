@@ -647,9 +647,8 @@ def plt_mfd(Run_name,mega_MFD, scenarios_names_list, ScL_complet_list, ScL_list,
     ############################################'''        
           
     if plot_mfd == True and plot_mfd_detailled == True:
-	if not os.path.exists(str(Run_name) + '/analysis/figures/analyze_branches/detailled/'):
-		os.makedirs(str(Run_name) + '/analysis/figures/analyze_branches/detailled/')
-        
+        if not os.path.exists(str(Run_name) + '/analysis/figures/analyze_branches/detailled/'):
+            os.makedirs(str(Run_name) + '/analysis/figures/analyze_branches/detailled/')
         index_model = 0
         for model in Model_list : 
             rate_in_catalog = catalog_cum_rate[index_model]
@@ -675,9 +674,9 @@ def plt_mfd(Run_name,mega_MFD, scenarios_names_list, ScL_complet_list, ScL_list,
                                     for index in rows :  
                                         mfd = mega_mfd_cummulative[index]
                                         mfd_X.append(mfd)
-                            	    hyp_name =  model + ' ' + MFD_type + ' ' + scenario + ' ' + ScL + ' ' + b_value + ' ' + BG_hyp
+                                    hyp_name =  model + ' ' + MFD_type + ' ' + scenario + ' ' + ScL + ' ' + b_value + ' ' + BG_hyp
                                     path = str(Run_name) +'/analysis/figures/analyze_branches/detailled/' 
-                            	    do_the_plots(hyp_name,mfd_X,mega_bining_in_mag,xmin,xmax,ymin,ymax,Run_name,rate_in_catalog,plot_as_rep,a_s_model,rows,path,bining_in_mag)
+                                    do_the_plots(hyp_name,mfd_X,mega_bining_in_mag,xmin,xmax,ymin,ymax,Run_name,rate_in_catalog,plot_as_rep,a_s_model,rows,path,bining_in_mag)
             index_model +=1
 
     '''##########################################
