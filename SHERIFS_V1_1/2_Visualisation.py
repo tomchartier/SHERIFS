@@ -99,6 +99,8 @@ class checking_the_input():
         plot_moment_rate = True
         
         visual_FtF = True   # !!! can take a very long time if there are a lot of FtF
+        
+        test_fit_to_data = True
                 
         OQ_job = OQ_job_Creator(self.Run_name) # ask the info about the run and create the job.ini file
         Mmin = OQ_job.Mmin
@@ -297,11 +299,12 @@ class checking_the_input():
         #######################################'''
         
         time_i = time.time()
-        Sampling_analysis.sampling_analysis(self.Run_name,Model_list,m_Mmax,b_sample,a_s_model,
-                                            mega_mfd_cummulative,catalog_cum_rate,xmin,xmax,ymin,ymax,
-                                            total_list_model,bining_in_mag,total_list_MFD_type,
-                                            total_list_scenario_name,self.file_faults_data,total_list_sample,
-                                            total_list_BG_hyp)
+        if test_fit_to_data == True :
+            Sampling_analysis.sampling_analysis(self.Run_name,Model_list,m_Mmax,b_sample,a_s_model,
+                                                mega_mfd_cummulative,catalog_cum_rate,xmin,xmax,ymin,ymax,
+                                                total_list_model,bining_in_mag,total_list_MFD_type,
+                                                total_list_scenario_name,self.file_faults_data,total_list_sample,
+                                                total_list_BG_hyp)
         print('\nTime to do the sampling analysis : ' + str(round(time.time() - time_i,2)) +' s.\n')
 
 
