@@ -643,12 +643,12 @@ def plt_mfd(Run_name,mega_MFD, scenarios_names_list, ScL_complet_list, ScL_list,
         file_branch_to_catalog.close()
         
     '''##########################################
-    # calculate the difference between the mean rate of the model and the mean rate of the catalog
+    # plot the MFD for each branch of the logic tree (can be time consuming)
     ############################################'''        
           
     if plot_mfd == True and plot_mfd_detailled == True:
-        file_branch_to_catalog_name = str(Run_name) + '/analysis/txt_files/branch_vs_catalog.txt'
-        file_branch_to_catalog = open(file_branch_to_catalog_name,'w')
+	if not os.path.exists(str(Run_name) + '/analysis/figures/analyze_branches/detailled/'):
+		os.makedirs(str(Run_name) + '/analysis/figures/analyze_branches/detailled/')
         
         index_model = 0
         for model in Model_list : 
@@ -671,22 +671,14 @@ def plt_mfd(Run_name,mega_MFD, scenarios_names_list, ScL_complet_list, ScL_list,
                                 rows = list(set(rows).intersection(rows_b)) 
                                 rows = list(set(rows).intersection(rows_bg)) 
                                 if len(rows) > 0:
-                                    file_branch_to_catalog.write(str(model)+'\t')
-                                    file_branch_to_catalog.write(str(MFD_type)+'\t')
-                                    file_branch_to_catalog.write(str(scenario)+'\t')
-                                    file_branch_to_catalog.write(str(b_value)+'\t')
-                                    file_branch_to_catalog.write(str(BG_hyp)+'\t')
-                                    file_branch_to_catalog.write(str(ScL)+'\t')
                                     mfd_X = []
                                     for index in rows :  
                                         mfd = mega_mfd_cummulative[index]
                                         mfd_X.append(mfd)
-                                    mean_rate_model = np.array(mfd_X).mean(axis=0)
-                                    for i in range(len(mean_rate_catalog)):
-                                        file_branch_to_catalog.write(str(mean_rate_model[i]/mean_rate_catalog[i]-1.)+'\t')
-                                    file_branch_to_catalog.write('\n')
+                            	    hyp_name =  model + ' ' + MFD_type + ' ' + scenario + ' ' + ScL + ' ' + b_value + ' ' + BG_hyp
+                                    path = str(Run_name) +'/analysis/figures/analyze_branches/detailled/' 
+                            	    do_the_plots(hyp_name,mfd_X,mega_bining_in_mag,xmin,xmax,ymin,ymax,Run_name,rate_in_catalog,plot_as_rep,a_s_model,rows,path,bining_in_mag)
             index_model +=1
-        file_branch_to_catalog.close()
 
     '''##########################################
     #plot mfd for each MFD shape hypothesis and scenario set
