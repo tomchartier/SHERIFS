@@ -50,7 +50,7 @@ File_geom = 'data/Example/Faults_geometry.txt'
 File_prop = 'data/Example/Faults_properties.txt'
 File_bg = 'data/Example/Background_geometry.txt'
 file_prop_bg = 'data/Example/Background_properties.txt'
-host_model_file = 'OQ_file_here'
+host_model_file = 'delete_share.xml'
 
 
 
@@ -58,7 +58,7 @@ host_model_file = 'OQ_file_here'
 # if rerunning the calcuation do you want to overwrite the existing source model files
 overwrite_files = True
 
-use_host_model = False
+use_host_model = True
 
 #if you want to build a GMPE logic tree for OpenQuake, can can always do it later before running the hazard calculation
 build_GMPE_LT = False
