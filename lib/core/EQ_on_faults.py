@@ -224,8 +224,7 @@ class EQ_on_faults_from_sr():
         '''##################################################################
         #etablish the magnitude bin (0.1)
         ##################################################################'''
-            
-        bin_mag = np.linspace(M_min,Mmax,round((Mmax-M_min),1)*10. +1)
+        bin_mag = np.linspace(M_min,Mmax,int(round((Mmax-M_min),1)*10. +1))
                 
         '''#####################################################################
         #initializing outup for OQ (incremental recurence of the earthquakes for each fault and each bin)
@@ -372,7 +371,6 @@ class EQ_on_faults_from_sr():
         ##################################################################'''
         # distribution of probability multiply by the initial moment rate
         target_moment_per_bin = p_MFD_MO * Total_moment_rate_init
-        
         # this is our target. This way we insure a GR distribution in the end
         
         
@@ -381,7 +379,6 @@ class EQ_on_faults_from_sr():
         # This matrix contain a list of the fault name. each name is repeted 
         # by a number of time depending of the slip-rate of the fault.
         ##################################################################'''
-        #size_of_increment = 0.000005 #in meter/year
         size_of_increment = float(self.size_of_increment) * 0.001  #in meter/year
         if self.count_reruns != 1:
             size_of_increment = size_of_increment/(float(self.count_reruns)*1.5-1.) #divide the size of the increment if there are re-runs
@@ -417,8 +414,6 @@ class EQ_on_faults_from_sr():
         number_of_loops_last_checked = -1
         empty_bins = []
         bin_target_reached = []
-        #record_slip_rate_left = []   # variable to follow how the calculation is doing
-        #moment_left_to_spend = []   # variable to follow how the calculation is doing
         len_M_slip_budget = [] # will be use to check if the calculation is stuck and too slow (see under)
         aseismic_count = 0
         
@@ -426,10 +421,6 @@ class EQ_on_faults_from_sr():
         time_checking_the_fit_2 = 0
         color_mag= []
         
-        #checks for adalar_1
-        weight_adalar = []
-        sr_used_ratio_adalar = []
-        loop_number_adalar = []
         
         '''######################
         #####   MAIN LOOP   #####
@@ -446,8 +437,6 @@ class EQ_on_faults_from_sr():
         moment_rate_required = 0.
         moment_rate_left= 1.
         
-#        n_izmit= 0
-#        n_duzce=0
         
         while len(M_slip_budget) != 0 : # as long as there is some slip-rate to spend we keep going
 
@@ -508,25 +497,8 @@ class EQ_on_faults_from_sr():
                     target_i[i] = p_MFD_MO[i] / 100000.  # don't pick bins where target is reached
                 if len(fault_n_scenario_in_bin[i]) == 0:
                     target_i[i] = p_MFD_MO[i] / 1000000000.   #don't pick empty bins
-#            target_i[-1] = 10.*target_i[-1]
-#            target_i[-2] = 10.*target_i[-2]
             target_i = (target_i)/sum(target_i)# normalize the target to use it as a probability distribution
             
-#                # check if the probability of different magnitude is not too different. if so smooth out the distribution.
-#                if max_target_i > 20.*(bin_mag[-1]-bin_mag[0]) * min_target_i: 
-#                    if target_i[i] > 1. and target_i[i]!= min_target_i:
-#                        target_i[i] = min_target_i + target_i[i] * (20.*(bin_mag[-1]-bin_mag[0])* min_target_i - min_target_i)/(max_target_i - min_target_i) #* (float(min_target_i)/float(target_i[i]-min_target_i))/ ratio_target_max_min 
-#            
-#    
-#            if number_of_loops > number_of_loops_last_checked + 50.:
-##                plt.plot(bin_mag,moment_rate_in_bin,'k')
-##                plt.plot(bin_mag,target_moment_per_bin,'r')
-#                plt.plot(bin_mag,(p_MFD_MO) / sum(p_MFD_MO),'k')
-#                plt.plot(bin_mag,target_i,'r')
-#                plt.plot(bin_mag,shape_mfd_i,'g')
-#                plt.yscale('log')
-#                plt.show()
-            #target_i = target_i*target_i 
             
             
             #if np.mean(target_i) > 2.*10**(-15):
@@ -841,12 +813,9 @@ class EQ_on_faults_from_sr():
                                         slip_rate_use_per_fault[index_fault[0]] += size_of_increment
                                         target_moment_per_bin[picked_bin]=moment_rate_in_bin[picked_bin]
                                         tracker[picked_bin]+=1
-                                        #print bin_mag[picked_bin]
-                                        #print rate_Mi,target_GR_i
                                         fault_n_scenario_in_bin[picked_bin] = []
                                         if not picked_bin in bin_target_reached:
                                             bin_target_reached.append(picked_bin)
-                                        #print mag,target_i[picked_bin]
                                 else : 
                                     if moment_rate_left >= moment_rate_required - 0.0002 *moment_rate_required:  #if there is enough moment rate left
                                         OQ_entry_faults[index_fault[0]][picked_bin] = OQ_entry_faults[index_fault[0]][picked_bin] + rate_i
@@ -861,8 +830,6 @@ class EQ_on_faults_from_sr():
                                         M_slip_budget.remove(faults_names[index_fault[0]])
                                         slip_rate_use_per_fault[index_fault[0]] += size_of_increment
                                     else : #if not , stop spending on the larger EQs
-                                        #print '- not enough budget to fill the shape -'
-                                        print(' test 3 ')
                                         self.calculation_log_file.write('\n test 3 ')
                                         fault_n_scenario_in_bin[-3] = []
                                         fault_n_scenario_in_bin[-2] = []
@@ -893,7 +860,6 @@ class EQ_on_faults_from_sr():
                 #print mag,rate_bg_in_model
                 if number_of_loops > number_of_loops_before+50:
                     number_of_loops_before = number_of_loops
-                    #print number_of_loops
                     #if the fault has no more slip to spare, the scenarios and the fault are remove for the picking in order to have a faster picking     
                     for fault in faults_names :
                         if not fault in M_slip_budget:
@@ -962,8 +928,7 @@ class EQ_on_faults_from_sr():
                                         index_fault = np.where(np.array(faults_names) == fault)[0]
                                         M_slip_repartition[index_fault[0]].append('aseismic_slip')
                                         aseismic_count += 1
-            else:  
-                #print empty_bins
+            else:
                 print('-target filled-')       
                 self.calculation_log_file.write('\n-target filled-')
                 while len(M_slip_budget)!=0: # as long as there is some slip-rate to spend we keep going
@@ -1018,10 +983,6 @@ class EQ_on_faults_from_sr():
             EQ_rate_BG[index_mag] += ((1-fault_prop(mag)) * rate_f_in_model[index_mag]) / fault_prop(mag)
             index_mag +=1
             
-#        print n_izmit,n_duzce
-        #print tracker
-#        for mag in bin_mag :
-#            EQ_rate_BG= ((1-fault_prop(mag)) * rate_f_in_model[index_mag]) / fault_prop(mag)
             
         '''##################################################################  
         # printing
@@ -1084,16 +1045,6 @@ class EQ_on_faults_from_sr():
         self.EQ_rate_BG = EQ_rate_BG
         
         self.bin_mag = bin_mag
-              
-#        test_Mo = 0
-#        for index_mag in range(len(bin_mag)-1):
-#            test_Mo += 10**(1.5*bin_mag[index_mag]+9.1)*rate_f_in_model[index_mag]
-#        print test_Mo/Total_moment_rate_fault_final
-#        print aseismic_count/nb_ss_to_spend
-#        print Total_moment_rate_fault_final
-#        print Total_moment_faults_rate_init
-#        print 100*(1.-Total_moment_rate_fault_final/Total_moment_faults_rate_init)
-        
         
         log_calculation_file.write('Moment_rate_faults_final calculated using 10^(1.5M+9.1)' + '\t' + str(Total_moment_rate_fault_final) + '\t' + 'N.m' + '\n') 
         log_calculation_file.write('Ratio of NMS slip rate counted in the iterative process: ' + '\t' + str(round((100.) * (aseismic_count/nb_ss_to_spend))) + '\t %\n') 
@@ -1101,13 +1052,7 @@ class EQ_on_faults_from_sr():
         log_calculation_file.close()
         self.ratio_NMS = round((100.) * (1. - Total_moment_rate_fault_final / Total_moment_faults_rate_init))
         print('ratio of NMS : '+str(round((100.) * (aseismic_count/nb_ss_to_spend))))
-        #print('time spent weighting the faults:',time_weighting_faults)
-        #print('time checking the fit:',time_checking_the_fit_2)
         self.calculation_log_file.write('\nratio of NMS : '+str(round((100.) * (aseismic_count/nb_ss_to_spend))))
         log_sliprep_file.write(str(M_slip_repartition))
         log_sliprep_file.close()
-        
-        '''plt.scatter(loop_number_adalar,weight_adalar,c = color_mag)
-        plt.scatter(loop_number_adalar,sr_used_ratio_adalar)
-        plt.show()'''
         
