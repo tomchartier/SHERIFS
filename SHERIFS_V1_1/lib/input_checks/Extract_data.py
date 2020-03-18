@@ -12,13 +12,6 @@ import numpy as np
 import xml.etree.ElementTree as ET
 import Read_file
 import pandas as pd
-''' display parameters for pandas '''
-np.set_printoptions(threshold=np.nan)
-#pd.set_option('display.multi_sparse', False)
-#pd.set_option('display.height', 1000000)
-#pd.set_option('display.max_rows', 500000)
-#pd.set_option('display.max_columns', 500000)
-#pd.set_option('display.width', 1000000)
 
 
 def extract(Run_name):
