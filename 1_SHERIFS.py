@@ -4,7 +4,7 @@
 SHERIFS
 Seismic Hazard and Earthquake Rates In Fault Systems
 
-Version 1.1
+Version 1.2
 
 The Seismic Hazard and Earthquake Rates In Fault Systems (SHERIFS) program, is an open source collection of 
 tools for calculating the rates of earthquakes on each fault of a fault system 
@@ -36,7 +36,7 @@ from GMPE_Logic_Tree_Creator import GMPE_Logic_Tree_Creator
 from Sources_Logic_Tree_Creator import Sources_Logic_Tree_Creator
 from OQ_job_Creator import OQ_job_Creator
 
-print ('\nRunning SHERIFS version 1.1\n')
+print ('\nRunning SHERIFS version 1.2\n')
 
 
 
@@ -58,7 +58,7 @@ host_model_file = 'delete_share.xml'
 # if rerunning the calcuation do you want to overwrite the existing source model files
 overwrite_files = True
 
-use_host_model = True
+use_host_model = False
 
 #if you want to build a GMPE logic tree for OpenQuake, can can always do it later before running the hazard calculation
 build_GMPE_LT = False

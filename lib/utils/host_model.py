@@ -597,16 +597,17 @@ def build(XMLfile,host_model_file,Lon_bg,Lat_bg):
                     XMLfile.write(line_geom+'\n')
                     
                     if number_of_Xing >= 3:
-                        print('please check if the host model is incorporate correctly, problems might have occured!!!')
-                        #print(lines_of_the_host_file[line_start][-9:-2],'number_of_Xing=',number_of_Xing)
-                        #print('ratio_areas',ratio_areas)
-#                        plt.scatter(ColX,ColY,c='b',alpha=0.2)
-#                        plt.scatter(Lon_bg,Lat_bg,c='r',alpha=0.2)
-#                        plt.scatter(lon_zone_modif,lat_zone_modif,c='k',alpha=0.2,marker='s')
-#                        plt.plot(lon_zone_modif,lat_zone_modif,':k')
-#                        plt.xlim(min(Lon_bg)-0.5,max(Lon_bg)+0.5)
-#                        plt.ylim(min(Lat_bg)-0.5,max(Lat_bg)+0.5)
-#                        plt.show()
+                        print('POSSIBLE ERROR : please check if the host model is incorporate correctly, problems might have occured!!!')
+                        print(lines_of_the_host_file[line_start][-9:-2],'number_of_Xing=',number_of_Xing)
+                        print('ratio_areas',ratio_areas)
+                        import matplotlib.pyplot as plt
+                        plt.scatter(ColX,ColY,c='b',alpha=0.2)
+                        plt.scatter(Lon_bg,Lat_bg,c='r',alpha=0.2)
+                        plt.scatter(lon_zone_modif,lat_zone_modif,c='k',alpha=0.2,marker='s')
+                        plt.plot(lon_zone_modif,lat_zone_modif,':k')
+                        plt.xlim(min(Lon_bg)-0.5,max(Lon_bg)+0.5)
+                        plt.ylim(min(Lat_bg)-0.5,max(Lat_bg)+0.5)
+                        plt.show()
                     
                     for line_to_print in lines_of_the_host_file[line_stop_lonlat+1:line_mfd_start_number] :
                         XMLfile.write(line_to_print+'\n')

@@ -23,6 +23,7 @@ path_f = path_lib + '/sources'
 sys.path.append(path_f)
 import EQ_on_faults
 import Geometry_scenario
+import select_sr
 from background import bg
 from geometry_tools import *
 import host_model
@@ -156,7 +157,7 @@ class Source_Model_Creator:
                 index_scenario += 1
                 
         ########################################################
-        #extractions of the geometries of the scenarios and of the MFDs (Magnitude Frequency Distribution)
+        #extractions of the geometries of the scenarios
         ########################################################
         geom_scenar = Geometry_scenario.Geom_scenar(faults_names,scenarios_names,self.File_geom,self.Model_name)
         faults_lon = geom_scenar.faults_lon
@@ -205,10 +206,6 @@ class Source_Model_Creator:
               
             max_correl = np.max(M_faults_correl)
             
-            
-            slip_rates_min = []
-            slip_rates_moy = []
-            slip_rates_max = []
             list_quater_picked = list(np.zeros(len(faults_names)))
             # pick the faults slip rates
             index_fault = 0
@@ -230,98 +227,15 @@ class Source_Model_Creator:
                 else :
                     mecanism = 'S'
                     
-                    
                 faults_mecanism.append(mecanism)
-                    
-                ########################################################
-                #ramdom sampling the slip rate  . uniform sampling
-                ########################################################            
+
                 slip_rate_min = self.slip_rate_min
                 slip_rate_moy = self.slip_rate_moy
                 slip_rate_max = self.slip_rate_max
-                
-                slip_rates_min.append(slip_rate_min)
-                slip_rates_moy.append(slip_rates_moy)
-                slip_rates_max.append(slip_rates_max)
-                
-                
-                if self.sample == 1 :
-                    slip_rate = self.slip_rate_moy
-                    #print Fault_name,self.slip_rate_moy
-#                elif self.sample == 2 :
-#                    slip_rate = self.slip_rate_min
-#                    #print Fault_name,self.slip_rate_moy
-#                elif self.sample == 3 :
-#                    slip_rate = self.slip_rate_max
-#                    #print Fault_name,self.slip_rate_moy
-                else :
-#                    #find the fault most correleted with
-#                    M_faults_correl_i = M_faults_correl[index_fault]
-#                    index_max_corr = np.argmax(M_faults_correl_i)
-#                    while index_max_corr > len(faults_slip_rates) and np.sum(M_faults_correl_i) != 0 : #the carrelate fault has been done already
-#                        M_faults_correl_i[index_max_corr] = 0
-#                        index_max_corr = np.argmax(M_faults_correl_i)
-#                    if np.sum(M_faults_correl_i) != 0 :
-#                        if M_faults_correl_i[index_max_corr] >= 2 and M_faults_correl_i[index_max_corr] > 2./3. * max_correl :
-#                            # in a first order correlation bewteen the faults
-#                            if faults_slip_rates[index_max_corr] >= slip_rates_moy[index_max_corr] :
-#                                slip_rate = np.random.uniform(slip_rate_moy - 0.00001,slip_rate_max)
-#                            else :
-#                                slip_rate = np.random.uniform(slip_rate_min,slip_rate_moy+ 0.00001)
-#                        else : # it's a second order correlation between the faults
-#                            if faults_slip_rates[index_max_corr] >= slip_rates_moy[index_max_corr] :
-#                                slip_rate = np.random.uniform(slip_rate_min + 2./3. * (slip_rate_moy - slip_rate_min)
-#                                ,slip_rate_max)
-#                            else :
-#                                slip_rate = np.random.uniform(slip_rate_min,slip_rate_max - 2./3. * (slip_rate_max - slip_rate_moy))
-#                    else :  # no interaction yet       
-#                         slip_rate = np.random.uniform(slip_rate_min,slip_rate_max)
+                sr_values = [slip_rate_min,slip_rate_moy,slip_rate_max]
 
-                    if sum(M_linked_lvl[index_fault])==0 : #the fault is alone
-                        slip_rate_inf = np.random.uniform(slip_rate_min,slip_rate_max)
-                        slip_rate_sup = np.random.uniform(slip_rate_min,slip_rate_max)
-                        slip_rate = np.random.choice([slip_rate_inf,slip_rate_sup])
-                    else: #the fault is connected
-                        value_lvl = 10
-                        quarters_picked = []
-                        for index_c in range(len(M_linked_lvl[index_fault])):
-                            if M_linked_lvl[index_fault][index_c] != 0:
-                                if list_quater_picked[index_c]!=0:
-                                    if M_linked_lvl[index_fault][index_c] < value_lvl :
-                                        quarters_picked = []
-                                        value_lvl = M_linked_lvl[index_fault][index_c]
-                                        #print faults_names[index_fault],faults_names[index_c]
-                                    if M_linked_lvl[index_fault][index_c] == value_lvl :
-                                            quarters_picked.append(list_quater_picked[index_c])
-                        if quarters_picked == []: #none of the faults have bin picked yet
-                            slip_rate_inf = np.random.uniform(slip_rate_min,slip_rate_max)
-                            slip_rate_sup = np.random.uniform(slip_rate_min,slip_rate_max)
-                            slip_rate = np.random.choice([slip_rate_inf,slip_rate_sup])
-                            if slip_rate < (slip_rate_min + 1./2. * (slip_rate_moy-slip_rate_min)):
-                                quarter_to_pick = 1
-                            elif slip_rate < (slip_rate_moy):
-                                quarter_to_pick = 2
-                            elif slip_rate < (slip_rate_moy + 1./2. * (slip_rate_max-slip_rate_moy)):
-                                quarter_to_pick = 3
-                            else:
-                                quarter_to_pick = 4
-                                
-                        else :
-                            quarter_to_pick = max(set(quarters_picked),key=quarters_picked.count)
-                            if quarter_to_pick == 1 :
-                                slip_rate = np.random.uniform(slip_rate_min,slip_rate_min + 1./2. * (slip_rate_moy-slip_rate_min) +0.000001)
-                            elif quarter_to_pick == 2 :
-                                slip_rate = np.random.uniform(slip_rate_min + 1./2. * (slip_rate_moy-slip_rate_min),slip_rate_moy+0.000001)
-                            elif quarter_to_pick == 3 :
-                                slip_rate = np.random.uniform(slip_rate_moy,slip_rate_moy + 1./2. * (slip_rate_max-slip_rate_moy)+0.000001)
-                            elif quarter_to_pick == 4 :
-                                slip_rate = np.random.uniform(slip_rate_moy + 1./2. * (slip_rate_max-slip_rate_moy),slip_rate_max+0.000001)
-                            
-                                
-                        list_quater_picked[index_fault] = quarter_to_pick
-                                
-                        #print(faults_names[index_fault],quarter_to_pick)
-                
+                #selects randomly the slip rate
+                slip_rate = select_sr.select(sr_values,self.sample,index_fault,M_linked_lvl[index_fault],list_quater_picked)
             
                 log_line = str(Fault_name) + '\t' + str(slip_rate) + '\n' #writting in the log file
                 log_sr_file.write(log_line)                        
@@ -364,8 +278,8 @@ class Source_Model_Creator:
                 if self.sample == 1 :
                     slip_rate = self.slip_rate_moy
                 else :
-                    slip_rate_inf = np.random.uniform(slip_rate_min,slip_rate_max)
-                    slip_rate_sup = np.random.uniform(slip_rate_min,slip_rate_max)
+                    slip_rate_inf = np.random.uniform(slip_rate_min,slip_rate_moy)
+                    slip_rate_sup = np.random.uniform(slip_rate_moy,slip_rate_max)
                     slip_rate = np.random.choice([slip_rate_inf,slip_rate_sup])
                 
                 log_line = str(Fault_name) + '\t' + str(slip_rate) + '\n' #writting in the log file
@@ -453,16 +367,12 @@ class Source_Model_Creator:
                     
                 if type_of_fault == 'sf':
                     Fault_Name = self.Model_name + '_' + str(Fault_name[1])
-                    #line='\t\t<simpleFaultSource id="'+ str(self.Model_name) + '_' + str(Fault_Name)+ '_' + str(ID_number) +'" name="'+ str(Fault_Name) +'" tectonicRegion="' + str(self.Domain) + '">\n'
                     line='\t\t<simpleFaultSource id="'+ str(ID_number) +'" name="'+ str(Fault_Name) +'" tectonicRegion="' + str(self.Domain) + '">\n'
                     XMLfile.write(line)
                     test_ok += 1
-                    line='\t\t\t<simpleFaultGeometry>\n'
-                    XMLfile.write(line)
-                    line='\t\t\t\t<gml:LineString>\n'
-                    XMLfile.write(line)
-                    line='\t\t\t\t\t<gml:posList>\n'
-                    XMLfile.write(line)
+                    line+='\t\t\t<simpleFaultGeometry>\n'
+                    line+='\t\t\t\t<gml:LineString>\n'
+                    line+='\t\t\t\t\t<gml:posList>\n'
                     
                     #polygon = []
                     
@@ -492,67 +402,48 @@ class Source_Model_Creator:
                         
                     for x,y in zip(ColLon,ColLat):
                         #polygon.append((x,y)) #ecriture du polygone de la zone
-                        line='\t\t\t\t\t\t' + str(x) + ' ' + str(y) + '\n'
-                        XMLfile.write(line)
-                    line='\t\t\t\t\t</gml:posList>\n'
-                    XMLfile.write(line)
-                    line='\t\t\t\t</gml:LineString>\n'
-                    XMLfile.write(line)
-                    line='\t\t\t\t<dip>'+ str(self.dip) +'</dip>\n'
-                    XMLfile.write(line)
-                    line='\t\t\t\t<upperSeismoDepth>'+ str(self.upper_sismo_depth) +'</upperSeismoDepth>\n'
-                    XMLfile.write(line)
-                    line='\t\t\t\t<lowerSeismoDepth>'+ str(self.lower_sismo_depth) +'</lowerSeismoDepth>\n'
-                    XMLfile.write(line)
-                    line='\t\t\t</simpleFaultGeometry>\n'
+                        line+='\t\t\t\t\t\t' + str(x) + ' ' + str(y) + '\n'
+                    line+='\t\t\t\t\t</gml:posList>\n'
+                    line+='\t\t\t\t</gml:LineString>\n'
+                    line+='\t\t\t\t<dip>'+ str(self.dip) +'</dip>\n'
+                    line+='\t\t\t\t<upperSeismoDepth>'+ str(self.upper_sismo_depth) +'</upperSeismoDepth>\n'
+                    line+='\t\t\t\t<lowerSeismoDepth>'+ str(self.lower_sismo_depth) +'</lowerSeismoDepth>\n'
+                    line+='\t\t\t</simpleFaultGeometry>\n'
                     XMLfile.write(line)
                     
                 if type_of_fault == 'cf':
                     Fault_Name = self.Model_name + '_' + str(Fault_name[1])
                     #line='\t\t<complexFaultSource id="'+ str(self.Model_name) + '_' + str(Fault_Name)+ '_' + str(ID_number) +'" name="'+ str(Fault_Name) +'" tectonicRegion="' + str(self.Domain) + '">\n'
                     line='\t\t<complexFaultSource id="'+ str(ID_number) +'" name="'+ str(Fault_Name) +'" tectonicRegion="' + str(self.Domain) + '">\n'
-                    XMLfile.write(line)
                     test_ok += 1
-                    line='\t\t\t<complexFaultGeometry>\n'
-                    XMLfile.write(line)
+                    line+='\t\t\t<complexFaultGeometry>\n'
                     
                     index_edge = 0
                     for depth_i in sorted(set(Depth)):
                         indexes_for_edge_i = np.where(np.array(Depth)==depth_i)[0]
                         if index_edge == 0:
-                            line='\t\t\t\t<faultTopEdge>\n'
-                            XMLfile.write(line)
+                            line+='\t\t\t\t<faultTopEdge>\n'
                         elif index_edge == len(set(Depth))-1:
-                            line='\t\t\t\t<faultBottomEdge>\n'
-                            XMLfile.write(line)
+                            line+='\t\t\t\t<faultBottomEdge>\n'
                         else :
-                            line='\t\t\t\t<intermediateEdge>\n'
-                            XMLfile.write(line)
+                            line+='\t\t\t\t<intermediateEdge>\n'
                             
-                        line='\t\t\t\t<gml:LineString>\n'
-                        XMLfile.write(line)
-                        line='\t\t\t\t\t<gml:posList>\n'
-                        XMLfile.write(line)
+                        line+='\t\t\t\t<gml:LineString>\n'
+                        line+='\t\t\t\t\t<gml:posList>\n'
                         for index in indexes_for_edge_i:
-                            line='\t\t\t\t\t\t' + str(ColLon[index]) + ' ' + str(ColLat[index])  + ' ' + str(Depth[index]) + '\n'
-                            XMLfile.write(line)
+                            line+='\t\t\t\t\t\t' + str(ColLon[index]) + ' ' + str(ColLat[index])  + ' ' + str(Depth[index]) + '\n'
                             
-                        line='\t\t\t\t\t</gml:posList>\n'
-                        XMLfile.write(line)
-                        line='\t\t\t\t</gml:LineString>\n'
-                        XMLfile.write(line)
+                        line+='\t\t\t\t\t</gml:posList>\n'
+                        line+='\t\t\t\t</gml:LineString>\n'
                         if index_edge == 0:
-                            line='\t\t\t\t</faultTopEdge>\n'
-                            XMLfile.write(line)
+                            line+='\t\t\t\t</faultTopEdge>\n'
                         elif index_edge == len(set(Depth))-1:
-                            line='\t\t\t\t</faultBottomEdge>\n'
-                            XMLfile.write(line)
+                            line+='\t\t\t\t</faultBottomEdge>\n'
                         else :
-                            line='\t\t\t\t</intermediateEdge>\n'
-                            XMLfile.write(line)
+                            line+='\t\t\t\t</intermediateEdge>\n'
                         index_edge+=1   
                         
-                    line='\t\t\t</complexFaultGeometry>\n'
+                    line+='\t\t\t</complexFaultGeometry>\n'
                     XMLfile.write(line)
                     
                     
@@ -654,23 +545,19 @@ class Source_Model_Creator:
                             if str('N') in str(self.oriented):
                                 if compass_bearing < 180. :
                                     ColLon = reversed(ColLon)
-                                    ColLat = reversed(ColLat) 
-                                    #reveresed = 'yes'
+                                    ColLat = reversed(ColLat)
                             if str('S') in str(self.oriented):
                                 if compass_bearing > 180. :
                                     ColLon = reversed(ColLon)
-                                    ColLat = reversed(ColLat) 
-                                    #reveresed = 'yes'  
+                                    ColLat = reversed(ColLat)
                             if str('E') in str(self.oriented):
                                 if compass_bearing > 90. and compass_bearing < 270. :
                                     ColLon = reversed(ColLon)
                                     ColLat = reversed(ColLat)
-                                    #reveresed = 'yes'
                             if str('W') in str(self.oriented):
                                 if compass_bearing < 90. or compass_bearing > 270. :
                                     ColLon = reversed(ColLon)
                                     ColLat = reversed(ColLat)
-                                    #reveresed = 'yes'
                                 
                             for x,y in zip(ColLon,ColLat):
                                 #polygon.append((x,y)) #ecriture du polygone de la zone
@@ -762,10 +649,6 @@ class Source_Model_Creator:
                     XMLfile.write(line)
                     
                     #find the dominant kinematic of the scenario
-#                    unique,pos = np.unique(scenario_mechanism,return_inverse=True) #Finds all unique elements and their positions
-#                    counts = np.bincount(pos)                     #Count the number of each unique element
-#                    maxpos = counts.argmax()                      #Finds the positions of the maximum count
-#                    rake = unique[maxpos]
                     rake= np.mean(scenario_mechanism)
                     line='\t\t\t<rake>'+str(rake)+'</rake>\n'
                     XMLfile.write(line)
@@ -822,7 +705,6 @@ class Source_Model_Creator:
         if self.use_host_model == True :
             host_model.build(XMLfile,self.host_model_file,Lon_bg,Lat_bg)
 
-            
         #end of the file
         line='\t</sourceModel>\n'
         XMLfile.write(line)

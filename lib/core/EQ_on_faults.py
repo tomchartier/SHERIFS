@@ -23,6 +23,8 @@ import populate_bins
 import mfd_shape
 import time
 import warnings
+#import core_utils
+
 warnings.simplefilter("ignore",RuntimeWarning)
 
 
@@ -375,7 +377,7 @@ class EQ_on_faults_from_sr():
         
         
         '''##################################################################
-        # Create the matrix of fault names
+        # Create the sliprate budget dictionary
         # This matrix contain a list of the fault name. each name is repeted 
         # by a number of time depending of the slip-rate of the fault.
         ##################################################################'''
@@ -383,14 +385,10 @@ class EQ_on_faults_from_sr():
         if self.count_reruns != 1:
             size_of_increment = size_of_increment/(float(self.count_reruns)*1.5-1.) #divide the size of the increment if there are re-runs
         
-        M_slip_budget = []
-        index_fault = 0
-        for fault in faults_names :            
-            nb_f_name = int(round(faults_slip_rates[index_fault] / size_of_increment,0))  #nb of  dsr to spend          
-            for i in range(nb_f_name): #repeat the name of the fault a number of time depending of the slip-rate
-                M_slip_budget.append(fault)
-            index_fault += 1
-            
+        faults_budget = {}
+        for index_fault in range(len(faults_names)) :
+            nb_f_name = int(round(faults_slip_rates[index_fault] / size_of_increment,0))  #nb of dsr to spend
+            faults_budget.update({index_fault:nb_f_name})
             
         '''##################################################################
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -414,7 +412,7 @@ class EQ_on_faults_from_sr():
         number_of_loops_last_checked = -1
         empty_bins = []
         bin_target_reached = []
-        len_M_slip_budget = [] # will be use to check if the calculation is stuck and too slow (see under)
+        len_faults_budget = [] # will be use to check if the calculation is stuck and too slow (see under)
         aseismic_count = 0
         
         time_weighting_faults = 0
@@ -424,8 +422,8 @@ class EQ_on_faults_from_sr():
         
         '''######################
         #####   MAIN LOOP   #####
-        ######################'''    
-        nb_ss_to_spend = float(len(M_slip_budget))
+        ######################'''
+        nb_ss_to_spend = float(sum(faults_budget.values()))
         print('number of dsr to spend : '+ str(nb_ss_to_spend))
         self.calculation_log_file.write('\nnumber of dsr to spend : '+ str(nb_ss_to_spend)+'\n')
         print_percent = True
@@ -438,9 +436,9 @@ class EQ_on_faults_from_sr():
         moment_rate_left= 1.
         
         
-        while len(M_slip_budget) != 0 : # as long as there is some slip-rate to spend we keep going
+        while sum(faults_budget.values()) != 0 : # as long as there is some slip-rate to spend we keep going
 
-            ratio_done = 1. - float(len(M_slip_budget))/nb_ss_to_spend
+            ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
             if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
                 print("1%")
                 self.calculation_log_file.write("\n1%")
@@ -710,7 +708,7 @@ class EQ_on_faults_from_sr():
                         shear_mod = 0
                         for index in index_faults_in_scenario[index_scenario[0]][0] :
                             shear_mod += faults_shear_mod[index]
-                            if not faults_names[index] in M_slip_budget:
+                            if faults_budget[index] <= 0:
                                 sr_to_spend = False #one of the faults don't have anymore budget
                                 for index_mag in range(len(bin_mag)):
                                     if picked_fault_n_scenario in fault_n_scenario_in_bin[index_mag]:
@@ -729,7 +727,7 @@ class EQ_on_faults_from_sr():
                                     
                                     for index in index_faults_in_scenario[index_scenario[0]][0] :
                                         M_slip_repartition[index].append(picked_fault_n_scenario)
-                                        M_slip_budget.remove(faults_names[index])
+                                        faults_budget[index]+=-1
                                         slip_rate_use_per_fault[index] += size_of_increment
              
                                     #substracting the moment used from the target
@@ -740,7 +738,7 @@ class EQ_on_faults_from_sr():
                                     for index in index_faults_in_scenario[index_scenario[0]][0] :
                                         M_slip_repartition[index].append('aseismic_slip')
                                         aseismic_count += 1
-                                        M_slip_budget.remove(faults_names[index])
+                                        faults_budget[index]+=-1
                                         slip_rate_use_per_fault[index] += size_of_increment
                                         target_moment_per_bin[picked_bin]=moment_rate_in_bin[picked_bin]
                                         tracker[picked_bin]+=1
@@ -756,7 +754,7 @@ class EQ_on_faults_from_sr():
                                     
                                     for index in index_faults_in_scenario[index_scenario[0]][0] :
                                         M_slip_repartition[index].append(picked_fault_n_scenario)
-                                        M_slip_budget.remove(faults_names[index])
+                                        faults_budget[index]+=-1
                                         slip_rate_use_per_fault[index] += size_of_increment
              
                                     #substracting the moment used from the target
@@ -781,7 +779,7 @@ class EQ_on_faults_from_sr():
                                         
                     else : #it's a fault
                         if Mmax_faults[index_fault[0]] < M_min : #the fault is too small compare to the Mmin => its slip rate is spare to the background
-                            M_slip_budget.remove(faults_names[index_fault[0]])
+                            faults_budget[index]+=-1
                             M_slip_repartition[index_fault[0]].append('aseismic_slip')
                             aseismic_count += 1
                             slip_rate_use_per_fault[index_fault[0]] += size_of_increment
@@ -790,7 +788,7 @@ class EQ_on_faults_from_sr():
                             displacement = 10**(1.5*mag+9.1)/(faults_shear_mod[index_fault[0]]*faults_areas[index_fault[0]])
                             rate_i = size_of_increment/displacement
                                 
-                            if faults_names[index_fault[0]] in M_slip_budget :
+                            if faults_budget[index_fault[0]] > 0 :
                                 if bool_target_set == True : 
                                     if rate_Mi < target_GR_i : #for this bin, the GR hasn't been reached yet
                                         
@@ -803,13 +801,13 @@ class EQ_on_faults_from_sr():
                                         moment_rate_in_bin[picked_bin] += moment_rate
                                         Total_moment_rate_fault_final += moment_rate
                                         #substracting the slip rate used from the bidget
-                                        M_slip_budget.remove(faults_names[index_fault[0]]) 
+                                        faults_budget[index_fault[0]]+=-1
                                         slip_rate_use_per_fault[index_fault[0]] += size_of_increment
                                         
                                     else : # for this bin, the GR has been reached, this slip rate needs to be aseismic
                                         M_slip_repartition[index_fault[0]].append('aseismic_slip')
                                         aseismic_count += 1
-                                        M_slip_budget.remove(faults_names[index_fault[0]])
+                                        faults_budget[index_fault[0]]+=-1
                                         slip_rate_use_per_fault[index_fault[0]] += size_of_increment
                                         target_moment_per_bin[picked_bin]=moment_rate_in_bin[picked_bin]
                                         tracker[picked_bin]+=1
@@ -827,7 +825,7 @@ class EQ_on_faults_from_sr():
                                         moment_rate_in_bin[picked_bin] += moment_rate
                                         Total_moment_rate_fault_final += moment_rate
                                         #substracting the slip rate used from the bidget
-                                        M_slip_budget.remove(faults_names[index_fault[0]])
+                                        faults_budget[index_fault[0]]+=-1
                                         slip_rate_use_per_fault[index_fault[0]] += size_of_increment
                                     else : #if not , stop spending on the larger EQs
                                         self.calculation_log_file.write('\n test 3 ')
@@ -860,31 +858,30 @@ class EQ_on_faults_from_sr():
                 #print mag,rate_bg_in_model
                 if number_of_loops > number_of_loops_before+50:
                     number_of_loops_before = number_of_loops
-                    #if the fault has no more slip to spare, the scenarios and the fault are remove for the picking in order to have a faster picking     
-                    for fault in faults_names :
-                        if not fault in M_slip_budget:
+                    #if the fault has no more slip to spare, the scenarios and the fault are remove for the picking in order to have a faster picking
+                    for index_fault in range(len(faults_names)) :
+                        if faults_budget[index_fault] <= 0:
                             for index_mag in range(len(bin_mag)):
-                                if fault in fault_n_scenario_in_bin[index_mag]:
-                                    fault_n_scenario_in_bin[index_mag].remove(fault)
+                                if faults_names[index_fault] in fault_n_scenario_in_bin[index_mag]:
+                                    fault_n_scenario_in_bin[index_mag].remove(faults_names[index_fault])
                     #if one of the faults in a scenario has no more slip-rate to spare, the scenario is removed from the picking            
                     for index_scenario in range(len(scenarios_names)):
                         for index_fault in index_faults_in_scenario[index_scenario][0]:
-                            if not faults_names[index_fault] in M_slip_budget:
+                            if faults_budget[index_fault] <= 0:
                                 for index_mag in range(len(bin_mag)):
                                     if scenarios_names[index_scenario] in fault_n_scenario_in_bin[index_mag]:
                                         fault_n_scenario_in_bin[index_mag].remove(scenarios_names[index_scenario])
                 
                                         
-                len_M_slip_budget.append(len(M_slip_budget))
+                len_faults_budget.append(sum(faults_budget.values()))
                 #does a check to see if the remainingfaults that still have some slip rate fit in one of the bin of are too small
-                if len(len_M_slip_budget) > 3 :
-                    if len_M_slip_budget[-2] == len_M_slip_budget[-1] :
+                if len(len_faults_budget) > 3 :
+                    if len_faults_budget[-2] == len_faults_budget[-1] :
                         number_of_loops_for_nothing+=1
                     if number_of_loops_for_nothing_before<number_of_loops_for_nothing-100:
-                        #print 'number of loop for nothing',number_of_loops_for_nothing, picked_bin,len(fault_n_scenario_in_bin[picked_bin]), len(M_slip_budget)
                         number_of_loops_for_nothing_before = number_of_loops_for_nothing
-                        if len_M_slip_budget[-1] == len_M_slip_budget[-10] :                    
-                            for fault in faults_names :
+                        if len_faults_budget[-1] == len_faults_budget[-10] :
+                            for fault,index_fault in zip(faults_names,range(len(faults_names))) :
                                 fault_still_used = False
                                 for index_mag in range(len(bin_mag)):
                                     for fault_in_bin in fault_n_scenario_in_bin[index_mag]:
@@ -892,11 +889,9 @@ class EQ_on_faults_from_sr():
                                             fault_still_used = True
                                         if fault in fault_in_bin:
                                             fault_still_used = True
-                                if fault_still_used == False and fault in M_slip_budget:
-                                    #log_calculation_file.write(str(fault) + ' is now useless, therefor it\'s eliminated from the budget' + '\n')
-                                    #print fault,' is now useless, therefor it\'s eliminated from the budget'
-                                    while fault in M_slip_budget :
-                                        ratio_done = 1. - float(len(M_slip_budget))/nb_ss_to_spend
+                                if (fault_still_used == False) and (faults_budget[index_fault] > 0):
+                                    while faults_budget[index_fault] > 0 :
+                                        ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
                                         if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
                                             print("1%")
                                             self.calculation_log_file.write("\n1%")
@@ -915,25 +910,22 @@ class EQ_on_faults_from_sr():
                                         if ratio_done > 0.75 and ratio_done <= 0.9 and print_percent == False :
                                             print("75%")
                                             self.calculation_log_file.write("\n75%")
-                                            #print fault_n_scenario_in_bin
                                             model_MFD.append(rate_in_model)
-                                            #print
                                             print_percent = True
                                         if ratio_done > 0.9 and ratio_done <= 0.9999 and print_percent == True :
                                             print("90%")
                                             self.calculation_log_file.write("\n90%")
                                             model_MFD.append(rate_in_model)
                                             print_percent = False
-                                        M_slip_budget.remove(fault)
-                                        index_fault = np.where(np.array(faults_names) == fault)[0]
-                                        M_slip_repartition[index_fault[0]].append('aseismic_slip')
+                                        faults_budget[index_fault]+=-1
+                                        M_slip_repartition[index_fault].append('aseismic_slip')
                                         aseismic_count += 1
             else:
                 print('-target filled-')       
                 self.calculation_log_file.write('\n-target filled-')
-                while len(M_slip_budget)!=0: # as long as there is some slip-rate to spend we keep going
+                while sum(faults_budget.values())!=0: # as long as there is some slip-rate to spend we keep going
                 
-                    ratio_done = 1. - float(len(M_slip_budget))/nb_ss_to_spend
+                    ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
                     if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
                         print("1%")
                         self.calculation_log_file.write("\n1%")
@@ -960,12 +952,11 @@ class EQ_on_faults_from_sr():
                         self.calculation_log_file.write("\n90%")
                         model_MFD.append(rate_in_model)
                         print_percent = False
-                
-                    fault = M_slip_budget[0]                         
-                    M_slip_budget.remove(fault)
-                    index_fault = np.where(np.array(faults_names) == fault)[0]
-                    M_slip_repartition[index_fault[0]].append('aseismic_slip')
-                    aseismic_count += 1
+                    for index_fault in range(len(faults_names)):
+                        if faults_budget[index_fault] > 0 :
+                            faults_budget[index_fault]+=-1
+                            M_slip_repartition[index_fault].append('aseismic_slip')
+                            aseismic_count += 1
                     
         
         '''##################################################################  
