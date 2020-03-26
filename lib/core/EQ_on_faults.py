@@ -429,8 +429,8 @@ class EQ_on_faults_from_sr():
         print_percent = True
         print_target_set = True
         bool_target_set = False
+        uniform_spending = False
         
-        tracker = np.zeros(len(bin_mag))
         slip_rate_use_per_fault = np.zeros(len(faults_names))
         moment_rate_required = 0.
         moment_rate_left= 1.
@@ -444,7 +444,7 @@ class EQ_on_faults_from_sr():
             number_of_loops += 1
             
             
-            ''' Calculate the new target shape in each bin in terms of moment rate '''\
+            ''' Calculate the new target shape in each bin in terms of moment rate '''
             target_i = core_utils.get_new_target(number_of_loops,moment_rate_in_bin,p_MFD_MO,target_moment_per_bin,bin_mag,empty_bins,bin_target_reached,fault_n_scenario_in_bin)
             
             
@@ -576,8 +576,7 @@ class EQ_on_faults_from_sr():
                                     if picked_fault_n_scenario in fault_n_scenario_in_bin[index_mag]:
                                         fault_n_scenario_in_bin[index_mag].remove(picked_fault_n_scenario)
                                 
-                        shear_mod = shear_mod / float(len(index_faults_in_scenario[index_scenario[0]][0]) )
-                        #print shear_mod
+                        shear_mod = shear_mod / float(len(index_faults_in_scenario[index_scenario[0]][0]))
                                 
                         displacement = 10**(1.5*mag+9.1)/(shear_mod*scenario_area[index_scenario[0]])
                         rate_i = size_of_increment/displacement
@@ -587,26 +586,22 @@ class EQ_on_faults_from_sr():
                                 if rate_Mi < target_GR_i : #for this bin, the GR hasn't been reached yet
                                     OQ_entry_scenarios[index_scenario[0]][picked_bin] = OQ_entry_scenarios[index_scenario[0]][picked_bin] + rate_i
                                     
-                                    for index in index_faults_in_scenario[index_scenario[0]][0] :
-                                        M_slip_repartition[index].append(picked_fault_n_scenario)
-                                        faults_budget[index]+=-1
-                                        slip_rate_use_per_fault[index] += size_of_increment
+                                    if uniform_spending == True :
+                                        for index in index_faults_in_scenario[index_scenario[0]][0] :
+                                            M_slip_repartition[index].append(picked_fault_n_scenario)
+                                            faults_budget[index]+=-1
+                                            slip_rate_use_per_fault[index] += size_of_increment
+                                    else :
+                                        M_slip_repartition,faults_budget,slip_rate_use_per_fault = core_utils.variable_spending(index_faults_in_scenario,index_scenario,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_fault_n_scenario)
              
                                     #substracting the moment used from the target
                                     moment_rate = 10**(1.5*mag+9.1) * rate_i
                                     moment_rate_in_bin[picked_bin] += moment_rate
                                     Total_moment_rate_fault_final += moment_rate                            
                                 else : # for this bin, the GR has been reached, this slip rate needs to be aseismic
-                                    for index in index_faults_in_scenario[index_scenario[0]][0] :
-                                        M_slip_repartition[index].append('aseismic_slip')
-                                        aseismic_count += 1
-                                        faults_budget[index]+=-1
-                                        slip_rate_use_per_fault[index] += size_of_increment
-                                        target_moment_per_bin[picked_bin]=moment_rate_in_bin[picked_bin]
-                                        tracker[picked_bin]+=1
-                                        fault_n_scenario_in_bin[picked_bin] = []
-                                        if not picked_bin in bin_target_reached:
-                                            bin_target_reached.append(picked_bin)
+                                    fault_n_scenario_in_bin[picked_bin] = []
+                                    if not picked_bin in bin_target_reached:
+                                        bin_target_reached.append(picked_bin)
                                         
                             else : #all the slip_rate has NOT been spared for the Mmax
                                 #does other checks
@@ -614,11 +609,13 @@ class EQ_on_faults_from_sr():
                                 if moment_rate_left >= moment_rate_required - 0.0002 *moment_rate_required : #if there is enough moment rate left
                                     OQ_entry_scenarios[index_scenario[0]][picked_bin] = OQ_entry_scenarios[index_scenario[0]][picked_bin] + rate_i
                                     
-                                    for index in index_faults_in_scenario[index_scenario[0]][0] :
-                                        M_slip_repartition[index].append(picked_fault_n_scenario)
-                                        faults_budget[index]+=-1
-                                        slip_rate_use_per_fault[index] += size_of_increment
-             
+                                    if uniform_spending == True :
+                                        for index in index_faults_in_scenario[index_scenario[0]][0] :
+                                            M_slip_repartition[index].append(picked_fault_n_scenario)
+                                            faults_budget[index]+=-1
+                                            slip_rate_use_per_fault[index] += size_of_increment
+                                    else :
+                                        M_slip_repartition,faults_budget,slip_rate_use_per_fault = core_utils.variable_spending(index_faults_in_scenario,index_scenario,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_fault_n_scenario)
                                     #substracting the moment used from the target
                                     moment_rate = 10**(1.5*mag+9.1) * rate_i
                                     moment_rate_in_bin[picked_bin] += moment_rate
@@ -667,12 +664,6 @@ class EQ_on_faults_from_sr():
                                         slip_rate_use_per_fault[index_fault[0]] += size_of_increment
                                         
                                     else : # for this bin, the GR has been reached, this slip rate needs to be aseismic
-                                        M_slip_repartition[index_fault[0]].append('aseismic_slip')
-                                        aseismic_count += 1
-                                        faults_budget[index_fault[0]]+=-1
-                                        slip_rate_use_per_fault[index_fault[0]] += size_of_increment
-                                        target_moment_per_bin[picked_bin]=moment_rate_in_bin[picked_bin]
-                                        tracker[picked_bin]+=1
                                         fault_n_scenario_in_bin[picked_bin] = []
                                         if not picked_bin in bin_target_reached:
                                             bin_target_reached.append(picked_bin)
