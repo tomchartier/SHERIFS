@@ -148,3 +148,16 @@ def get_new_target(number_of_loops,moment_rate_in_bin,p_MFD_MO,target_moment_per
              target_i[i] = p_MFD_MO[i] / 1000000000.   #don't pick empty bins
      target_i = (target_i)/sum(target_i)# normalize the target to use it as a probability distribution
      return target_i
+
+def variable_spending(index_faults_in_scenario,index_scenario,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_fault_n_scenario):
+    # spends the slip rate correlated with the slip-rate of the faults involeved in the rupture
+    indexes = index_faults_in_scenario[index_scenario[0]][0]
+    sr_involved = []
+    for index in indexes:
+        sr_involved.append(faults_slip_rates[index])
+    norm_involved = [int(round(i/min(sr_involved))) for i in sr_involved]
+    for index, factor in zip(indexes,norm_involved) :
+        M_slip_repartition[index].append(picked_fault_n_scenario)
+        faults_budget[index]+=-(1*factor)
+        slip_rate_use_per_fault[index] += size_of_increment
+    return M_slip_repartition,faults_budget,slip_rate_use_per_fault
