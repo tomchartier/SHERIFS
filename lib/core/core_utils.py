@@ -122,3 +122,29 @@ def weight_fault_sampling(picked_bin,fault_n_scenario_in_bin,faults_names,faults
     weight_fault /= weight_fault.sum()
     
     return weight_fault
+
+def get_new_target(number_of_loops,moment_rate_in_bin,p_MFD_MO,target_moment_per_bin,bin_mag,empty_bins,bin_target_reached,fault_n_scenario_in_bin):
+     if number_of_loops > 20:
+         shape_mfd_i = (moment_rate_in_bin)/sum(moment_rate_in_bin)
+         target_i = p_MFD_MO * (((target_moment_per_bin-moment_rate_in_bin) / (target_moment_per_bin))/len(bin_mag))#**3   # initial target - moment already present in the bin
+     else :
+         shape_mfd_i = list(p_MFD_MO)
+         shape_mfd_i = (moment_rate_in_bin)/sum(moment_rate_in_bin)
+         target_i = p_MFD_MO
+         target_i = p_MFD_MO * (((target_moment_per_bin-moment_rate_in_bin) / (target_moment_per_bin))/len(bin_mag))#**3   # initial target - moment already present in the bin
+    
+     
+     target_i = (target_i)/sum(target_i)# normalize the target to use it as a probability distribution
+     for i in range(len(target_i)) :
+         if 1.05 * p_MFD_MO[i] <= shape_mfd_i[i] :
+             target_i[i] = target_i[i] / 100.
+         if target_i[i] <= 0. :
+             target_i[i] = p_MFD_MO[i] / 1000. #can't have a negative number in the distribution so we put a very small one (10E-15 N.m)
+         if i in empty_bins:
+             target_i[i] = p_MFD_MO[i] / 100000.  #don't pick empty bins
+         if i in bin_target_reached:
+             target_i[i] = p_MFD_MO[i] / 100000.  # don't pick bins where target is reached
+         if len(fault_n_scenario_in_bin[i]) == 0:
+             target_i[i] = p_MFD_MO[i] / 1000000000.   #don't pick empty bins
+     target_i = (target_i)/sum(target_i)# normalize the target to use it as a probability distribution
+     return target_i
