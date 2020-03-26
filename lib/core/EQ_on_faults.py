@@ -429,7 +429,7 @@ class EQ_on_faults_from_sr():
         print_percent = True
         print_target_set = True
         bool_target_set = False
-        uniform_spending = False
+        uniform_spending = True
         
         slip_rate_use_per_fault = np.zeros(len(faults_names))
         moment_rate_required = 0.
