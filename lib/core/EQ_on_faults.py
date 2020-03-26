@@ -23,7 +23,7 @@ import populate_bins
 import mfd_shape
 import time
 import warnings
-#import core_utils
+import core_utils
 
 warnings.simplefilter("ignore",RuntimeWarning)
 
@@ -439,32 +439,35 @@ class EQ_on_faults_from_sr():
         while sum(faults_budget.values()) != 0 : # as long as there is some slip-rate to spend we keep going
 
             ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
-            if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
-                print("1%")
-                self.calculation_log_file.write("\n1%")
-                model_MFD.append(rate_in_model)
-                print_percent = False
-            if ratio_done > 0.25 and ratio_done <= 0.5 and print_percent == False :
-                print( "25%")
-                self.calculation_log_file.write("\n25%")
-                model_MFD.append(rate_in_model)
-                print_percent = True
-            if ratio_done > 0.5 and ratio_done <= 0.75 and print_percent == True :
-                print( "50%")
-                self.calculation_log_file.write("\n50%")
-                model_MFD.append(rate_in_model)
-                print_percent = False
-            if ratio_done > 0.75 and ratio_done <= 0.9 and print_percent == False :
-                print( "75%")
-                self.calculation_log_file.write("\n75%")
-                model_MFD.append(rate_in_model)
-                #print
-                print_percent = True
-            if ratio_done > 0.9 and ratio_done <= 0.9999 and print_percent == True :
-                print( "90%")
-                self.calculation_log_file.write("\n90%")
-                model_MFD.append(rate_in_model)
-                print_percent = False
+            if ratio_done > 0.01 :
+                model_MFD, self.calculation_log_file,print_percent = core_utils.progress(rate_in_model,model_MFD,self.calculation_log_file,ratio_done,print_percent)
+            
+#            if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
+#                print("1%")
+#                self.calculation_log_file.write("\n1%")
+#                model_MFD.append(rate_in_model)
+#                print_percent = False
+#            if ratio_done > 0.25 and ratio_done <= 0.5 and print_percent == False :
+#                print( "25%")
+#                self.calculation_log_file.write("\n25%")
+#                model_MFD.append(rate_in_model)
+#                print_percent = True
+#            if ratio_done > 0.5 and ratio_done <= 0.75 and print_percent == True :
+#                print( "50%")
+#                self.calculation_log_file.write("\n50%")
+#                model_MFD.append(rate_in_model)
+#                print_percent = False
+#            if ratio_done > 0.75 and ratio_done <= 0.9 and print_percent == False :
+#                print( "75%")
+#                self.calculation_log_file.write("\n75%")
+#                model_MFD.append(rate_in_model)
+#                #print
+#                print_percent = True
+#            if ratio_done > 0.9 and ratio_done <= 0.9999 and print_percent == True :
+#                print( "90%")
+#                self.calculation_log_file.write("\n90%")
+#                model_MFD.append(rate_in_model)
+#                print_percent = False
             
             number_of_loops += 1
             
@@ -892,31 +895,8 @@ class EQ_on_faults_from_sr():
                                 if (fault_still_used == False) and (faults_budget[index_fault] > 0):
                                     while faults_budget[index_fault] > 0 :
                                         ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
-                                        if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
-                                            print("1%")
-                                            self.calculation_log_file.write("\n1%")
-                                            model_MFD.append(rate_in_model)
-                                            print_percent = False
-                                        if ratio_done > 0.25 and ratio_done <= 0.5 and print_percent == False :
-                                            print("25%")
-                                            self.calculation_log_file.write("\n25%")
-                                            model_MFD.append(rate_in_model)
-                                            print_percent = True
-                                        if ratio_done > 0.5 and ratio_done <= 0.75 and print_percent == True :
-                                            print("50%")
-                                            self.calculation_log_file.write("\n50%")
-                                            model_MFD.append(rate_in_model)
-                                            print_percent = False
-                                        if ratio_done > 0.75 and ratio_done <= 0.9 and print_percent == False :
-                                            print("75%")
-                                            self.calculation_log_file.write("\n75%")
-                                            model_MFD.append(rate_in_model)
-                                            print_percent = True
-                                        if ratio_done > 0.9 and ratio_done <= 0.9999 and print_percent == True :
-                                            print("90%")
-                                            self.calculation_log_file.write("\n90%")
-                                            model_MFD.append(rate_in_model)
-                                            print_percent = False
+                                        if ratio_done > 0.01 :
+                                            model_MFD, self.calculation_log_file,print_percent = core_utils.progress(rate_in_model,model_MFD,self.calculation_log_file,ratio_done,print_percent)
                                         faults_budget[index_fault]+=-1
                                         M_slip_repartition[index_fault].append('aseismic_slip')
                                         aseismic_count += 1
@@ -926,32 +906,8 @@ class EQ_on_faults_from_sr():
                 while sum(faults_budget.values())!=0: # as long as there is some slip-rate to spend we keep going
                 
                     ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
-                    if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
-                        print("1%")
-                        self.calculation_log_file.write("\n1%")
-                        model_MFD.append(rate_in_model)
-                        print_percent = False
-                    if ratio_done > 0.25 and ratio_done <= 0.5 and print_percent == False :
-                        print("25%")
-                        self.calculation_log_file.write("\n25%")
-                        model_MFD.append(rate_in_model)
-                        print_percent = True
-                    if ratio_done > 0.5 and ratio_done <= 0.75 and print_percent == True :
-                        print("50%")
-                        self.calculation_log_file.write("\n50%")
-                        model_MFD.append(rate_in_model)
-                        print_percent = False
-                    if ratio_done > 0.75 and ratio_done <= 0.9 and print_percent == False :
-                        print("75%")
-                        self.calculation_log_file.write("\n75%")
-                        model_MFD.append(rate_in_model)
-                        #print
-                        print_percent = True
-                    if ratio_done > 0.9 and ratio_done <= 0.9999 and print_percent == True :
-                        print("90%")
-                        self.calculation_log_file.write("\n90%")
-                        model_MFD.append(rate_in_model)
-                        print_percent = False
+                    if ratio_done > 0.01 :
+                        model_MFD, self.calculation_log_file,print_percent = core_utils.progress(rate_in_model,model_MFD,self.calculation_log_file,ratio_done,print_percent)
                     for index_fault in range(len(faults_names)):
                         if faults_budget[index_fault] > 0 :
                             faults_budget[index_fault]+=-1
