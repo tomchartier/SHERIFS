@@ -435,39 +435,11 @@ class EQ_on_faults_from_sr():
         moment_rate_required = 0.
         moment_rate_left= 1.
         
-        
         while sum(faults_budget.values()) != 0 : # as long as there is some slip-rate to spend we keep going
 
             ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
             if ratio_done > 0.01 :
                 model_MFD, self.calculation_log_file,print_percent = core_utils.progress(rate_in_model,model_MFD,self.calculation_log_file,ratio_done,print_percent)
-            
-#            if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
-#                print("1%")
-#                self.calculation_log_file.write("\n1%")
-#                model_MFD.append(rate_in_model)
-#                print_percent = False
-#            if ratio_done > 0.25 and ratio_done <= 0.5 and print_percent == False :
-#                print( "25%")
-#                self.calculation_log_file.write("\n25%")
-#                model_MFD.append(rate_in_model)
-#                print_percent = True
-#            if ratio_done > 0.5 and ratio_done <= 0.75 and print_percent == True :
-#                print( "50%")
-#                self.calculation_log_file.write("\n50%")
-#                model_MFD.append(rate_in_model)
-#                print_percent = False
-#            if ratio_done > 0.75 and ratio_done <= 0.9 and print_percent == False :
-#                print( "75%")
-#                self.calculation_log_file.write("\n75%")
-#                model_MFD.append(rate_in_model)
-#                #print
-#                print_percent = True
-#            if ratio_done > 0.9 and ratio_done <= 0.9999 and print_percent == True :
-#                print( "90%")
-#                self.calculation_log_file.write("\n90%")
-#                model_MFD.append(rate_in_model)
-#                print_percent = False
             
             number_of_loops += 1
             
@@ -485,7 +457,6 @@ class EQ_on_faults_from_sr():
                 target_i = p_MFD_MO * (((target_moment_per_bin-moment_rate_in_bin) / (target_moment_per_bin))/len(bin_mag))#**3   # initial target - moment already present in the bin
            
             
-
             target_i = (target_i)/sum(target_i)# normalize the target to use it as a probability distribution
             for i in range(len(target_i)) :
                 if 1.05 * p_MFD_MO[i] <= shape_mfd_i[i] : 
@@ -501,109 +472,20 @@ class EQ_on_faults_from_sr():
             target_i = (target_i)/sum(target_i)# normalize the target to use it as a probability distribution
             
             
-            
-            #if np.mean(target_i) > 2.*10**(-15):
             if len(empty_bins) != len(bin_mag):
-                target_i = (target_i) / sum(target_i)  
-            
-                '''######                                                                ########
-                #  Pick the bin of magnitude to fill according to the current distribution      #
-                ######                                                                ########'''
-                
-                picked_bin = np.random.choice(len(bin_mag), 1, p = target_i)[0] 
-                
+                '''Pick the bin of magnitude to fill according to the current distribution '''
+                # normalize the target mfd
+                target_i = (target_i) / sum(target_i)
+                picked_bin = np.random.choice(len(bin_mag), 1, p = target_i)[0]
                 mag = bin_mag[picked_bin] #magnitude of that bin
                 
                 if len(fault_n_scenario_in_bin[picked_bin]) != 0:
-                    
-                    #if number_of_loops > number_of_loops_last_checked + 10. or number_of_loops < 5:
                     time_i = time.time()
-                    #calculate the weight for sampling of the fault or scenario
-                    #the faults that haven't been picked often are more likely to be picked
-                    weight_fault = []
-                    for fault in fault_n_scenario_in_bin[picked_bin]:
-                        index_fault = np.where(np.array(faults_names) == fault)[0]
-                        if len(index_fault) != 0: #it's a fault
-                            sr0 = faults_slip_rates[index_fault[0]]  
-                            sr_used = slip_rate_use_per_fault[index_fault[0]]
-                            
-                            # calculate the sr factor to help the faster moving faults more
-                            # the srfactor goes from 1 to 6 with the ratio of the slip rate to the max of the slip rates
-                            if float(sr0)/float(max(faults_slip_rates)) <= 0.2:
-                                srfactor = 1.
-                            else: 
-                                srfactor = 5.*float(sr0)/float(max(faults_slip_rates))
-                                
-                            if 1. - float(sr_used)/float(sr0) >= 0.:
-                                if fault in faults_alone: #we give a boost for faults that are alone so they can  break more
-                                    weight_i = 4. * 5.
-                                    #weight_i = 2. * (sr0 - sr_used)**2.
-                                    weight_fault.append(weight_i)
-                                elif fault in faults_isolated: #we give a boost for faults that are isolated so they can  break more
-                                    if (float(sr_used)/float(sr0)) < 0.2:
-                                        weight_i = 4. * srfactor
-                                    else :
-                                        weight_i = (4.-4.*(float(sr_used)/float(sr0)+0.3)**6.)*srfactor
-                                    if weight_i < 1.:
-                                        weight_i = 1.
-                                    weight_fault.append(weight_i)
-                                else :
-                                    if (float(sr_used)/float(sr0)) < 0.2:
-                                        weight_i = 0.5 * srfactor
-                                    else :
-                                        weight_i = (0.5-4.*(float(sr_used)/float(sr0)+0.3)**6.)*srfactor
-                                        
-                                    if weight_i < 1.:
-                                        weight_i = 1.
-                                    weight_fault.append(weight_i)
-                            else:
-                                weight_i = 0.
-                                weight_fault.append(weight_i)
-                        else : #it's a scenario, the weight is based on the largest weight of the infolveld faults
-                            index_scenario = np.where(np.array(scenarios_names) == fault)[0]
-                            ratio_w = 0.
-                            for index in index_faults_in_scenario[index_scenario[0]][0] :
-                                sr0 = faults_slip_rates[index] 
-                                sr_used = slip_rate_use_per_fault[index]
-                                fault_in_scenario = faults_names[index]
-                                
-                                # calculate the sr factor to help the faster moving faults more
-                                # the srfactor goes from 1 to 6 with the ratio of the slip rate to the max of the slip rates
-                                if float(sr0)/float(max(faults_slip_rates)) <= 0.2:
-                                    srfactor = 1.
-                                else: 
-                                    srfactor = 5.*float(sr0)/float(max(faults_slip_rates))
-                                    
-                                if fault_in_scenario in faults_isolated: #we give a boost for faults that are isolated so they can  break more
-                                    if (float(sr_used)/float(sr0)) < 0.2:
-                                        ratio_w_i = 4. * srfactor
-                                    else :
-                                       ratio_w_i = (4.-4.*(float(sr_used)/float(sr0)+0.3)**6.)*srfactor
-                                    if ratio_w_i < 1.:
-                                        ratio_w_i = 1.
-                                else :
-                                    if (float(sr_used)/float(sr0)) < 0.2:
-                                        ratio_w_i = 0.5 * srfactor
-                                    else :
-                                        ratio_w_i = (0.5 -4.*(float(sr_used)/float(sr0)+0.3)**6.)*srfactor
-                                        
-                                    if ratio_w_i < 1.:
-                                        ratio_w_i = 1.
-                                if ratio_w_i > ratio_w:
-                                    ratio_w = ratio_w_i
-                            if ratio_w >= 0.:
-                                weight_i = ratio_w
-                                weight_fault.append(weight_i)
-                            else :
-                                weight_i = 0.
-                                weight_fault.append(weight_i)
-                            
-                    weight_fault = [i**2 for i in weight_fault]
-                    weight_fault = np.array(weight_fault)
-                    weight_fault /= weight_fault.sum()
+                    '''Calculate the weight for sampling of the fault or scenario'''
+                    weight_fault = core_utils.weight_fault_sampling(picked_bin,fault_n_scenario_in_bin,faults_names,faults_slip_rates,slip_rate_use_per_fault,faults_alone,scenarios_names,faults_isolated,index_faults_in_scenario)
                     time_weighting_faults += time.time()-time_i
                     
-                    #picking of the source
+                    '''#picking of the source'''
                     try :
                         picked_fault_n_scenario = np.random.choice(fault_n_scenario_in_bin[picked_bin],1,p=weight_fault)[0] #picked source
                     except ValueError:
