@@ -22,72 +22,97 @@ def sr_rate(Run_name,scenarios_names_list,mega_MFD,Model_list,MFD_type_list):
         for scenario_name in scenarios_names_list :
             for mega_mfd_i in mega_MFD :
                 if mega_mfd_i[8] == scenario_name and mega_mfd_i[3] == model :
-#                            input_file_name_i = (str(Run_name) + '/' + str(mega_mfd_i[0]) + '_' + str(mega_mfd_i[1]) + '_' + str(mega_mfd_i[2]) 
-#                            + '/' + str(mega_mfd_i[3]) + '/' + str(scenario_name)  + '/Mt_' + str(mega_mfd_i[4]) + '/bmin_' + str(mega_mfd_i[5]) + '_bmax_' + str(mega_mfd_i[6]) 
-#                            + '/sm_' + str(mega_mfd_i[7]) + '/as_' +str(mega_mfd_i[8]) + '/Log/sliprep_sample_' + str(mega_mfd_i[10]) + '.txt')
                     i_mfd =  0
-                    input_file_name_i = (str(Run_name) + '/' + str(mega_MFD[i_mfd][3]) + '/' + 'bg_' + str(mega_MFD[i_mfd][4]) 
-                                        + '/' + str(mega_MFD[i_mfd][0]) + '_' + str(mega_MFD[i_mfd][1]) + '_' + str(mega_MFD[i_mfd][2]) 
-                                        + '/sc_' + str(mega_MFD[i_mfd][8])  + '/bmin_' + str(mega_mfd_i[5]) + '_bmax_' + str(mega_mfd_i[6]) 
-                                        + '/MFD_' + str(mega_mfd_i[7]) + '/Log/sliprep_sample_' + str(mega_mfd_i[9]) + '.txt')
                     input_file_name_i = (str(Run_name) + '/' + str(mega_mfd_i[3]) + '/' + 'bg_' + str(mega_mfd_i[4]) 
                                         + '/' + str(mega_mfd_i[0]) + '_' + str(mega_mfd_i[1]) + '_' + str(mega_mfd_i[2]) 
                                         + '/sc_' + str(mega_mfd_i[8])  + '/bmin_' + str(mega_mfd_i[5]) + '_bmax_' + str(mega_mfd_i[6]) 
                                         + '/MFD_' + str(mega_mfd_i[7]) + '/Log/sliprep_sample_' + str(mega_mfd_i[9]) + '.txt')
+                                        
+                    rup_file = (str(Run_name) + '/' + str(mega_mfd_i[3]) + '/' + 'bg_' + str(mega_mfd_i[4])
+                    + '/' + str(mega_mfd_i[0]) + '_' + str(mega_mfd_i[1]) + '_' + str(mega_mfd_i[2])
+                    + '/sc_' + str(mega_mfd_i[8])  + '/bmin_' + str(mega_mfd_i[5]) + '_bmax_' + str(mega_mfd_i[6])
+                    + '/MFD_' + str(mega_mfd_i[7]) + '/Log/ruptures.txt')
+                    rup_id = []
+                    rup_length = []
+                    for line in open(rup_file):
+                        if not 'rup_id' in line :
+                            rup_i = line.split('\t')[0]
+                            rup_id.append(rup_i)
+                            rup_length_i = line.split('\t')[1]
+                            rup_length.append(len(rup_length_i.split(' '))-1)
+                        
                     if input_file_name_i != input_file_name :
                         input_file_name = input_file_name_i
-                        input_file = np.genfromtxt(input_file_name,dtype = 'S1000000', delimiter = '], [')
-                        
-                        input_file = [i.decode("utf-8") for i in input_file]
-                        for index_fault in range(len(input_file)):
-                            if index_fault == 0 :
-                                fault_name = input_file[index_fault][3:(input_file[index_fault].find(','))]
-                                fault_name = str(fault_name).replace("'", "")
-                                #print 1, fault_name,input_file[index_fault][3:(input_file[index_fault].find(','))]
-                            else :
-                                #fault_name = input_file[index_fault][1:(input_file[index_fault].find(',')-1)]
-                                fault_name = input_file[index_fault][1:(input_file[index_fault].find(','))]
-                                fault_name = str(fault_name).replace("'", "")
-                                #print 2, fault_name,input_file[index_fault][1:(input_file[index_fault].find(','))]
-
-                            total_number = input_file[index_fault].count('aseismic_slip') + input_file[index_fault].count(fault_name)
-                            n_FtF_13 = input_file[index_fault].count('f_13')
-                            n_FtF_12 = input_file[index_fault].count('f_12') - input_file[index_fault].count('f_13')
-                            n_FtF_11 = input_file[index_fault].count('f_11') - input_file[index_fault].count('f_12')
-                            n_FtF_10 = input_file[index_fault].count('f_10') - input_file[index_fault].count('f_11')
-                            n_FtF_9 = input_file[index_fault].count('f_9') - input_file[index_fault].count('f_10')
-                            n_FtF_8 = input_file[index_fault].count('f_8') - input_file[index_fault].count('f_9')
-                            n_FtF_7 = input_file[index_fault].count('f_7') - input_file[index_fault].count('f_8')
-                            n_FtF_6 = input_file[index_fault].count('f_6') - input_file[index_fault].count('f_7')
-                            n_FtF_5 = input_file[index_fault].count("f_5'") - input_file[index_fault].count('f_6')
-                            n_FtF_4 = input_file[index_fault].count("f_4'") - input_file[index_fault].count("f_5'")
-                            n_FtF_3 = input_file[index_fault].count("f_3'") - input_file[index_fault].count("f_4'")
-                            n_FtF_2 = input_file[index_fault].count("f_2'") - input_file[index_fault].count("f_3'")
-                            n_fault_alone = input_file[index_fault].count(fault_name) - input_file[index_fault].count("f_2'") - 1 #-1 because the first fault_name is added for tagging purposes only
-                            n_NMS = input_file[index_fault].count('aseismic_slip')
-                            
-                            p_FtF_13 = round(float(n_FtF_13) / float(total_number) * 100., 1)
-                            p_FtF_12 = round(float(n_FtF_12) / float(total_number) * 100., 1)
-                            p_FtF_11 = round(float(n_FtF_11) / float(total_number) * 100., 1)
-                            p_FtF_10 = round(float(n_FtF_10) / float(total_number) * 100., 1)
-                            p_FtF_9 = round(float(n_FtF_9) / float(total_number) * 100., 1)
-                            p_FtF_8 = round(float(n_FtF_8) / float(total_number) * 100., 1)
-                            p_FtF_7 = round(float(n_FtF_7) / float(total_number) * 100., 1)
-                            p_FtF_6 = round(float(n_FtF_6) / float(total_number) * 100., 1)
-                            p_FtF_5 = round(float(n_FtF_5) / float(total_number) * 100., 1)
-                            p_FtF_4 = round(float(n_FtF_4) / float(total_number) * 100., 1)
-                            p_FtF_3 = round(float(n_FtF_3) / float(total_number) * 100., 1)
-                            p_FtF_2 = round(float(n_FtF_2) / float(total_number) * 100., 1)
-                            p_fault_alone = round(float(n_fault_alone) / float(total_number) * 100., 1)
-                            p_NMS = round(float(n_NMS) / float(total_number) * 100., 1)
-                            
-                            line = (str(mega_mfd_i[0]) + '_' + str(mega_mfd_i[1]) + '_' + str(mega_mfd_i[2]) 
-                            + '\t' + str(model) + '\tbg_' + str(mega_mfd_i[4]) + '\tbmin_' + str(mega_mfd_i[5]) + '_bmax_' + str(mega_mfd_i[6]) 
-                            + '\tMFD_' + str(mega_mfd_i[7]) + '\t' + str(scenario_name)  + '\tsample_' + str(mega_mfd_i[9])
-                            + '\t' + fault_name + '\t' + str(p_fault_alone) + '\t' + str(p_FtF_2) + '\t' + str(p_FtF_3) + '\t' + str(p_FtF_4) + '\t' 
-                            + str(p_FtF_5) + '\t' + str(p_FtF_6) + '\t' + str(p_FtF_7) + '\t'+ str(p_FtF_8) + '\t'+ str(p_FtF_9) + '\t'+ str(p_FtF_10) + '\t'
-                            + str(p_FtF_11) + '\t'+ str(p_FtF_12) + '\t'+ str(p_FtF_13) + '\t'+ str(p_NMS) )
-                            slip_rep_faults_all_data.write(line+'\n')
+                        with open(input_file_name,'r') as f:
+                            for line in f:
+                                content = line.split(' ')
+                                fault_name = content[0]
+                                total_number = len(content)-1
+                                n_fault_alone= 0.
+                                n_FtF_2= 0.
+                                n_FtF_3= 0.
+                                n_FtF_4= 0.
+                                n_FtF_5= 0.
+                                n_FtF_6= 0.
+                                n_FtF_7= 0.
+                                n_FtF_8= 0.
+                                n_FtF_9= 0.
+                                n_FtF_10= 0.
+                                n_FtF_11= 0.
+                                n_FtF_12= 0.
+                                n_FtF_13 = 0.
+                                for rup_i,rup_length_i in zip(rup_id,rup_length):
+                                    c = content[1:].count(str(rup_i))
+                                    if rup_length_i >= 13 :
+                                        n_FtF_13 += c
+                                    if rup_length_i == 12 :
+                                        n_FtF_12 += c
+                                    if rup_length_i == 11 :
+                                        n_FtF_11 += c
+                                    if rup_length_i == 10 :
+                                        n_FtF_10 += c
+                                    if rup_length_i == 9 :
+                                        n_FtF_9 += c
+                                    if rup_length_i == 8 :
+                                        n_FtF_8 += c
+                                    if rup_length_i == 7 :
+                                        n_FtF_7 += c
+                                    if rup_length_i == 6 :
+                                        n_FtF_6 += c
+                                    if rup_length_i == 5 :
+                                        n_FtF_5 += c
+                                    if rup_length_i == 4 :
+                                        n_FtF_4 += c
+                                    if rup_length_i == 3 :
+                                        n_FtF_3 += c
+                                    if rup_length_i == 2 :
+                                        n_FtF_2 += c
+                                    if rup_length_i == 1 :
+                                        n_fault_alone += c
+                                n_NMS = content[1:].count('NMS')
+                                
+                                p_FtF_13 = round(float(n_FtF_13) / float(total_number) * 100., 1)
+                                p_FtF_12 = round(float(n_FtF_12) / float(total_number) * 100., 1)
+                                p_FtF_11 = round(float(n_FtF_11) / float(total_number) * 100., 1)
+                                p_FtF_10 = round(float(n_FtF_10) / float(total_number) * 100., 1)
+                                p_FtF_9 = round(float(n_FtF_9) / float(total_number) * 100., 1)
+                                p_FtF_8 = round(float(n_FtF_8) / float(total_number) * 100., 1)
+                                p_FtF_7 = round(float(n_FtF_7) / float(total_number) * 100., 1)
+                                p_FtF_6 = round(float(n_FtF_6) / float(total_number) * 100., 1)
+                                p_FtF_5 = round(float(n_FtF_5) / float(total_number) * 100., 1)
+                                p_FtF_4 = round(float(n_FtF_4) / float(total_number) * 100., 1)
+                                p_FtF_3 = round(float(n_FtF_3) / float(total_number) * 100., 1)
+                                p_FtF_2 = round(float(n_FtF_2) / float(total_number) * 100., 1)
+                                p_fault_alone = round(float(n_fault_alone) / float(total_number) * 100., 1)
+                                p_NMS = round(float(n_NMS) / float(total_number) * 100., 1)
+                                
+                                line = (str(mega_mfd_i[0]) + '_' + str(mega_mfd_i[1]) + '_' + str(mega_mfd_i[2])
+                                + '\t' + str(model) + '\tbg_' + str(mega_mfd_i[4]) + '\tbmin_' + str(mega_mfd_i[5]) + '_bmax_' + str(mega_mfd_i[6])
+                                + '\tMFD_' + str(mega_mfd_i[7]) + '\t' + str(scenario_name)  + '\tsample_' + str(mega_mfd_i[9])
+                                + '\t' + fault_name + '\t' + str(p_fault_alone) + '\t' + str(p_FtF_2) + '\t' + str(p_FtF_3) + '\t' + str(p_FtF_4) + '\t'
+                                + str(p_FtF_5) + '\t' + str(p_FtF_6) + '\t' + str(p_FtF_7) + '\t'+ str(p_FtF_8) + '\t'+ str(p_FtF_9) + '\t'+ str(p_FtF_10) + '\t'
+                                + str(p_FtF_11) + '\t'+ str(p_FtF_12) + '\t'+ str(p_FtF_13) + '\t'+ str(p_NMS) )
+                                slip_rep_faults_all_data.write(line+'\n')
     slip_rep_faults_all_data.close()
                         
     slip_rep_data = np.genfromtxt(Run_name + '/analysis/txt_files/slip_rep_on_faults_all_data.txt',

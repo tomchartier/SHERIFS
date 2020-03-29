@@ -339,7 +339,8 @@ class Source_Model_Creator:
         ID_number = 0
         for Fault_name in enumerate(self.Fault_Names):
             if Fault_name[1] in MFDs.faults_names :
-                MFD = MFDs.OQ_entry_faults[np.where(np.array(MFDs.faults_names) == Fault_name[1])][0]
+                index_fault = np.where(np.array(MFDs.faults_names) == Fault_name[1])[0][0]
+                MFD = MFDs.OQ_entry_faults[index_fault]
                 ID_number = ID_number + 1
                 
                 self.FaultProperties(Fault_name[1])
@@ -493,7 +494,8 @@ class Source_Model_Creator:
             index_scenario = 0    
             
             for scenario in enumerate(MFDs.scenarios_names):
-                MFD = MFDs.OQ_entry_scenarios[np.where(np.array(MFDs.scenarios_names) == scenario[1])][0]
+                index_scenario = np.where(np.array(MFDs.scenarios_names) == scenario[1])[0][0]
+                MFD = MFDs.OQ_entry_scenarios[index_scenario]
                 if sum(MFD)!=0:         
                     ID_number = ID_number + 1
                     self.FaultProperties(scenario[1]['f_1'])
