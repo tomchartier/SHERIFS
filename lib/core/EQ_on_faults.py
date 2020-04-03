@@ -614,7 +614,7 @@ class EQ_on_faults_from_sr():
                                         rate_in_model[picked_bin] += rate_i
                                         moment_rate_i = mag_to_M0(mag) * rate_i
                                 else :
-                                    M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used = core_utils.variable_spending(index_faults_in_scenario,index_scenario,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup)
+                                    M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used = core_utils.variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup)
                                         #adding to the rate
                                     rup_rates[str(picked_rup)]['rates'][picked_bin] += rate_i*(nb_sdr_used)
                                     rate_in_model[picked_bin] +=  rate_i*(nb_sdr_used)
@@ -639,7 +639,7 @@ class EQ_on_faults_from_sr():
                                     rate_in_model[picked_bin] +=  rate_i
                                     moment_rate_i = mag_to_M0(mag) * rate_i
                             else :
-                                M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used = core_utils.variable_spending(index_faults_in_scenario,index_scenario,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup)
+                                M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used = core_utils.variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup)
                                     #adding to the rate
                                 rup_rates[str(picked_rup)]['rates'][picked_bin] += rate_i*(nb_sdr_used)
                                 rate_in_model[picked_bin] +=  rate_i*(nb_sdr_used)
