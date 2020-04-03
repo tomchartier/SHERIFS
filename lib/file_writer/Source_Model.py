@@ -368,11 +368,11 @@ class Source_Model_Creator:
                     
                 if type_of_fault == 'sf':
                     Fault_Name = self.Model_name + '_' + str(Fault_name[1])
-                    line='\t\t<simpleFaultSource id="'+ str(ID_number) +'" name="'+ str(Fault_Name) +'" tectonicRegion="' + str(self.Domain) + '">\n'
-                    XMLfile.write(line)
+                    line = '\t\t<simpleFaultSource id="'+ str(ID_number) +'" name="'+ str(Fault_Name) +'" tectonicRegion="' + str(self.Domain) + '">\n'
+                    #XMLfile.write(line)
                     test_ok += 1
-                    line+='\t\t\t<simpleFaultGeometry>\n'
-                    line+='\t\t\t\t<gml:LineString>\n'
+                    line += '\t\t\t<simpleFaultGeometry>\n'
+                    line += '\t\t\t\t<gml:LineString>\n'
                     line+='\t\t\t\t\t<gml:posList>\n'
                     
                     #polygon = []
