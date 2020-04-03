@@ -161,7 +161,7 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
                                                          ('rate', 'f8'),
                                                          ('sig_rate', 'f8')],
                                                  delimiter = '\t',skip_header = 1)
-    #print faults_data
+    # Dealing with one line files
     try:
         len_faults_data = len(faults_data)
     except TypeError:

@@ -330,10 +330,19 @@ def sampling_analysis(Run_name,Model_list,m_Mmax,b_sample,a_s_model,mega_mfd_cum
         plot_rsqsim_pr =True
             
         #extract the faults data
-        faults_data = np.genfromtxt(file_faults_data,dtype=[('U100000'),('U100000'),('U100000'),('f8'),('f8'),('f8'),('f8')]
-                                                                 ,delimiter = '\t',skip_header = 1)
-        
-        
+        faults_data = np.genfromtxt(file_faults_data, dtype=[('model', 'U100000'),
+                                                         ('fault_name', 'U100000'),
+                                                         ('type', 'U100000'),
+                                                         ('M', 'f8'),
+                                                         ('sig_M', 'f8'),
+                                                         ('rate', 'f8'),
+                                                         ('sig_rate', 'f8')],
+                                                 delimiter = '\t',skip_header = 1)
+        # Dealing with one line files
+        try:
+            len_faults_data = len(faults_data)
+        except TypeError:
+            faults_data = faults_data.reshape((1,))
         rsqsim_pr=True
         RSQSim_pr_file = str(Run_name) + '/file_pr_rsqsim.txt'
         try:            
