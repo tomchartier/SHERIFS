@@ -153,9 +153,19 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
              mega_bining_in_mag,a_s_model,b_sample,sm_sample,Mt_sample,plot_mfd,plot_as_rep,plot_Mmax,xmin,xmax,ymin,ymax,
              file_faults_data,File_bg,File_geom,sub_area_file):
     #extract the faults data
-    faults_data = np.genfromtxt(file_faults_data,dtype=[('U100000'),('U100000'),('U100000'),('f8'),('f8'),('f8'),('f8')]
-                                                             ,delimiter = '\t',skip_header = 1)
+    faults_data = np.genfromtxt(file_faults_data, dtype=[('model', 'U100000'),
+                                                         ('fault_name', 'U100000'),
+                                                         ('type', 'U100000'),
+                                                         ('M', 'f8'),
+                                                         ('sig_M', 'f8'),
+                                                         ('rate', 'f8'),
+                                                         ('sig_rate', 'f8')],
+                                                 delimiter = '\t',skip_header = 1)
     #print faults_data
+    try:
+        len_faults_data = len(faults_data)
+    except TypeError:
+        faults_data = faults_data.reshape((1,))
     data_model = list(map(lambda i : faults_data[i][0], range(len(faults_data))))
     data_fault_name =list( map(lambda i : faults_data[i][1], range(len(faults_data))))
     data_type =list( map(lambda i : faults_data[i][2], range(len(faults_data))))
