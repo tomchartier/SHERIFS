@@ -231,7 +231,7 @@ class EQ_on_faults_from_sr():
         bin_mag = np.linspace(M_min,Mmax,int(round((Mmax-M_min),1)*10. +1))
                 
         '''#####################################################################
-        # initializing outups(incremental recurence of the earthquakes for each rupture and each bin)
+        # initializing incremental reccurence of the earthquakes for each rupture and each bin)
         #####################################################################'''
         rup_rates = {}
         index_rup = []
@@ -256,6 +256,8 @@ class EQ_on_faults_from_sr():
                 log_rup_file.write(str(j)+' ')
             log_rup_file.write('\n')
         log_rup_file.close()
+        
+        
 #        OQ_entry_faults = np.zeros((len(faults_names),len(bin_mag)))
 #
 #        if np.size(scenarios_names) != 0 :
@@ -484,6 +486,7 @@ class EQ_on_faults_from_sr():
                 target_i = (target_i) / sum(target_i)
                 picked_bin = np.random.choice(len(bin_mag), 1, p = target_i)[0]
                 mag = bin_mag[picked_bin] #magnitude of that bin
+                
 #                test_mean_picked.append(picked_bin)
 #                if str(round(ratio_done,2))[-1]=='9' and len(test_mean_picked) > 15:
 #                    print(round(ratio_done,2),
