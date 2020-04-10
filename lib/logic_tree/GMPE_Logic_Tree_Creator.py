@@ -15,8 +15,8 @@ path_actuel=os.path.dirname(os.path.abspath(__file__))
 path_lib = path_actuel + '/lib'
 sys.path.append(path_lib)
 import GMPE_LT_GF
-import tkinter as tk
-from tkinter import ttk
+#import tkinter as tk
+#from tkinter import ttk
 
 class GMPE_Logic_Tree_Creator:
     def __init__(self,Run_Name,Domain_in_model):

@@ -10,10 +10,10 @@ This code open the interface to select the options explored in the logic tree
 """
 import numpy as np
 
-import tkinter as tk
-from tkinter import ttk, Label, Text, INSERT,END, StringVar,Listbox,Button,Entry,Checkbutton
-from tkinter.ttk import Combobox
-from tkinter import messagebox
+#import tkinter as tk
+#from tkinter import ttk, Label, Text, INSERT,END, StringVar,Listbox,Button,Entry,Checkbutton
+#from tkinter.ttk import Combobox
+#from tkinter import messagebox
 
 
 class S_LT():

@@ -32,7 +32,7 @@ sys.path.append(path_f)
 path_f = path_lib + '/file_writer'
 sys.path.append(path_f)
 
-from GMPE_Logic_Tree_Creator import GMPE_Logic_Tree_Creator
+#from GMPE_Logic_Tree_Creator import GMPE_Logic_Tree_Creator
 from Sources_Logic_Tree_Creator import Sources_Logic_Tree_Creator
 from OQ_job_Creator import OQ_job_Creator
 
@@ -61,7 +61,7 @@ overwrite_files = True
 use_host_model = False
 
 #if you want to build a GMPE logic tree for OpenQuake, can can always do it later before running the hazard calculation
-build_GMPE_LT = False
+#build_GMPE_LT = False
 
 if not os.path.exists(str(Run_Name)):
     os.makedirs(str(Run_Name))
@@ -92,8 +92,8 @@ calculation_log_file.close()
 
 Domain_in_model = Sources_Logic_Tree_Creator.Domain_in_model
 
-if build_GMPE_LT == True:
-    GMPE_Logic_Tree_Creator(Run_Name,Domain_in_model) #create the logic tree of GMPEs
+#if build_GMPE_LT == True:
+#    GMPE_Logic_Tree_Creator(Run_Name,Domain_in_model) #create the logic tree of GMPEs
 
 
 fin = time.time()-debut

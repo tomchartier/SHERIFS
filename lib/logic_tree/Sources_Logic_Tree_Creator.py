@@ -23,7 +23,7 @@ path_f = path_lib + '/utils'
 sys.path.append(path_f)
 
 from Source_Model import *
-import Source_LT
+#import Source_LT
 import BG_ratio
 import faults_n_scenarios
 from OQ_job_Creator import OQ_job_Creator
@@ -66,38 +66,23 @@ class Sources_Logic_Tree_Creator:
         LT_file = str(self.Run_Name)+'/Sources_Logic_tree.xml'
         LT_log_name  =  str(self.Run_Name)+'/LT_log.txt' 
         reading_file = False
-        if not os.path.exists(LT_file) : 
-            LT = Source_LT.S_LT(self.File_geom,self.File_prop,self.Run_Name)
-            branches = LT.branches
-            
-            ### total number of models in the logic tree            
-            nb_model_in_LT = (len(branches) * self.nb_random_sampling)
-            #print(nb_model_in_LT)
-            
-            
-            reading_file = False
+        if not os.path.exists(LT_file) :
+            print('ERROR : Please provide a LT_log.txt file \n See the user amnual for guidelines and the example for file setup example.')
+            exit()
+#            LT = Source_LT.S_LT(self.File_geom,self.File_prop,self.Run_Name)
+#            branches = LT.branches
+#
+#            ### total number of models in the logic tree
+#            nb_model_in_LT = (len(branches) * self.nb_random_sampling)
+#            #print(nb_model_in_LT)
+#
+#
+#            reading_file = False
         
         else : #♣get from the xml file 
              #if os.stat("file").st_size == 0 :☻
             
-            reading_file = True   
-            '''
-            tree = ET.parse(LT_file)        
-            nrml = tree.getroot()            
-            Branch_names = []
-            branch_path = []
-            print 'LT file exists :  reading LT file'
-            general_weight = []                   
-            for logicTree in nrml:
-                for logicTreeBranchLevel in logicTree:
-                    for logicTreeBranchSet in logicTreeBranchLevel:
-                        for logicTreeBranch in logicTreeBranchSet:
-                            Branch_names.append(logicTreeBranch.attrib['branchID'])
-                            path_i = logicTreeBranch[0].text[:-4]
-                            branch_path.append(path_i.split('/'))
-                            general_weight.append(logicTreeBranch[1].text)'''
-                            
-                            
+            reading_file = True
     
             file_log_LT = open(LT_log_name,'r')
             self.log_LT = file_log_LT.readlines()
