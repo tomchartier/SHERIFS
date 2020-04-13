@@ -32,7 +32,7 @@ import math
 import matplotlib.pyplot as plt
 
 class Source_Model_Creator:
-    def __init__(self,path,Run_Name,Model_name,File_geom,File_prop,File_bg,file_prop_bg,File_faults_n_scenarios,
+    def __init__(self,path,Run_Name,Model_name,File_geom,File_prop,File_bg,file_prop_bg,rupture_set,
                  Domain_in_model,sample,seed,Mmin,selected_ScL,dimention_used,use_all_ScL_data,
                  b_min,b_max,mfd_hyp,bg_ratio,sr_correl,size_of_increment,fit_quality,Mmax_range,calculation_log_file,use_host_model,host_model_file):
         self.Run_Name = Run_Name
@@ -42,7 +42,7 @@ class Source_Model_Creator:
         self.File_prop = File_prop
         self.File_bg = File_bg
         self.file_prop_bg = file_prop_bg
-        self.File_faults_n_scenarios = File_faults_n_scenarios
+        self.rupture_set = rupture_set
         
         #a envoyer dans logic tree
         self.Model_name = Model_name
@@ -96,10 +96,6 @@ class Source_Model_Creator:
         
         M_min = float(self.Mmin)
         log_general_parameters_file.write('M_tronc\t'+str(M_min)+'\n')
-
-#        shear_modulus = float(self.shear_mod)*10**9 #convertion from GPa in Newton.m²
-#        log_general_parameters_file.write('shear_modulus\t'+str(self.shear_mod)+'\n')
-        
         if self.sample == 1 :
             b_value = (self.b_min + self.b_max)/2.
         else :
@@ -122,20 +118,30 @@ class Source_Model_Creator:
         #Extraction of the faults and scenarios present in the model from the text file
         ########################################################
         
-        lines_FtF = [line.rstrip('\n') for line in open(self.File_faults_n_scenarios)]
-        line_fauts = lines_FtF[0] 
-        faults_names = line_fauts.split(' ')
-            
-        faults_names[-1] = "\n".join(faults_names[-1].splitlines())
+        Prop = np.genfromtxt(self.File_prop,
+                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+        index_model = np.where(np.array(Column_model_name) == self.Model_name)[0]
+        Prop = np.take(Prop,index_model)
+        faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
+        faults_names = list(faults_names)
+        
+        
+#        lines_FtF = [line.rstrip('\n') for line in open(self.File_faults_n_scenarios)]
+#        line_fauts = lines_FtF[0]
+#        faults_names = line_fauts.split(' ')
+
+#        faults_names[-1] = "\n".join(faults_names[-1].splitlines())
 
         index_scenario = 0
-        scenarios_names = []  
-        if np.size(lines_FtF) == 1 :
-            scenarios_names = [] 
+        scenarios_names = []
+        if np.size(self.rupture_set) == 0 :
+            scenarios_names = []
         else :
-            for index_scenario in range(len(lines_FtF)-1):
-                line_scenario = str(lines_FtF[index_scenario+1])
-                faults_in_scenario = list(line_scenario.split(' '))
+            for index_scenario in range(len(self.rupture_set)):
+                faults_in_scenario = self.rupture_set[index_scenario]
                 if len(faults_in_scenario) == 1.:
                     print(faults_in_scenario)
                     print('!!!!! ERROR !!!!!')
@@ -484,8 +490,7 @@ class Source_Model_Creator:
                     line='\t\t</complexFaultSource>\n'
                     XMLfile.write(line)
         
-        if np.size(lines_FtF) != 1 :
-                    
+        if len(self.rupture_set) != 0 :
             index_scenario = 0    
             
             for scenario in enumerate(MFDs.scenarios_names):
