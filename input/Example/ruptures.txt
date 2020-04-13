@@ -1,0 +1,22 @@
+# Ruptures considered in each rupture set hypothesis
+#
+# Structure :
+# set name_of_the_set
+# fault_1_in_rup_1 fault_2_in_rup_1
+# fault_1_in_rup_2 fault_2_in_rup_2 fault_3_in_rup_2
+# ... and so on
+#
+# to add another set, simply add it down under
+# empty sets without complex ruptures are possible
+
+set Set_1
+F1 F2
+F2 F3
+F1 F2 F3
+set Set_2
+F1 F2
+F1 F2 F3
+F1 F2 F3 F5
+F2 F3
+F2 F3 F5
+F3 F5

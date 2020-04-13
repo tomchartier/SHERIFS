@@ -85,14 +85,10 @@ class Source_Model_Creator:
         
         
         line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
-        XMLfile.write(line)
-        line='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
-        XMLfile.write(line)
-        line='\txmlns="http://openquake.org/xmlns/nrml/0.4">\n'
-        XMLfile.write(line)
-        line='\t<sourceModel name="Hazard Model">\n'
-        XMLfile.write(line)
-        line='\n'
+        line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
+        line+='\txmlns="http://openquake.org/xmlns/nrml/0.4">\n'
+        line+='\t<sourceModel name="Hazard Model">\n'
+        line+='\n'
         XMLfile.write(line)
 
         #initialisation of the general parameters (M_min, shear modulus and b value)
@@ -369,7 +365,6 @@ class Source_Model_Creator:
                 if type_of_fault == 'sf':
                     Fault_Name = self.Model_name + '_' + str(Fault_name[1])
                     line='\t\t<simpleFaultSource id="'+ str(ID_number) +'" name="'+ str(Fault_Name) +'" tectonicRegion="' + str(self.Domain) + '">\n'
-                    XMLfile.write(line)
                     test_ok += 1
                     line+='\t\t\t<simpleFaultGeometry>\n'
                     line+='\t\t\t\t<gml:LineString>\n'
