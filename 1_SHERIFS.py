@@ -60,9 +60,6 @@ overwrite_files = True
 
 use_host_model = False
 
-#if you want to build a GMPE logic tree for OpenQuake, can can always do it later before running the hazard calculation
-#build_GMPE_LT = False
-
 if not os.path.exists(str(Run_Name)):
     os.makedirs(str(Run_Name))
 if not os.path.exists(str(Run_Name) + '/results'):
@@ -92,6 +89,8 @@ calculation_log_file.close()
 
 Domain_in_model = Sources_Logic_Tree_Creator.Domain_in_model
 
+#if you want to build a GMPE logic tree for OpenQuake, can can always do it later before running the hazard calculation
+#build_GMPE_LT = False
 #if build_GMPE_LT == True:
 #    GMPE_Logic_Tree_Creator(Run_Name,Domain_in_model) #create the logic tree of GMPEs
 
