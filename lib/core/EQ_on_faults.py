@@ -650,9 +650,9 @@ class EQ_on_faults_from_sr():
                             Total_moment_rate_fault += moment_rate_i
                     
                         #rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
-                    else :
-                        if not picked_bin in empty_bins:
-                            empty_bins.append(picked_bin)
+                else :
+                    if not picked_bin in empty_bins:
+                        empty_bins.append(picked_bin)
                     
                     
                 if number_of_loops > number_of_loops_before+50:

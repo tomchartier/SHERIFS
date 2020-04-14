@@ -9,6 +9,7 @@ Version 1.0
 
 import numpy as np
 import math
+import sys
 from math import radians, cos, sin, asin, sqrt
 
 class Geom_scenar:
@@ -46,6 +47,7 @@ class Geom_scenar:
         faults_lon = []
         faults_lat = []
         index_fault = 0
+        tmp_f_names = []
         for fault in faults_names:
             index_zeros = np.where((faults_lat_ini[index_fault] == 0.)&(faults_lon_ini[index_fault] == 0.))  
             tmp = np.array(faults_lon_ini[index_fault])
@@ -58,6 +60,11 @@ class Geom_scenar:
             depths_fault = np.take(self.Depths,index)
             #calculating the length of the fault
             dist = 0
+            try :
+                depths_fault[0]
+            except:
+                sys.exit("Error with the geometry of fault :"+fault+"\n"
+                +"Please define a geometry for all faults in the model")
             if depths_fault[0] ==  'sf':
                 for i in range(len(faults_lon[index_fault])-1):
                     dist += self.distance(faults_lon[index_fault][i],faults_lat[index_fault][i],faults_lon[index_fault][i+1],faults_lat[index_fault][i+1])
