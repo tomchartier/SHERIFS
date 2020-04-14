@@ -65,7 +65,7 @@ class Sources_Logic_Tree_Creator:
 
     def initialize(self):
         LT_file = str(self.Run_Name)+'/Sources_Logic_tree.xml'
-        LT_log_name  =  str(self.Run_Name)+'/LT_log.txt' 
+        LT_log_name  =  'input/'+str(self.Run_Name)+'/LT_log.txt'
 #        reading_file = False
         if not os.path.exists(LT_file) :
             print('ERROR : Please provide a LT_log.txt file \n See the user amnual for guidelines and the example for file setup example.')
@@ -118,8 +118,22 @@ class Sources_Logic_Tree_Creator:
                 bg_names.remove('\n')
             if '' in bg_names:
                 bg_names.remove('')
+
+            # setting the ration of seismicity that is in the background
+            try:
+                available_bg = read_input.extract_bg_input('input/'+self.Run_Name+'/bg_seismicity.txt')
+            except:
+                print('Error related to the background file \n'+
+                'Please make sure input/run_name/bg_seismicity.txt is correctly set up')
+                    
                 
-            available_bg = read_input.extract_bg_input('input/'+self.Run_Name+'/bg_seismicity.txt')
+            # extracting the complexe multi fault ruptures
+            try:
+                rupture_set = available_sets[scenario_set]
+            except:
+                print('Error related to the rupture scenario set file \n'+
+                'Please make sure input/run_name/ruptures.txt is correctly set up')
+            
             
             # Scenario Set
             sc_names = self.log_LT[8+index_advance].split('\t')
@@ -129,8 +143,15 @@ class Sources_Logic_Tree_Creator:
                 sc_names.remove('\n')
             if '' in sc_names:
                 sc_names.remove('')
+
+            # extracting the complexe multi fault ruptures
+            try:
+                available_sets = read_input.extract_sc_input('input/'+self.Run_Name+'/ruptures.txt')
+            except:
+                print('Error related to the rupture scenario set file \n'+
+                'Please make sure input/run_name/ruptures.txt is correctly set up')
                 
-            available_sets = read_input.extract_sc_input('input/'+self.Run_Name+'/ruptures.txt')
+            
             
             # Build branches
             branches = []
@@ -150,116 +171,6 @@ class Sources_Logic_Tree_Creator:
                                     branches.append(branch_i)
                     index_mfd += 1
                             
-#
-#
-#        if reading_file == False :     # create a new XML file
-#            line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
-#            line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
-#            line+='\txmlns="http://openquake.org/xmlns/nrml/0.4">\n'
-#            line+='\t<logicTree logicTreeID="lt1">\n'
-#
-#            str_all_data = []
-#            id_number = 1
-#            scenario_done = []
-#            scenario_path = []
-#
-#            line+='\t\t<logicTreeBranchingLevel branchingLevelID="bl' + str(id_number) + '">\n'
-#            line+='\t\t\t<logicTreeBranchSet uncertaintyType="sourceModel"\n'
-#            line+='\t\t\t\t\t\t\tbranchSetID="bs' + str(id_number) + '">\n'
-#            for branch in branches :
-#                Model = branch[0]
-#                selected_ScL = branch[1]
-#                dim_used = branch[3][0]
-#
-#                if branch[2] == True :
-#                    str_all_data = 'a' # ' a ' is for 'all data is used'
-#                else :
-#                    str_all_data = 'm' # ' m ' is for 'mechanic specific data only'
-#
-#                b_min = float(branch[5].split('_')[0])
-#                b_max = float(branch[5].split('_')[1])
-#                mfd_hyp = str(branch[4])
-#                BG_hyp = branch[6]
-#                scenario_set = branch[7]
-#
-#                for sample in range(1,self.nb_random_sampling+1):
-#                    print
-#                    print (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
-#                           + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set) + '/'
-#                            + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '/' + 'MFD_'+ str(mfd_hyp) + ' sample : ' + str(sample)) # name of the branch
-#
-#
-#                    path = (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
-#                           + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set) + '/'
-#                            + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '/' + 'MFD_'+ str(mfd_hyp)) # path to the source file
-#
-#                    if not os.path.exists(path):
-#                        os.makedirs(path)
-#
-#
-#                    # setting the ration of seismicity that is in the background
-#                    bg_ratio_file = self.Run_Name + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp) + '/bg_ratio.txt'
-#                    if not os.path.exists(bg_ratio_file):
-#                        BG_r = BG_ratio.BG_ratio(self.Run_Name,Model,BG_hyp,bg_ratio_file)
-#                        bg_ratio = BG_r.bg_ratio
-#                    else :
-#                        bg_ratio = np.genfromtxt(bg_ratio_file)
-#
-#
-#
-#                    File_faults_n_scenarios = (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
-#                           + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set) + '/faults_n_scenarios.txt')
-#                    # file containing the faults included in the model
-#
-#                    ''' If needed, launch the grafical interface to select the faults and scenarios in the model'''
-#                    if not str('model_' + str(Model) +'_sc_' +  str(scenario_set)) in scenario_done :
-#                        f_n_s = faults_n_scenarios.selecFAULT_tk(self.Run_Name,Model,self.File_geom,File_faults_n_scenarios,scenario_set)
-#                        path_scenario_set = (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
-#                           + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set))
-#                        scenario_done.append(str('model_' + str(Model) +'_sc_' +  str(scenario_set)))
-#                        scenario_path.append(path_scenario_set)
-#                    else :
-#                        if not os.path.exists(File_faults_n_scenarios) :
-#                            index = np.where(np.array(scenario_done) == str('model_' + str(Model) +'_sc_' +  str(scenario_set)))[0]
-#                            copyfile(scenario_path[index]+ '/faults_n_scenarios.txt',File_faults_n_scenarios)
-#
-#                    line+=('\t\t\t\t<logicTreeBranch branchID="' + str(Model) + '-' + 'bg_' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
-#                           + str(dim_used) + '-' + str_all_data + '-sc_' +  str(scenario_set) + '-'
-#                            + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '-' + 'MFD_'+ str(mfd_hyp)  + '-s_' + str(sample) + '">\n')
-#
-#                    line+=('\t\t\t\t\t<uncertaintyModel>' + (str(Model) + '/' + 'bg_' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
-#                           + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set) + '/'
-#                            + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '/' + 'sMFD_'+ str(mfd_hyp)) + '/Source_model_'
-#                    + str(sample) + '.xml</uncertaintyModel>\n')
-#
-#                    line+='\t\t\t\t\t<uncertaintyWeight>' + str(1./ float(nb_model_in_LT)) + '</uncertaintyWeight>\n'
-#
-#
-#                    Source_model = Source_Model_Creator(path,self.Run_Name,
-#                                                        Model,self.File_geom,self.File_prop,self.File_bg,self.file_prop_bg,File_faults_n_scenarios,
-#                                                        self.Domain_in_model,sample,self.seed,self.Mmin,selected_ScL,
-#                                                        dim_used,branch[2],b_min,b_max,mfd_hyp,bg_ratio,self.sr_correl,self.size_of_increment,self.fit_quality,
-#                                                        self.Mmax_range,self.calculation_log_file,self.use_host_model,self.host_model_file)  #create the source modele
-#
-#                    self.Domain_in_model = Source_model.Domain_in_the_model
-#
-#                    line+='\t\t\t\t</logicTreeBranch>\n'
-#
-#                    id_number += 1
-#
-#            line+='\t\t\t</logicTreeBranchSet>\n'
-#            line+='\t\t</logicTreeBranchingLevel>\n'
-#            line+='\t</logicTree>\n'
-#            line+='</nrml>\n'
-#
-#            XMLfile=open(LT_file,'w')
-#            XMLfile.write(line)
-#            XMLfile.close()
-#
-#
-#
-#        else : #read the logic tree log file
-#
         str_all_data = []
         id_number = 1
         scenario_done = []
@@ -327,14 +238,6 @@ class Sources_Logic_Tree_Creator:
                     path = (str(self.Run_Name) + '/' + str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
                            + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
                             + str(bvalue)+ '/' + str(mfd_hyp)) # path to the source file
-                    #print path
-#                    bg_ratio_file = self.Run_Name + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp[3::]) + '/bg_ratio.txt'
-#                    if not os.path.exists(bg_ratio_file):
-#                        BG_r = BG_ratio.BG_ratio(self.Run_Name,Model,BG_hyp[3::],bg_ratio_file)
-#                        bg_ratio = BG_r.bg_ratio
-#                    else :
-#                        bg_ratio = np.genfromtxt(bg_ratio_file)
-
 
                     # setting the ration of seismicity that is in the background
                     bg_ratio = available_bg[BG_hyp]
@@ -342,28 +245,6 @@ class Sources_Logic_Tree_Creator:
                     # extracting the complexe multi fault ruptures
                     rupture_set = available_sets[scenario_set]
                     
-#                    File_faults_n_scenarios = (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp[3::]) + '/' + str(selected_ScL) + '_'
-#                           + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set[3::]) + '/faults_n_scenarios.txt')
-#                    # file containing the faults included in the model
-#
-#                    ''' If needed, launch the grafical interface to select the faults and scenarios in the model'''
-#                    if not os.path.exists(File_faults_n_scenarios) :
-#                        if not str('model_' + str(Model) +'_sc_' +  str(scenario_set[3::])) in scenario_done :
-#                            f_n_s = faults_n_scenarios.selecFAULT_tk(self.Run_Name,Model,self.File_geom,File_faults_n_scenarios,scenario_set[3::])
-#                            path_scenario_set = (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp[3::]) + '/' + str(selected_ScL) + '_'
-#                               + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set[3::]))
-#                            scenario_done.append(str('model_' + str(Model) +'_sc_' +  str(scenario_set[3::])))
-#                            scenario_path.append(path_scenario_set)
-#                        else :
-#                            if not os.path.exists(File_faults_n_scenarios) :
-#                                index = np.where(np.array(scenario_done) == str('model_' + str(Model) +'_sc_' +  str(scenario_set[3::])))[0]
-#                                copyfile(scenario_path[index]+ '/faults_n_scenarios.txt',File_faults_n_scenarios)
-#                    else :
-#                        if not str('model_' + str(Model) +'_sc_' +  str(scenario_set[3::])) in scenario_done :
-#                            path_scenario_set = (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp[3::]) + '/' + str(selected_ScL) + '_'
-#                               + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set[3::]))
-#                            scenario_done.append(str('model_' + str(Model) +'_sc_' +  str(scenario_set[3::])))
-#                            scenario_path.append(path_scenario_set)
     
                     if str_all_data == 'a' :
                         use_all_ScL_data = True
@@ -371,12 +252,6 @@ class Sources_Logic_Tree_Creator:
                         use_all_ScL_data = False
                         
                     if rerun_the_files == True :
-#                        Source_model = Source_Model_Creator(path,self.Run_Name,Model,
-#                                                            self.File_geom,self.File_prop,self.File_bg,self.file_prop_bg,File_faults_n_scenarios,self.Domain_in_model,
-#                                                            sample,self.seed,self.Mmin,selected_ScL,dim_used,
-#                                                            use_all_ScL_data,b_min,b_max,mfd_hyp[4::],bg_ratio,self.sr_correl,self.size_of_increment,self.fit_quality,
-#                                                            self.Mmax_range,self.calculation_log_file,self.use_host_model,self.host_model_file)  #create the source model
-#
                         Source_model = Source_Model_Creator(path,self.Run_Name,Model,
                                                             self.File_geom,self.File_prop,self.File_bg,self.file_prop_bg,rupture_set,self.Domain_in_model,
                                                             sample,self.seed,self.Mmin,selected_ScL,dim_used,

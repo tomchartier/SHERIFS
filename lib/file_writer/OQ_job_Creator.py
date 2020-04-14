@@ -30,7 +30,7 @@ class OQ_job_Creator():
         
     def input_data(self):
         
-        info_run_file = str(self.Run_Name)+'/run.info'
+        info_run_file = 'input/'+str(self.Run_Name)+'/run.info'
         if os.path.exists(info_run_file): #the file exist, read it
             
             read_info_file = open(info_run_file,'r')
