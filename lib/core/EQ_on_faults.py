@@ -3,12 +3,9 @@
 """SHERIFS
 Seismic Hazard and Earthquake Rates In Fault Systems
 
-Version 1.1
+Version 1.2
 
 This code is pretty much the core of SHERIFS. It converts the slip-rate into earthquake rates.
-
-changes from V1.0:
-    the random picked of the source on which to spend the sr increment has been change in order to help faults that are not spending there budget fast enough
 
 @author: Thomas Chartier
 """
@@ -318,7 +315,7 @@ class EQ_on_faults_from_sr():
         bin_mag_fault_prop = [ 4., 4.5, 5., 5.5, 6., 6.5, 7., 7.5, 8.]
         fault_prop_inc = self.bg_ratio
         
-        bin_mag_fault_prop.append(9.5)
+        bin_mag_fault_prop.append(10.)
         #print type(fault_prop_inc)
         fault_prop_inc = np.append(np.array(fault_prop_inc),1.)
         
@@ -516,7 +513,7 @@ class EQ_on_faults_from_sr():
                             #all the slip_rate has NOT been spared for the Mmax
                             #does other checks
                             # do we have enough moment to fit the shape?
-                        if moment_rate_left <= (1. - 0.0002)* moment_rate_required:
+                        if moment_rate_left <= (1. - 0.00001)* moment_rate_required:
                             #if not enough momen rate left, stop spending on the larger EQs
                             self.calculation_log_file.write('\n Not enough moment left ')
                             rup_in_bin[-3] = []
@@ -526,7 +523,6 @@ class EQ_on_faults_from_sr():
                         # check if the rates of the antepenultimate bin is not too different of the two other ones
                         if len(rup_in_bin[-1])+ len(rup_in_bin[-2]) == 0 and bool_target_set == False:
                             if moment_rate_in_bin[-3] >= 20. * (moment_rate_in_bin[-2]+moment_rate_in_bin[-1]):
-                                #print '- antepenultimate bin too high -'
                                 self.calculation_log_file.write('\n antepenultimate bin getting too high')
                                 rup_in_bin[-3] = []
                                 bool_target_set = True
@@ -537,8 +533,8 @@ class EQ_on_faults_from_sr():
                             number_of_loops_last_checked = number_of_loops
                             
                             moment_rate_left = Total_moment_faults_rate_init - Total_moment_rate_fault
-                            #rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
-                            rate_Mmax_check = sum(rate_in_model[-3:])/3.
+                            rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
+                            rate_Mmax_check = np.mean(rate_in_model[-3:])
                             
                             moment_rate_required = 0.
                             for index_mag in range(len(bin_mag)-3):#loop on all the magnitude bins except the three last ones
@@ -547,10 +543,8 @@ class EQ_on_faults_from_sr():
                                 #difference between the target at this point and what is already filled in terms of moment rate
                                 moment_rate_required += (mag_to_M0(bin_mag[index_mag]) * target_GR_i_check) - (mag_to_M0(bin_mag[index_mag]) * rate_Mi_check)
                                 
-                                
                             if self.mfd_hyp == 'UCERF_DV_':
                                 rate_Mmax = rate_f_in_model[-1]
-                                
                                 moment_rate_required = 0.
                                 for index_mag in range(len(bin_mag)-3):#loop on all the magnitude bins except the three last ones
                                     rate_Mi_check = rate_in_model[index_mag]
@@ -562,6 +556,9 @@ class EQ_on_faults_from_sr():
                             
                             
                         if print_target_set == True and bool_target_set ==True:
+                            ####
+                            # Setting the target
+                            ####
                             print_target_set = False
                             print('- target set - ')
                             self.calculation_log_file.write('\n- target set - ')
@@ -628,7 +625,7 @@ class EQ_on_faults_from_sr():
                                 if not picked_bin in bin_target_reached:
                                     bin_target_reached.append(picked_bin)
                                    
-                        else :
+                        else : # the absolute target as not been reached yet
 
                             if uniform_spending == True or len(index_fault)==1:
                                 for index in index_fault :
@@ -655,7 +652,7 @@ class EQ_on_faults_from_sr():
                         empty_bins.append(picked_bin)
                     
                     
-                if number_of_loops > number_of_loops_before+50:
+                if number_of_loops > number_of_loops_before+200:
                     number_of_loops_before = number_of_loops
                     #if the fault has no more slip to spare, the scenarios and the fault are remove for the picking in order to have a faster picking
                     for index_mag in range(len(bin_mag)):
