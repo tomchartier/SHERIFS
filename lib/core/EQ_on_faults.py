@@ -217,7 +217,7 @@ class EQ_on_faults_from_sr():
             loop_Mmax+=1
             
             if loop_Mmax == 30 :
-                print('An Mmax that is not corresponding to your model is imposed!! Change it in run.info')
+                print('An Mmax incompatible with the ruptures is imposed!! Change it in run.info or change the rupture.txt file')
                 
         if loop_Mmax >= 3 :
             print('Mmax imposed: '+str(Mmax))#+'   see EQ_on_faults.py for details.')
@@ -245,14 +245,15 @@ class EQ_on_faults_from_sr():
                 'area' : scenario_area[j],'rates':np.zeros(len(bin_mag))}})
                 index_rup.append(i_end+j)
                 
-        log_rup_file = open(self.path +'/Log/ruptures.txt','w')
-        log_rup_file.write('rup_id\tinvolved_faults\n')
-        for i in range(len(rup_rates)):
-            log_rup_file.write(str(rup_rates.get(str(i)).get('rup_id'))+'\t')
-            for j in rup_rates.get(str(i)).get('involved_faults'):
-                log_rup_file.write(str(j)+' ')
-            log_rup_file.write('\n')
-        log_rup_file.close()
+        if str(self.sample) == '1':
+            log_rup_file = open(self.path +'/Log/ruptures.txt','w')
+            log_rup_file.write('rup_id\tinvolved_faults\n')
+            for i in range(len(rup_rates)):
+                log_rup_file.write(str(rup_rates.get(str(i)).get('rup_id'))+'\t')
+                for j in rup_rates.get(str(i)).get('involved_faults'):
+                    log_rup_file.write(str(j)+' ')
+                log_rup_file.write('\n')
+            log_rup_file.close()
         
         
 #        OQ_entry_faults = np.zeros((len(faults_names),len(bin_mag)))

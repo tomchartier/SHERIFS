@@ -144,7 +144,6 @@ class Sources_Logic_Tree_Creator:
                 'Please make sure input/run_name/ruptures.txt is correctly set up')
                 
             
-            
             # Build branches
             branches = []
             for model_i in selected_Model: 
@@ -167,6 +166,11 @@ class Sources_Logic_Tree_Creator:
         id_number = 1
         scenario_done = []
         scenario_path = []
+        
+        last_bg = 'impossible_name'
+        last_set = 'impossible_name'
+        last_model = 'impossible_name'
+        
         # writting the xml file for the logic tree
         line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
         line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
@@ -194,7 +198,7 @@ class Sources_Logic_Tree_Creator:
                 path = (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp[3::]) + '/' + str(selected_ScL) + '_'
                        + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set[3::]) + '/'
                         + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '/' + 'MFD_'+ str(mfd_hyp[4::])) # path to the source file
-                
+                 
                 for sample in range(1,nb_random_sampling+1):
                     rerun_the_files = False
                     if not os.path.exists(path):
@@ -231,12 +235,108 @@ class Sources_Logic_Tree_Creator:
                            + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
                             + str(bvalue)+ '/' + str(mfd_hyp)) # path to the source file
 
-                    # setting the ration of seismicity that is in the background
-                    bg_ratio = available_bg[BG_hyp]
+                    if last_bg != BG_hyp :
+                        # setting the ration of seismicity that is in the background
+                        bg_ratio = available_bg[BG_hyp]
+                        last_bg = BG_hyp
+                    if last_set != scenario_set :
+                        # extracting the complexe multi fault ruptures
+                        rupture_set = available_sets[scenario_set]
+                        last_set = scenario_set
+                        
+                    if last_model != Model :
+                        # Extraction of the fault geometry and properties
+                        last_model = Model
+                        print("Importing fault data")
+                        
+
+                        ########################################################
+                        #Extraction of the faults and scenarios present in the model from the text file
+                        ########################################################
+                        
+                        Prop = np.genfromtxt(self.File_prop,
+                                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+                                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+                        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+                        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+                        index_model = np.where(np.array(Column_model_name) == Model)[0]
+                        Prop = np.take(Prop,index_model)
+                        faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
+                        faults_names = list(faults_names)
+                        
+
+                        index_scenario = 0
+                        scenarios_names = []
+                        if np.size(rupture_set) == 0 :
+                            scenarios_names = []
+                        else :
+                            for index_scenario in range(len(rupture_set)):
+                                faults_in_scenario = rupture_set[index_scenario]
+                                if len(faults_in_scenario) > 1:
+                                    scenario = {}
+                                    faults_done = []
+                                    for i in range(len(faults_in_scenario)):
+                                        if not str(faults_in_scenario[i]).replace('\r','') in faults_done:
+                                            scenario["f_%s" % str(i+1)] = [str(faults_in_scenario[i]).replace('\r','').replace('\t','').replace('\n','')]
+                                            faults_done.append(str(faults_in_scenario[i]).replace('\r','').replace('\t','').replace('\n',''))
+                                    if len(scenario)!=0:
+                                        scenarios_names.append(scenario)
+                                index_scenario += 1
+
+                    ########################################################
+                    #Extraction of the properties and geometries of faults
+                    ########################################################
+                    faults_data = {}
+                    index_fault = 0
+                    #extractions of the geometries of the faults
+                    geom_scenar = Geometry_scenario.Geom_scenar(faults_names,scenarios_names,self.File_geom,Model)
+                    faults_lon = geom_scenar.faults_lon
+                    faults_lat = geom_scenar.faults_lat
                     
-                    # extracting the complexe multi fault ruptures
-                    rupture_set = available_sets[scenario_set]
+                    self.FaultGeometry(Model)  #extract the geometries from the geometry file
                     
+                    for Fault_name in faults_names:
+                        # extract depth
+                        i_d = np.where(np.array(self.Column_Fault_name) == Fault_name)
+                        depth = list(map(lambda i : self.Depths[i],i_d[0]))
+                        #extractions of the properties of the fault
+                        self.FaultProperties(Fault_name,Model)
+                        dip = self.dip
+                        upper_sismo_depth = self.upper_sismo_depth
+                        lower_sismo_depth = self.lower_sismo_depth
+                        width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
+                        length = geom_scenar.length[index_fault] * 1000.
+                        area = length * width * 1000.
+                        
+                        if self.rake> -135. and self.rake< -45:
+                            mecanism = 'N'
+                        elif self.rake< 135. and self.rake> 45:
+                            mecanism = 'R'
+                        else :
+                            mecanism = 'S'
+                            
+                        slip_rate_min = self.slip_rate_min
+                        slip_rate_moy = self.slip_rate_moy
+                        slip_rate_max = self.slip_rate_max
+
+                        faults_data.update({index_fault:{'name':Fault_name,
+                        'dip':dip,
+                        'oriented':self.oriented,
+                        'upper_sismo_depth':upper_sismo_depth,
+                        'lower_sismo_depth':lower_sismo_depth,
+                        'width':width,'length':length,'area':area,
+                        'mecanism':mecanism,'rake':self.rake,
+                        'slip_rate_min':slip_rate_min,
+                        'slip_rate_moy':slip_rate_moy,
+                        'slip_rate_max':slip_rate_max,
+                        'shear_mod':float(self.shear_mod)*10**9,
+                        'domain':self.Domain,
+                        'lon':faults_lon[index_fault],
+                        'lat':faults_lat[index_fault],
+                        'depth':depth}})
+                        index_fault += 1
+    
+    
     
                     if str_all_data == 'a' :
                         use_all_ScL_data = True
@@ -244,12 +344,35 @@ class Sources_Logic_Tree_Creator:
                         use_all_ScL_data = False
                         
                     if rerun_the_files == True :
-                        Source_model = Source_Model_Creator(path,self.Run_Name,Model,
-                                                            self.File_geom,self.File_prop,self.File_bg,self.file_prop_bg,rupture_set,self.Domain_in_model,
-                                                            sample,self.seed,self.Mmin,selected_ScL,dim_used,
-                                                            use_all_ScL_data,b_min,b_max,mfd_hyp[4::],bg_ratio,self.sr_correl,self.size_of_increment,self.fit_quality,
-                                                            self.Mmax_range,self.calculation_log_file,self.use_host_model,self.host_model_file)  #create the source model
-                        
+                        # Create the source model
+                        Source_model = Source_Model_Creator(path,self.Run_Name,
+                                                            Model,
+                                                            self.File_geom,
+                                                            self.File_prop,
+                                                            self.File_bg,
+                                                            self.file_prop_bg,
+                                                            rupture_set,
+                                                            self.Domain_in_model,
+                                                            sample,self.seed,
+                                                            self.Mmin,
+                                                            selected_ScL,
+                                                            dim_used,
+                                                            use_all_ScL_data,
+                                                            b_min,
+                                                            b_max,
+                                                            mfd_hyp[4::],
+                                                            bg_ratio,
+                                                            self.sr_correl,
+                                                            self.size_of_increment,
+                                                            self.fit_quality,
+                                                            self.Mmax_range,
+                                                            self.calculation_log_file,
+                                                            self.use_host_model,
+                                                            self.host_model_file,
+                                                            faults_names,
+                                                            scenarios_names,
+                                                            faults_data,
+                                                            faults_lon,faults_lat)
                         
                         self.Domain_in_model = Source_model.Domain_in_the_model
                     
@@ -265,3 +388,85 @@ class Sources_Logic_Tree_Creator:
         XMLfile.write(line)
         XMLfile.close()
      
+
+    def FaultProperties(self,Name_of_fault,Model):
+        FileName_Prop = self.File_prop
+        Prop = np.genfromtxt(FileName_Prop,
+                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+        index_model = np.where(np.array(Column_model_name) == Model)[0]
+        
+        Prop = np.take(Prop,index_model)
+        index_fault = np.where(np.array(Column_fault_name[index_model[0]:index_model[-1]+1]) == Name_of_fault)
+        Indexfault_final = index_fault[0]
+
+        self.dip = Prop[Indexfault_final][0][2]
+        self.oriented = Prop[Indexfault_final][0][3]
+        self.rake = Prop[Indexfault_final][0][4]
+        self.upper_sismo_depth = Prop[Indexfault_final][0][5]
+        self.lower_sismo_depth = Prop[Indexfault_final][0][6]
+        
+        self.slip_rate_min = Prop[Indexfault_final][0][7]
+        self.slip_rate_moy = Prop[Indexfault_final][0][8]
+        self.slip_rate_max = Prop[Indexfault_final][0][9]
+        self.Domain = Prop[Indexfault_final][0][10]
+        self.shear_mod = Prop[Indexfault_final][0][11]
+
+
+        if self.rake == 'N' :
+            self.rake = -90.00
+        if self.rake == 'S' :
+            self.rake = 00.00
+        if self.rake == 'SS' :
+            self.rake = 00.00
+        if self.rake == 'R' :
+            self.rake = 90.00
+        self.rake = float(self.rake)
+
+        if len(str(self.dip)) == 0:
+            print('\nError!!! please verify your input file for fault parameters\n')
+
+
+    def FaultGeometry(self,Model):
+        NomFichier_InfosZonage = self.File_geom
+        InfosZonage = np.genfromtxt(NomFichier_InfosZonage,dtype=[('U100'),('U100'),('f8'),('f8'),('U100')],skip_header = 1)
+        Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
+        index_model = np.where(np.array(Column_model_name) == Model)
+        self.Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
+        self.Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
+        self.Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
+        self.Depths = list(map(lambda i : InfosZonage[i][4],index_model[0]))
+
+        ZoneSelec = self.Column_Fault_name
+        DicoZone = dict([(k,ZoneSelec.count(k)) for k in set(ZoneSelec)])
+        Longitudes = []
+        Latitudes = []
+        Depths = []
+        Column_Fault_name = []
+        for cle in DicoZone.keys():
+            indices_ZonesSelec = np.where(np.array(self.Column_Fault_name) == cle)
+            ColonneNomZone_inter = np.take(self.Column_Fault_name,indices_ZonesSelec)
+            Longitudes_inter = np.take(self.Longitudes,indices_ZonesSelec)
+            Latitudes_inter = np.take(self.Latitudes,indices_ZonesSelec)
+            depth_inter = np.take(self.Depths,indices_ZonesSelec)
+
+            Longitudes_inter = Longitudes_inter[0].tolist()
+            Latitudes_inter = Latitudes_inter[0].tolist()
+            depth_inter = depth_inter[0].tolist()
+            ColonneNomZone_inter = ColonneNomZone_inter[0].tolist()
+            compt = 0
+            for xx,yy,nn,dd in zip(Longitudes_inter,Latitudes_inter,ColonneNomZone_inter,depth_inter):
+                compt+=1
+                Longitudes.append(xx)
+                Latitudes.append(yy)
+                Depths.append(dd)
+                Column_Fault_name.append(nn)
+
+        self.Longitudes =Longitudes
+        self.Latitudes =Latitudes
+        self.Depths =Depths
+        self.Column_Fault_name = Column_Fault_name
+        self.Nb_data_per_zone = dict([(k,self.Column_Fault_name.count(k)) for k in set(self.Column_Fault_name)])
+        self.Fault_Names = sorted(self.Nb_data_per_zone.keys())
