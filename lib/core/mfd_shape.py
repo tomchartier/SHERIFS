@@ -28,7 +28,8 @@ def user_defined(mfd_param,bin_mag):
 
 def double_GR(mfd_param,bin_mag):
     b_value = mfd_param['b_value']
-    Mrupt = mfd_param['Mrupt']
+    #Mrupt = mfd_param['Mrupt']
+    Mrupt = 6.5
     Beta =  b_value * np.log(10)
     print('use of the MFD "double GR" with Mrupt = '+str(Mrupt))
     p_MFD = [] #probability distribution
