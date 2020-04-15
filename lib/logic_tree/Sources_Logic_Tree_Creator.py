@@ -126,14 +126,6 @@ class Sources_Logic_Tree_Creator:
                 print('Error related to the background file \n'+
                 'Please make sure input/run_name/bg_seismicity.txt is correctly set up')
                     
-                
-            # extracting the complexe multi fault ruptures
-            try:
-                rupture_set = available_sets[scenario_set]
-            except:
-                print('Error related to the rupture scenario set file \n'+
-                'Please make sure input/run_name/ruptures.txt is correctly set up')
-            
             
             # Scenario Set
             sc_names = self.log_LT[8+index_advance].split('\t')
