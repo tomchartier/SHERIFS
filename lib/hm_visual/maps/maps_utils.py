@@ -8,6 +8,9 @@ Version 1.2
 """
 import numpy as np
 
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
+
 def calculate_initial_compass_bearing(pointA, pointB):
     """
     Calculates the bearing between two points.

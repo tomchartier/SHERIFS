@@ -151,7 +151,7 @@ def do_the_plots(mfd_X,mega_bining_in_mag,xmin,xmax,ymin,ymax,Run_name,
 def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_complet_list, ScL_list, Model_list,BG_hyp_list,
              dimension_used_list,faults_name_list,sample_list,b_value_list,MFD_type_list,m_Mmax,
              mega_bining_in_mag,a_s_model,b_sample,sm_sample,Mt_sample,plot_mfd,plot_as_rep,plot_Mmax,xmin,xmax,ymin,ymax,
-             file_faults_data,File_bg,File_geom,sub_area_file):
+             file_faults_data,File_bg,File_geom,sub_area_file,File_prop):
     #extract the faults data
     faults_data = np.genfromtxt(file_faults_data,dtype=[('U100000'),('U100000'),('U100000'),('f8'),('f8'),('f8'),('f8')]
                                                              ,delimiter = '\t',skip_header = 1)
@@ -180,23 +180,36 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
             i_mfd += 1
             
         
-        input_faults_file = (str(Run_name) + '/' + str(mega_MFD[i_mfd][3]) + '/' + 'bg_' + str(mega_MFD[i_mfd][4]) 
-        + '/' + str(mega_MFD[i_mfd][0]) + '_' + str(mega_MFD[i_mfd][1]) + '_' + str(mega_MFD[i_mfd][2]) 
-        + '/sc_' + str(mega_MFD[i_mfd][8]) + '/faults_n_scenarios.txt')
+#        input_faults_file = (str(Run_name) + '/' + str(mega_MFD[i_mfd][3]) + '/' + 'bg_' + str(mega_MFD[i_mfd][4])
+#        + '/' + str(mega_MFD[i_mfd][0]) + '_' + str(mega_MFD[i_mfd][1]) + '_' + str(mega_MFD[i_mfd][2])
+#        + '/sc_' + str(mega_MFD[i_mfd][8]) + '/faults_n_scenarios.txt')
+#
+#
+#        fault_names = np.genfromtxt(input_faults_file,dtype=[('U1000000')],delimiter = '\n')
+
+#        #extract from the text file
+#        if np.size(fault_names) == 1 :
+#            list_fault_names = str(fault_names)[2::]
+#            list_fault_names = list_fault_names[:-3]
+#            list_fault_names = list_fault_names.split(' ')
+#        else :
+#            list_fault_names = str(np.array(fault_names[0]))[2::]
+#            list_fault_names = list_fault_names[:-3]
+#            list_fault_names = list_fault_names.split(' ') #adapt format to be usable (there is probably a better way to do that)
         
+        Prop = np.genfromtxt(File_prop,
+                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+        index_model = np.where(np.array(Column_model_name) == str(mega_MFD[i_mfd][3]))[0]
+        Prop = np.take(Prop,index_model)
+        faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
+        faults_names = list(faults_names)
         
-        fault_names = np.genfromtxt(input_faults_file,dtype=[('U1000000')],delimiter = '\n') #extract from the text file
-        if np.size(fault_names) == 1 :
-            list_fault_names = str(fault_names)[2::]
-            list_fault_names = list_fault_names[:-3]
-            list_fault_names = list_fault_names.split(' ')
-        else :
-            list_fault_names = str(np.array(fault_names[0]))[2::]
-            list_fault_names = list_fault_names[:-3]
-            list_fault_names = list_fault_names.split(' ') #adapt format to be usable (there is probably a better way to do that)
         
             
-        for fault_name in list_fault_names:
+        for fault_name in faults_names:
             plot_for_all_faults = True
             if fault_name in data_fault_name or plot_for_all_faults == True:
                 label_for_boxplot = []
@@ -346,7 +359,7 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
         file_for_comparison = open(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/file_for_comparison.txt','w')
         for MFD_type in MFD_type_list :  
             for scenario in scenarios_names_list : 
-                for fault_name in list_fault_names:
+                for fault_name in faults_names:
                     if fault_name in data_fault_name:
                         label_for_boxplot = []
                         #data_for_boxplot = []
@@ -459,7 +472,7 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
     for model in Model_list:
         if len(BG_hyp_list) > 1:
             for BG_hyp in BG_hyp_list : 
-                for fault_name in list_fault_names:
+                for fault_name in faults_names:
                     if fault_name in data_fault_name:
                         label_for_boxplot = []
                         #data_for_boxplot = []
@@ -609,7 +622,7 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
         fault_names = []
         Lon = []
         Lat = []
-        for fault_name in list_fault_names:
+        for fault_name in faults_names:
             fault_names.append(fault_name)
             index_fault = np.where(np.array(Column_Fault_name)== fault_name)[0]
             Lon.append(np.take(Longitudes,index_fault))
@@ -838,7 +851,7 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
     for model in Model_list:
         #print(model,'median moment mag')
         file_Mmmr = open(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/'+model+'/Mmmr_' + model +'.txt','w')  
-        for fault_name in list_fault_names:
+        for fault_name in faults_names:
             file_rates = str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/' + model + '/' + fault_name + '/all_'+fault_name +'.txt'     
                                     
             rates_data = np.genfromtxt(file_rates,dtype=[('f8'),('f8'),('f8'),('f8'),('f8')])
@@ -870,7 +883,7 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
             for scenario in scenarios_names_list : 
                 #print('\t','\t',scenario)
                 file_Mmmr = open(str(Run_name) + '/analysis/figures/rupture_rate_for_each_fault_cum/'+model+'/Mmmr_' + model +'_'+MFD_type+'_'+scenario+'.txt','w')  
-                for fault_name in list_fault_names:
+                for fault_name in faults_names:
                     label_for_boxplot = []
                     #data_for_boxplot = []
                     data_for_boxplot_cum = []

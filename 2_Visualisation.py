@@ -84,22 +84,22 @@ class checking_the_input():
     def initialize(self): 
         print(self.Run_name)
         # booleans to know which figure to generat
-        do_catalog = True
+        do_catalog = False
         #If it's the first time you run it, you have to do the catalog! Then you can save time and not run it again
         
-        plot_mfd = True
+        plot_mfd = False
         
-        plot_mfd_detailled = True
+        plot_mfd_detailled = False
         
-        plot_Mmax = True
+        plot_Mmax = False
         
-        plot_as_rep = True
+        plot_as_rep = False
         
-        plot_rup_freq = True
+        plot_rup_freq = False
         
-        plot_sr_use = True
+        plot_sr_use = False
         
-        plot_moment_rate = True
+        plot_moment_rate = False
         
         visual_FtF = True   # !!! can take a very long time if there are a lot of FtF
         
@@ -289,7 +289,7 @@ class checking_the_input():
             Participation_rates.plt_EQ_rates(self.Run_name,mega_MFD,df_mega_MFD,scenarios_names_list,ScL_complet_list,
                                          ScL_list, Model_list,BG_hyp_list,dimension_used_list,faults_name_list,sample_list,b_value_list,MFD_type_list,m_Mmax,
                                          mega_bining_in_mag,a_s_model,b_sample,sm_sample,Mt_sample,plot_mfd,plot_as_rep,plot_Mmax,xmin,xmax,ymin,ymax,
-                                         self.file_faults_data,self.File_bg,self.File_geom,self.sub_area_file)
+                                         self.file_faults_data,self.File_bg,self.File_geom,self.sub_area_file,self.FileName_Prop )
 #            #extract the faults data
 
         del mega_MFD,df_mega_MFD
