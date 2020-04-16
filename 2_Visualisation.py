@@ -84,22 +84,22 @@ class checking_the_input():
     def initialize(self): 
         print(self.Run_name)
         # booleans to know which figure to generat
-        do_catalog = False
+        do_catalog = True
         #If it's the first time you run it, you have to do the catalog! Then you can save time and not run it again
         
-        plot_mfd = False
+        plot_mfd = True
         
-        plot_mfd_detailled = False
+        plot_mfd_detailled = True
         
-        plot_Mmax = False
+        plot_Mmax = True
         
-        plot_as_rep = False
+        plot_as_rep = True
         
-        plot_rup_freq = False
+        plot_rup_freq = True
         
-        plot_sr_use = False
+        plot_sr_use = True
         
-        plot_moment_rate = False
+        plot_moment_rate = True
         
         visual_FtF = True   # !!! can take a very long time if there are a lot of FtF
         

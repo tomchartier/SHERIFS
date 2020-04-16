@@ -171,12 +171,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                         
                         if len(Lon_bg) != 0 : #draw the background zone
                             maps_utils.draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.2, 0.5, 'k')
-                        print(scenario_set)
-                        print(sources_Mmax)
-                        print(index_Mmax_0,index_scenario)
                         Mmax = sources_Mmax[index_Mmax_0+index_scenario]
-                        print(Mmax)
-                        print()
                         #for each fault  
                         
                         for index_source in range(nb_sources):
