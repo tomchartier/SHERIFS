@@ -242,29 +242,7 @@ class Sources_Logic_Tree_Creator:
                     if last_set != scenario_set :
                         # extracting the complexe multi fault ruptures
                         rupture_set = available_sets[scenario_set]
-                        last_set = scenario_set
                         
-                    if last_model != Model :
-                        # Extraction of the fault geometry and properties
-                        last_model = Model
-                        print("Importing fault data")
-                        
-
-                        ########################################################
-                        #Extraction of the faults and scenarios present in the model from the text file
-                        ########################################################
-                        
-                        Prop = np.genfromtxt(self.File_prop,
-                                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
-                                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
-                        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
-                        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
-                        index_model = np.where(np.array(Column_model_name) == Model)[0]
-                        Prop = np.take(Prop,index_model)
-                        faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
-                        faults_names = list(faults_names)
-                        
-
                         index_scenario = 0
                         scenarios_names = []
                         if np.size(rupture_set) == 0 :
@@ -282,6 +260,26 @@ class Sources_Logic_Tree_Creator:
                                     if len(scenario)!=0:
                                         scenarios_names.append(scenario)
                                 index_scenario += 1
+                                
+                        last_set = scenario_set
+                        
+                    if last_model != Model :
+                        # Extraction of the fault geometry and properties
+                        last_model = Model
+                        print("Importing fault data")
+
+                        #Extraction of the faults and scenarios present in the model from the text file
+                        Prop = np.genfromtxt(self.File_prop,
+                                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+                                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+                        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+                        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+                        index_model = np.where(np.array(Column_model_name) == Model)[0]
+                        Prop = np.take(Prop,index_model)
+                        faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
+                        faults_names = list(faults_names)
+                        
+
 
                     ########################################################
                     #Extraction of the properties and geometries of faults

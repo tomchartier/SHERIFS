@@ -8,18 +8,26 @@ Version 1.0
 @author: thomas
 """
 
+
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir)
+
 import xml.etree.ElementTree as ET
 import numpy as np
 import math
-import os
 import pylab as pl
-
 from mpl_toolkits.basemap import Basemap
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
-import Read_file
-import maps.maps_utils, maps.geom
+import Read_file as Read_file
+import maps.maps_utils as maps_utils
+import maps.geom as geom
+
+
+import utils.read_input as read_input
 
 
 def map_faults(Run_name,Model_list,scenarios_names_list,
@@ -28,6 +36,9 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                llcrnrlon,llcrnrlat,urcrnrlon,urcrnrlat,File_bg,
                FileName_Prop,plot_sr_use,visual_FtF,sub_area_file):
     nb_on_maps = False
+    
+    #exctracting all the scenario set information
+    available_sets = read_input.extract_sc_input('input/'+Run_name+'/ruptures.txt')
     
     for Model in Model_list :
         for scenario_set in scenarios_names_list:
@@ -49,11 +60,13 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
             ########################################################
             #Extraction of the faults and scenarios present in the model from the text file
             ########################################################
-            File_faults_n_scenarios = (str(Run_name)  + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp_list[0]) + '/' 
-                            + str(ScL_complet_list[0]) + '/sc_' +  str(scenario_set) 
-                            + '/faults_n_scenarios.txt') 
-            Infosfaults_n_scenarios = np.genfromtxt(File_faults_n_scenarios,dtype=[('U1000')],delimiter = '\t')
+#            File_faults_n_scenarios = (str(Run_name)  + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp_list[0]) + '/'
+#                            + str(ScL_complet_list[0]) + '/sc_' +  str(scenario_set)
+#                            + '/faults_n_scenarios.txt')
+#            Infosfaults_n_scenarios = np.genfromtxt(File_faults_n_scenarios,dtype=[('U1000')],delimiter = '\t')
     
+            # extracting the complexe multi fault ruptures
+            rupture_set = available_sets['sc_'+scenario_set]
                                  
             ############
             ##    map the faults
@@ -142,10 +155,14 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     if '{' in str(sources_names[i]):
                         index_Mmax_0=i
                     i+=1
-                if not np.size(Infosfaults_n_scenarios) == 1 :
-                    for index_scenario in range(len(Infosfaults_n_scenarios)-1):
-                        line_scenario = str(Infosfaults_n_scenarios[index_scenario+1][0])
-                        faults_in_scenario = list(line_scenario.split(' '))
+#                if not np.size(Infosfaults_n_scenarios) == 1 :
+#                    for index_scenario in range(len(Infosfaults_n_scenarios)-1):
+#                        line_scenario = str(Infosfaults_n_scenarios[index_scenario+1][0])
+                if not rupture_set == [] :
+                    for index_scenario in range(len(rupture_set)):
+                        #line_scenario = str(Infosfaults_n_scenarios[index_scenario+1][0])
+                        #faults_in_scenario = list(line_scenario.split(' '))
+                        faults_in_scenario = rupture_set[index_scenario]
                         m = Basemap(projection='mill',
                                       llcrnrlon=llcrnrlon, 
                                       llcrnrlat=llcrnrlat, 
@@ -154,8 +171,12 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                         
                         if len(Lon_bg) != 0 : #draw the background zone
                             maps_utils.draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.2, 0.5, 'k')
-                            
+                        print(scenario_set)
+                        print(sources_Mmax)
+                        print(index_Mmax_0,index_scenario)
                         Mmax = sources_Mmax[index_Mmax_0+index_scenario]
+                        print(Mmax)
+                        print()
                         #for each fault  
                         
                         for index_source in range(nb_sources):
@@ -1155,57 +1176,57 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
             pl.close()
                     
 
-def map_faults_2(Run_name,Model_name,list_FtF,file_fault_geom,Distance_criteria,
-               llcrnrlon,llcrnrlat,urcrnrlon,urcrnrlat): # without the XML
-    
-    if not os.path.exists('../'+Run_name+'/prerun_analysis/'+Model_name+'/FtF_rutpures_'+str(Distance_criteria)):
-        os.makedirs('../'+Run_name+'/prerun_analysis/'+Model_name+'/FtF_rutpures_'+str(Distance_criteria))
-    file_names = []
-    InfosZonage = np.genfromtxt(file_fault_geom,dtype=[('U100'),('U100'),('f8'),('f8')],skip_header = 1)
-    Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
-    index_model = np.where(np.array(Column_model_name) == Model_name)
-    Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
-    
-    Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
-    Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
-    
-    print('creating the maps of each FtF')
-    print()
-    index_FtF = 1
-    for FtF in list_FtF:
-        
-        plt.figure(figsize=(12,6))
-        m = Basemap(projection='mill',
-                      llcrnrlon=llcrnrlon, 
-                      llcrnrlat=llcrnrlat, 
-                      urcrnrlon=urcrnrlon, 
-                      urcrnrlat=urcrnrlat,resolution='l')
-        m.drawcoastlines(linewidth=0.1)
-        #m.fillcontinents(color='grey',lake_color='w',alpha = 0.1, zorder=1)
-        x, y = m(Longitudes,Latitudes)
-        m.scatter(x ,y ,s=0.5,marker="o",color='k',alpha=0.2, zorder=1)
-        for fault in FtF:
-            index = np.where(np.array(Column_Fault_name) == fault)
-            Longitudes_fault = np.take(Longitudes,index)[0]
-            Latitudes_fault = np.take(Latitudes,index)[0]
-            
-            x_fault, y_fault = m(Longitudes_fault, Latitudes_fault)
-            
-            m.plot(x_fault, y_fault,  linewidth=1.5,color='r', zorder=2)
-            
-        title = str()
-        i = 0
-        for fault in FtF :
-            title += ' ' + str(fault)
-            i += 1
-            if i == 6 :
-                title += '\n'
-                i = 0
-        plt.title(title)
-        plt.savefig('../'+Run_name+'/prerun_analysis/'+Model_name+'/FtF_rutpures_'+str(Distance_criteria)+'/'+str(index_FtF)+'.png',dpi=180)
-        file_names.append('../'+Run_name+'/prerun_analysis/'+Model_name+'/FtF_rutpures_'+str(Distance_criteria)+'/'+str(index_FtF)+'.png')
-        print(index_FtF, 'out of ', len(list_FtF))
-        index_FtF +=1
+#def map_faults_2(Run_name,Model_name,list_FtF,file_fault_geom,Distance_criteria,
+#               llcrnrlon,llcrnrlat,urcrnrlon,urcrnrlat): # without the XML
+#
+#    if not os.path.exists('../'+Run_name+'/prerun_analysis/'+Model_name+'/FtF_rutpures_'+str(Distance_criteria)):
+#        os.makedirs('../'+Run_name+'/prerun_analysis/'+Model_name+'/FtF_rutpures_'+str(Distance_criteria))
+#    file_names = []
+#    InfosZonage = np.genfromtxt(file_fault_geom,dtype=[('U100'),('U100'),('f8'),('f8')],skip_header = 1)
+#    Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
+#    index_model = np.where(np.array(Column_model_name) == Model_name)
+#    Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
+#
+#    Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
+#    Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
+#
+#    print('creating the maps of each FtF')
+#    print()
+#    index_FtF = 1
+#    for FtF in list_FtF:
+#
+#        plt.figure(figsize=(12,6))
+#        m = Basemap(projection='mill',
+#                      llcrnrlon=llcrnrlon,
+#                      llcrnrlat=llcrnrlat,
+#                      urcrnrlon=urcrnrlon,
+#                      urcrnrlat=urcrnrlat,resolution='l')
+#        m.drawcoastlines(linewidth=0.1)
+#        #m.fillcontinents(color='grey',lake_color='w',alpha = 0.1, zorder=1)
+#        x, y = m(Longitudes,Latitudes)
+#        m.scatter(x ,y ,s=0.5,marker="o",color='k',alpha=0.2, zorder=1)
+#        for fault in FtF:
+#            index = np.where(np.array(Column_Fault_name) == fault)
+#            Longitudes_fault = np.take(Longitudes,index)[0]
+#            Latitudes_fault = np.take(Latitudes,index)[0]
+#
+#            x_fault, y_fault = m(Longitudes_fault, Latitudes_fault)
+#
+#            m.plot(x_fault, y_fault,  linewidth=1.5,color='r', zorder=2)
+#
+#        title = str()
+#        i = 0
+#        for fault in FtF :
+#            title += ' ' + str(fault)
+#            i += 1
+#            if i == 6 :
+#                title += '\n'
+#                i = 0
+#        plt.title(title)
+#        plt.savefig('../'+Run_name+'/prerun_analysis/'+Model_name+'/FtF_rutpures_'+str(Distance_criteria)+'/'+str(index_FtF)+'.png',dpi=180)
+#        file_names.append('../'+Run_name+'/prerun_analysis/'+Model_name+'/FtF_rutpures_'+str(Distance_criteria)+'/'+str(index_FtF)+'.png')
+#        print(index_FtF, 'out of ', len(list_FtF))
+#        index_FtF +=1
         
 
    
