@@ -11,12 +11,12 @@ number of dsr to spend : 1660.0
 - target set - 
 75%
 90%
-ratio between the target and the shape of the model : 0.98
+ratio between the target and the shape of the model : 0.99
 ratio of NMS : 2
 
 Running logic tree branch:
 Example_Model-bg_BG_1-WC1994-A-m-sc_Set_1-bmin_0.95_bmax_1.05-MFD_GR-s_2
-number of dsr to spend : 1729.0
+number of dsr to spend : 1590.0
 
 1%
 25%
@@ -26,12 +26,12 @@ number of dsr to spend : 1729.0
 75%
 90%
 -target filled-
-ratio between the target and the shape of the model : 0.98
-ratio of NMS : 4
+ratio between the target and the shape of the model : 0.99
+ratio of NMS : 1
 
 Running logic tree branch:
 Example_Model-bg_BG_1-WC1994-A-m-sc_Set_1-bmin_0.95_bmax_1.05-MFD_GR-s_3
-number of dsr to spend : 1747.0
+number of dsr to spend : 1575.0
 
 1%
 25%
@@ -40,8 +40,7 @@ number of dsr to spend : 1747.0
 - target set - 
 75%
 90%
--target filled-
-ratio between the target and the shape of the model : 1.0
+ratio between the target and the shape of the model : 0.99
 ratio of NMS : 1
 
 Running logic tree branch:
@@ -50,31 +49,32 @@ number of dsr to spend : 1660.0
 
 1%
 25%
-50%
  Not enough moment left 
 - target set - 
+50%
 75%
 90%
 ratio between the target and the shape of the model : 0.99
-ratio of NMS : 1
+ratio of NMS : 4
 
 Running logic tree branch:
 Example_Model-bg_BG_1-WC1994-A-m-sc_Set_2-bmin_0.95_bmax_1.05-MFD_GR-s_2
-number of dsr to spend : 1738.0
+number of dsr to spend : 1624.0
 
 1%
 25%
-50%
  Not enough moment left 
 - target set - 
+50%
 75%
 90%
-ratio between the target and the shape of the model : 0.99
-ratio of NMS : 3
+-target filled-
+ratio between the target and the shape of the model : 0.98
+ratio of NMS : 9
 
 Running logic tree branch:
 Example_Model-bg_BG_1-WC1994-A-m-sc_Set_2-bmin_0.95_bmax_1.05-MFD_GR-s_3
-number of dsr to spend : 1734.0
+number of dsr to spend : 1689.0
 
 1%
 25%
@@ -83,5 +83,6 @@ number of dsr to spend : 1734.0
 50%
 75%
 90%
+-target filled-
 ratio between the target and the shape of the model : 0.99
-ratio of NMS : 1
+ratio of NMS : 5

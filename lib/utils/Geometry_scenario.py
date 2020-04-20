@@ -13,9 +13,9 @@ import sys
 from math import radians, cos, sin, asin, sqrt
 
 class Geom_scenar:
-    def __init__(self,faults_names,scenarios,File_geom,Model_name):
+    def __init__(self,faults_names,File_geom,Model_name):
         self.faults_names = faults_names
-        self.scenarios = scenarios
+        #self.scenarios = scenarios
         self.File_geom = File_geom
         self.Model_name = Model_name
         

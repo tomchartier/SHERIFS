@@ -58,7 +58,7 @@ class checking_the_input():
         self.sub_area_file = 'data/sub_areas.txt'
         self.end_year_of_catalog = 2009
 
-        self.llcrnrlon=21.8 
+        self.llcrnrlon=21.6
         self.llcrnrlat=38.12
         self.urcrnrlon=22.5
         self.urcrnrlat=38.5
@@ -321,7 +321,7 @@ class checking_the_input():
            ScL_complet_list, BG_hyp_list,
            sample_list,b_value_list,MFD_type_list,
            self.llcrnrlon,self.llcrnrlat,self.urcrnrlon,self.urcrnrlat,
-           self.File_bg,self.FileName_Prop,plot_sr_use,visual_FtF,self.sub_area_file)
+           self.File_bg,self.FileName_Prop,self.File_geom ,plot_sr_use,visual_FtF,self.sub_area_file)
         print('\nTime to plot the different FtF ruptures : ' + str(round(time.time() - time_i,2)) +' s.\n')
            
         
