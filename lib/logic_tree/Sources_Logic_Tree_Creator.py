@@ -280,59 +280,58 @@ class Sources_Logic_Tree_Creator:
                         faults_names = list(faults_names)
                         
 
-
-                    ########################################################
-                    #Extraction of the properties and geometries of faults
-                    ########################################################
-                    faults_data = {}
-                    index_fault = 0
-                    #extractions of the geometries of the faults
-                    geom_scenar = Geometry_scenario.Geom_scenar(faults_names,scenarios_names,self.File_geom,Model)
-                    faults_lon = geom_scenar.faults_lon
-                    faults_lat = geom_scenar.faults_lat
-                    
-                    self.FaultGeometry(Model)  #extract the geometries from the geometry file
-                    
-                    for Fault_name in faults_names:
-                        # extract depth
-                        i_d = np.where(np.array(self.Column_Fault_name) == Fault_name)
-                        depth = list(map(lambda i : self.Depths[i],i_d[0]))
-                        #extractions of the properties of the fault
-                        self.FaultProperties(Fault_name,Model)
-                        dip = self.dip
-                        upper_sismo_depth = self.upper_sismo_depth
-                        lower_sismo_depth = self.lower_sismo_depth
-                        width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
-                        length = geom_scenar.length[index_fault] * 1000.
-                        area = length * width * 1000.
+                        ########################################################
+                        #Extraction of the properties and geometries of faults
+                        ########################################################
+                        faults_data = {}
+                        index_fault = 0
+                        #extractions of the geometries of the faults
+                        geom_scenar = Geometry_scenario.Geom_scenar(faults_names,self.File_geom,Model)
+                        faults_lon = geom_scenar.faults_lon
+                        faults_lat = geom_scenar.faults_lat
                         
-                        if self.rake> -135. and self.rake< -45:
-                            mecanism = 'N'
-                        elif self.rake< 135. and self.rake> 45:
-                            mecanism = 'R'
-                        else :
-                            mecanism = 'S'
+                        self.FaultGeometry(Model)  #extract the geometries from the geometry file
+                        
+                        for Fault_name in faults_names:
+                            # extract depth
+                            i_d = np.where(np.array(self.Column_Fault_name) == Fault_name)
+                            depth = list(map(lambda i : self.Depths[i],i_d[0]))
+                            #extractions of the properties of the fault
+                            self.FaultProperties(Fault_name,Model)
+                            dip = self.dip
+                            upper_sismo_depth = self.upper_sismo_depth
+                            lower_sismo_depth = self.lower_sismo_depth
+                            width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
+                            length = geom_scenar.length[index_fault] * 1000.
+                            area = length * width * 1000.
                             
-                        slip_rate_min = self.slip_rate_min
-                        slip_rate_moy = self.slip_rate_moy
-                        slip_rate_max = self.slip_rate_max
+                            if self.rake> -135. and self.rake< -45:
+                                mecanism = 'N'
+                            elif self.rake< 135. and self.rake> 45:
+                                mecanism = 'R'
+                            else :
+                                mecanism = 'S'
+                                
+                            slip_rate_min = self.slip_rate_min
+                            slip_rate_moy = self.slip_rate_moy
+                            slip_rate_max = self.slip_rate_max
 
-                        faults_data.update({index_fault:{'name':Fault_name,
-                        'dip':dip,
-                        'oriented':self.oriented,
-                        'upper_sismo_depth':upper_sismo_depth,
-                        'lower_sismo_depth':lower_sismo_depth,
-                        'width':width,'length':length,'area':area,
-                        'mecanism':mecanism,'rake':self.rake,
-                        'slip_rate_min':slip_rate_min,
-                        'slip_rate_moy':slip_rate_moy,
-                        'slip_rate_max':slip_rate_max,
-                        'shear_mod':float(self.shear_mod)*10**9,
-                        'domain':self.Domain,
-                        'lon':faults_lon[index_fault],
-                        'lat':faults_lat[index_fault],
-                        'depth':depth}})
-                        index_fault += 1
+                            faults_data.update({index_fault:{'name':Fault_name,
+                            'dip':dip,
+                            'oriented':self.oriented,
+                            'upper_sismo_depth':upper_sismo_depth,
+                            'lower_sismo_depth':lower_sismo_depth,
+                            'width':width,'length':length,'area':area,
+                            'mecanism':mecanism,'rake':self.rake,
+                            'slip_rate_min':slip_rate_min,
+                            'slip_rate_moy':slip_rate_moy,
+                            'slip_rate_max':slip_rate_max,
+                            'shear_mod':float(self.shear_mod)*10**9,
+                            'domain':self.Domain,
+                            'lon':faults_lon[index_fault],
+                            'lat':faults_lat[index_fault],
+                            'depth':depth}})
+                            index_fault += 1
     
     
     
