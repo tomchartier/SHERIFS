@@ -11,12 +11,10 @@ import numpy as np
 def get_new_target(number_of_loops,moment_rate_in_bin,p_MFD_MO,target_moment_per_bin,bin_mag,empty_bins,bin_target_reached,rup_in_bin):
     if number_of_loops > 200:
         shape_mfd_i = (moment_rate_in_bin)/sum(moment_rate_in_bin)
-        target_i = p_MFD_MO * (((target_moment_per_bin-moment_rate_in_bin) / (target_moment_per_bin))/len(bin_mag))#**3   # initial target - moment already present in the bin
     else :
         shape_mfd_i = list(p_MFD_MO)
-        shape_mfd_i = (moment_rate_in_bin)/sum(moment_rate_in_bin)
-        target_i = p_MFD_MO
-        target_i = p_MFD_MO * (((target_moment_per_bin-moment_rate_in_bin) / (target_moment_per_bin))/len(bin_mag))#**3   # initial target - moment already present in the bin
+        
+    target_i = p_MFD_MO * (((target_moment_per_bin-moment_rate_in_bin) / (target_moment_per_bin))/len(bin_mag))#**3   # initial target - moment already present in the bin
    
 
     target_i = (target_i)/sum(target_i)# normalize the target to use it as a probability distribution

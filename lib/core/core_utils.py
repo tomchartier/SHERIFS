@@ -7,29 +7,35 @@ Version 1.2
 @author: Thomas Chartier
 """
 import numpy as np
+import rates
  
-def progress(rate_in_model,model_MFD,calculation_log,ratio_done,print_percent):
+def progress(model_MFD,calculation_log,ratio_done,print_percent,rup_rates,fault_prop,bin_mag):
     if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
+        rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
         print("1%")
         calculation_log.write("\n1%")
         model_MFD.append(rate_in_model)
         print_percent = False
     if ratio_done > 0.25 and ratio_done <= 0.5 and print_percent == False :
+        rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
         print( "25%")
         calculation_log.write("\n25%")
         model_MFD.append(rate_in_model)
         print_percent = True
     if ratio_done > 0.5 and ratio_done <= 0.75 and print_percent == True :
+        rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
         print( "50%")
         calculation_log.write("\n50%")
         model_MFD.append(rate_in_model)
         print_percent = False
     if ratio_done > 0.75 and ratio_done <= 0.9 and print_percent == False :
+        rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
         print( "75%")
         calculation_log.write("\n75%")
         model_MFD.append(rate_in_model)
         print_percent = True
     if ratio_done > 0.9 and ratio_done <= 0.9999 and print_percent == True :
+        rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
         print( "90%")
         calculation_log.write("\n90%")
         model_MFD.append(rate_in_model)
