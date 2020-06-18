@@ -256,49 +256,6 @@ class EQ_on_faults_from_sr():
             log_rup_file.close()
         
         
-#        OQ_entry_faults = np.zeros((len(faults_names),len(bin_mag)))
-#
-#        if np.size(scenarios_names) != 0 :
-#            OQ_entry_scenarios = np.zeros((len(scenarios_names),len(bin_mag)))
-        
-        #####################################################################
-        #delete thes scenarios that are too small and the flauts that are too small and are not used in any scenario
-        #####################################################################
-        
-#        fault_or_scenario_deleted = False
-#        #for the scenarios
-#        index_scenario = 0
-#        index_to_be_deleted = []
-#        for scenario in scenarios_names :
-#            if Mmax_scenario[index_scenario] < M_min:
-#                print('scenario deleted : '+scenario+' Mmax : '+Mmax_scenario[index_scenario])
-#                self.calculation_log_file.write('\nscenario deleted : '+scenario+' Mmax : '+Mmax_scenario[index_scenario])
-#                index_to_be_deleted.append(index_scenario)
-#                fault_or_scenario_deleted = True
-#            index_scenario += 1
-#
-#        scenarios_names = [i for j, i in enumerate(scenarios_names) if j not in index_to_be_deleted]
-#        Mmax_scenario = [i for j, i in enumerate(Mmax_scenario) if j not in index_to_be_deleted]
-#        scenario_length = [i for j, i in enumerate(scenario_length) if j not in index_to_be_deleted]
-#        scenario_area = [i for j, i in enumerate(scenario_area) if j not in index_to_be_deleted]
-#        index_faults_in_scenario = [i for j, i in enumerate(index_faults_in_scenario) if j not in index_to_be_deleted]
-#
-#        index_fault = 0
-#        index_to_be_deleted = []
-#        for fault in faults_names :
-#            is_fault_in_scenario = False
-#            for index_faults_in_scenario_i in index_faults_in_scenario :
-#                if index_fault in index_faults_in_scenario_i:
-#                    is_fault_in_scenario = True
-#            #print fault, is_fault_in_scenario
-#            if Mmax_faults[index_fault] < M_min and is_fault_in_scenario == False :
-#                log_calculation_file.write('fault deleted : ' + str(fault) + ' Mmax : '+str(Mmax_faults[index_fault]) + '\n')
-#                print('fault too small to break on its own : '+fault+' Mmax : '+Mmax_faults[index_fault] )
-#                self.calculation_log_file.write('\nfault too small to break on its own : '+fault+' Mmax : '+Mmax_faults[index_fault] )
-#                index_to_be_deleted.append(index_fault)
-#                fault_or_scenario_deleted = True
-#            index_fault += 1
-            
         self.index_faults_in_scenario = index_faults_in_scenario
         
         
@@ -397,7 +354,7 @@ class EQ_on_faults_from_sr():
         # Etablish the target of moment rate per bin
         ##################################################################'''
         # distribution of probability multiply by the initial moment rate
-        target_moment_per_bin = p_MFD_MO * Total_moment_rate_init
+        target_moment_per_bin = p_MFD_MO * Total_moment_faults_rate_init
         # this is our target. This way we insure a GR distribution in the end
         
         
@@ -460,7 +417,8 @@ class EQ_on_faults_from_sr():
         moment_rate_required = 0.
         moment_rate_left= Total_moment_faults_rate_init
         
-        rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
+        rate_tot_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
+        rate_in_model =np.zeros(len(bin_mag))
         
         test_mean_picked = []
         most_likely_pick = []
@@ -468,7 +426,7 @@ class EQ_on_faults_from_sr():
         while sum(faults_budget.values()) != 0 : # as long as there is some slip-rate to spend we keep going
             ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
             if ratio_done > 0.01 :
-                model_MFD, self.calculation_log_file,print_percent = core_utils.progress(rate_in_model,model_MFD,self.calculation_log_file,ratio_done,print_percent)
+                model_MFD, self.calculation_log_file,print_percent = core_utils.progress(model_MFD,self.calculation_log_file,ratio_done,print_percent,rup_rates,fault_prop,bin_mag)
             
             number_of_loops += 1
             
@@ -509,7 +467,7 @@ class EQ_on_faults_from_sr():
                     index_fault = rup_rates.get(str(picked_rup)).get('involved_faults')
                     if bool_target_set == False :
                         if (len(rup_in_bin[-3]) +  len(rup_in_bin[-2]) + len(rup_in_bin[-1])) == 0 : #if all the slip_rate has been spared for the Mmax - 0.3
-                            rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
+                            rate_tot_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
                             bool_target_set = True
                             #all the slip_rate has NOT been spared for the Mmax
                             #does other checks
@@ -523,7 +481,7 @@ class EQ_on_faults_from_sr():
                             bool_target_set = True
                         # check if the rates of the antepenultimate bin is not too different of the two other ones
                         if len(rup_in_bin[-1])+ len(rup_in_bin[-2]) == 0 and bool_target_set == False:
-                            if moment_rate_in_bin[-3] >= 20. * (moment_rate_in_bin[-2]+moment_rate_in_bin[-1]):
+                            if moment_rate_in_bin[-3] >= 2. * (moment_rate_in_bin[-2]+moment_rate_in_bin[-1]):
                                 self.calculation_log_file.write('\n antepenultimate bin getting too high')
                                 rup_in_bin[-3] = []
                                 bool_target_set = True
@@ -534,24 +492,24 @@ class EQ_on_faults_from_sr():
                             number_of_loops_last_checked = number_of_loops
                             
                             moment_rate_left = Total_moment_faults_rate_init - Total_moment_rate_fault
-                            rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
-                            rate_Mmax_check = np.mean(rate_in_model[-3:])
+                            rate_tot_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
+                            rate_Mmax_check = np.mean(rate_tot_model[-3:])
                             
                             moment_rate_required = 0.
                             for index_mag in range(len(bin_mag)-3):#loop on all the magnitude bins except the three last ones
-                                rate_Mi_check = rate_in_model[index_mag]
+                                rate_Mi_check = rate_tot_model[index_mag]
                                 target_GR_i_check = rate_Mmax_check  * p_MFD[index_mag] / p_MFD[-2]
                                 #difference between the target at this point and what is already filled in terms of moment rate
-                                moment_rate_required += (mag_to_M0(bin_mag[index_mag]) * target_GR_i_check) - (mag_to_M0(bin_mag[index_mag]) * rate_Mi_check)
+                                moment_rate_required += ((mag_to_M0(bin_mag[index_mag]) * target_GR_i_check) - (mag_to_M0(bin_mag[index_mag]) * rate_Mi_check)) * fault_prop(bin_mag[picked_bin])
                                 
                             if self.mfd_hyp == 'UCERF_DV_':
-                                rate_Mmax = rate_f_in_model[-1]
+                                rate_Mmax = rate_tot_model[-1]
                                 moment_rate_required = 0.
                                 for index_mag in range(len(bin_mag)-3):#loop on all the magnitude bins except the three last ones
-                                    rate_Mi_check = rate_in_model[index_mag]
+                                    rate_Mi_check = rate_tot_model[index_mag]
                                     target_GR_i_check = rate_Mmax_check  * p_MFD[index_mag] / p_MFD[-3]
                                     #difference between the target at this point and what is already filled in terms of moment rate
-                                    moment_rate_required += (mag_to_M0(bin_mag[index_mag]) * target_GR_i_check) - (mag_to_M0(bin_mag[index_mag]) * rate_Mi_check)
+                                    moment_rate_required += ((mag_to_M0(bin_mag[index_mag]) * target_GR_i_check) - (mag_to_M0(bin_mag[index_mag]) * rate_Mi_check)) * fault_prop(bin_mag[picked_bin])
         
                             time_checking_the_fit_2+=time.time()-time_ii
                             
@@ -560,24 +518,33 @@ class EQ_on_faults_from_sr():
                             ####
                             # Setting the target
                             ####
+                            
+                            
+                            rate_tot_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
+                            
                             print_target_set = False
                             print('- target set - ')
                             self.calculation_log_file.write('\n- target set - ')
-                            rate_at_target_setting = rate_in_model
+                            rate_at_target_setting = rate_tot_model
                             #record the MFD at the moment the target is set
                             
-                            rate_Mmax = np.mean(rate_in_model[-3:])
+                            rate_Mmax = np.mean(rate_tot_model[-3:])
+                            
+                            TARGET = []
+                            for t_mag_bin in range(len(bin_mag)) :
+                                TARGET.append(rate_Mmax  * p_MFD[t_mag_bin] / p_MFD[-2]) #target of the picked bin in order to fit the original distribution
                                 
-                            rate_Mi = rate_in_model[picked_bin]
-                            target_GR_i = rate_Mmax  * p_MFD[picked_bin] / (p_MFD[-2]) #target of the picked bin in order to fit the original distribution
                             if self.mfd_hyp == 'UCERF_DV_':
-                                rate_Mmax = rate_f_in_model[-1]
-                                    
-                                rate_Mi = rate_in_model[picked_bin]
-                                target_GR_i = rate_Mmax  * p_MFD[picked_bin] / p_MFD[-3] #target of the picked bin in order to fit the original distribution
+                                rate_Mmax = rate_tot_model[-1]
+
+                                TARGET =[]
+                                for t_mag_bin in range(len(bin_mag))  :
+                                    rate_Mi = rate_tot_model[t_mag_bin]
+                                    TARGET.append(rate_Mmax  * p_MFD[picked_bin] / p_MFD[-3]) #target of the picked bin in order to fit the original distribution
                                 
                         
-                    
+                    if picked_bin in bin_target_reached:
+                        print("WHAT ARE YOU DOING HERE?",bin_mag[picked_bin])
                             
                     ''' spending the slip_rate increment '''
                     
@@ -597,10 +564,9 @@ class EQ_on_faults_from_sr():
                         displacement = mag_to_M0(mag)/(shear_mod*area)
                         rate_i = size_of_increment/displacement
                         if bool_target_set == True:
-
                             rate_Mi = rate_in_model[picked_bin]
-                            target_GR_i = rate_Mmax  * p_MFD[picked_bin] / (p_MFD[-2]) #target of the picked bin in order to fit the original distribution
-                            if rate_Mi < target_GR_i : #for this bin, the GR hasn't been reached yet
+                            target_mfd_i = TARGET[picked_bin] * fault_prop(bin_mag[picked_bin])#target of the picked bin in order to fit the original distribution
+                            if rate_Mi < target_mfd_i : #for this bin, the GR hasn't been reached yet
                                 #OQ_entry_scenarios[index_scenario[0]][picked_bin] = OQ_entry_scenarios[index_scenario[0]][picked_bin] + rate_i
                                 
                                 if uniform_spending == True or len(index_fault)==1:
@@ -619,12 +585,13 @@ class EQ_on_faults_from_sr():
                                     moment_rate_i = mag_to_M0(mag) * rate_i*(nb_sdr_used)
         
                                 #substracting the moment used from the target
-                                moment_rate_in_bin[picked_bin] += moment_rate_i
+                                moment_rate_in_bin[picked_bin] += moment_rate_i #* ( 2.-fault_prop(mag))
                                 Total_moment_rate_fault += moment_rate_i
                             else : # for this bin, the GR has been reached, this slip rate needs to be aseismic
                                 rup_in_bin[picked_bin] = []
                                 if not picked_bin in bin_target_reached:
                                     bin_target_reached.append(picked_bin)
+                                    
                                    
                         else : # the absolute target as not been reached yet
 
@@ -644,7 +611,7 @@ class EQ_on_faults_from_sr():
                                 moment_rate_i = mag_to_M0(mag) * rate_i
     
                             #substracting the moment used from the target
-                            moment_rate_in_bin[picked_bin] += moment_rate_i
+                            moment_rate_in_bin[picked_bin] += moment_rate_i #* ( 2.-fault_prop(mag))
                             Total_moment_rate_fault += moment_rate_i
                     
                         #rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
@@ -687,7 +654,7 @@ class EQ_on_faults_from_sr():
                                     while faults_budget[index_fault] > 0 :
                                         ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
                                         if ratio_done > 0.01 :
-                                            model_MFD, self.calculation_log_file,print_percent = core_utils.progress(rate_in_model,model_MFD,self.calculation_log_file,ratio_done,print_percent)
+                                            model_MFD, self.calculation_log_file,print_percent = core_utils.progress(model_MFD,self.calculation_log_file,ratio_done,print_percent,rup_rates,fault_prop,bin_mag)
                                         faults_budget[index_fault]+=-1
                                         M_slip_repartition[index_fault].append('NMS')
                                         aseismic_count += 1
@@ -698,7 +665,7 @@ class EQ_on_faults_from_sr():
                 
                     ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
                     if ratio_done > 0.01 :
-                        model_MFD, self.calculation_log_file,print_percent = core_utils.progress(rate_in_model,model_MFD,self.calculation_log_file,ratio_done,print_percent)
+                        model_MFD, self.calculation_log_file,print_percent = core_utils.progress(model_MFD,self.calculation_log_file,ratio_done,print_percent,rup_rates,fault_prop,bin_mag)
                     for index_fault in range(len(faults_names)):
                         if faults_budget[index_fault] > 0 :
                             faults_budget[index_fault]+=-1
@@ -717,8 +684,8 @@ class EQ_on_faults_from_sr():
         # printing
         ##################################################################''' 
         #printing the evolution of the model durring the incrementations
-        rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
-        model_MFD.append(rate_in_model) 
+        rate_tot_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
+        model_MFD.append(rate_tot_model)
         colors = ['gainsboro','darkgray','dimgray','dimgray','black','red']
         index_color = 0
         for MFD_i in model_MFD:
@@ -727,30 +694,33 @@ class EQ_on_faults_from_sr():
         if print_target_set == True:
             rate_at_target_setting = model_MFD[-1]
         plt.plot(bin_mag,rate_at_target_setting,':g')
-        target_i = []
-        for index_mag in range(len(bin_mag)):
-            rate_Mmax = (model_MFD[-1][-3]+model_MFD[-1][-2]+model_MFD[-1][-1])/3.
-            target_GR_i = rate_Mmax  * p_MFD[index_mag] / p_MFD[-2]
-
-            if self.mfd_hyp == 'UCERF_DV':
-                rate_Mmax = model_MFD[-1][-3] #rate of the Mmax due to faults
-                target_GR_i = rate_Mmax  * p_MFD[index_mag] / p_MFD[-3]
-            target_i.append(target_GR_i)
-        plt.plot(bin_mag,target_i,':b')
-        plt.scatter(bin_mag[-3:],model_MFD[-1][-3:])
+        
+#        target_i = []
+#        for index_mag in range(len(bin_mag)):
+##            rate_Mmax = (model_MFD[-1][-3]+model_MFD[-1][-2]+model_MFD[-1][-1])/3.
+##            target_GR_i = rate_Mmax  * p_MFD[index_mag] / p_MFD[-3:]
+#            target_GR_i = TARGET[index_mag]
+#
+##            if self.mfd_hyp == 'UCERF_DV':
+##                rate_Mmax = model_MFD[-1][-3] #rate of the Mmax due to faults
+##                target_GR_i = rate_Mmax  * p_MFD[index_mag] / p_MFD[-3]
+#            target_i.append(target_GR_i)
+        plt.plot(bin_mag,TARGET,':b')
+        plt.scatter(bin_mag[-3:],rate_tot_model[-3:],c='k')
         plt.yscale('log')
         plt.savefig(self.path +'/Log/target_fit_' + str(self.sample) + '.png' ,dpi = 180, transparent=True)
         plt.close()
+        
         index_5 = 0
         while bin_mag[index_mag] < 5.:
             index_5+=1
-        self.ratio_test = np.mean([abs(target_i[index_5+0]/model_MFD[-1][index_5+0]),
-                                   abs(target_i[index_5+1]/model_MFD[-1][index_5+1]),
-                                    abs(target_i[index_5+2]/model_MFD[-1][index_5+2]),
-                                    abs(target_i[index_5+3]/model_MFD[-1][index_5+3]),
-                                    abs(target_i[index_5+4]/model_MFD[-1][index_5+4])])
-        MFD_to_test = (model_MFD[-1])/sum(model_MFD[-1])
-        target_to_test = (target_i)/sum(target_i)
+        self.ratio_test = np.mean([abs(TARGET[index_5+0]/rate_tot_model[index_5+0]),
+                                   abs(TARGET[index_5+1]/rate_tot_model[index_5+1]),
+                                    abs(TARGET[index_5+2]/rate_tot_model[index_5+2]),
+                                    abs(TARGET[index_5+3]/rate_tot_model[index_5+3]),
+                                    abs(TARGET[index_5+4]/rate_tot_model[index_5+4])])
+        MFD_to_test = (rate_tot_model)/sum(rate_tot_model)
+        target_to_test = (TARGET)/sum(TARGET)
         array_absolute_ratio = []
         for index_mag in range(len(bin_mag)):
             array_absolute_ratio.append(abs(MFD_to_test[index_mag]/target_to_test[index_mag]))
