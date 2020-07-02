@@ -24,7 +24,7 @@ import os
 import sys
 from lib.utils import sap
 
-# If you are running SHERIFS with spyder define input_file here. Then run.
+# If you are running SHERIFS with spyder define "input_file" here. Then run.
 
 def SHERIFS(input_file):
     debut = time.time()
@@ -43,9 +43,6 @@ def SHERIFS(input_file):
 
     print ('\nRunning SHERIFS version 1.3\n')
 
-    
-    
-
     '''###########################'''
     '''       Input files         '''
     '''###########################'''
@@ -58,7 +55,6 @@ def SHERIFS(input_file):
             Run_Name = line.split(':')[1].replace(' ','')
         if "File_geom" in line :
             File_geom = line.split(':')[1].replace(' ','')
-            print("..."+File_geom+"...")
         if "File_prop" in line :
             File_prop = line.split(':')[1].replace(' ','')
         if "File_bg" in line :
@@ -77,7 +73,9 @@ def SHERIFS(input_file):
                 use_host_model = True
             elif "alse" in line :
                 use_host_model = False
-                
+        #maximum misfit between the model and the target (in %)
+        if "fit_quality" in line :
+            fit_quality = float(line.split(':')[1].replace(' ',''))
         
 #    Run_Name = 'Example'
 #    File_geom = 'data/Example/Faults_geometry.txt'
@@ -104,7 +102,7 @@ def SHERIFS(input_file):
     sr_correl = OQ_job_Creator.sr_correl
     size_of_increment = OQ_job_Creator.size_of_increment
     Mmax_range = OQ_job_Creator.Mmax_range
-    fit_quality = 5 #maximum misfit between the model and the target (in %)
+    #fit_quality = 5 #maximum misfit between the model and the target (in %)
 
     calculation_log_file = open(Run_Name+'/calculation_log.txt','w')
     Sources_Logic_Tree_Creator = Sources_Logic_Tree_Creator(Run_Name,File_geom,
@@ -134,7 +132,7 @@ def SHERIFS(input_file):
 
 
 def main(argv):
-    """ Plots shallow sources"""
+    """ Run SHERIFS"""
 
     p = sap.Script(SHERIFS)
     p.arg(name='input_file', help='.txt file with the information concerning the run.')
