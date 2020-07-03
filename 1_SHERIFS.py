@@ -4,7 +4,7 @@
 SHERIFS
 Seismic Hazard and Earthquake Rates In Fault Systems
 
-Version 1.2
+Version 1.3
 
 The Seismic Hazard and Earthquake Rates In Fault Systems (SHERIFS) program, is an open source collection of 
 tools for calculating the rates of earthquakes on each fault of a fault system 
