@@ -260,7 +260,7 @@ class EQ_on_faults_from_sr():
         
         
         '''#####################################################################
-        #for each bin, find which fault and which scenario populates it.
+        # For each bin, find which fault and which scenario populates it.
         #####################################################################'''
         rup_in_bin = populate_bins.pop(bin_mag,index_rup,rup_rates,M_min)
             

@@ -8,6 +8,7 @@ Version 1.0
 """
 
 import numpy as np
+import geojson
 import math
 import sys
 from math import radians, cos, sin, asin, sqrt
@@ -83,48 +84,76 @@ class Geom_scenar:
         self.faults_lat = faults_lat
 
                 
-    def FaultGeometry(self): 
-        #CritereDistance = 3. 
-        NomFichier_InfosZonage = self.File_geom
-        InfosZonage = np.genfromtxt(NomFichier_InfosZonage,dtype=[('U100'),('U100'),('f8'),('f8'),('U100')],skip_header = 1)
-        Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
-        index_model = np.where(np.array(Column_model_name) == self.Model_name)
-        self.Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
-        self.Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
-        self.Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
-        self.Depths = list(map(lambda i : InfosZonage[i][4],index_model[0]))
-        
-        ZoneSelec = self.Column_Fault_name
-        DicoZone = dict([(k,ZoneSelec.count(k)) for k in set(ZoneSelec)])
-        Longitudes = []
-        Latitudes = []
-        Depths = []
-        Column_Fault_name = []
-        for cle in DicoZone.keys():
-            indices_ZonesSelec = np.where(np.array(self.Column_Fault_name) == cle)
-            ColonneNomZone_inter = np.take(self.Column_Fault_name,indices_ZonesSelec)
-            Longitudes_inter = np.take(self.Longitudes,indices_ZonesSelec)
-            Latitudes_inter = np.take(self.Latitudes,indices_ZonesSelec)
-            depth_inter = np.take(self.Depths,indices_ZonesSelec)
-        
-            Longitudes_inter = Longitudes_inter[0].tolist()
-            Latitudes_inter = Latitudes_inter[0].tolist()
-            depth_inter = depth_inter[0].tolist()
-            ColonneNomZone_inter = ColonneNomZone_inter[0].tolist()
-            compt = 0
-            for xx,yy,nn,dd in zip(Longitudes_inter,Latitudes_inter,ColonneNomZone_inter,depth_inter):
-                compt+=1
-                Longitudes.append(xx)
-                Latitudes.append(yy)
-                Depths.append(dd)
-                Column_Fault_name.append(nn)
-                
-        self.Longitudes =Longitudes
-        self.Latitudes =Latitudes
-        self.Depths =Depths
-        self.Column_Fault_name = Column_Fault_name
-        self.Nb_data_per_zone = dict([(k,self.Column_Fault_name.count(k)) for k in set(self.Column_Fault_name)])
-
+    def FaultGeometry(self):
+        if not ".geojson" in self.File_geom :
+            #CritereDistance = 3.
+            NomFichier_InfosZonage = self.File_geom
+            InfosZonage = np.genfromtxt(NomFichier_InfosZonage,dtype=[('U100'),('U100'),('f8'),('f8'),('U100')],skip_header = 1)
+            Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
+            index_model = np.where(np.array(Column_model_name) == self.Model_name)
+            self.Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
+            self.Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
+            self.Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
+            self.Depths = list(map(lambda i : InfosZonage[i][4],index_model[0]))
+            
+            ZoneSelec = self.Column_Fault_name
+            DicoZone = dict([(k,ZoneSelec.count(k)) for k in set(ZoneSelec)])
+            Longitudes = []
+            Latitudes = []
+            Depths = []
+            Column_Fault_name = []
+            for cle in DicoZone.keys():
+                indices_ZonesSelec = np.where(np.array(self.Column_Fault_name) == cle)
+                ColonneNomZone_inter = np.take(self.Column_Fault_name,indices_ZonesSelec)
+                Longitudes_inter = np.take(self.Longitudes,indices_ZonesSelec)
+                Latitudes_inter = np.take(self.Latitudes,indices_ZonesSelec)
+                depth_inter = np.take(self.Depths,indices_ZonesSelec)
+            
+                Longitudes_inter = Longitudes_inter[0].tolist()
+                Latitudes_inter = Latitudes_inter[0].tolist()
+                depth_inter = depth_inter[0].tolist()
+                ColonneNomZone_inter = ColonneNomZone_inter[0].tolist()
+                compt = 0
+                for xx,yy,nn,dd in zip(Longitudes_inter,Latitudes_inter,ColonneNomZone_inter,depth_inter):
+                    compt+=1
+                    Longitudes.append(xx)
+                    Latitudes.append(yy)
+                    Depths.append(dd)
+                    Column_Fault_name.append(nn)
+                    
+            self.Longitudes =Longitudes
+            self.Latitudes =Latitudes
+            self.Depths =Depths
+            self.Column_Fault_name = Column_Fault_name
+            #            self.Nb_data_per_zone = dict([(k,self.Column_Fault_name.count(k)) for k in set(self.Column_Fault_name)])
+            
+        else : #the input file in a geojson
+            with open(self.File_geom) as f:
+                gj = geojson.load(f)
+            faults = gj['features']
+            
+            Longitudes = []
+            Latitudes = []
+            Depths = []
+            Column_Fault_name = []
+            
+            for fi in range(len(faults)):
+                if faults[fi]['properties']['model'] == self.Model_name :
+                    lons_i = [i[0] for i in faults[fi]['geometry']["coordinates"]]
+                    lats_i = [i[1] for i in faults[fi]['geometry']["coordinates"]]
+                    dd = "sf"
+                    nn = str(faults[fi]['properties']['si'])
+                    for xx,yy in zip(lons_i,lats_i):
+                        Longitudes.append(xx)
+                        Latitudes.append(yy)
+                        Depths.append(dd)
+                        Column_Fault_name.append(nn)
+            
+            self.Longitudes =Longitudes
+            self.Latitudes =Latitudes
+            self.Depths =Depths
+            self.Column_Fault_name = Column_Fault_name
+            
     def distance(self,lon1, lat1, lon2, lat2):
         """
         Calculate the great circle distance between two points 

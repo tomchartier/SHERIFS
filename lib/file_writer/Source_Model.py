@@ -187,15 +187,19 @@ class Source_Model_Creator:
             M_faults_correl = []
             for Fault_name in faults_names:
                 M_faults_correl_i =  []
+                sc_with_fault = []
+                for index_scenario in range(len(scenarios_names)) :
+                    scenario_i = self.rupture_set[index_scenario]
+                    if Fault_name in scenario_i :
+                        sc_with_fault += scenario_i
                 for Fault_name_i in faults_names:
                     nb_join_ruptures = 0
                     if Fault_name == Fault_name_i :
                         nb_join_ruptures = 0
-                    else:
-                        for scenario_name in scenarios_names :
-                            if Fault_name in str(scenario_name) :
-                                if Fault_name_i in str(scenario_name) :
-                                    nb_join_ruptures += 1
+                    elif Fault_name_i in sc_with_fault:
+                        nb_join_ruptures = sc_with_fault.count(Fault_name_i)
+                    else :
+                        nb_join_ruptures = 0
                     M_faults_correl_i.append(nb_join_ruptures)
                 M_faults_correl.append(M_faults_correl_i)
             

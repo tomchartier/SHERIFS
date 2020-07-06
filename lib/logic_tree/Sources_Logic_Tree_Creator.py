@@ -28,6 +28,7 @@ import BG_ratio
 import faults_n_scenarios
 from OQ_job_Creator import OQ_job_Creator
 import read_input
+import geojson
 
 
 class Sources_Logic_Tree_Creator:
@@ -67,8 +68,9 @@ class Sources_Logic_Tree_Creator:
         LT_file = str(self.Run_Name)+'/Sources_Logic_tree.xml'
         LT_log_name  =  'input/'+str(self.Run_Name)+'/LT_log.txt'
 #        reading_file = False
-        if not os.path.exists(LT_file) :
-            print('ERROR : Please provide a LT_log.txt file \n See the user amnual for guidelines and the example for file setup example.')
+        if not os.path.exists(LT_log_name) :
+        
+            print('ERROR : Please provide a LT_log.txt file \n See the user manual for guidelines and the example for file setup example.')
             exit()
         
         else : #get from the xml file
@@ -266,23 +268,32 @@ class Sources_Logic_Tree_Creator:
                     if last_model != Model :
                         # Extraction of the fault geometry and properties
                         last_model = Model
-                        print("Importing fault data")
-
-                        #Extraction of the faults and scenarios present in the model from the text file
-                        Prop = np.genfromtxt(self.File_prop,
-                                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
-                                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
-                        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
-                        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
-                        index_model = np.where(np.array(Column_model_name) == Model)[0]
-                        Prop = np.take(Prop,index_model)
-                        faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
-                        faults_names = list(faults_names)
+                        print("Importing faults")
                         
+                        
+                        #Extraction of the faults and scenarios present in the model from the text file
+                        if not ".geojson" in self.File_prop:
+                            Prop = np.genfromtxt(self.File_prop,
+                                                       dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+                                                              ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+                            Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+                            Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+                            index_model = np.where(np.array(Column_model_name) == Model)[0]
+                            Prop = np.take(Prop,index_model)
+                            faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
+                            faults_names = list(faults_names)
+                        else :
+                            with open(self.File_prop) as f:
+                                gj = geojson.load(f)
+                            faults = gj['features']
+                            faults_names = []
+                            for fi in range(len(faults)):
+                                if faults[fi]['properties']['model'] == Model : faults_names.append(str(faults[fi]['properties']['si']))
 
                         ########################################################
                         #Extraction of the properties and geometries of faults
                         ########################################################
+                        print("\t - importing faults geometry")
                         faults_data = {}
                         index_fault = 0
                         #extractions of the geometries of the faults
@@ -290,8 +301,10 @@ class Sources_Logic_Tree_Creator:
                         faults_lon = geom_scenar.faults_lon
                         faults_lat = geom_scenar.faults_lat
                         
+                        
                         self.FaultGeometry(Model)  #extract the geometries from the geometry file
                         
+                        print("\t - importing faults properties")
                         for Fault_name in faults_names:
                             # extract depth
                             i_d = np.where(np.array(self.Column_Fault_name) == Fault_name)
@@ -333,7 +346,7 @@ class Sources_Logic_Tree_Creator:
                             'depth':depth}})
                             index_fault += 1
     
-    
+                        print("Faults imported.")
     
                     if str_all_data == 'a' :
                         use_all_ScL_data = True
@@ -387,83 +400,178 @@ class Sources_Logic_Tree_Creator:
      
 
     def FaultProperties(self,Name_of_fault,Model):
-        FileName_Prop = self.File_prop
-        Prop = np.genfromtxt(FileName_Prop,
-                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
-                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
-        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
-        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
-        index_model = np.where(np.array(Column_model_name) == Model)[0]
-        
-        Prop = np.take(Prop,index_model)
-        index_fault = np.where(np.array(Column_fault_name[index_model[0]:index_model[-1]+1]) == Name_of_fault)
-        Indexfault_final = index_fault[0]
+        if not ".geojson" in self.File_prop:
+            FileName_Prop = self.File_prop
+            Prop = np.genfromtxt(FileName_Prop,
+                                       dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+                                              ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+            Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+            Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+            index_model = np.where(np.array(Column_model_name) == Model)[0]
+            
+            Prop = np.take(Prop,index_model)
+            index_fault = np.where(np.array(Column_fault_name[index_model[0]:index_model[-1]+1]) == Name_of_fault)
+            Indexfault_final = index_fault[0]
 
-        self.dip = Prop[Indexfault_final][0][2]
-        self.oriented = Prop[Indexfault_final][0][3]
-        self.rake = Prop[Indexfault_final][0][4]
-        self.upper_sismo_depth = Prop[Indexfault_final][0][5]
-        self.lower_sismo_depth = Prop[Indexfault_final][0][6]
-        
-        self.slip_rate_min = Prop[Indexfault_final][0][7]
-        self.slip_rate_moy = Prop[Indexfault_final][0][8]
-        self.slip_rate_max = Prop[Indexfault_final][0][9]
-        self.Domain = Prop[Indexfault_final][0][10]
-        self.shear_mod = Prop[Indexfault_final][0][11]
+            self.dip = Prop[Indexfault_final][0][2]
+            self.oriented = Prop[Indexfault_final][0][3]
+            self.rake = Prop[Indexfault_final][0][4]
+            self.upper_sismo_depth = Prop[Indexfault_final][0][5]
+            self.lower_sismo_depth = Prop[Indexfault_final][0][6]
+            
+            self.slip_rate_min = Prop[Indexfault_final][0][7]
+            self.slip_rate_moy = Prop[Indexfault_final][0][8]
+            self.slip_rate_max = Prop[Indexfault_final][0][9]
+            self.Domain = Prop[Indexfault_final][0][10]
+            self.shear_mod = Prop[Indexfault_final][0][11]
 
 
-        if self.rake == 'N' :
-            self.rake = -90.00
-        if self.rake == 'S' :
-            self.rake = 00.00
-        if self.rake == 'SS' :
-            self.rake = 00.00
-        if self.rake == 'R' :
-            self.rake = 90.00
-        self.rake = float(self.rake)
+            if self.rake == 'N' :
+                self.rake = -90.00
+            if self.rake == 'S' :
+                self.rake = 00.00
+            if self.rake == 'SS' :
+                self.rake = 00.00
+            if self.rake == 'R' :
+                self.rake = 90.00
+            self.rake = float(self.rake)
 
-        if len(str(self.dip)) == 0:
-            print('\nError!!! please verify your input file for fault parameters\n')
+            if len(str(self.dip)) == 0:
+                print('\nError!!! please verify your input file for fault parameters\n')
+                
+                
+        else : #it's a geojson file
+            with open(self.File_geom) as f:
+                gj = geojson.load(f)
+            faults = gj['features']
+            
+            Longitudes = []
+            Latitudes = []
+            Depths = []
+            Column_Fault_name = []
+            
+            for fi in range(len(faults)):
+                if str(faults[fi]['properties']['si']) == Name_of_fault :
+                    if faults[fi]['properties']['model'] == Model :
+                        self.dip = faults[fi]['properties']['dip']
+                        self.oriented = faults[fi]['properties']['oriented']
+                        self.upper_sismo_depth = faults[fi]['properties']['up_s_d']
+                        self.lower_sismo_depth = faults[fi]['properties']['lo_s_d']
+                        self.slip_rate_min = faults[fi]['properties']['sr_min']
+                        self.slip_rate_moy = faults[fi]['properties']['sr_mean']
+                        self.slip_rate_max = faults[fi]['properties']['sr_max']
+                        self.Domain = faults[fi]['properties']['Domain']
+                        self.shear_mod = faults[fi]['properties']['shear_modulus']
+                        self.rake = faults[fi]['properties']['rake']
 
+#    def FaultGeometry(self,Model):
+#        NomFichier_InfosZonage = self.File_geom
+#        InfosZonage = np.genfromtxt(NomFichier_InfosZonage,dtype=[('U100'),('U100'),('f8'),('f8'),('U100')],skip_header = 1)
+#        Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
+#        index_model = np.where(np.array(Column_model_name) == Model)
+#        self.Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
+#        self.Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
+#        self.Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
+#        self.Depths = list(map(lambda i : InfosZonage[i][4],index_model[0]))
+#
+#        ZoneSelec = self.Column_Fault_name
+#        DicoZone = dict([(k,ZoneSelec.count(k)) for k in set(ZoneSelec)])
+#        Longitudes = []
+#        Latitudes = []
+#        Depths = []
+#        Column_Fault_name = []
+#        for cle in DicoZone.keys():
+#            indices_ZonesSelec = np.where(np.array(self.Column_Fault_name) == cle)
+#            ColonneNomZone_inter = np.take(self.Column_Fault_name,indices_ZonesSelec)
+#            Longitudes_inter = np.take(self.Longitudes,indices_ZonesSelec)
+#            Latitudes_inter = np.take(self.Latitudes,indices_ZonesSelec)
+#            depth_inter = np.take(self.Depths,indices_ZonesSelec)
+#
+#            Longitudes_inter = Longitudes_inter[0].tolist()
+#            Latitudes_inter = Latitudes_inter[0].tolist()
+#            depth_inter = depth_inter[0].tolist()
+#            ColonneNomZone_inter = ColonneNomZone_inter[0].tolist()
+#            compt = 0
+#            for xx,yy,nn,dd in zip(Longitudes_inter,Latitudes_inter,ColonneNomZone_inter,depth_inter):
+#                compt+=1
+#                Longitudes.append(xx)
+#                Latitudes.append(yy)
+#                Depths.append(dd)
+#                Column_Fault_name.append(nn)
+#
+#        self.Longitudes =Longitudes
+#        self.Latitudes =Latitudes
+#        self.Depths =Depths
+#        self.Column_Fault_name = Column_Fault_name
+##        self.Nb_data_per_zone = dict([(k,self.Column_Fault_name.count(k)) for k in set(self.Column_Fault_name)])
+##        self.Fault_Names = sorted(self.Nb_data_per_zone.keys())
 
     def FaultGeometry(self,Model):
-        NomFichier_InfosZonage = self.File_geom
-        InfosZonage = np.genfromtxt(NomFichier_InfosZonage,dtype=[('U100'),('U100'),('f8'),('f8'),('U100')],skip_header = 1)
-        Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
-        index_model = np.where(np.array(Column_model_name) == Model)
-        self.Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
-        self.Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
-        self.Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
-        self.Depths = list(map(lambda i : InfosZonage[i][4],index_model[0]))
-
-        ZoneSelec = self.Column_Fault_name
-        DicoZone = dict([(k,ZoneSelec.count(k)) for k in set(ZoneSelec)])
-        Longitudes = []
-        Latitudes = []
-        Depths = []
-        Column_Fault_name = []
-        for cle in DicoZone.keys():
-            indices_ZonesSelec = np.where(np.array(self.Column_Fault_name) == cle)
-            ColonneNomZone_inter = np.take(self.Column_Fault_name,indices_ZonesSelec)
-            Longitudes_inter = np.take(self.Longitudes,indices_ZonesSelec)
-            Latitudes_inter = np.take(self.Latitudes,indices_ZonesSelec)
-            depth_inter = np.take(self.Depths,indices_ZonesSelec)
-
-            Longitudes_inter = Longitudes_inter[0].tolist()
-            Latitudes_inter = Latitudes_inter[0].tolist()
-            depth_inter = depth_inter[0].tolist()
-            ColonneNomZone_inter = ColonneNomZone_inter[0].tolist()
-            compt = 0
-            for xx,yy,nn,dd in zip(Longitudes_inter,Latitudes_inter,ColonneNomZone_inter,depth_inter):
-                compt+=1
-                Longitudes.append(xx)
-                Latitudes.append(yy)
-                Depths.append(dd)
-                Column_Fault_name.append(nn)
-
-        self.Longitudes =Longitudes
-        self.Latitudes =Latitudes
-        self.Depths =Depths
-        self.Column_Fault_name = Column_Fault_name
-        self.Nb_data_per_zone = dict([(k,self.Column_Fault_name.count(k)) for k in set(self.Column_Fault_name)])
-        self.Fault_Names = sorted(self.Nb_data_per_zone.keys())
+        if not ".geojson" in self.File_geom :
+            #CritereDistance = 3.
+            NomFichier_InfosZonage = self.File_geom
+            InfosZonage = np.genfromtxt(NomFichier_InfosZonage,dtype=[('U100'),('U100'),('f8'),('f8'),('U100')],skip_header = 1)
+            Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
+            index_model = np.where(np.array(Column_model_name) == Model)
+            self.Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
+            self.Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
+            self.Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
+            self.Depths = list(map(lambda i : InfosZonage[i][4],index_model[0]))
+            
+            ZoneSelec = self.Column_Fault_name
+            DicoZone = dict([(k,ZoneSelec.count(k)) for k in set(ZoneSelec)])
+            Longitudes = []
+            Latitudes = []
+            Depths = []
+            Column_Fault_name = []
+            for cle in DicoZone.keys():
+                indices_ZonesSelec = np.where(np.array(self.Column_Fault_name) == cle)
+                ColonneNomZone_inter = np.take(self.Column_Fault_name,indices_ZonesSelec)
+                Longitudes_inter = np.take(self.Longitudes,indices_ZonesSelec)
+                Latitudes_inter = np.take(self.Latitudes,indices_ZonesSelec)
+                depth_inter = np.take(self.Depths,indices_ZonesSelec)
+            
+                Longitudes_inter = Longitudes_inter[0].tolist()
+                Latitudes_inter = Latitudes_inter[0].tolist()
+                depth_inter = depth_inter[0].tolist()
+                ColonneNomZone_inter = ColonneNomZone_inter[0].tolist()
+                compt = 0
+                for xx,yy,nn,dd in zip(Longitudes_inter,Latitudes_inter,ColonneNomZone_inter,depth_inter):
+                    compt+=1
+                    Longitudes.append(xx)
+                    Latitudes.append(yy)
+                    Depths.append(dd)
+                    Column_Fault_name.append(nn)
+                    
+            self.Longitudes =Longitudes
+            self.Latitudes =Latitudes
+            self.Depths =Depths
+            self.Column_Fault_name = Column_Fault_name
+            #            self.Nb_data_per_zone = dict([(k,self.Column_Fault_name.count(k)) for k in set(self.Column_Fault_name)])
+            
+        else : #the input file in a geojson
+            with open(self.File_geom) as f:
+                gj = geojson.load(f)
+            faults = gj['features']
+            
+            Longitudes = []
+            Latitudes = []
+            Depths = []
+            Column_Fault_name = []
+            
+            for fi in range(len(faults)):
+                if faults[fi]['properties']['model'] == Model :
+                    lons_i = [i[0] for i in faults[fi]['geometry']["coordinates"]]
+                    lats_i = [i[1] for i in faults[fi]['geometry']["coordinates"]]
+                    dd = "sf"
+                    nn = str(faults[fi]['properties']['si'])
+                    for xx,yy in zip(lons_i,lats_i):
+                        Longitudes.append(xx)
+                        Latitudes.append(yy)
+                        Depths.append(dd)
+                        Column_Fault_name.append(nn)
+            
+            self.Longitudes =Longitudes
+            self.Latitudes =Latitudes
+            self.Depths =Depths
+            self.Column_Fault_name = Column_Fault_name

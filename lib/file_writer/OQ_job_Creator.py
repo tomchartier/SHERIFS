@@ -89,7 +89,7 @@ class OQ_job_Creator():
             
             
         else : # the file doesn't exist, ask the information about the run
-            print("ERROR : File run.info not found! \ Please refer to the user manual")
+            print("ERROR : File run.info not found! \n Please refer to the user manual")
             exit()
 #            self.w_ini = tk.Tk()
 #            self.w_ini.grid()
