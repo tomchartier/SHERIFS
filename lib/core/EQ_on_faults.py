@@ -427,6 +427,9 @@ class EQ_on_faults_from_sr():
         # if local MFD should also be respected
         # in this case, the
         local_MFD = True
+        if local_MFD == True :
+            f_mfd_area = "./data/CHN/mfd_area.geojson"
+            local_mfds, associated_rup, associated_weight = link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag)
         
         #log the time used for several parts
         time_weight_rupt = 0.
