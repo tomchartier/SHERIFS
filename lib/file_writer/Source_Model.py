@@ -421,17 +421,17 @@ class Source_Model_Creator:
                             ColLon = reversed(ColLon)
                             ColLat = reversed(ColLat) 
                             #reveresed = 'yes'
-                    if str('S') in str(faults_data[index_fault]['oriented']):
+                    elif str('S') in str(faults_data[index_fault]['oriented']):
                         if compass_bearing > 180. :
                             ColLon = reversed(ColLon)
                             ColLat = reversed(ColLat) 
                             #reveresed = 'yes'  
-                    if str('E') in str(faults_data[index_fault]['oriented']):
+                    elif str('E') in str(faults_data[index_fault]['oriented']):
                         if compass_bearing > 90. and compass_bearing < 270. :
                             ColLon = reversed(ColLon)
                             ColLat = reversed(ColLat)
                             #reveresed = 'yes'
-                    if str('W') in str(faults_data[index_fault]['oriented']):
+                    elif str('W') in str(faults_data[index_fault]['oriented']):
                         if compass_bearing < 90. or compass_bearing > 270. :
                             ColLon = reversed(ColLon)
                             ColLat = reversed(ColLat)
@@ -590,15 +590,15 @@ class Source_Model_Creator:
                                 if compass_bearing < 180. :
                                     ColLon = reversed(ColLon)
                                     ColLat = reversed(ColLat)
-                            if str('S') in str(faults_data[index_fault]['oriented']):
+                            elif str('S') in str(faults_data[index_fault]['oriented']):
                                 if compass_bearing > 180. :
                                     ColLon = reversed(ColLon)
                                     ColLat = reversed(ColLat)
-                            if str('E') in str(faults_data[index_fault]['oriented']):
+                            elif str('E') in str(faults_data[index_fault]['oriented']):
                                 if compass_bearing > 90. and compass_bearing < 270. :
                                     ColLon = reversed(ColLon)
                                     ColLat = reversed(ColLat)
-                            if str('W') in str(faults_data[index_fault]['oriented']):
+                            elif str('W') in str(faults_data[index_fault]['oriented']):
                                 if compass_bearing < 90. or compass_bearing > 270. :
                                     ColLon = reversed(ColLon)
                                     ColLat = reversed(ColLat)
