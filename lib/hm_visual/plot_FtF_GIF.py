@@ -28,6 +28,8 @@ import maps.maps_utils as maps_utils
 import maps.geom as geom
 from sources.background import bg
 
+from geojson import LineString, Feature, FeatureCollection, dump
+
 
 import utils.read_input as read_input
 
@@ -38,6 +40,9 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                llcrnrlon,llcrnrlat,urcrnrlon,urcrnrlat,File_bg,
                FileName_Prop,File_geom,plot_sr_use,visual_FtF,sub_area_file):
     nb_on_maps = False
+    
+    # use basemap option (create png figs)
+    use_basemap = False
     
     #exctracting all the scenario set information
     available_sets = read_input.extract_sc_input('input/'+Run_name+'/ruptures.txt')
@@ -62,7 +67,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
         
         Column_Fault_name, Depths = geom.FaultGeometry(Model,File_geom)  #extract the geometries from the geometry file
         
-        Lon_bg, Lat_bg  = bg.geom(Model,File_bg )
+        Lon_bg, Lat_bg  = bg.geom(Model,File_bg)
         
         # fault geom contains the geometry of the fault (trace and polygon)
         fault_geom = {}
@@ -111,7 +116,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
         '''########################
         Print the faults activated for each scenario
         #########################'''
-        if visual_FtF == True :
+        if visual_FtF == True and use_basemap == True:
             for scenario_set in scenarios_names_list:
                 file_names = []
                 if not os.path.exists(str(Run_name) + '/analysis/figures/FtF/'+Model+'/'+scenario_set):
@@ -163,47 +168,47 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
         '''########################
         Print the map of the model
         #########################'''
-
-        m = Basemap(projection='mill',
-                      llcrnrlon=llcrnrlon,
-                      llcrnrlat=llcrnrlat,
-                      urcrnrlon=urcrnrlon,
-                      urcrnrlat=urcrnrlat,resolution='h')
+        if use_basemap == True:
+            m = Basemap(projection='mill',
+                          llcrnrlon=llcrnrlon,
+                          llcrnrlat=llcrnrlat,
+                          urcrnrlon=urcrnrlon,
+                          urcrnrlat=urcrnrlat,resolution='h')
+                
             
-        
-        if len(Lon_bg) != 0 : #draw the background zone
-            maps_utils.draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.2, 0.5, 'k')
-        fault_colors = ['k' for fault in faults_names]
-                
-        title = 'Map of the model : '+Model
-        figpath = str(Run_name) + '/analysis/figures/FtF/'+Model+'/'+'map.png'
-                
+            if len(Lon_bg) != 0 : #draw the background zone
+                maps_utils.draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.2, 0.5, 'k')
+            fault_colors = ['k' for fault in faults_names]
+                    
+            title = 'Map of the model : '+Model
+            figpath = str(Run_name) + '/analysis/figures/FtF/'+Model+'/'+'map.png'
+                    
 
-        m.drawcoastlines(linewidth=0.1)
+            m.drawcoastlines(linewidth=0.1)
 
-        #draw the sub_areas
-        if os.path.exists(sub_area_file):
-            read_sub_area_file = open(sub_area_file,'rU')
-            lines_sub_area = read_sub_area_file.readlines()
-            sub_area_names = []
-            sub_area_coord = []
-            for line in lines_sub_area:
-                model_sub_area = line.split('\t')[0]
-                if model_sub_area in Model_list:
-                    sub_area_names.append(line.split('\t')[1])
-                    sub_area_coord.append(line.split('\t')[2:])
-                    sub_area_lon_i = []
-                    sub_area_lat_i = []
-                    for sub_area_coord_i in line.split('\t')[2:]:
-                        if not '\n' in sub_area_coord_i.split(','):
-                            if not '' in sub_area_coord_i.split(','):
-                                sub_area_lon_i.append(float(sub_area_coord_i.split(',')[1]))
-                                sub_area_lat_i.append(float(sub_area_coord_i.split(',')[0]))
-                    maps_utils.draw_screen_poly(sub_area_lon_i, sub_area_lat_i,  m ,'k' , 0.01, 0.1, 'k')
-                    x, y = m(sub_area_lon_i, sub_area_lat_i)
-                    m.plot(x,y,linewidth=0.2,color='k',linestyle = 'dotted')
-                
-        maps_utils.make_fault_map(m,fault_geom,fault_colors,figpath,title,dpi=400,use_arcgis=True)
+            #draw the sub_areas
+            if os.path.exists(sub_area_file):
+                read_sub_area_file = open(sub_area_file,'rU')
+                lines_sub_area = read_sub_area_file.readlines()
+                sub_area_names = []
+                sub_area_coord = []
+                for line in lines_sub_area:
+                    model_sub_area = line.split('\t')[0]
+                    if model_sub_area in Model_list:
+                        sub_area_names.append(line.split('\t')[1])
+                        sub_area_coord.append(line.split('\t')[2:])
+                        sub_area_lon_i = []
+                        sub_area_lat_i = []
+                        for sub_area_coord_i in line.split('\t')[2:]:
+                            if not '\n' in sub_area_coord_i.split(','):
+                                if not '' in sub_area_coord_i.split(','):
+                                    sub_area_lon_i.append(float(sub_area_coord_i.split(',')[1]))
+                                    sub_area_lat_i.append(float(sub_area_coord_i.split(',')[0]))
+                        maps_utils.draw_screen_poly(sub_area_lon_i, sub_area_lat_i,  m ,'k' , 0.01, 0.1, 'k')
+                        x, y = m(sub_area_lon_i, sub_area_lat_i)
+                        m.plot(x,y,linewidth=0.2,color='k',linestyle = 'dotted')
+                    
+            maps_utils.make_fault_map(m,fault_geom,fault_colors,figpath,title,dpi=400,use_arcgis=True)
                 
         
         '''########################
@@ -228,14 +233,15 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
 #        sr_mean = np.take(sr_mean,index_set)
 #        Mmax_mean = np.take(Mmax_mean,index_set)
 
-        m = Basemap(projection='mill',
-                   llcrnrlon=llcrnrlon,
-                   llcrnrlat=llcrnrlat,
-                   urcrnrlon=urcrnrlon,
-                   urcrnrlat=urcrnrlat,resolution='i')
+        if use_basemap == True:
+            m = Basemap(projection='mill',
+                       llcrnrlon=llcrnrlon,
+                       llcrnrlat=llcrnrlat,
+                       urcrnrlon=urcrnrlon,
+                       urcrnrlat=urcrnrlat,resolution='i')
 
-        title = 'Slip rate : '+ Model
-        figpath = str(Run_name) +'/analysis/figures/FtF/'+Model+'/'+'map_sliprate.png'
+            title = 'Slip rate : '+ Model
+            figpath = str(Run_name) +'/analysis/figures/FtF/'+Model+'/'+'map_sliprate.png'
 
 #        if len(Lon_bg) != 0 : #draw the background zone
 #            maps_utils.draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.1, 0.5, 'k')
@@ -248,27 +254,31 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
             cmap = matplotlib.cm.get_cmap('rainbow')
             rgba = cmap(float(sr)/max(sr_mean))
             fault_colors.append(rgba)
-             
-        maps_utils.make_fault_map(m,fault_geom,fault_colors,figpath,title,dpi=180,use_arcgis=False)
+
+        if use_basemap == True:
+            maps_utils.make_fault_map(m,fault_geom,fault_colors,figpath,title,dpi=180,use_arcgis=False)
                   
         '''########################
         Print the  Mmax map
         #########################'''
-        m = Basemap(projection='mill',
-                      llcrnrlon=llcrnrlon,
-                      llcrnrlat=llcrnrlat,
-                      urcrnrlon=urcrnrlon,
-                      urcrnrlat=urcrnrlat,resolution='i')
+        if use_basemap == True:
+            m = Basemap(projection='mill',
+                          llcrnrlon=llcrnrlon,
+                          llcrnrlat=llcrnrlat,
+                          urcrnrlon=urcrnrlon,
+                          urcrnrlat=urcrnrlat,resolution='i')
             
         for scenario_set in scenarios_names_list:
-            m1 = copy.copy(m)
+            if use_basemap == True:
+                m1 = copy.copy(m)
+                title = 'Slip rate : '+ Model + ' ' +scenario_set
+                figpath = str(Run_name) +'/analysis/figures/FtF/'+Model+'/'+'map_Mmax_'+scenario_set+'.png'
+                
             index_set = np.where(np.array(set_mean_param_model)==scenario_set)[0]
             fault_name_mean_param_set = np.take(fault_name_mean_param_model,index_set)
             sr_mean_set = np.take(sr_mean_model,index_set)
             Mmax_mean_set = np.take(Mmax_mean_model,index_set)
         
-            title = 'Slip rate : '+ Model + ' ' +scenario_set
-            figpath = str(Run_name) +'/analysis/figures/FtF/'+Model+'/'+'map_Mmax_'+scenario_set+'.png'
 
 #            if len(Lon_bg) != 0 : #draw the background zone
 #                maps_utils.draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.1, 0.5, 'k')
@@ -281,29 +291,39 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                 cmap = matplotlib.cm.get_cmap('rainbow')
                 rgba = cmap((float(Mmax)-min(Mmax_mean))/(max(Mmax_mean)-min(Mmax_mean)))
                 fault_colors.append(rgba)
-            maps_utils.make_fault_map(m1,fault_geom,fault_colors,figpath,title,dpi=180,use_arcgis=False)
+            if use_basemap == True:
+                maps_utils.make_fault_map(m1,fault_geom
+                ,fault_colors,figpath
+                ,title,dpi=180,use_arcgis=False)
               
         '''########################
         Print the NMS
         #########################'''
-        m = Basemap(projection='mill',
+        if use_basemap == True:
+            m = Basemap(projection='mill',
                       llcrnrlon=llcrnrlon,
                       llcrnrlat=llcrnrlat,
                       urcrnrlon=urcrnrlon,
                       urcrnrlat=urcrnrlat,resolution='i')
             
         for scenario_set in scenarios_names_list:
+
+            index_set = np.where(np.array(set_mean_param_model)==scenario_set)[0]
+            fault_name_mean_param_set = np.take(fault_name_mean_param_model,index_set)
+            Mmax_mean_set = np.take(Mmax_mean_model,index_set)
+            
             for MFD_type in MFD_type_list:
-                title = 'NMS : '+ Model +' '+ MFD_type +' '+ scenario_set
-                figpath = str(Run_name) +'/analysis/figures/FtF/'+Model+'/'+'map_NMS_'+MFD_type+'_'+str(scenario_set)+'.png'
+                if use_basemap == True:
+                    title = 'NMS : '+ Model +' '+ MFD_type +' '+ scenario_set
+                    figpath = str(Run_name) +'/analysis/figures/FtF/'+Model+'/'+'map_NMS_'+MFD_type+'_'+str(scenario_set)+'.png'
                 slip_rep_data = np.genfromtxt(Run_name + '/analysis/txt_files/slip_rep_on_faults_mean_'+str(Model)+'_'+ MFD_type +'_' +str(scenario_set)+'.txt',
                               dtype = [('U100'),('f8'),('f8'),('f8'),('f8'),('f8'),('f8'),('f8'),
                                        ('f8'),('f8'),('f8'),('f8'),('f8'),('f8'),('f8')], delimiter = '\t')
                 fault_name_rep = list(map(lambda i : slip_rep_data[i][0], range(len(slip_rep_data))))
                 p_NMS = list(map(lambda i : slip_rep_data[i][14], range(len(slip_rep_data))))
             
-            
-                m1 = copy.copy(m)
+                if use_basemap == True:
+                    m1 = copy.copy(m)
 #                if len(Lon_bg) != 0 : #draw the background zone
 #                    maps_utils.draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.1, 0.5, 'k')
                     
@@ -317,8 +337,10 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                         NMS_i = 50.
                     rgba = cmap(float(NMS_i*2.)/100.)
                     fault_colors.append(rgba)
-                        
-                maps_utils.make_fault_map(m,fault_geom,fault_colors,figpath,title,dpi=180,use_arcgis=False)
+                if use_basemap == True:
+                    maps_utils.make_fault_map(m,fault_geom,
+                    fault_colors,figpath,
+                    title,dpi=180,use_arcgis=False)
 
          
 
@@ -331,10 +353,10 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
 #                                   ('f8'),('f8'),('f8'),('f8'),('f8'),('f8'),('f8')], delimiter = '\t')
 #                fault_name_rep = list(map(lambda i : slip_rep_data[i][0], range(len(slip_rep_data))))
 #                p_NMS = list(map(lambda i : slip_rep_data[i][14], range(len(slip_rep_data))))
-
-                m2 = copy.copy(m)
-                title = 'Seismic slip rate : '+ Model +' '+ MFD_type +' '+ scenario_set
-                figpath = str(Run_name) +'/analysis/figures/FtF/'+Model+'/'+'map_seismicsliprate_'+MFD_type+'_'+str(scenario_set)+'.png'
+                if use_basemap == True:
+                    m2 = copy.copy(m)
+                    title = 'Seismic slip rate : '+ Model +' '+ MFD_type +' '+ scenario_set
+                    figpath = str(Run_name) +'/analysis/figures/FtF/'+Model+'/'+'map_seismicsliprate_'+MFD_type+'_'+str(scenario_set)+'.png'
 #                slip_rep_data = np.genfromtxt(Run_name + '/analysis/txt_files/slip_rep_on_faults_mean_'+str(Model)+'_'+ MFD_type +'_' +str(scenario_set)+'.txt',
 #                           dtype = [('U100'),('f8'),('f8'),('f8'),('f8'),('f8'),('f8'),('f8'),
 #                                    ('f8'),('f8'),('f8'),('f8'),('f8'),('f8'),('f8')], delimiter = '\t')
@@ -343,7 +365,7 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
 
 #                if len(Lon_bg) != 0 : #draw the background zone
 #                    maps_utils.draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.1, 0.5, 'k')
-                 
+                
                 fault_colors = []
                 for fault in faults_names:
                     index_fault = np.where(np.array(fault_name_rep)==fault)[0][0]
@@ -352,20 +374,55 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     index_fault = np.where(np.array(fault_name_mean_param)==fault)[0][0]
                     sr = sr_mean[index_fault]
 
-                    sr_seismic = sr*(1. - float(NMS_i)/100.)
+                    sr_seismic_i = sr*(1. - float(NMS_i)/100.)
+                    
                     cmap = matplotlib.cm.get_cmap('rainbow')
-                    rgba = cmap(sr_seismic/max(sr_mean))
+                    rgba = cmap(sr_seismic_i/max(sr_mean))
                     fault_colors.append(rgba)
                      
-                maps_utils.make_fault_map(m2,fault_geom,fault_colors,figpath,title,dpi=180,use_arcgis=False)
+                if use_basemap == True:
+                    maps_utils.make_fault_map(m2,fault_geom,
+                    fault_colors,figpath,
+                    title,dpi=180,use_arcgis=False)
                   
 
 
+                '''########################
+                Build the geojson file
+                #########################'''
+                features = []
+                id = 0
+                for fault in faults_names:
+                    index_fault = np.where(np.array(fault_name_rep)==fault)[0][0]
+                    NMS_i = p_NMS[index_fault]
+
+                    index_fault = np.where(np.array(fault_name_mean_param)==fault)[0][0]
+                    sr = sr_mean[index_fault]
+
+                    sr_seismic_i = sr*(1. - float(NMS_i)/100.)
 
 
+                    index_fault = np.where(np.array(fault_name_mean_param_set)==fault)[0][0]
+                    Mmax = Mmax_mean_set[index_fault]
 
+                    geom = []
+                    for lon_i,lat_i in zip(fault_geom[id]["trace_lon"],fault_geom[id]["trace_lat"]):
+                        geom.append([lon_i,lat_i])
+                    geom = LineString(geom)
 
+                    features.append(Feature(geometry=geom, properties={"id": id,
+                     "name": fault,
+                     "Mmax": Mmax,
+                     "sliprate": sr,
+                     "NMS": NMS_i,
+                     "sr_seismic": sr_seismic_i}))
+                    
+                    id +=1
 
+                feature_collection = FeatureCollection(features)
+
+                with open(str(Run_name) +'/analysis/figures/FtF/'+Model+'/'+MFD_type+'_'+str(scenario_set)+'.geojson', 'w') as f:
+                   dump(feature_collection, f)
 
 
 
