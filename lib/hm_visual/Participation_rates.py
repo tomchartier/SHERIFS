@@ -35,14 +35,42 @@ def Geom_bg(Model_name,File_bg):
     return Lon_bg, Lat_bg
     
 def FaultGeometry(File_geom,model):       
-    #CritereDistance = 3. 
-    NomFichier_InfosZonage = File_geom
-    InfosZonage = np.genfromtxt(NomFichier_InfosZonage,dtype=[('U100'),('U100'),('f8'),('f8')],skip_header = 1)
-    Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
-    index_model = np.where(np.array(Column_model_name) == model)
-    Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
-    Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
-    Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
+    if not ".geojson" in File_geom :
+        NomFichier_InfosZonage = File_geom
+        InfosZonage = np.genfromtxt(NomFichier_InfosZonage,dtype=[('U100'),('U100'),('f8'),('f8')],skip_header = 1)
+        Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
+        index_model = np.where(np.array(Column_model_name) == model)
+        Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
+        Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
+        Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
+        
+    else : #the input file in a geojson
+        with open(File_geom) as f:
+            gj = geojson.load(f)
+        faults = gj['features']
+        
+        Longitudes = []
+        Latitudes = []
+        Depths = []
+        Column_Fault_name = []
+        
+        for fi in range(len(faults)):
+            if faults[fi]['properties']['model'] == Model :
+                lons_i = [i[0] for i in faults[fi]['geometry']["coordinates"]]
+                lats_i = [i[1] for i in faults[fi]['geometry']["coordinates"]]
+                dd = "sf"
+                nn = str(faults[fi]['properties']['si'])
+                for xx,yy in zip(lons_i,lats_i):
+                    Longitudes.append(xx)
+                    Latitudes.append(yy)
+                    Depths.append(dd)
+                    Column_Fault_name.append(nn)
+        
+#        self.Longitudes =Longitudes
+#        self.Latitudes =Latitudes
+#        self.Depths =Depths
+#        self.Column_Fault_name = Column_Fault_name
+    
     return Column_Fault_name,Longitudes,Latitudes
         
 def reproject(latitude, longitude):
@@ -197,16 +225,25 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
 #            list_fault_names = list_fault_names[:-3]
 #            list_fault_names = list_fault_names.split(' ') #adapt format to be usable (there is probably a better way to do that)
         
-        Prop = np.genfromtxt(File_prop,
-                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
-                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
-        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
-        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
-        index_model = np.where(np.array(Column_model_name) == str(mega_MFD[i_mfd][3]))[0]
-        Prop = np.take(Prop,index_model)
-        faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
-        faults_names = list(faults_names)
+        if not ".geojson" in File_prop:
+            Prop = np.genfromtxt(File_prop,
+                                       dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+                                              ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+            Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+            Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+            index_model = np.where(np.array(Column_model_name) == str(mega_MFD[i_mfd][3]))[0]
+            Prop = np.take(Prop,index_model)
+            faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
+            faults_names = list(faults_names)
         
+        else : #it's a geojson file
+            with open(File_prop) as f:
+                gj = geojson.load(f)
+            faults = gj['features']
+            faults_names = []
+            for fi in range(len(faults)):
+                if faults[fi]['properties']['model'] == Model :
+                    faults_names.append(str(faults[fi]['properties']['si']))
         
             
         for fault_name in faults_names:

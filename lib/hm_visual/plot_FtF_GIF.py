@@ -49,17 +49,28 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
     
     
     for Model in Model_list :
-        # new method
-        #Extraction of the faults and scenarios present in the model from the text file
-        Prop = np.genfromtxt(FileName_Prop,
-                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
-                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
-        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
-        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
-        index_model = np.where(np.array(Column_model_name) == Model)[0]
-        Prop = np.take(Prop,index_model)
-        faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
-        faults_names = list(faults_names)
+    
+        if not ".geojson" in FileName_Prop:
+            # new method
+            #Extraction of the faults and scenarios present in the model from the text file
+            Prop = np.genfromtxt(FileName_Prop,
+                                       dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+                                              ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+            Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+            Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+            index_model = np.where(np.array(Column_model_name) == Model)[0]
+            Prop = np.take(Prop,index_model)
+            faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
+            faults_names = list(faults_names)
+        
+        else : #it's a geojson file
+            with open(FileName_Prop) as f:
+                gj = geojson.load(f)
+            faults = gj['features']
+            faults_names = []
+            for fi in range(len(faults)):
+                if faults[fi]['properties']['model'] == Model :
+                    faults_names.append(str(faults[fi]['properties']['si']))
         
         geom_scenar = Geometry_scenario.Geom_scenar(faults_names,File_geom,Model)
         faults_lon = geom_scenar.faults_lon
@@ -405,12 +416,12 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     index_fault = np.where(np.array(fault_name_mean_param_set)==fault)[0][0]
                     Mmax = Mmax_mean_set[index_fault]
 
-                    geom = []
+                    trace = []
                     for lon_i,lat_i in zip(fault_geom[id]["trace_lon"],fault_geom[id]["trace_lat"]):
-                        geom.append([lon_i,lat_i])
-                    geom = LineString(geom)
+                        trace.append([lon_i,lat_i])
+                    trace = LineString(trace)
 
-                    features.append(Feature(geometry=geom, properties={"id": id,
+                    features.append(Feature(geometry=trace, properties={"id": id,
                      "name": fault,
                      "Mmax": Mmax,
                      "sliprate": sr,
