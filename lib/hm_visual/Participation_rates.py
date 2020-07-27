@@ -18,6 +18,7 @@ import pandas as pd
 
 import matplotlib.path as mplPath
 from math import pi, cos, radians
+import geojson
 
 
 def Geom_bg(Model_name,File_bg):
@@ -55,7 +56,7 @@ def FaultGeometry(File_geom,model):
         Column_Fault_name = []
         
         for fi in range(len(faults)):
-            if faults[fi]['properties']['model'] == Model :
+            if faults[fi]['properties']['model'] == model :
                 lons_i = [i[0] for i in faults[fi]['geometry']["coordinates"]]
                 lats_i = [i[1] for i in faults[fi]['geometry']["coordinates"]]
                 dd = "sf"
@@ -242,7 +243,7 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
             faults = gj['features']
             faults_names = []
             for fi in range(len(faults)):
-                if faults[fi]['properties']['model'] == Model :
+                if faults[fi]['properties']['model'] == str(mega_MFD[i_mfd][3]) :
                     faults_names.append(str(faults[fi]['properties']['si']))
         
             

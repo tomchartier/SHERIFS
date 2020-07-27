@@ -10,45 +10,55 @@ Populates the magnitude bins with the faults and scenarios that can generate the
 @author: Thomas Chartier
 """
 import numpy as np
+import pickle
 
-def pop(bin_mag,index_rup,rup_rates,M_min):
-    print("\t - Populating magnitude bins with ruptures")
-    
-    # Find ruptures that are smaller and in included in rupt i
-    rupt_included = []
-    for i_rup in index_rup:
-        rupt_included_i = []
-        involved_faults = rup_rates.get(str(i_rup)).get('involved_faults')
-        for j_rup in index_rup: #check if a smaller rupture included can generate the mag
-            if set(rup_rates.get(str(j_rup)).get('involved_faults'))<=set(involved_faults):
-                mmax_j = rup_rates.get(str(j_rup)).get('Mmax')
-                rupt_included_i.append([j_rup,mmax_j])
-        rupt_included.append(rupt_included_i)
-    
-    rup_in_bin = [] #for each bin, list the fault and scenarios in it.
-    for mag in bin_mag:
-        rup_in_bin_i = []
+def pop(bin_mag,index_rup,rup_rates,M_min,re_use,f_bin_pop):
+    if re_use == False :
+        print("\t - Populating magnitude bins with ruptures")
+        
+        # Find ruptures that are smaller and in included in rupt i
+        rupt_included = []
         for i_rup in index_rup:
+            rupt_included_i = []
             involved_faults = rup_rates.get(str(i_rup)).get('involved_faults')
-            Mmax = rup_rates.get(str(i_rup)).get('Mmax')
-            if len(involved_faults) == 1 : #its a fault
-                if Mmax >= M_min and mag <= Mmax :
-                    rup_in_bin_i.append(i_rup)
-            else : #its a scenario
-                if mag <= Mmax :
-                    add_scenario_to_bin =True
-                    for j_rup in rupt_included[i_rup]:
-                        if mag < j_rup[1] and  (j_rup[0] != i_rup):
-                            add_scenario_to_bin =False
-    #                for j_rup in index_rup: #check if a smaller rupture included can generate the mag
-    #                    if set(rup_rates.get(str(j_rup)).get('involved_faults'))<=set(involved_faults):
-    #                        if mag < rup_rates.get(str(j_rup)).get('Mmax') and  (j_rup != i_rup):
-    #                            add_scenario_to_bin =False
-                    if add_scenario_to_bin == True:
+            for j_rup in index_rup: #check if a smaller rupture included can generate the mag
+                if set(rup_rates.get(str(j_rup)).get('involved_faults'))<=set(involved_faults):
+                    mmax_j = rup_rates.get(str(j_rup)).get('Mmax')
+                    rupt_included_i.append([j_rup,mmax_j])
+            rupt_included.append(rupt_included_i)
+        
+        rup_in_bin = [] #for each bin, list the fault and scenarios in it.
+        for mag in bin_mag:
+            rup_in_bin_i = []
+            for i_rup in index_rup:
+                involved_faults = rup_rates.get(str(i_rup)).get('involved_faults')
+                Mmax = rup_rates.get(str(i_rup)).get('Mmax')
+                if len(involved_faults) == 1 : #its a fault
+                    if Mmax >= M_min and mag <= Mmax :
                         rup_in_bin_i.append(i_rup)
-        rup_in_bin.append(rup_in_bin_i)
-    
-    print("\t\t -> Bins populated.")
+                else : #its a scenario
+                    if mag <= Mmax :
+                        add_scenario_to_bin =True
+                        for j_rup in rupt_included[i_rup]:
+                            if mag < j_rup[1] and  (j_rup[0] != i_rup):
+                                add_scenario_to_bin =False
+        #                for j_rup in index_rup: #check if a smaller rupture included can generate the mag
+        #                    if set(rup_rates.get(str(j_rup)).get('involved_faults'))<=set(involved_faults):
+        #                        if mag < rup_rates.get(str(j_rup)).get('Mmax') and  (j_rup != i_rup):
+        #                            add_scenario_to_bin =False
+                        if add_scenario_to_bin == True:
+                            rup_in_bin_i.append(i_rup)
+            rup_in_bin.append(rup_in_bin_i)
+        
+        print("\t\t -> Bins populated.")
+        with open(f_bin_pop, 'wb') as f:
+            pickle.dump(rup_in_bin, f)
+        
+    else :
+        print('Reloading bin pop from data file')
+        with open(f_bin_pop, 'rb') as f:
+            rup_in_bin = pickle.load(f)
+                
     return rup_in_bin
 
 #def pop_old(bin_mag,faults_names,Mmax_faults,M_min,scenarios_names,index_faults_in_scenario,Mmax_scenario):

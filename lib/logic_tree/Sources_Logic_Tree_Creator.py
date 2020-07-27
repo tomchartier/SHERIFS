@@ -29,6 +29,7 @@ import faults_n_scenarios
 from OQ_job_Creator import OQ_job_Creator
 import read_input
 import geojson
+import pickle
 
 
 class Sources_Logic_Tree_Creator:
@@ -305,47 +306,61 @@ class Sources_Logic_Tree_Creator:
                         self.FaultGeometry(Model)  #extract the geometries from the geometry file
                         
                         print("\t - importing faults properties")
-                        for Fault_name in faults_names:
-                            # extract depth
-                            i_d = np.where(np.array(self.Column_Fault_name) == Fault_name)
-                            depth = list(map(lambda i : self.Depths[i],i_d[0]))
-                            #extractions of the properties of the fault
-                            self.FaultProperties(Fault_name,Model)
-                            dip = self.dip
-                            upper_sismo_depth = self.upper_sismo_depth
-                            lower_sismo_depth = self.lower_sismo_depth
-                            width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
-                            length = geom_scenar.length[index_fault] * 1000.
-                            area = length * width * 1000.
-                            
-                            if self.rake> -135. and self.rake< -45:
-                                mecanism = 'N'
-                            elif self.rake< 135. and self.rake> 45:
-                                mecanism = 'R'
-                            else :
-                                mecanism = 'S'
-                                
-                            slip_rate_min = self.slip_rate_min
-                            slip_rate_moy = self.slip_rate_moy
-                            slip_rate_max = self.slip_rate_max
+                        re_use = True
+                        f_prop_tmp = str(self.Run_Name)+'/'+Model+'/prop.pkl'
 
-                            faults_data.update({index_fault:{'name':Fault_name,
-                            'dip':dip,
-                            'oriented':self.oriented,
-                            'upper_sismo_depth':upper_sismo_depth,
-                            'lower_sismo_depth':lower_sismo_depth,
-                            'width':width,'length':length,'area':area,
-                            'mecanism':mecanism,'rake':self.rake,
-                            'slip_rate_min':slip_rate_min,
-                            'slip_rate_moy':slip_rate_moy,
-                            'slip_rate_max':slip_rate_max,
-                            'shear_mod':float(self.shear_mod)*10**9,
-                            'domain':self.Domain,
-                            'lon':faults_lon[index_fault],
-                            'lat':faults_lat[index_fault],
-                            'depth':depth}})
-                            index_fault += 1
-    
+                        if not os.path.isfile(f_prop_tmp):
+                            re_use = False
+                        if re_use == False:
+                            for Fault_name in faults_names:
+                                # extract depth
+                                i_d = np.where(np.array(self.Column_Fault_name) == Fault_name)
+                                depth = list(map(lambda i : self.Depths[i],i_d[0]))
+                                #extractions of the properties of the fault
+                                self.FaultProperties(Fault_name,Model)
+                                dip = self.dip
+                                upper_sismo_depth = self.upper_sismo_depth
+                                lower_sismo_depth = self.lower_sismo_depth
+                                width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
+                                length = geom_scenar.length[index_fault] * 1000.
+                                area = length * width * 1000.
+                                
+                                if self.rake> -135. and self.rake< -45:
+                                    mecanism = 'N'
+                                elif self.rake< 135. and self.rake> 45:
+                                    mecanism = 'R'
+                                else :
+                                    mecanism = 'S'
+                                    
+                                slip_rate_min = self.slip_rate_min
+                                slip_rate_moy = self.slip_rate_moy
+                                slip_rate_max = self.slip_rate_max
+
+                                faults_data.update({index_fault:{'name':Fault_name,
+                                'dip':dip,
+                                'oriented':self.oriented,
+                                'upper_sismo_depth':upper_sismo_depth,
+                                'lower_sismo_depth':lower_sismo_depth,
+                                'width':width,'length':length,'area':area,
+                                'mecanism':mecanism,'rake':self.rake,
+                                'slip_rate_min':slip_rate_min,
+                                'slip_rate_moy':slip_rate_moy,
+                                'slip_rate_max':slip_rate_max,
+                                'shear_mod':float(self.shear_mod)*10**9,
+                                'domain':self.Domain,
+                                'lon':faults_lon[index_fault],
+                                'lat':faults_lat[index_fault],
+                                'depth':depth}})
+                                index_fault += 1
+                            
+                            with open(f_prop_tmp, 'wb') as f:
+                                pickle.dump(faults_data, f)
+                        
+                        else :
+                            print('Reloading fault prop from tmp pickle file')
+                            with open(f_prop_tmp, 'rb') as f:
+                                faults_data = pickle.load(f)
+                            
                         print("Faults imported.")
     
                     if str_all_data == 'a' :

@@ -28,6 +28,7 @@ import maps.maps_utils as maps_utils
 import maps.geom as geom
 from sources.background import bg
 
+import geojson
 from geojson import LineString, Feature, FeatureCollection, dump
 
 
@@ -431,6 +432,9 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     id +=1
 
                 feature_collection = FeatureCollection(features)
+                
+                if not os.path.exists(str(Run_name) + '/analysis/figures/FtF/'+Model+'/'+scenario_set):
+                    os.makedirs(str(Run_name) + '/analysis/figures/FtF/'+Model+'/'+scenario_set)
 
                 with open(str(Run_name) +'/analysis/figures/FtF/'+Model+'/'+MFD_type+'_'+str(scenario_set)+'.geojson', 'w') as f:
                    dump(feature_collection, f)

@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import sys
+import pickle
 import scipy
 from scipy.interpolate import interp1d
 import scalling_laws
@@ -78,7 +79,7 @@ class EQ_on_faults_from_sr():
         # file containing a log of what happened during the calculation
         log_calculation_file = open(self.path +'/Log/calculation_sample_' + str(self.sample) + '.txt','w')
         
-        log_sliprep_file = open(self.path +'/Log/sliprep_sample_' + str(self.sample) + '.txt','w')
+        log_sliprep_file = self.path +'/Log/sliprep_sample_' + str(self.sample) + '.pkl'
         
         
         
@@ -262,7 +263,13 @@ class EQ_on_faults_from_sr():
         '''#####################################################################
         # For each bin, find which fault and which scenario populates it.
         #####################################################################'''
-        rup_in_bin = populate_bins.pop(bin_mag,index_rup,rup_rates,M_min)
+        re_use = True
+        f_bin_pop = self.path +'/Log/bin_pop.pkl'
+        if not os.path.isfile(f_bin_pop):
+            re_use = False
+        if str(self.sample) != '1'  :
+            re_use = False
+        rup_in_bin = populate_bins.pop(bin_mag,index_rup,rup_rates,M_min,re_use,f_bin_pop)
             
             
         '''##################################################################
@@ -382,11 +389,21 @@ class EQ_on_faults_from_sr():
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         ##################################################################'''
         
-        M_slip_repartition = [] #how the slip rate is used
+        M_slip_repartition = {} #how the slip rate is used
+        # for each fault, contains all the rupture and the number of time each is picked.
         for fault in faults_names :
-            M_slip_repartition_i = []
-            M_slip_repartition_i.append(fault)
-            M_slip_repartition.append(M_slip_repartition_i)
+#            M_slip_repartition_i = []
+#            M_slip_repartition_i.append(fault)
+#            M_slip_repartition.append(M_slip_repartition_i)
+            
+
+            dic_tmp = {}
+            for i in range(len(rup_rates)):
+                dic_tmp.update({str(i):0})
+                
+            dic_tmp.update({'NMS':0})
+                
+            M_slip_repartition.update({str(fault):dic_tmp})
             
         moment_rate_in_bin = np.zeros(len(bin_mag))   # moment aleardy present in the bin of magnitude
         model_MFD = []
@@ -421,6 +438,9 @@ class EQ_on_faults_from_sr():
         bool_target_set = False
         uniform_spending = True
         
+        # If deep analysis is turned on, display intermediate values in the prompt
+        deep_analysis =  True
+        
         # Option to not to the weighting of the ruptures at every loop.
         faster_rup_weight = True
 
@@ -430,7 +450,7 @@ class EQ_on_faults_from_sr():
         
         # if local MFD should also be respected
         # in this case, the
-        local_MFD = True
+        local_MFD = False
         if local_MFD == True :
             f_mfd_area = "./data/CHN/mfd_area.geojson"
             local_mfds, associated_rup, associated_weight = core_utils.link_rup_mfd_area(rup_rates,f_mfd_area,self.faults_lon,self.faults_lat,bin_mag)
@@ -474,25 +494,61 @@ class EQ_on_faults_from_sr():
             
             number_of_loops += 1
             
-            if number_of_loops >= 5000 :
-                if str(number_of_loops)[-4:] == "0000" or str(number_of_loops)[-4:] == "5000" :
-                    print("\nnumber_of_loops",number_of_loops)
-                    print("budget left : ",sum(faults_budget.values()))
-                    print("time weighting rupture pick : ",round(time_weight_rupt),"s")
-                    print("time checking target reach : ",round(time_checking_target_reach),"s")
-                    print("time spending dsr : ",round(time_spending_dsr),"s")
+                        
 #                    print("picked an empty rup : ",picked_empty_rup,"times",len(empty_rups),len(rup_rates))
                     
                             
                     #print("n_w_work",n_w_work,"n_w_crash",n_w_crash,weight_rup.sum())
                     
-            ''' Calculate the new target shape in each bin in terms of moment rate '''
-            tmp = time.time()
-            target_i = target.get_new_target(number_of_loops,moment_rate_in_bin,p_MFD_MO,target_moment_per_bin,bin_mag,empty_bins,bin_target_reached,rup_in_bin)
-            time_target_building += time.time() - tmp
-            most_likely_pick.append(bin_mag[list(target_i).index(max(list(target_i)))])
             
             if len(empty_bins) != len(bin_mag):
+                ''' Calculate the new target shape in each bin in terms of moment rate '''
+                tmp = time.time()
+                target_i = target.get_new_target(number_of_loops,moment_rate_in_bin,p_MFD_MO,target_moment_per_bin,bin_mag,empty_bins,bin_target_reached,rup_in_bin)
+                time_target_building += time.time() - tmp
+                if sum(target_i) == 0.:
+                    target_i = p_MFD_MO
+                try :
+                    most_likely_pick.append(bin_mag[list(target_i).index(max(list(target_i)))])
+                except :
+                    print(target_i)
+                    most_likely_pick.append(bin_mag[list(target_i).index(max(list(target_i)))])
+                    
+                ########
+                # deep analysis mode : display intermediate values of variable here
+                ########
+                if number_of_loops >= 5000 and deep_analysis == True:
+                    if str(number_of_loops)[-4:] == "0000" or str(number_of_loops)[-4:] == "5000" :
+                        print("\nnumber_of_loops",number_of_loops)
+                        print("budget left : ",sum(faults_budget.values()))
+                        print("time building target at time i : ",round(time_target_building),"s")
+                        print("time weighting rupture pick : ",round(time_weight_rupt),"s")
+                        print("time checking target reach : ",round(time_checking_target_reach),"s")
+                        print("time spending dsr : ",round(time_spending_dsr),"s")
+                        print("max target : ", max(target_i),"| last bin w : ",str(target_i[-1]))
+                        print("Empty mag bins:")
+                        print(empty_bins)
+                        budget_last_bin = 0
+                        for rup_i in rup_in_bin[-1]:
+                            if not str(rup_i) in empty_rups:
+                                for f_i in rup_rates.get(str(rup_i)).get('involved_faults'):
+                                    budget_last_bin += faults_budget[f_i]
+                        print("fault budget last bin :" , budget_last_bin)
+                        
+                        fig, (ax0, ax1) = plt.subplots(ncols=2)
+                        ax0.plot(bin_mag,target_i,label=("target_i"),marker='x')
+                        ax0.plot(bin_mag,p_MFD_MO,label=("p_MFD_MO"),marker='x')
+                        ax0.legend()
+                        
+                        ax1.plot(bin_mag,target_moment_per_bin,label=("target_moment_per_bin"),marker='x')
+                        ax1.plot(bin_mag,moment_rate_in_bin,label=("moment_rate_in_bin"),marker='x')
+                        ax1.set_yscale('log')
+                        ax1.legend()
+                        
+                        plt.savefig(self.path +'/Log/tmp_' + str(self.sample) + '.png' ,dpi = 80, transparent=True)
+                        plt.close()
+                        
+                
                 '''Pick the bin of magnitude to fill according to the current distribution '''
                 # normalize the target mfd
                 target_i = (target_i) / sum(target_i)
@@ -524,7 +580,7 @@ class EQ_on_faults_from_sr():
                                 
                                 if local_MFD == True :
                                     # we check if local a local MFD is followed, if not, the ruptures that can help
-                                    # to fit the local MFD are boosted or remotted.
+                                    # to fit the local MFD are boosted or demotted.
                                     factor_on_weight = core_utils.check_local_mfd(rup_rates, rup_in_bin[index_mag], index_mag, bin_mag, local_mfds, associated_rup, associated_weight)
                                     weight_rup_i = np.array([i*w for i,w in zip(weight_rup_i,factor_on_weight)])
                                     weight_rup_i /= weight_rup_i.sum()
@@ -558,10 +614,9 @@ class EQ_on_faults_from_sr():
                     if bool_target_set == False :
                         tmp = time.time()
                         last_bins_empty = True
-                        for rup_i in rup_in_bin[-3]+rup_in_bin[-2]+rup_in_bin[-1]:
-                            if last_bins_empty == True :
-                                if not str(rup_i) in empty_rups :
-                                    last_bins_empty = False
+                        for bin_i in range(len(bin_mag))[-3:]:
+                            if not bin_i in empty_bins :
+                                last_bins_empty = False
                         
                         if last_bins_empty == True : #if all the slip_rate has been spared for the Mmax - 0.3
                             rate_tot_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
@@ -584,10 +639,15 @@ class EQ_on_faults_from_sr():
                         # check if the rates of the antepenultimate bin is not too different of the two other ones
                         
                         antelast_bins_empty = True
-                        for rup_i in rup_in_bin[-1]+rup_in_bin[-2]:
-                            if antelast_bins_empty == True :
-                                if not str(rup_i) in empty_rups :
-                                    antelast_bins_empty = False
+                        
+                        for bin_i in range(len(bin_mag))[-2:]:
+                            if not bin_i in empty_bins :
+                                antelast_bins_empty = False
+                            
+#                        for rup_i in rup_in_bin[-1]+rup_in_bin[-2]:
+#                            if antelast_bins_empty == True :
+#                                if not str(rup_i) in empty_rups :
+#                                    antelast_bins_empty = False
                         if antelast_bins_empty == True and bool_target_set == False:
                             if moment_rate_in_bin[-3] >= 2. * (moment_rate_in_bin[-2]+moment_rate_in_bin[-1]):
                                 self.calculation_log_file.write('\n antepenultimate bin getting too high')
@@ -595,6 +655,7 @@ class EQ_on_faults_from_sr():
                                 for rup_i in rup_in_bin[-3]:
                                     if not str(rup_i) in empty_rups :
                                         empty_rups.append(str(rup_i))
+                                empty_bins.append(range(len(bin_mag))[-3])
                                 #rup_in_bin[-3] = []
                                 bool_target_set = True
 
@@ -708,7 +769,8 @@ class EQ_on_faults_from_sr():
                                     moment_rate_i = 0.
                                     for index in index_fault :
                                         for loop_spending in range(nb_loop_spending):
-                                            M_slip_repartition[index].append(picked_rup)
+                                            #M_slip_repartition[index].append(picked_rup)
+                                            M_slip_repartition[str(faults_names[index])][str(picked_rup)] += 1
                                         faults_budget[index]+=-1 * nb_loop_spending
                                         slip_rate_use_per_fault[index] += size_of_increment * nb_loop_spending
                                     rup_rates[str(picked_rup)]['rates'][picked_bin] += rate_i * nb_loop_spending
@@ -738,7 +800,8 @@ class EQ_on_faults_from_sr():
                                 moment_rate_i = 0.
                                 for index in index_fault :
                                     for loop_spending in range(nb_loop_spending):
-                                        M_slip_repartition[index].append(picked_rup)
+                                        #M_slip_repartition[index].append(picked_rup)
+                                        M_slip_repartition[str(faults_names[index])][str(picked_rup)] += 1
                                     faults_budget[index]+=-1 * nb_loop_spending
                                     slip_rate_use_per_fault[index] += size_of_increment * nb_loop_spending
                                 rup_rates[str(picked_rup)]['rates'][picked_bin] += rate_i * nb_loop_spending
@@ -759,9 +822,11 @@ class EQ_on_faults_from_sr():
                     
                         #rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
                     time_spending_dsr += time.time() - tmp
-#                else :
-#                    if not picked_bin in empty_bins:
-#                        empty_bins.append(picked_bin)
+                
+                else :
+                    print("picked empty bin")
+                    if not picked_bin in empty_bins:
+                        empty_bins.append(picked_bin)
                     
                     
 #                if number_of_loops > number_of_loops_before+200:
@@ -808,7 +873,8 @@ class EQ_on_faults_from_sr():
                                         if ratio_done > 0.01 :
                                             model_MFD, self.calculation_log_file,print_percent = core_utils.progress(model_MFD,self.calculation_log_file,ratio_done,print_percent,rup_rates,fault_prop,bin_mag)
                                         faults_budget[index_fault]+=-1
-                                        M_slip_repartition[index_fault].append('NMS')
+                                        #M_slip_repartition[index_fault].append('NMS')
+                                        M_slip_repartition[str(faults_names[index_fault])]['NMS'] += 1
                                         aseismic_count += 1
             else:
                 print('-target filled-')       
@@ -821,7 +887,8 @@ class EQ_on_faults_from_sr():
                     for index_fault in range(len(faults_names)):
                         if faults_budget[index_fault] > 0 :
                             faults_budget[index_fault]+=-1
-                            M_slip_repartition[index_fault].append('NMS')
+#                            M_slip_repartition[index_fault].append('NMS')
+                            M_slip_repartition[str(faults_names[index_fault])]['NMS'] += 1
                             aseismic_count += 1
         ''' check if the TARGET as been set.
         if not, build it for comparing'''
@@ -924,9 +991,12 @@ class EQ_on_faults_from_sr():
         self.calculation_log_file.write('\nratio of NMS : '+str(round((100.) * (aseismic_count/nb_ss_to_spend))))
         
         
-        for rup in M_slip_repartition:
-            for i in rup :
-                log_sliprep_file.write(str(i)+' ')
-            log_sliprep_file.write('\n')
-        log_sliprep_file.close()
+#        for rup in M_slip_repartition:
+#            for i in rup :
+#                log_sliprep_file.write(str(i)+' ')
+#            log_sliprep_file.write('\n')
+#        log_sliprep_file.close()
         
+        f = open(log_sliprep_file,"wb")
+        pickle.dump(M_slip_repartition,f)
+        f.close()

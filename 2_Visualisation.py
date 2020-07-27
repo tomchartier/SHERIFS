@@ -21,6 +21,8 @@ import time
 
 mpl.interactive(False)
 import sys
+from lib.utils import sap
+
 
 path_actuel=os.path.dirname(os.path.abspath(__file__))
 path_lib = path_actuel + '/lib'
@@ -52,7 +54,7 @@ def checking_the_input(input_file):
     lines = [line.rstrip('\n') for line in lines]
     for line in lines:
         if "Run_Name" in line :
-            Run_Name = line.split(':')[1].replace(' ','')
+            Run_name = line.split(':')[1].replace(' ','')
         if "File_geom" in line :
             File_geom = line.split(':')[1].replace(' ','')
         if "File_prop" in line :
@@ -87,26 +89,26 @@ def checking_the_input(input_file):
 
     print(Run_name)
     # booleans to know which figure to generat
-    do_catalog = True
+    do_catalog = False
     #If it's the first time you run it, you have to do the catalog! Then you can save time and not run it again
     
-    plot_mfd = True
+    plot_mfd = False
     
-    plot_mfd_detailled = True
+    plot_mfd_detailled = False
     
     plot_Mmax = True
     
-    plot_as_rep = True
+    plot_as_rep = False
     
     plot_rup_freq = True
     
     plot_sr_use = True
     
-    plot_moment_rate = True
+    plot_moment_rate = False
     
     visual_FtF = True   # !!! can take a very long time if there are a lot of FtF
     
-    test_fit_to_data = True
+    test_fit_to_data = False
             
     OQ_job = OQ_job_Creator(Run_name) # ask the info about the run and create the job.ini file
     Mmin = OQ_job.Mmin
@@ -170,7 +172,7 @@ def checking_the_input(input_file):
                 for fault in faults_name_list[0]:
                     Mmax_ruptures_fault=[]
                     for source,Mmax_i in zip(sources_names,sources_Mmax):
-                        if fault in source:
+                        if fault == source or "['"+fault+"']" in source:
                             Mmax_ruptures_fault.append(Mmax_i)
                     n=[]
                     for mag in bining_in_mag:
@@ -287,8 +289,6 @@ def checking_the_input(input_file):
     time_i = time.time()
         
     if plot_rup_freq == True :
-
-        
         Participation_rates.plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD,scenarios_names_list,ScL_complet_list,
                                      ScL_list, Model_list,BG_hyp_list,dimension_used_list,faults_name_list,sample_list,b_value_list,MFD_type_list,m_Mmax,
                                      mega_bining_in_mag,a_s_model,b_sample,sm_sample,Mt_sample,plot_mfd,plot_as_rep,plot_Mmax,xmin,xmax,ymin,ymax,
@@ -339,12 +339,12 @@ def checking_the_input(input_file):
             MFD_type_list,total_list_MFD_type)
         
 
-  fin = time.time()-debut
-  days = int(fin / 24. / 60. / 60.)
-  hours = int((fin - days * 24. * 60. * 60.) / 60. / 60.)
-  minutes = int((fin - days * 24. * 60. * 60. - hours* 60. * 60. ) / 60.)
-  seconds = (fin - days * 24. * 60. * 60. - hours* 60. * 60.  - minutes * 60.)
-  print("The calculation took: " + str(days) + ' days, ' + str(hours) + ' hours, ' + str(minutes) + ' minutes and ' + str(seconds) + ' seconds.')
+    fin = time.time()-debut
+    days = int(fin / 24. / 60. / 60.)
+    hours = int((fin - days * 24. * 60. * 60.) / 60. / 60.)
+    minutes = int((fin - days * 24. * 60. * 60. - hours* 60. * 60. ) / 60.)
+    seconds = (fin - days * 24. * 60. * 60. - hours* 60. * 60.  - minutes * 60.)
+    print("The calculation took: " + str(days) + ' days, ' + str(hours) + ' hours, ' + str(minutes) + ' minutes and ' + str(seconds) + ' seconds.')
 
         
 #if __name__=="__main__":

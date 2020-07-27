@@ -19,12 +19,14 @@ def get_new_target(number_of_loops,moment_rate_in_bin,p_MFD_MO,target_moment_per
 
     target_i = (target_i)/sum(target_i)# normalize the target to use it as a probability distribution
     for i in range(len(target_i)) :
-        if 1.05 * p_MFD_MO[i] <= shape_mfd_i[i] :
+        if 1.05 * p_MFD_MO[i] >= shape_mfd_i[i] : # if too low, increase the probability
+            target_i[i] = target_i[i] * 100.
+        if 1.05 * p_MFD_MO[i] <= shape_mfd_i[i] : # if too high, reduce the probability
             target_i[i] = target_i[i] / 100.
         if target_i[i] <= 0. :
-            target_i[i] = p_MFD_MO[i] / 1000. #can't have a negative number in the distribution so we put a very small one (10E-15 N.m)
-        if i in empty_bins or len(rup_in_bin[i]) == 0 :
-            target_i[i] = p_MFD_MO[i] / 100000.  # don't pick bins where target is reached
+            target_i[i] = 0.# p_MFD_MO[i] / 1000. #can't have a negative number in the distribution so we put a very small one (10E-15 N.m)
+        if i in empty_bins:# or len(rup_in_bin[i]) == 0 :
+            target_i[i] = 0.#p_MFD_MO[i] / 100000.  # don't pick bins where target is reached
     target_i = (target_i)/sum(target_i)# normalize the target to use it as a probability distribution
     
     return target_i

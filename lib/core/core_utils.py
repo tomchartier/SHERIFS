@@ -148,7 +148,8 @@ def variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use
         sr_involved.append(faults_slip_rates[index])
     norm_involved = [int(round(i/min(sr_involved))) for i in sr_involved]
     for index, factor in zip(index_fault,norm_involved) :
-        M_slip_repartition[index].append(picked_rup)
+        #M_slip_repartition[index].append(picked_rup)
+        M_slip_repartition[str(faults_names[index])][str(picked_rup)] += 1
         faults_budget[index]+=-(1*factor)
         slip_rate_use_per_fault[index] += size_of_increment
         nb_sdr_used+=(1*factor)
@@ -246,8 +247,8 @@ def check_local_mfd(rup_rates, rup_in_bin, picked_bin, bin_mag, local_mfds, asso
         if sum(rates) != 0. :
             p_rates = (rates) / sum(rates) # transform to a probability distribution.
             
-            wiggle_room = 0.02
-            # 2% of the first rate of bin as wiggle room
+            wiggle_room = 0.1
+            # 10% of the first rate of bin as wiggle room
             # this allow the range of accepttalbe rates to be largers as the magnitude increase
             min_acceptable = local_mfd[picked_bin] - local_mfd[0] * wiggle_room
             max_acceptable = local_mfd[picked_bin] + local_mfd[0] * wiggle_room

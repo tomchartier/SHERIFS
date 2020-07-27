@@ -158,15 +158,15 @@ def orient_fault(lons,lats,orientated):
         if compass_bearing < 180. :
             lons = reversed(lons)
             lats = reversed(lats)
-    if str('S') in str(orientated):
+    elif str('S') in str(orientated):
         if compass_bearing > 180. :
             lons = reversed(lons)
             lats = reversed(lats)
-    if str('E') in str(orientated):
+    elif str('E') in str(orientated):
         if compass_bearing > 90. and compass_bearing < 270. :
             lons = reversed(lons)
             lats = reversed(lats)
-    if str('W') in str(orientated):
+    elif str('W') in str(orientated):
         if compass_bearing < 90. or compass_bearing > 270. :
             lons = reversed(lons)
             lats = reversed(lats)
@@ -302,7 +302,7 @@ def FaultProperties(File_prop,Name_of_fault,Model):
         lower_sismo_depth = Prop[Indexfault_final][0][6]
         
     else : #it's a geojson file
-        with open(File_geom) as f:
+        with open(File_prop) as f:
             gj = geojson.load(f)
         faults = gj['features']
         for fi in range(len(faults)):

@@ -196,7 +196,7 @@ def extract(Run_name):
                 if b_value == b_value_list[0] and MFD_type==MFD_type_list[0]:
                     Mmax_fault =0.
                     for source,Mmax_i in zip(sources_names,sources_Mmax):
-                        if fault_name in source:
+                        if fault_name == source or "['"+fault_name+"']" in source:
                             if float(Mmax_i) > Mmax_fault :
                                 Mmax_fault = Mmax_i
                     mean_parameters_faults.write(str(Model) +'\t'+  str(scenario_set) +'\t'+str(fault_name)+'\t'+str(sr)+'\t'+str(Mmax_fault)+'\n')
