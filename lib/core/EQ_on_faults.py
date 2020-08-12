@@ -88,6 +88,7 @@ class EQ_on_faults_from_sr():
         #####################################################################        
         scenarios_names = self.scenarios
               
+        print("Building scenarios and Mmax")
         '''##################################################################
         # finds the faults belonging to each scenario
         ##################################################################'''
@@ -223,6 +224,8 @@ class EQ_on_faults_from_sr():
         if loop_Mmax >= 3 :
             print('Mmax imposed: '+str(Mmax))#+'   see EQ_on_faults.py for details.')
             self.calculation_log_file.write('\nMmax imposed: '+str(Mmax))#+'   see EQ_on_faults.py for details.')
+            
+        print("\t - scenario and max built")
         '''##################################################################
         #etablish the magnitude bin (0.1)
         ##################################################################'''
@@ -391,15 +394,16 @@ class EQ_on_faults_from_sr():
         
         M_slip_repartition = {} #how the slip rate is used
         # for each fault, contains all the rupture and the number of time each is picked.
-        for fault in faults_names :
+        for fault,i in zip(faults_names,range(len(faults_names))) :
 #            M_slip_repartition_i = []
 #            M_slip_repartition_i.append(fault)
 #            M_slip_repartition.append(M_slip_repartition_i)
             
 
             dic_tmp = {}
-            for i in range(len(rup_rates)):
-                dic_tmp.update({str(i):0})
+            for rup_i in range(len(rup_rates)):
+                if i in rup_rates.get(str(rup_i)).get('involved_faults'):
+                    dic_tmp.update({str(rup_i):0})
                 
             dic_tmp.update({'NMS':0})
                 
@@ -486,6 +490,7 @@ class EQ_on_faults_from_sr():
         n_w_work = 0
         n_w_crash = 0
         picked_empty_rup = 0
+        old_percent = '0000'
         
         while sum(faults_budget.values()) != 0 : # as long as there is some slip-rate to spend we keep going
             ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
@@ -517,10 +522,14 @@ class EQ_on_faults_from_sr():
                 ########
                 # deep analysis mode : display intermediate values of variable here
                 ########
-                if number_of_loops >= 5000 and deep_analysis == True:
-                    if str(number_of_loops)[-4:] == "0000" or str(number_of_loops)[-4:] == "5000" :
+                if deep_analysis == True:
+                    percent = round((1.-float(sum(faults_budget.values()))/float(nb_ss_to_spend)) * 100.)
+                    percent = '{:04d}'.format(percent)
+                    #if str(number_of_loops)[-4:] == "0000" or str(number_of_loops)[-4:] == "5000" :
+                    if percent != old_percent :
+                        old_percent = percent
                         print("\nnumber_of_loops",number_of_loops)
-                        print("budget left : ",sum(faults_budget.values()))
+                        print("budget left : ",sum(faults_budget.values())," | ",percent,"%")
                         print("time building target at time i : ",round(time_target_building),"s")
                         print("time weighting rupture pick : ",round(time_weight_rupt),"s")
                         print("time checking target reach : ",round(time_checking_target_reach),"s")
@@ -824,7 +833,7 @@ class EQ_on_faults_from_sr():
                     time_spending_dsr += time.time() - tmp
                 
                 else :
-                    print("picked empty bin")
+                    #print("picked empty bin")
                     if not picked_bin in empty_bins:
                         empty_bins.append(picked_bin)
                     

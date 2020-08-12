@@ -67,34 +67,35 @@ def sr_rate(Run_name,scenarios_names_list,mega_MFD,Model_list,MFD_type_list):
                             n_FtF_12 = 0.
                             n_FtF_13 = 0.
                             for rup_i,rup_length_i in zip(rup_id,rup_length):
-                                c = data_sr_rep[f_i][str(rup_i)]
-                                if rup_length_i >= 13 :
-                                    n_FtF_13 += c
-                                if rup_length_i == 12 :
-                                    n_FtF_12 += c
-                                if rup_length_i == 11 :
-                                    n_FtF_11 += c
-                                if rup_length_i == 10 :
-                                    n_FtF_10 += c
-                                if rup_length_i == 9 :
-                                    n_FtF_9 += c
-                                if rup_length_i == 8 :
-                                    n_FtF_8 += c
-                                if rup_length_i == 7 :
-                                    n_FtF_7 += c
-                                if rup_length_i == 6 :
-                                    n_FtF_6 += c
-                                if rup_length_i == 5 :
-                                    n_FtF_5 += c
-                                if rup_length_i == 4 :
-                                    n_FtF_4 += c
-                                if rup_length_i == 3 :
-                                    n_FtF_3 += c
-                                if rup_length_i == 2 :
-                                    n_FtF_2 += c
-                                if rup_length_i == 1 :
-                                    n_fault_alone += c
-                                total_number += c
+                                if str(rup_i) in data_sr_rep[f_i]:
+                                    c = data_sr_rep[f_i][str(rup_i)]
+                                    if rup_length_i >= 13 :
+                                        n_FtF_13 += c
+                                    if rup_length_i == 12 :
+                                        n_FtF_12 += c
+                                    if rup_length_i == 11 :
+                                        n_FtF_11 += c
+                                    if rup_length_i == 10 :
+                                        n_FtF_10 += c
+                                    if rup_length_i == 9 :
+                                        n_FtF_9 += c
+                                    if rup_length_i == 8 :
+                                        n_FtF_8 += c
+                                    if rup_length_i == 7 :
+                                        n_FtF_7 += c
+                                    if rup_length_i == 6 :
+                                        n_FtF_6 += c
+                                    if rup_length_i == 5 :
+                                        n_FtF_5 += c
+                                    if rup_length_i == 4 :
+                                        n_FtF_4 += c
+                                    if rup_length_i == 3 :
+                                        n_FtF_3 += c
+                                    if rup_length_i == 2 :
+                                        n_FtF_2 += c
+                                    if rup_length_i == 1 :
+                                        n_fault_alone += c
+                                    total_number += c
                             n_NMS = data_sr_rep[f_i]['NMS']
                             total_number += n_NMS
                             

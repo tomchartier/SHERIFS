@@ -96,13 +96,13 @@ def checking_the_input(input_file):
     
     plot_mfd_detailled = False
     
-    plot_Mmax = True
+    plot_Mmax = False
     
     plot_as_rep = False
     
     plot_rup_freq = True
     
-    plot_sr_use = True
+    plot_sr_use = False
     
     plot_moment_rate = False
     
