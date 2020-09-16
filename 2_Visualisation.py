@@ -72,7 +72,8 @@ def checking_the_input(input_file):
     completness_file = 'data/Example/completness.txt'
     catalog_file = 'data/Example/catalog.txt'
     file_faults_data = 'data/Example/EQ_on_faults_data.txt'
-    sub_area_file = 'data/sub_areas.txt'
+#    sub_area_file = 'data/sub_areas.txt'
+    sub_area_file = 'data/CHN/mfd_area.geojson'
     end_year_of_catalog = 2009
 
     llcrnrlon=21.6
@@ -82,7 +83,7 @@ def checking_the_input(input_file):
     
     xmax = 6.8
     ymin = 0.00001
-    ymax = 0.5
+    ymax = 5.
     
     
     
@@ -96,7 +97,7 @@ def checking_the_input(input_file):
     
     plot_mfd_detailled = False
     
-    plot_Mmax = False
+    plot_Mmax = True
     
     plot_as_rep = False
     

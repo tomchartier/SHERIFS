@@ -42,10 +42,6 @@ def pop(bin_mag,index_rup,rup_rates,M_min,re_use,f_bin_pop):
                         for j_rup in rupt_included[i_rup]:
                             if mag < j_rup[1] and  (j_rup[0] != i_rup):
                                 add_scenario_to_bin =False
-        #                for j_rup in index_rup: #check if a smaller rupture included can generate the mag
-        #                    if set(rup_rates.get(str(j_rup)).get('involved_faults'))<=set(involved_faults):
-        #                        if mag < rup_rates.get(str(j_rup)).get('Mmax') and  (j_rup != i_rup):
-        #                            add_scenario_to_bin =False
                         if add_scenario_to_bin == True:
                             rup_in_bin_i.append(i_rup)
             rup_in_bin.append(rup_in_bin_i)

@@ -11,6 +11,7 @@ import rates
 import mfd_shape
 
 import geojson
+from scipy.interpolate import interp1d
 
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
@@ -156,7 +157,7 @@ def variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use
     return M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used
 
 
-def link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag):
+def link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag,bg_ratio):
     '''
     Link each rupture with the area that describe the
     local mfd to respect (on top of the global mfd).
@@ -167,6 +168,8 @@ def link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag):
     f_mfd_area : str, path to the geojson file that contains the areas where a local mfd should be respected.
     
     faults_lon, faults_lat : list, list of the coordinates of the fault points.
+    
+    bg_ratio : list, ratio of the seismicity occuring on the faults and not in the bachground for the whole model.
     
     returns :
     local_mfds : list, list of mfd shapes tobe followed locally. (right now only GR is possible, but it can be modified.
@@ -182,37 +185,69 @@ def link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag):
     areas = gj["features"]
     local_mfds, associated_rup, associated_weight = [], [], []
     for area_i in areas:
-        b_value = area_i["properties"]["b_value"]
-        poly = []
-        for pt in area_i["geometry"]["coordinates"][0][0]:
-            poly.append((pt[0],pt[1]))
-        polygon = Polygon(poly)
-        
-        mfd_param = {"b_value" : b_value}
-        
-        p_MFD = mfd_shape.GR(mfd_param,bin_mag)
-        local_mfds.append((p_MFD) / sum(p_MFD))
-        
-        associated_rup_i = []
-        associated_weight_i = []
-        for rup_i in rup_rates:
-            
-            id_sections = rup_rates.get(rup_i).get("involved_faults")
-            nb_sections = len(id_sections)
-            nb_in = 0
-            for id_s in id_sections:
-                is_in = False
-                for lon_i,lat_i in zip(faults_lon[id_s],faults_lat[id_s]):
-                    if is_in == False :
-                        if polygon.contains(Point(lon_i, lat_i)):
-                            is_in = True
-                if is_in == True :
-                   nb_in += 1
-            if nb_in != 0 :
-                associated_rup_i.append(rup_rates.get(rup_i).get("rup_id"))
-                associated_weight_i.append(float(nb_in)/float(nb_sections))
-        associated_rup.append(associated_rup_i)
-        associated_weight.append(associated_weight_i)
+        if 'b_value' in area_i["properties"].keys():
+            if not area_i["properties"]["b_value"] == None :
+                b_value = area_i["properties"]["b_value"]
+                poly = []
+                for pt in area_i["geometry"]["coordinates"][0][0]:
+                    poly.append((pt[0],pt[1]))
+                polygon = Polygon(poly)
+                
+                mfd_param = {"b_value" : b_value}
+                
+                p_MFD = mfd_shape.GR(mfd_param,bin_mag)
+                p_MFD /= sum(p_MFD)
+                
+                # Find if a local background has to be applied for the shape
+                apply_global_bg = True
+                if 'bg' in area_i["properties"].keys():
+                    if not area_i["properties"]["bg"] in [None,"global"] :
+                        apply_global_bg = False
+                if apply_global_bg == True :
+                    bg_ratio_loc = bg_ratio
+                else : # apply a local background
+                    if type(area_i["properties"]["bg"]) == type([0,0]):
+                        bg_ratio_loc = area_i["properties"]["bg"]
+                    else :
+                        print("ERROR !!! please verify the local background proportions")
+                
+                # Apply the background ratio to the local target shape
+                bin_mag_fault_prop = [ 4., 4.5, 5., 5.5, 6., 6.5, 7., 7.5, 8.]
+                fault_prop_inc = bg_ratio_loc
+                bin_mag_fault_prop.append(10.)
+                fault_prop_inc = np.append(np.array(fault_prop_inc),1.)
+                fault_prop = interp1d(bin_mag_fault_prop,fault_prop_inc)
+                p_MFD_faults = []
+                index_mag = 0
+                for mag in bin_mag :
+                    p_MFD_faults.append(fault_prop(mag) * p_MFD[index_mag])
+                    index_mag+=1
+                
+                # add to the list of local MFDs
+                local_mfds.append(p_MFD_faults)
+                
+                # Find the ruptures in the area
+                # The sum of their eq rates will need to follow the local shape
+                associated_rup_i = []
+                associated_weight_i = []
+                for rup_i in rup_rates:
+                    
+                    id_sections = rup_rates.get(rup_i).get("involved_faults")
+                    nb_sections = len(id_sections)
+                    nb_in = 0
+                    for id_s in id_sections:
+                        is_in = False
+                        for lon_i,lat_i in zip(faults_lon[id_s],faults_lat[id_s]):
+                            if is_in == False :
+                                if polygon.contains(Point(lon_i, lat_i)):
+                                    is_in = True
+                        if is_in == True :
+                           nb_in += 1
+                    if nb_in != 0 :
+                        associated_rup_i.append(rup_rates.get(rup_i).get("rup_id"))
+                        associated_weight_i.append(float(nb_in)/float(nb_sections))
+                associated_rup.append(associated_rup_i)
+                associated_weight.append(associated_weight_i)
                 
     return local_mfds, associated_rup, associated_weight
 
@@ -247,14 +282,19 @@ def check_local_mfd(rup_rates, rup_in_bin, picked_bin, bin_mag, local_mfds, asso
         if sum(rates) != 0. :
             p_rates = (rates) / sum(rates) # transform to a probability distribution.
             
-            wiggle_room = 0.1
-            # 10% of the first rate of bin as wiggle room
-            # this allow the range of accepttalbe rates to be largers as the magnitude increase
-            min_acceptable = local_mfd[picked_bin] - local_mfd[0] * wiggle_room
-            max_acceptable = local_mfd[picked_bin] + local_mfd[0] * wiggle_room
+#            wiggle_room = 0.01
+#            # 1% of the first rate of bin as wiggle room
+#            # this allow the range of accepttalbe rates to be largers as the magnitude increase
+#            min_acceptable = local_mfd[picked_bin] - local_mfd[0] * wiggle_room
+#            max_acceptable = local_mfd[picked_bin] + local_mfd[0] * wiggle_room
+            
+            wiggle_room = 0.2
+            # Uniform +- 20% for all bins
+            min_acceptable = local_mfd[picked_bin] - local_mfd[picked_bin] * wiggle_room
+            max_acceptable = local_mfd[picked_bin] + local_mfd[picked_bin] * wiggle_room
             
             # the factor is to be applied on the weight in order to help fit in the acceptable range.
-            factor = 10.
+            factor = 100.
             if p_rates[picked_bin] < min_acceptable :
                 for id_w in range(len(rup_in_bin)):
                     if rup_in_bin[id_w] in associated_rup_i:

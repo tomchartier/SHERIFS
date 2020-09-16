@@ -183,6 +183,10 @@ class Source_Model_Creator:
         ########################################################
         # find which faults interact a lot with each other
         ########################################################
+        print("Picking slip-rates...")
+        if self.sample == 1 :
+            self.sr_correl = False
+            
         if self.sr_correl ==True :
             M_faults_correl = []
             for Fault_name in faults_names:
@@ -317,7 +321,8 @@ class Source_Model_Creator:
 #                faults_shear_mod.append(float(self.shear_mod)*10**9 )
                 faults_shear_mod.append(faults_data[index_fault]['shear_mod'])
                 
-                index_fault += 1            
+                index_fault += 1
+        print("\t\tslip-rates picked.")
             
         ratio_test = 0.5
         count_reruns = 1 #used to divide the sr increment if the fit is not good
@@ -707,9 +712,10 @@ class Source_Model_Creator:
         Lon_bg, Lat_bg  = bg.geom(self.Model_name,self.File_bg )
         upperSeismoDepth, lowerSeismoDepth, ruptAspectRatio, nodalPlanes, hypoDepths = bg.prop(self.Model_name,self.file_prop_bg)
         
-        MFD = MFDs.EQ_rate_BG   
-        if sum(MFD) != 0. :
-            line='\t\t<areaSource id="'+ str(ID_number + 1 ) +'" name="Background" tectonicRegion="' + str(self.Domain) + '">\n'
+        MFD = MFDs.EQ_rate_BG
+        do_bg_in_SHERIFS = True
+        if sum(MFD) != 0. and do_bg_in_SHERIFS == True:
+            line='\t\t<areaSource id="'+ str(ID_number + 1 ) +'" name="Background" tectonicRegion="' + str(self.Domain_in_the_model[0]) + '">\n'
             line+='\t\t\t<areaGeometry>\n'
             line+='\t\t\t\t<gml:Polygon>\n'
             line+='\t\t\t\t\t<gml:exterior>\n'

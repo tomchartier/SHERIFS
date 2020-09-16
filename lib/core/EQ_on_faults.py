@@ -286,10 +286,9 @@ class EQ_on_faults_from_sr():
         bin_mag_fault_prop.append(10.)
         #print type(fault_prop_inc)
         fault_prop_inc = np.append(np.array(fault_prop_inc),1.)
-        
         fault_prop = interp1d(bin_mag_fault_prop,fault_prop_inc) 
         
-        EQ_rate_BG = np.zeros(len(bin_mag)) #rate of EQ in the BG for each magnitude
+        #EQ_rate_BG = np.zeros(len(bin_mag)) #rate of EQ in the BG for each magnitude
             
         
         '''##################################################################
@@ -378,13 +377,18 @@ class EQ_on_faults_from_sr():
             size_of_increment = size_of_increment/(float(self.count_reruns)*1.5-1.) #divide the size of the increment if there are re-runs
         
         faults_budget = {}
-        min_budget = 10**10
+#        min_budget = 10**10
         for index_fault in range(len(faults_names)) :
             nb_dsr= int(round(faults_slip_rates[index_fault] / size_of_increment,0))  #nb of dsr to spend
+            if nb_dsr == 0 :
+                nb_dsr = 1
             faults_budget.update({index_fault:nb_dsr})
-            if nb_dsr < min_budget :
-                min_budget = nb_dsr
-            
+#            if nb_dsr < min_budget :
+#                min_budget = nb_dsr
+        min_budget = float(min(faults_budget.values())) + 1
+        max_budget = float(max(faults_budget.values()))
+        while max_budget/min_budget > 50.:
+            min_budget *= 2.
             
         '''##################################################################
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -395,10 +399,6 @@ class EQ_on_faults_from_sr():
         M_slip_repartition = {} #how the slip rate is used
         # for each fault, contains all the rupture and the number of time each is picked.
         for fault,i in zip(faults_names,range(len(faults_names))) :
-#            M_slip_repartition_i = []
-#            M_slip_repartition_i.append(fault)
-#            M_slip_repartition.append(M_slip_repartition_i)
-            
 
             dic_tmp = {}
             for rup_i in range(len(rup_rates)):
@@ -423,8 +423,6 @@ class EQ_on_faults_from_sr():
         len_faults_budget = [] # will be use to check if the calculation is stuck and too slow (see under)
         aseismic_count = 0
         
-#        time_weighting_faults = 0
-#        time_checking_the_fit_2 = 0
         color_mag= []
         
         
@@ -454,10 +452,10 @@ class EQ_on_faults_from_sr():
         
         # if local MFD should also be respected
         # in this case, the
-        local_MFD = False
+        local_MFD = True
         if local_MFD == True :
             f_mfd_area = "./data/CHN/mfd_area.geojson"
-            local_mfds, associated_rup, associated_weight = core_utils.link_rup_mfd_area(rup_rates,f_mfd_area,self.faults_lon,self.faults_lat,bin_mag)
+            local_mfds, associated_rup, associated_weight = core_utils.link_rup_mfd_area(rup_rates,f_mfd_area,self.faults_lon,self.faults_lat,bin_mag,self.bg_ratio)
         
         #log the time used for several parts
         time_weight_rupt = 0.
@@ -744,10 +742,7 @@ class EQ_on_faults_from_sr():
                             empty_rups.append(str(picked_rup))
                         else :
                             picked_empty_rup += 1
-                            #print("Is picking empty rups...",len(empty_rups))
-#                            for index_mag in range(len(bin_mag)):
-#                                if picked_rup in rup_in_bin[index_mag]:
-#                                    rup_in_bin[index_mag].remove(picked_rup)
+                            
                     if sr_to_spend == True :
                         shear_mod = shear_mod / float(len(index_fault))
                         area = rup_rates.get(str(picked_rup)).get('area')
@@ -759,11 +754,6 @@ class EQ_on_faults_from_sr():
                             nb_loop_spending = int(min_budget_local/min_budget)
                             if nb_loop_spending < 1:
                                 nb_loop_spending = 1
-
-#                            if number_of_loops >= 1000 :
-#                                if str(number_of_loops)[-3:] == "000":
-#                                    print("\nmin_budget_local",min_budget_local)
-#                                    print("nb_loop_spending : ",nb_loop_spending)
                         else :
                             nb_loop_spending = 1
                             

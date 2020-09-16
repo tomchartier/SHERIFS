@@ -336,23 +336,21 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
             
                 if use_basemap == True:
                     m1 = copy.copy(m)
-#                if len(Lon_bg) != 0 : #draw the background zone
-#                    maps_utils.draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.1, 0.5, 'k')
-                    
-                fault_colors = []
-                for fault in faults_names:
-                    index_fault = np.where(np.array(fault_name_rep)==fault)[0][0]
-                    NMS_i = p_NMS[index_fault]
 
-                    cmap = matplotlib.cm.get_cmap('rainbow')
-                    if NMS_i >= 50.:
-                        NMS_i = 50.
-                    rgba = cmap(float(NMS_i*2.)/100.)
-                    fault_colors.append(rgba)
                 if use_basemap == True:
-                    maps_utils.make_fault_map(m,fault_geom,
-                    fault_colors,figpath,
-                    title,dpi=180,use_arcgis=False)
+                    fault_colors = []
+                    for fault in faults_names:
+                        index_fault = np.where(np.array(fault_name_rep)==fault)[0][0]
+                        NMS_i = p_NMS[index_fault]
+
+                        cmap = matplotlib.cm.get_cmap('rainbow')
+                        if NMS_i >= 50.:
+                            NMS_i = 50.
+                        rgba = cmap(float(NMS_i*2.)/100.)
+                        fault_colors.append(rgba)
+                        maps_utils.make_fault_map(m,fault_geom,
+                        fault_colors,figpath,
+                        title,dpi=180,use_arcgis=False)
 
          
 
@@ -377,25 +375,24 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
 
 #                if len(Lon_bg) != 0 : #draw the background zone
 #                    maps_utils.draw_screen_poly(Lon_bg, Lat_bg,  m ,'g' , 0.1, 0.5, 'k')
-                
-                fault_colors = []
-                for fault in faults_names:
-                    index_fault = np.where(np.array(fault_name_rep)==fault)[0][0]
-                    NMS_i = p_NMS[index_fault]
-
-                    index_fault = np.where(np.array(fault_name_mean_param)==fault)[0][0]
-                    sr = sr_mean[index_fault]
-
-                    sr_seismic_i = sr*(1. - float(NMS_i)/100.)
                     
-                    cmap = matplotlib.cm.get_cmap('rainbow')
-                    rgba = cmap(sr_seismic_i/max(sr_mean))
-                    fault_colors.append(rgba)
-                     
-                if use_basemap == True:
-                    maps_utils.make_fault_map(m2,fault_geom,
-                    fault_colors,figpath,
-                    title,dpi=180,use_arcgis=False)
+                    fault_colors = []
+                    for fault in faults_names:
+                        index_fault = np.where(np.array(fault_name_rep)==fault)[0][0]
+                        NMS_i = p_NMS[index_fault]
+
+                        index_fault = np.where(np.array(fault_name_mean_param)==fault)[0][0]
+                        sr = sr_mean[index_fault]
+
+                        sr_seismic_i = sr*(1. - float(NMS_i)/100.)
+                        
+                        cmap = matplotlib.cm.get_cmap('rainbow')
+                        rgba = cmap(sr_seismic_i/max(sr_mean))
+                        fault_colors.append(rgba)
+                         
+                        maps_utils.make_fault_map(m2,fault_geom,
+                        fault_colors,figpath,
+                        title,dpi=180,use_arcgis=False)
                   
 
 

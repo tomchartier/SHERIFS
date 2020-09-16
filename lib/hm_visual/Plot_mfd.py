@@ -344,13 +344,14 @@ def plt_mfd(Run_name,mega_MFD, scenarios_names_list, ScL_complet_list, ScL_list,
         
         patch = patches.PathPatch(path_poly,facecolor = 'darkgreen', lw = 0., alpha = 0.15)
         axes.add_patch(patch)
-                    
+        
+        
     plt.scatter(mega_bining_in_mag,np.percentile(mfd_X,50,axis=0),
-                c='darkgreen', s=25, edgecolor='',marker = 'o',alpha = 0.8)
+                c='darkgreen', s=25,marker = 'o',alpha = 0.8)
     plt.scatter(mega_bining_in_mag,np.percentile(mfd_X,16,axis=0),
-            c='darkgreen', s=60, edgecolor='',marker = '_',alpha = 0.8)
+            c='darkgreen', s=60,marker = '_',alpha = 0.8)
     plt.scatter(mega_bining_in_mag,np.percentile(mfd_X,84,axis=0),
-        c='darkgreen', s=60, edgecolor='',marker = '_',alpha = 0.8)
+        c='darkgreen', s=60,marker = '_',alpha = 0.8)
     plt.plot(mega_bining_in_mag,np.array(mfd_X).mean(axis=0),
                 color='darkgreen', linewidth = 2)
     plt.grid()
