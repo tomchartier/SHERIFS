@@ -705,7 +705,7 @@ class Source_Model_Creator:
         
         MFD = MFDs.EQ_rate_BG   
         if sum(MFD) != 0. :
-            line='\t\t<areaSource id="'+ str(ID_number + 1 ) +'" name="Background" tectonicRegion="' + str(self.Domain) + '">\n'
+            line='\t\t<areaSource id="'+ str(ID_number + 1 ) +'" name="Background" tectonicRegion="' + str(self.Domain_in_the_model[0]) + '">\n'
             line+='\t\t\t<areaGeometry>\n'
             line+='\t\t\t\t<gml:Polygon>\n'
             line+='\t\t\t\t\t<gml:exterior>\n'
