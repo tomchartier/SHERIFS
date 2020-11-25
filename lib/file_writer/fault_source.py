@@ -418,27 +418,18 @@ def write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,inde
                             
                                 str_geom+='\t\t\t<kiteSurface>\n'
                                 
-                                # write the upper profile
-                                str_geom+='\t\t\t<profile>\n'
-                                str_geom+='\t\t\t\t<gml:LineString>\n'
-                                str_geom+='\t\t\t\t\t<gml:posList>\n'
+                                # loop on profiles
                                 for x,y in zip(ColLon,ColLat):
-                                    x, y = point_at(x, y, azimuth, hdist_top)
-                                    str_geom+='\t\t\t\t\t\t'+str(x)+' '+str(y)+' '+str(usd)+'\n'
-                                str_geom+='\t\t\t\t\t</gml:posList>\n'
-                                str_geom+='\t\t\t\t</gml:LineString>\n'
-                                str_geom+='\t\t\t</profile>\n'
-                                
-                                # write the lower profile
-                                str_geom+='\t\t\t<profile>\n'
-                                str_geom+='\t\t\t\t<gml:LineString>\n'
-                                str_geom+='\t\t\t\t\t<gml:posList>\n'
-                                for x,y in zip(ColLon,ColLat):
-                                    x, y = point_at(x, y, azimuth, hdist_bottom)
-                                    str_geom+='\t\t\t\t\t\t'+str(x)+' '+str(y)+' '+str(lsd)+'\n'
-                                str_geom+='\t\t\t\t\t</gml:posList>\n'
-                                str_geom+='\t\t\t\t</gml:LineString>\n'
-                                str_geom+='\t\t\t</profile>\n'
+                                    str_geom+='\t\t\t<profile>\n'
+                                    str_geom+='\t\t\t\t<gml:LineString>\n'
+                                    str_geom+='\t\t\t\t\t<gml:posList>\n'
+                                    xt, yt = point_at(x, y, azimuth, hdist_top)
+                                    str_geom+='\t\t\t\t\t\t'+str(xt)+' '+str(yt)+' '+str(usd)+' '
+                                    xb, yb = point_at(x, y, azimuth, hdist_bottom)
+                                    str_geom+=str(xb)+' '+str(yb)+' '+str(lsd)+'\n'
+                                    str_geom+='\t\t\t\t\t</gml:posList>\n'
+                                    str_geom+='\t\t\t\t</gml:LineString>\n'
+                                    str_geom+='\t\t\t</profile>\n'
                                 
                                 str_geom+='\t\t\t</kiteSurface>\n'
                                 

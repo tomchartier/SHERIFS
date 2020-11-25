@@ -30,6 +30,7 @@ import host_model
 import math
 import fault_source
 import pickle
+import pyxml
 
 import matplotlib.pyplot as plt
 
@@ -369,7 +370,9 @@ class Source_Model_Creator:
             line+='\t\t</areaSource>\n'
             XMLfile.write(line)
             
-        elif use_smoothed_bg==True
+        elif sum(MFD) != 0. and use_smoothed_bg==True:
+            # read the xml
+            
         
         '''#############################
         ### defining the other sources based on the host model
