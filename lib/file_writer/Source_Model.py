@@ -30,7 +30,9 @@ import host_model
 import math
 import fault_source
 import pickle
-import pyxml
+import xml.etree.ElementTree as ET
+import matplotlib.path as mplPath
+from seismic_moment import mag_to_M0
 
 import matplotlib.pyplot as plt
 
@@ -371,8 +373,102 @@ class Source_Model_Creator:
             XMLfile.write(line)
             
         elif sum(MFD) != 0. and use_smoothed_bg==True:
-            # read the xml
+            #Create the BG polygon
+            Poly_bg = []
+            for x1,y1 in zip(Lon_bg,Lat_bg):
+                Poly_bg.append((x1,y1))
+            bbPath_BG = mplPath.Path(Poly_bg)
             
+            # read the xml and stores the list of aValues
+            list_bg_xml = ['input/CHN_201120/src_3.xml']
+            pts_list ={}
+            sum_rates = 0.
+            
+            for fbg in list_bg_xml:
+                tree = ET.parse(fbg)
+                nrml = tree.getroot()
+                i_point =0
+                for pointSource in nrml[0][0]:
+                    pt_in_BG = False
+                    i_child = 0
+                    for child in pointSource.getchildren():
+                        if "pointGeometry" in str(child) :
+                            s_tmp = pointSource[i_child][0][0].text
+                            s_tmp=s_tmp.replace('\n','')
+                            s_tmp=[float(i) for i in s_tmp.split(' ') if i != '']
+                            if bbPath_BG.contains_point((s_tmp[0],s_tmp[1])) == 1:
+                                pt_in_BG = True
+                            str_loc = str(s_tmp[0])+'_'+str(s_tmp[1])
+                            i_trGR = i_child
+                        if "truncGutenbergRichterMFD" in str(child) :
+                            aValue = nrml[0][0][i_point][i_child].get('aValue')
+                            minMag = nrml[0][0][i_point][i_child].get("minMag")
+                            i_trGR = i_child
+                        if "magScaleRel" in str(child) :
+                            nrml[0][0][i_point][i_child].text = ScL_oq
+                        i_child+=1
+                        
+                    if pt_in_BG == True :
+                        aValue = nrml[0][0][i_point][i_trGR].get('aValue')
+                        minMag = nrml[0][0][i_point][i_trGR].get('minMag')
+                        bValue = nrml[0][0][i_point][i_trGR].get('bValue')
+                        maxMag = nrml[0][0][i_point][i_trGR].get('maxMag')
+                        pts_list.update({str_loc:{"aValue":aValue,
+                        "bValue":bValue,
+                        "maxMag":maxMag,
+                        "minMag":minMag}})
+                        sum_rates += float(10.**float(aValue))
+                        
+                    i_point +=1
+                    
+            # Normalize to fit the BG MFD
+            Mmax = M_min+len(EQ_rate_BG)*0.1-1
+            mags = np.linspace(M_min,Mmax,len(EQ_rate_BG))
+                        
+            for fbg in list_bg_xml:
+                tree = ET.parse(fbg)
+                nrml = tree.getroot()
+                i_point =0
+                for pointSource in nrml[0][0]:
+                    pt_in_BG = False
+                    i_child = 0
+                    for child in pointSource.getchildren():
+                        if "pointGeometry" in str(child) :
+                            s_tmp = pointSource[i_child][0][0].text
+                            s_tmp=s_tmp.replace('\n','')
+                            s_tmp=[float(i) for i in s_tmp.split(' ') if i != '']
+                            if bbPath_BG.contains_point((s_tmp[0],s_tmp[1])) == 1:
+                                pt_in_BG = True
+                            str_loc = str(s_tmp[0])+'_'+str(s_tmp[1])
+                            i_trGR = i_child
+                    if pt_in_BG == True :
+                        b_value = float(pts_list[str_loc]["bValue"])
+                        a_value = float(pts_list[str_loc]["aValue"])
+                        
+                        attrib = {"minMag":str(M_min), "binWidth":"0.10"}
+                        element = nrml[0][0][i_point].makeelement('incrementalMFD', attrib)
+                        nrml[0][0][i_point].append(element)
+                        element = nrml[0][0][i_point][-1].makeelement('occurRates', {})
+                        nrml[0][0][i_point][-1].append(element)
+                        str_tmp = " "
+                        i_mag = 0
+                        for mag in mags:
+                            mag_lo = mag - 0.05
+                            mag_hi = mag + 0.05
+                            r = (10 ** (a_value - b_value * mag_lo)
+                                - 10 ** (a_value - b_value * mag_hi))
+                            norm_r = r * ((10.**a_value) / sum_rates)
+                            str_tmp += str(EQ_rate_BG[i_mag]*norm_r)
+                            str_tmp += " "
+                            
+                        nrml[0][0][i_point][-1][0].text =str_tmp
+                        nrml[0][0][i_point].remove(nrml[0][0][i_point][i_trGR])
+                    i_point+=1
+                    
+                fbg_out = fbg[:-4]+'_bg.xml'
+                tree.write(fbg_out)
+                    
+                    
         
         '''#############################
         ### defining the other sources based on the host model
