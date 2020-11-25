@@ -82,150 +82,197 @@ class EQ_on_faults_from_sr():
         log_sliprep_file = self.path +'/Log/sliprep_sample_' + str(self.sample) + '.pkl'
         
         
-        
+        re_use = True
         #####################################################################
         #possible scenarii in this model
         #####################################################################        
         scenarios_names = self.scenarios
-              
-        print("Building scenarios and Mmax")
-        '''##################################################################
-        # finds the faults belonging to each scenario
-        ##################################################################'''
-        index_faults_in_scenario = []  #contains the indexs of the faults in each scenario      
-        for scenario in scenarios_names: 
-            i_scenario = []
-            for i in range(len(scenario)) :
-                i_scenario = i_scenario + list(np.where(np.array(faults_names) == scenario["f_%s" % str(i+1)]))
-            i_scenario = np.reshape(i_scenario,(1,len(scenario)))
-            index_faults_in_scenario.append(i_scenario)
-            
-        self.index_faults_in_scenario = index_faults_in_scenario
-        
-        #check if some fault are isolated (not included in the large scenario)
-        faults_alone = []
-        faults_isolated = []
-        len_max_section_scenario = 0
-        for indexes in index_faults_in_scenario:
-            if len(indexes[0])> len_max_section_scenario:
-                len_max_section_scenario = len(indexes[0])
                 
-        index_fault = 0
-        for fault_name in faults_names:
-            fault_alone_bool = True
-            fault_isolated_bool = True
+        run_name = self.path.split('/')[0]
+        model_name = self.path.split('/')[1]
+                
+        if not os.path.exists(run_name+'/'+model_name+'/Log'):
+            os.makedirs(run_name+'/'+model_name +'/Log')
+        scl_name = self.path.split('/')[3]
+        set_name = self.path.split('/')[4]
+        #f_bin_pop = self.path +'/Log/bin_pop_'+str(self.sample)+'.pkl'
+        f_mmax = run_name+'/'+model_name +'/mmax_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
+        if not os.path.isfile(f_mmax):
+            re_use = False
+        if re_use == False:
+            print("Building scenarios and Mmax")
+            '''##################################################################
+            # finds the faults belonging to each scenario
+            ##################################################################'''
+            index_faults_in_scenario = []  #contains the indexs of the faults in each scenario
+            for scenario in scenarios_names:
+                i_scenario = []
+                for i in range(len(scenario)) :
+                    i_scenario = i_scenario + list(np.where(np.array(faults_names) == scenario["f_%s" % str(i+1)]))
+                i_scenario = np.reshape(i_scenario,(1,len(scenario)))
+                index_faults_in_scenario.append(i_scenario)
+                
+            self.index_faults_in_scenario = index_faults_in_scenario
+            
+            #check if some fault are isolated (not included in the large scenario)
+            faults_alone = []
+            faults_isolated = []
+            len_max_section_scenario = 0
             for indexes in index_faults_in_scenario:
-                if index_fault in indexes[0] :
-                    fault_alone_bool = False
-                    if len(indexes[0]) > len_max_section_scenario/2. :
-                        fault_isolated_bool = False
-            if fault_isolated_bool == True and fault_alone_bool == False:
-                faults_isolated.append(index_fault)
-            if fault_alone_bool == True:
-                faults_alone.append(index_fault)
-            
-            index_fault+=1
-            
-        
-        '''##################################################################
-        # area and length of each scenario
-        ##################################################################'''        
-        scenario_area = [] #area of each scenario
-        
-        #if two faults are overlaping (for example to describe a normal and strikeslip component), only take one area.
-        index_faults_in_scenario_for_scl=[]
-        for indexes_i in index_faults_in_scenario:
-            list_of_points = []
-            index_for_scenario = []
-            for index_fault in indexes_i[0]:
-                list_i = str(self.faults_lon[index_fault][0])+str(self.faults_lon[index_fault][-1])+str(self.faults_lat[index_fault][0])+str(self.faults_lat[index_fault][-1])
-                if not list_i in list_of_points:
-                    list_of_points.append(list_i)
-                    index_for_scenario.append(index_fault)
-            index_faults_in_scenario_for_scl.append(index_for_scenario)
-            #print str(len(indexes_i)-len(index_for_scenario))
-                
-        
-        for i in index_faults_in_scenario_for_scl:
-            scenario_i_area = np.sum(np.take(faults_areas,i))
-            scenario_area.append(scenario_i_area)
-            
-        scenario_length = [] #length of each scenario
-        
-        for i in index_faults_in_scenario_for_scl:
-            scenario_i_length = np.sum(np.take(faults_length,i))
-            scenario_length.append(scenario_i_length)
-                
-        scenario_width = [] #width of each scenario
-        
-        for i in index_faults_in_scenario_for_scl:
-            scenario_i_width = np.mean(np.take(faults_width,i))
-            scenario_width.append(scenario_i_width)
-                
-        
-        
-        '''##################################################################
-        #####################################################################
-        #
-        # setting up the coefficients for the scalling law
-        # and calculate the Mmax
-        #
-        #####################################################################
-        ##################################################################'''
-        # Mmax can be forced within a range by the user  Mmaxmin < Mmax < Mmaxmax
-        
-        Mmaxmin = Mmax_range[0]
-        Mmaxmax = Mmax_range[1]
-        Mmax = -1.
-        loop_Mmax = 1
-        while Mmax< Mmaxmin or Mmax > Mmaxmax :
-            # file containing the log of the maximal magnitude of each fault and each scenario
-            log_Mmax_file=open(self.path +'/Log/Mmax_sample_' + str(self.sample) + '.txt','w')
-            if loop_Mmax == 1 :
-                Mmaxs = scalling_laws.Calc_Mmax(self.faults_area,scenario_area,self.faults_length,scenario_length,self.faults_width,scenario_width,self.selected_ScL,
-                                                self.dimention_used,self.use_all_ScL_data,self.faults_mecanism,index_faults_in_scenario, self.sample)
-            else :
-                Mmaxs = scalling_laws.Calc_Mmax(self.faults_area,scenario_area,self.faults_length,scenario_length,self.faults_width,scenario_width,self.selected_ScL,
-                                                self.dimention_used,self.use_all_ScL_data,self.faults_mecanism,index_faults_in_scenario, 10)
-                
-            Mmax_faults = Mmaxs.Mmax_faults #Mmax of each fault
-            Mmax_scenario = Mmaxs.Mmax_scenario #Mmax of each scenario    
-            final_fault_length = Mmaxs.final_fault_length
-            final_scenario_length = Mmaxs.final_scenario_length
-            
-            #writting in the log
+                if len(indexes[0])> len_max_section_scenario:
+                    len_max_section_scenario = len(indexes[0])
+                    
             index_fault = 0
-            for Mmax_i in Mmax_faults :
-                line = (faults_names[index_fault] + '\t' + str(round(faults_length[index_fault]/1000.,1))   + '\t' + final_fault_length[index_fault] 
-                + '\t' + str(round(self.faults_width[index_fault],1))  + '\t' + str(round(self.faults_area[index_fault]/1000000.,1)) 
-                + '\t' + str(Mmax_i) + '\n')
-                log_Mmax_file.write(line)
-                index_fault += 1
-            index_scenario = 0
-            for Mmax_i in Mmax_scenario : 
-                line = (str(scenarios_names[index_scenario]) + '\t' + str(round(scenario_length[index_scenario]/1000.,1))    + '\t' + final_scenario_length[index_scenario] 
-                + '\t' + str(round(scenario_width[index_scenario],1)) + '\t' + str(round(scenario_area[index_scenario]/1000000.,1))  
-                + '\t' + str(Mmax_i) + '\n')
-                log_Mmax_file.write(line)
-                index_scenario += 1
-            log_Mmax_file.close()
+            for fault_name in faults_names:
+                fault_alone_bool = True
+                fault_isolated_bool = True
+                for indexes in index_faults_in_scenario:
+                    if index_fault in indexes[0] :
+                        fault_alone_bool = False
+                        if len(indexes[0]) > len_max_section_scenario/2. :
+                            fault_isolated_bool = False
+                if fault_isolated_bool == True and fault_alone_bool == False:
+                    faults_isolated.append(index_fault)
+                if fault_alone_bool == True:
+                    faults_alone.append(index_fault)
+                
+                index_fault+=1
                 
             
-            if np.size(scenarios_names) == 0 :
-                Mmax = max(Mmax_faults)
-            else :
-                Mmax = max((max(Mmax_faults),max(Mmax_scenario)))
-                
-            loop_Mmax+=1
+            '''##################################################################
+            # area and length of each scenario
+            ##################################################################'''
+            scenario_area = [] #area of each scenario
             
-            if loop_Mmax == 30 :
-                print('An Mmax incompatible with the ruptures is imposed!! Change it in run.info or change the rupture.txt file')
-                
-        if loop_Mmax >= 3 :
-            print('Mmax imposed: '+str(Mmax))#+'   see EQ_on_faults.py for details.')
-            self.calculation_log_file.write('\nMmax imposed: '+str(Mmax))#+'   see EQ_on_faults.py for details.')
+            #if two faults are overlaping (for example to describe a normal and strikeslip component), only take one area.
+            index_faults_in_scenario_for_scl=[]
+            for indexes_i in index_faults_in_scenario:
+                list_of_points = []
+                index_for_scenario = []
+                for index_fault in indexes_i[0]:
+                    list_i = str(self.faults_lon[index_fault][0])+str(self.faults_lon[index_fault][-1])+str(self.faults_lat[index_fault][0])+str(self.faults_lat[index_fault][-1])
+                    if not list_i in list_of_points:
+                        list_of_points.append(list_i)
+                        index_for_scenario.append(index_fault)
+                index_faults_in_scenario_for_scl.append(index_for_scenario)
+                #print str(len(indexes_i)-len(index_for_scenario))
+                    
             
-        print("\t - scenario and max built")
+            for i in index_faults_in_scenario_for_scl:
+                scenario_i_area = np.sum(np.take(faults_areas,i))
+                scenario_area.append(scenario_i_area)
+                
+            scenario_length = [] #length of each scenario
+            
+            for i in index_faults_in_scenario_for_scl:
+                scenario_i_length = np.sum(np.take(faults_length,i))
+                scenario_length.append(scenario_i_length)
+                    
+            scenario_width = [] #width of each scenario
+            
+            for i in index_faults_in_scenario_for_scl:
+                scenario_i_width = np.mean(np.take(faults_width,i))
+                scenario_width.append(scenario_i_width)
+                    
+            
+            
+            '''##################################################################
+            #####################################################################
+            #
+            # setting up the coefficients for the scalling law
+            # and calculate the Mmax
+            #
+            #####################################################################
+            ##################################################################'''
+                    
+            # Mmax can be forced within a range by the user  Mmaxmin < Mmax < Mmaxmax
+            
+            Mmaxmin = Mmax_range[0]
+            Mmaxmax = Mmax_range[1]
+            Mmax = -1.
+            loop_Mmax = 1
+            while Mmax< Mmaxmin or Mmax > Mmaxmax :
+                # file containing the log of the maximal magnitude of each fault and each scenario
+#                log_Mmax_file=open(self.path +'/Log/Mmax_sample_' + str(self.sample) + '.txt','w')
+                log_Mmax_file=open(run_name+'/'+model_name +'/Log/Mmax_sample_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.txt','w')
+                            
+                if loop_Mmax == 1 :
+                    Mmaxs = scalling_laws.Calc_Mmax(self.faults_area,scenario_area,self.faults_length,scenario_length,self.faults_width,scenario_width,self.selected_ScL,
+                                                    self.dimention_used,self.use_all_ScL_data,self.faults_mecanism,index_faults_in_scenario, self.sample)
+                else :
+                    Mmaxs = scalling_laws.Calc_Mmax(self.faults_area,scenario_area,self.faults_length,scenario_length,self.faults_width,scenario_width,self.selected_ScL,
+                                                    self.dimention_used,self.use_all_ScL_data,self.faults_mecanism,index_faults_in_scenario, 10)
+                    
+                Mmax_faults = Mmaxs.Mmax_faults #Mmax of each fault
+                Mmax_scenario = Mmaxs.Mmax_scenario #Mmax of each scenario
+                final_fault_length = Mmaxs.final_fault_length
+                final_scenario_length = Mmaxs.final_scenario_length
+                
+                #writting in the log
+                index_fault = 0
+                for Mmax_i in Mmax_faults :
+                    line = (faults_names[index_fault] + '\t' + str(round(faults_length[index_fault]/1000.,1))   + '\t' + final_fault_length[index_fault]
+                    + '\t' + str(round(self.faults_width[index_fault],1))  + '\t' + str(round(self.faults_area[index_fault]/1000000.,1))
+                    + '\t' + str(Mmax_i) + '\n')
+                    log_Mmax_file.write(line)
+                    index_fault += 1
+                index_scenario = 0
+                for Mmax_i in Mmax_scenario :
+                    line = (str(scenarios_names[index_scenario]) + '\t' + str(round(scenario_length[index_scenario]/1000.,1))    + '\t' + final_scenario_length[index_scenario]
+                    + '\t' + str(round(scenario_width[index_scenario],1)) + '\t' + str(round(scenario_area[index_scenario]/1000000.,1))
+                    + '\t' + str(Mmax_i) + '\n')
+                    log_Mmax_file.write(line)
+                    index_scenario += 1
+                log_Mmax_file.close()
+                    
+                
+                if np.size(scenarios_names) == 0 :
+                    Mmax = max(Mmax_faults)
+                else :
+                    Mmax = max((max(Mmax_faults),max(Mmax_scenario)))
+                    
+                loop_Mmax+=1
+                
+                if loop_Mmax == 30 :
+                    print('An Mmax incompatible with the ruptures is imposed!! Change it in run.info or change the rupture.txt file')
+                    
+            if loop_Mmax >= 3 :
+                print('Mmax imposed: '+str(Mmax))#+'   see EQ_on_faults.py for details.')
+                self.calculation_log_file.write('\nMmax imposed: '+str(Mmax))#+'   see EQ_on_faults.py for details.')
+                        
+            with open(f_mmax, 'wb') as f:
+                                
+                dump_to_file = [Mmax_faults ,
+                Mmax_scenario,
+                final_fault_length,
+                final_scenario_length,
+                faults_alone,
+                faults_isolated,
+                index_faults_in_scenario,
+                scenario_area]
+            
+                pickle.dump(dump_to_file, f)
+                
+            print("\t - scenario and max built")
+                
+        else :
+            print('Reloading Mmax from data file')
+            with open(f_mmax, 'rb') as f:
+                load_from_file = pickle.load(f)
+                Mmax_faults = load_from_file[0]
+                Mmax_scenario = load_from_file[1]
+                final_fault_length = load_from_file[2]
+                final_scenario_length = load_from_file[3]
+                faults_alone = load_from_file[4]
+                faults_isolated = load_from_file[5]
+                index_faults_in_scenario = load_from_file[6]
+                scenario_area = load_from_file[7]
+                
+                if np.size(scenarios_names) == 0 :
+                    Mmax = max(Mmax_faults)
+                else :
+                    Mmax = max((max(Mmax_faults),max(Mmax_scenario)))
+                print("\t - scenario and max loaded")
         '''##################################################################
         #etablish the magnitude bin (0.1)
         ##################################################################'''
@@ -266,12 +313,18 @@ class EQ_on_faults_from_sr():
         '''#####################################################################
         # For each bin, find which fault and which scenario populates it.
         #####################################################################'''
-        re_use = True
-        f_bin_pop = self.path +'/Log/bin_pop.pkl'
+        
+#        model_name = self.path.split('/')[0]
+        scl_name = self.path.split('/')[3]
+        set_name = self.path.split('/')[4]
+        #f_bin_pop = self.path +'/Log/bin_pop_'+str(self.sample)+'.pkl'
+        f_bin_pop = run_name+'/'+model_name +'/bin_pop_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
+        #f_bin_pop = self.path +'/Log/bin_pop_'+str(self.sample)+'.pkl'
+#        f_bin_pop = model_name +'/bin_pop_'+scl_name+'_'+str(self.sample)+'.pkl'
         if not os.path.isfile(f_bin_pop):
             re_use = False
-        if str(self.sample) != '1'  :
-            re_use = False
+#        if str(self.sample) != '1'  :
+#            re_use = False
         rup_in_bin = populate_bins.pop(bin_mag,index_rup,rup_rates,M_min,re_use,f_bin_pop)
             
             
@@ -314,8 +367,14 @@ class EQ_on_faults_from_sr():
         #if GR ... create "p" which is taking into account for the random sample in the distribution later
         if self.mfd_hyp == 'GR' :
             p_MFD = mfd_shape.GR(mfd_param,bin_mag)
-                
-        if self.mfd_hyp == 'double_GR' :
+                                
+        elif self.mfd_hyp == 'tapered_GR' :
+            # NOTE : The value of the corner magnitude could be computed in the future.
+            # Kagan : Geophys. J. Int. (2002) 149, 731–754
+            mfd_param['M_corner'] = Mmax-0.4
+            p_MFD = mfd_shape.tapered_GR(mfd_param,bin_mag)
+            
+        elif self.mfd_hyp == 'double_GR' :
             p_MFD = mfd_shape.double_GR(mfd_param,bin_mag)
                 
         elif self.mfd_hyp == 'YC':
@@ -332,6 +391,9 @@ class EQ_on_faults_from_sr():
             # model for death valley
             p_MFD = mfd_shape.UCERF_DV(bin_mag)
             #can be used as a template for any shape numerically defined
+        
+        else:
+            print("Error : Unknown MFD name!")
 
         p_MFD = (p_MFD) / sum(p_MFD) #normalize the probability distribution
 
@@ -435,13 +497,19 @@ class EQ_on_faults_from_sr():
         print("Min of sdr :",min(faults_budget.values()))
         print("Max of sdr :",max(faults_budget.values()))
         self.calculation_log_file.write("\nnumber of dsr to spend : "+ str(nb_ss_to_spend)+"\n")
+        
+        # Booleans used in the calculation, DO NOT MODIFY
         print_percent = True
         do_the_target = True
         bool_target_set = False
+        
+        # If uniform_spending is activated, the slip-rate budget
+        # is not spent uniformly for the section participating to a rupture,
+        # faster faults will slip-more
         uniform_spending = True
         
         # If deep analysis is turned on, display intermediate values in the prompt
-        deep_analysis =  True
+        deep_analysis =  False
         
         # Option to not to the weighting of the ruptures at every loop.
         faster_rup_weight = True
@@ -778,7 +846,7 @@ class EQ_on_faults_from_sr():
                                 else :
                                     moment_rate_i = 0.
                                     for loop_spending in range(nb_loop_spending):
-                                        M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used = core_utils.variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup)
+                                        M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used = core_utils.variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup,faults_names)
                                             #adding to the rate
                                         rup_rates[str(picked_rup)]['rates'][picked_bin] += rate_i*(nb_sdr_used)
                                         rate_in_model[picked_bin] +=  rate_i*(nb_sdr_used)
@@ -809,7 +877,7 @@ class EQ_on_faults_from_sr():
                             else :
                                 moment_rate_i = 0.
                                 for loop_spending in range(nb_loop_spending):
-                                    M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used = core_utils.variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup)
+                                    M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used = core_utils.variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup,faults_names)
                                         #adding to the rate
                                     rup_rates[str(picked_rup)]['rates'][picked_bin] += rate_i*(nb_sdr_used)
                                     rate_in_model[picked_bin] +=  rate_i*(nb_sdr_used)

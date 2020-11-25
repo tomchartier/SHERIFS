@@ -10,6 +10,7 @@ Populates the magnitude bins with the faults and scenarios that can generate the
 @author: Thomas Chartier
 """
 import numpy as np
+from seismic_moment import mag_to_M0
 
 def GR(mfd_param,bin_mag):
     b_value = mfd_param['b_value']
@@ -22,6 +23,24 @@ def GR(mfd_param,bin_mag):
     
     return p_MFD
 
+def tapered_GR(mfd_param,bin_mag):
+    b_value = mfd_param['b_value']
+    Beta =  b_value * 2./3.
+    M_corner = mfd_param['M_corner']
+    M0_c = mag_to_M0(M_corner)
+    M_t = bin_mag[0]-0.05
+    M0_t = mag_to_M0(M_t)
+    
+    p_MFD = [] #probability distribution
+    for mag in bin_mag :
+        M0_min = mag_to_M0(mag-0.05)
+        M0_max = mag_to_M0(mag+0.05)
+        p_i = (((M0_t/M0_min)**Beta*np.exp((M0_t-M0_min)/M0_c))
+        - ((M0_t/M0_max)**Beta*np.exp((M0_t-M0_max)/M0_c)))
+        p_MFD.append(p_i)
+        
+    return p_MFD
+    
 def user_defined(mfd_param,bin_mag):
     
     return p_MFD

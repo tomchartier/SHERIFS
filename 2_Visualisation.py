@@ -41,6 +41,7 @@ import plot_FtF_GIF
 import Sampling_analysis
 import moment_rate
 import slip_rate_rep
+import sherifs_report
 
 
 def checking_the_input(input_file):
@@ -93,19 +94,19 @@ def checking_the_input(input_file):
     do_catalog = False
     #If it's the first time you run it, you have to do the catalog! Then you can save time and not run it again
     
-    plot_mfd = False
+    plot_mfd = True
     
-    plot_mfd_detailled = False
+    plot_mfd_detailled = True
     
     plot_Mmax = True
     
-    plot_as_rep = False
+    plot_as_rep = True
     
     plot_rup_freq = True
     
-    plot_sr_use = False
+    plot_sr_use = True
     
-    plot_moment_rate = False
+    plot_moment_rate = True
     
     visual_FtF = True   # !!! can take a very long time if there are a lot of FtF
     
@@ -127,7 +128,7 @@ def checking_the_input(input_file):
     time_i = time.time()
     (mega_MFD, df_mega_MFD, scenarios_names_list, ScL_complet_list, ScL_list, Model_list,BG_hyp_list,
      dimension_used_list,faults_name_list,sample_list,b_value_list,MFD_type_list,m_Mmax,
-     mega_bining_in_mag,a_s_model,b_sample,sm_sample,Mt_sample,sources_Lengths,sources_Areas) = Extract_data.extract(Run_name)
+     mega_bining_in_mag,a_s_model,b_sample,sm_sample,Mt_sample,sources_Lengths,sources_Areas,logictree) = Extract_data.extract(Run_name)
     print('\nTime to extract the data : ' + str(round(time.time() - time_i,2)) +' s.\n')
     
     
@@ -163,9 +164,7 @@ def checking_the_input(input_file):
         i_model=0
         for Model in Model_list:
             for scenario in scenarios_names_list:
-                log_Mmax_file = (str(Run_name)  + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp_list[0]) + '/' + ScL_complet_list[0]
-                                 + '/sc_' +  str(scenario) + '/' + b_value_list[0] + '/' + 'MFD_'+ str(MFD_type_list[0])
-                                                    + '/Log/Mmax_sample_1.txt')
+                log_Mmax_file = (str(Run_name)  + '/' + str(Model) + '/Log/' + 'Mmax_sample_'+ScL_complet_list[0]+'_sc_' +  str(scenario)+ '_1.txt')
                 log_file = np.genfromtxt( log_Mmax_file,dtype=[('U10000'),('f8'),('U100'),('f8'),('f8'),('f8')],delimiter = '\t')
                 sources_names =  list(map(lambda i : log_file[i][0], range(len(log_file))))
                 sources_Mmax =  list(map(lambda i : log_file[i][5], range(len(log_file))))
@@ -268,7 +267,8 @@ def checking_the_input(input_file):
 
     if plot_sr_use == True :
         time_i = time.time()
-        slip_rate_rep.sr_rate(Run_name,scenarios_names_list,mega_MFD,Model_list,MFD_type_list)
+        slip_rate_rep.sr_rate(Run_name,scenarios_names_list,
+        mega_MFD,Model_list,MFD_type_list,sub_area_file,File_geom,FileName_Prop)
     
         print('\nTime to see how the slip rate in distributed : ' + str(time.time() - time_i) +' s.\n')
         
@@ -331,15 +331,25 @@ def checking_the_input(input_file):
     
     '''#############################
     ###############################
-        #     comparison of the moment rate
+    #     comparison of the moment rate
     #   geologic, geodetic, sismologic
     ###############################
     ##############################'''
     moment_rate.moment_rate(Run_name,plot_moment_rate,geologic_moment_rate_no_as,geologic_moment_rate,
             seismological_moment_rate,scenarios_names_list,total_list_scenario_name,
             MFD_type_list,total_list_MFD_type)
-        
-
+            
+    '''#############################
+    ###############################
+    #     CREATE PFD REPORT
+    ###############################
+    ##############################'''
+    
+    sherifs_report.create(Run_name,logictree)
+    
+    
+    
+    # Print time
     fin = time.time()-debut
     days = int(fin / 24. / 60. / 60.)
     hours = int((fin - days * 24. * 60. * 60.) / 60. / 60.)

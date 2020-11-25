@@ -357,7 +357,7 @@ class Sources_Logic_Tree_Creator:
                                 pickle.dump(faults_data, f)
                         
                         else :
-                            print('Reloading fault prop from tmp pickle file')
+                            print('Reloading MFDs from pickle file')
                             with open(f_prop_tmp, 'rb') as f:
                                 faults_data = pickle.load(f)
                             

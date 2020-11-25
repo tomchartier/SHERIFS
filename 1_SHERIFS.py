@@ -77,15 +77,6 @@ def SHERIFS(input_file):
         if "fit_quality" in line :
             fit_quality = float(line.split(':')[1].replace(' ',''))
         
-#    Run_Name = 'Example'
-#    File_geom = 'data/Example/Faults_geometry.txt'
-#    File_prop = 'data/Example/Faults_properties.txt'
-#    File_bg = 'data/Example/Background_geometry.txt'
-#    file_prop_bg = 'data/Example/Background_properties.txt'
-#    host_model_file = 'delete_share.xml'
-#    # if rerunning the calcuation do you want to overwrite the existing source model files
-#    overwrite_files = True
-#    use_host_model = False
 
     if not os.path.exists(str(Run_Name)):
         os.makedirs(str(Run_Name))

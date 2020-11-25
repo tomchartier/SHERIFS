@@ -141,7 +141,7 @@ def weight_fault_sampling(picked_bin,rup_in_bin,faults_names,faults_slip_rates,s
     return weight_fault
 
 
-def variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup):
+def variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup,faults_names):
     # spends the slip rate correlated with the slip-rate of the faults involeved in the rupture
     nb_sdr_used = 0
     sr_involved = []

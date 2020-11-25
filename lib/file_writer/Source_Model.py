@@ -28,6 +28,8 @@ from background import bg
 from geometry_tools import *
 import host_model
 import math
+import fault_source
+import pickle
 
 import matplotlib.pyplot as plt
 
@@ -96,8 +98,13 @@ class Source_Model_Creator:
         line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
         line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
         line+='\txmlns="http://openquake.org/xmlns/nrml/0.4">\n'
-        line+='\t<sourceModel name="Hazard Model">\n'
+        line+='\t<sourceModel name="Hazard Model"'
+        line+=' investigation_time="1.0"' #TODO
+        line+='>'
         line+='\n'
+        XMLfile.write(line)
+            
+        line='\t\t<sourceGroup\nname="group 1"\nrup_interdep="indep"\nsrc_interdep="indep"\ntectonicRegion="ASC"\n>\n'
         XMLfile.write(line)
 
         #initialisation of the general parameters (M_min, shear modulus and b value)
@@ -122,59 +129,6 @@ class Source_Model_Creator:
         faults_slip_rates = []
         faults_mecanism = []
         faults_shear_mod = []
-                
-#        ########################################################
-#        #Extraction of the faults and scenarios present in the model from the text file
-#        ########################################################
-#
-#        Prop = np.genfromtxt(self.File_prop,
-#                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
-#                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
-#        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
-#        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
-#        index_model = np.where(np.array(Column_model_name) == self.Model_name)[0]
-#        Prop = np.take(Prop,index_model)
-#        faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
-#        faults_names = list(faults_names)
-        
-        
-#        lines_FtF = [line.rstrip('\n') for line in open(self.File_faults_n_scenarios)]
-#        line_fauts = lines_FtF[0]
-#        faults_names = line_fauts.split(' ')
-
-#        faults_names[-1] = "\n".join(faults_names[-1].splitlines())
-
-#        index_scenario = 0
-#        scenarios_names = []
-#        if np.size(self.rupture_set) == 0 :
-#            scenarios_names = []
-#        else :
-#            for index_scenario in range(len(self.rupture_set)):
-#                faults_in_scenario = self.rupture_set[index_scenario]
-#                if len(faults_in_scenario) == 1.:
-#                    print(faults_in_scenario)
-#                    print('!!!!! ERROR !!!!!')
-#                    print('A scenario have to be build with at least two faults')
-#                    print('!!!!!!!!!!!!!!!!!')
-#                else :
-#                    scenario = {}
-#                    faults_done = []
-#                    for i in range(len(faults_in_scenario)):
-#                        if not str(faults_in_scenario[i]).replace('\r','') in faults_done:
-#                            scenario["f_%s" % str(i+1)] = [str(faults_in_scenario[i]).replace('\r','').replace('\t','').replace('\n','')]
-#                            faults_done.append(str(faults_in_scenario[i]).replace('\r','').replace('\t','').replace('\n',''))
-#                    if len(scenario)!=0:
-#                        scenarios_names.append(scenario)
-#                index_scenario += 1
-#
-#        ########################################################
-#        #extractions of the geometries of the scenarios
-#        ########################################################
-#        geom_scenar = Geometry_scenario.Geom_scenar(faults_names,scenarios_names,self.File_geom,self.Model_name)
-#        faults_lon = geom_scenar.faults_lon
-#        faults_lat = geom_scenar.faults_lat
-#
-#
                 
         '''########################################################
         # Random sampling of the fault slip-rate
@@ -228,33 +182,10 @@ class Source_Model_Creator:
             # pick the faults slip rates
             index_fault = 0
             for Fault_name in faults_names:
-#                self.FaultProperties(Fault_name)
-#                dip = self.dip
-#                upper_sismo_depth = self.upper_sismo_depth
-#                lower_sismo_depth = self.lower_sismo_depth
-#                width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
-#                area = geom_scenar.length[index_fault] * 1000. * width * 1000.
-#                faults_length.append(geom_scenar.length[index_fault] * 1000.)
-#                faults_area.append(area)
-#                faults_width.append(width)
                 faults_length.append(faults_data[index_fault]['length'])
                 faults_area.append(faults_data[index_fault]['area'])
                 faults_width.append(faults_data[index_fault]['width'])
-                
-#                if self.rake> -135. and self.rake< -45:
-#                    mecanism = 'N'
-#                elif self.rake< 135. and self.rake> 45:
-#                    mecanism = 'R'
-#                else :
-#                    mecanism = 'S'
-#
-#                faults_mecanism.append(mecanism)
                 faults_mecanism.append(faults_data[index_fault]['mecanism'])
-
-#                slip_rate_min = self.slip_rate_min
-#                slip_rate_moy = self.slip_rate_moy
-#                slip_rate_max = self.slip_rate_max
-#                sr_values = [slip_rate_min,slip_rate_moy,slip_rate_max]
                 sr_values = [faults_data[index_fault]['slip_rate_min'],
                 faults_data[index_fault]['slip_rate_moy'],
                 faults_data[index_fault]['slip_rate_max']]
@@ -274,27 +205,6 @@ class Source_Model_Creator:
         else: # the option of correlation bewteen corroption fault not used
             index_fault = 0
             for Fault_name in faults_names:
-#                self.FaultProperties(Fault_name)
-#                dip = self.dip
-#                upper_sismo_depth = self.upper_sismo_depth
-#                lower_sismo_depth = self.lower_sismo_depth
-#                width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
-#                area = geom_scenar.length[index_fault] * 1000. * width * 1000.
-#                faults_length.append(geom_scenar.length[index_fault] * 1000.)
-#                faults_area.append(area)
-#                faults_width.append(width)
-#
-#                if self.rake> -135. and self.rake< -45:
-#                    mecanism = 'N'
-#                elif self.rake< 135. and self.rake> 45:
-#                    mecanism = 'R'
-#                else :
-#                    mecanism = 'S'
-#
-#
-#                faults_mecanism.append(mecanism)
-                    
-
                 faults_length.append(faults_data[index_fault]['length'])
                 faults_area.append(faults_data[index_fault]['area'])
                 faults_width.append(faults_data[index_fault]['width'])
@@ -327,35 +237,63 @@ class Source_Model_Creator:
         ratio_test = 0.5
         count_reruns = 1 #used to divide the sr increment if the fit is not good
         count_mfd90 = 1
-        while abs(ratio_test-1) >self.fit_quality or math.isnan(ratio_test) == True:
-            MFDs = EQ_on_faults.EQ_on_faults_from_sr(M_min,mfd_param,faults_names,faults_area,faults_length,faults_width,faults_slip_rates,scenarios_names,
-                                                     faults_shear_mod,self.path,self.sample,self.selected_ScL,
-                                                     self.dimention_used,self.use_all_ScL_data,faults_mecanism,self.bg_ratio,self.size_of_increment,self.mfd_hyp,count_reruns,
-                                                     faults_lon,faults_lat,self.Mmax_range,self.calculation_log_file)
-            ratio_test = MFDs.ratio_test
-            if abs(ratio_test-1) > self.fit_quality:
-                print('bad sampling => re-run')
-                count_reruns += 1
-                if MFDs.ratio_NMS> 90.:
-                    count_reruns -= 1
-                    count_mfd90 +=1
-                else :
-                    count_mfd90 =1
-            else:
-                if MFDs.ratio_NMS> 90.:
-                    ratio_test = 0.5
+                                
+        f_pkl_mdf = self.path +'/mfd_' + str(self.sample) + '.pkl'
+        re_use_mfd_pkl= True
+        if not os.path.isfile(f_pkl_mdf):
+            re_use_mfd_pkl = False
+        if re_use_mfd_pkl == False:
+            while abs(ratio_test-1) >self.fit_quality or math.isnan(ratio_test) == True:
+                MFDs = EQ_on_faults.EQ_on_faults_from_sr(M_min,mfd_param,
+                faults_names,faults_area,faults_length,faults_width,faults_slip_rates,scenarios_names,faults_shear_mod,self.path,self.sample,self.selected_ScL,self.dimention_used,self.use_all_ScL_data,faults_mecanism,self.bg_ratio,self.size_of_increment,self.mfd_hyp,count_reruns,faults_lon,faults_lat,
+                    self.Mmax_range,self.calculation_log_file)
+                ratio_test = MFDs.ratio_test
+                if abs(ratio_test-1) > self.fit_quality:
                     print('bad sampling => re-run')
-                    count_mfd90 +=1
-                else :
-                    count_mfd90 =1
-                
-            if math.isnan(ratio_test) == True:
-                print('bad sampling => re-run')
-                count_reruns = 1 
-            if count_reruns > 3 or count_mfd90 > 3:
-                print('\n\n\n!!!!!! maybe there is a problem!!!')
-                ratio_test = 1.
-                
+                    count_reruns += 1
+                    if MFDs.ratio_NMS> 90.:
+                        count_reruns -= 1
+                        count_mfd90 +=1
+                    else :
+                        count_mfd90 =1
+                else:
+                    if MFDs.ratio_NMS> 90.:
+                        ratio_test = 0.5
+                        print('bad sampling => re-run')
+                        count_mfd90 +=1
+                    else :
+                        count_mfd90 =1
+                    
+                if math.isnan(ratio_test) == True:
+                    print('bad sampling => re-run')
+                    count_reruns = 1
+                if count_reruns > 3 or count_mfd90 > 3:
+                    print('\n\n\n!!!!!! maybe there is a problem!!!')
+                    ratio_test = 1.
+                    
+            with open(f_pkl_mdf, 'wb') as f:
+                MFDs_to_pkl = [
+                                MFDs.EQ_rate_BG,
+                                MFDs.faults_names,
+                                MFDs.OQ_entry_faults,
+                                MFDs.scenarios_names,
+                                MFDs.OQ_entry_scenarios,
+                                MFDs.index_faults_in_scenario
+                                ]
+                pickle.dump(MFDs_to_pkl, f)
+        
+        else :
+            print('Reloading MFDs from previous run')
+            with open(f_pkl_mdf, 'rb') as f:
+                MFDs_to_pkl = pickle.load(f)
+                            
+        EQ_rate_BG = MFDs_to_pkl[0]
+        faults_names = MFDs_to_pkl[1]
+        OQ_entry_faults = MFDs_to_pkl[2]
+        scenarios_names = MFDs_to_pkl[3]
+        OQ_entry_scenarios = MFDs_to_pkl[4]
+        index_faults_in_scenario = MFDs_to_pkl[5]
+            
         # sclaling law as called by openquake
         if self.selected_ScL == 'Le2010' :
             ScL_oq = 'Leonard2014_SCR'
@@ -365,346 +303,27 @@ class Source_Model_Creator:
             ScL_oq = 'WC1994'
         
         ########################################################
-        ########################################################
         #loop on simple faults  
-        ########################################################
         ########################################################
         ID_number = 0
 #        for Fault_name in enumerate(self.Fault_Names):
         for index_fault,fault_name in zip(range(len(faults_names)),faults_names):
-            if fault_name in MFDs.faults_names :
-                i_MFD = np.where(np.array(MFDs.faults_names) == fault_name)[0][0]
-                MFD = MFDs.OQ_entry_faults[i_MFD]
-                ID_number = ID_number + 1
-                
-#                self.FaultProperties(Fault_name[1])
-                
-#                if not self.Domain in str(self.Domain_in_the_model):
-#                    self.Domain_in_the_model.append(self.Domain)
-                if not faults_data[index_fault]['domain'] in str(self.Domain_in_the_model):
-                    self.Domain_in_the_model.append(faults_data[index_fault]['domain'])
-                    
-                    
-                ########################################################
-                #Part concerning the geometry            
-                ########################################################
-                
-#                index_zones = np.where(np.array(self.Column_Fault_name) == Fault_name[1])
-#
-#                ColLon = list(map(lambda i : self.Longitudes[i],index_zones[0]))
-#                ColLat = list(map(lambda i : self.Latitudes[i],index_zones[0]))
-#
-#                ColLon = list(map(lambda i : self.Longitudes[i],index_zones[0]))
-#                ColLat = list(map(lambda i : self.Latitudes[i],index_zones[0]))
-#                Depth = list(map(lambda i : self.Depths[i],index_zones[0]))
-                ColLon = faults_data[index_fault]['lon']
-                ColLat = faults_data[index_fault]['lat']
-                Depth = faults_data[index_fault]['depth']
-                
-                test_ok = 0
-                if Depth and all(elem == 'sf' for elem in Depth):
-                    type_of_fault = 'sf'
-                else :
-                    type_of_fault = 'cf'
-                    Depth = [float(i) for i in Depth]
-                    
-                if type_of_fault == 'sf':
-                    fault_name = self.Model_name + '_' + str(fault_name)
-                    line='\t\t<simpleFaultSource id="'+ str(ID_number) +'" name="'+ str(fault_name) +'" tectonicRegion="' + str(faults_data[index_fault]['domain']) + '">\n'
-                    test_ok += 1
-                    line+='\t\t\t<simpleFaultGeometry>\n'
-                    line+='\t\t\t\t<gml:LineString>\n'
-                    line+='\t\t\t\t\t<gml:posList>\n'
-                    
-                    #polygon = []
-                    
-                    # orienting the arrays in order to respect OQ right hand rule
-                    compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[-1],ColLon[-1]))
-                    
-                    if str('N') in str(faults_data[index_fault]['oriented']):
-                        if compass_bearing < 180. :
-                            ColLon = reversed(ColLon)
-                            ColLat = reversed(ColLat) 
-                            #reveresed = 'yes'
-                    elif str('S') in str(faults_data[index_fault]['oriented']):
-                        if compass_bearing > 180. :
-                            ColLon = reversed(ColLon)
-                            ColLat = reversed(ColLat) 
-                            #reveresed = 'yes'  
-                    elif str('E') in str(faults_data[index_fault]['oriented']):
-                        if compass_bearing > 90. and compass_bearing < 270. :
-                            ColLon = reversed(ColLon)
-                            ColLat = reversed(ColLat)
-                            #reveresed = 'yes'
-                    elif str('W') in str(faults_data[index_fault]['oriented']):
-                        if compass_bearing < 90. or compass_bearing > 270. :
-                            ColLon = reversed(ColLon)
-                            ColLat = reversed(ColLat)
-                            #reveresed = 'yes'
-                        
-                    for x,y in zip(ColLon,ColLat):
-                        #polygon.append((x,y)) #ecriture du polygone de la zone
-                        line+='\t\t\t\t\t\t' + str(x) + ' ' + str(y) + '\n'
-                    line+='\t\t\t\t\t</gml:posList>\n'
-                    line+='\t\t\t\t</gml:LineString>\n'
-                    line+='\t\t\t\t<dip>'+ str(faults_data[index_fault]['dip']) +'</dip>\n'
-                    line+='\t\t\t\t<upperSeismoDepth>'+ str(faults_data[index_fault]['upper_sismo_depth']) +'</upperSeismoDepth>\n'
-                    line+='\t\t\t\t<lowerSeismoDepth>'+ str(faults_data[index_fault]['lower_sismo_depth']) +'</lowerSeismoDepth>\n'
-                    line+='\t\t\t</simpleFaultGeometry>\n'
-                    XMLfile.write(line)
-                    
-                if type_of_fault == 'cf':
-                    fault_name = self.Model_name + '_' + str(fault_name)
-                    #line='\t\t<complexFaultSource id="'+ str(self.Model_name) + '_' + str(Fault_Name)+ '_' + str(ID_number) +'" name="'+ str(Fault_Name) +'" tectonicRegion="' + str(self.Domain) + '">\n'
-                    line='\t\t<complexFaultSource id="'+ str(ID_number) +'" name="'+ str(fault_name) +'" tectonicRegion="' + str(faults_data[index_fault]['domain']) + '">\n'
-                    test_ok += 1
-                    line+='\t\t\t<complexFaultGeometry>\n'
-                    
-                    index_edge = 0
-                    for depth_i in sorted(set(Depth)):
-                        indexes_for_edge_i = np.where(np.array(Depth)==depth_i)[0]
-                        if index_edge == 0:
-                            line+='\t\t\t\t<faultTopEdge>\n'
-                        elif index_edge == len(set(Depth))-1:
-                            line+='\t\t\t\t<faultBottomEdge>\n'
-                        else :
-                            line+='\t\t\t\t<intermediateEdge>\n'
-                            
-                        line+='\t\t\t\t<gml:LineString>\n'
-                        line+='\t\t\t\t\t<gml:posList>\n'
-                        for index in indexes_for_edge_i:
-                            line+='\t\t\t\t\t\t' + str(ColLon[index]) + ' ' + str(ColLat[index])  + ' ' + str(Depth[index]) + '\n'
-                            
-                        line+='\t\t\t\t\t</gml:posList>\n'
-                        line+='\t\t\t\t</gml:LineString>\n'
-                        if index_edge == 0:
-                            line+='\t\t\t\t</faultTopEdge>\n'
-                        elif index_edge == len(set(Depth))-1:
-                            line+='\t\t\t\t</faultBottomEdge>\n'
-                        else :
-                            line+='\t\t\t\t</intermediateEdge>\n'
-                        index_edge+=1   
-                        
-                    line+='\t\t\t</complexFaultGeometry>\n'
-                    XMLfile.write(line)
-                    
-                    
-                if test_ok == 0:
-                    print('!!!!!!!!!! Problem with the fault Geometry, please check input file''')
-                    sys.exit()
-                    
-                    
-                ########################################################
-                #scaling law and aspect ratio
-                ########################################################
-                
-                line='\t\t\t<magScaleRel>'+ ScL_oq +'</magScaleRel>\n'
-                XMLfile.write(line)
-                line='\t\t\t<ruptAspectRatio>1.0</ruptAspectRatio>\n'
-                XMLfile.write(line)
-                
-                ########################################################
-                # seismicity of the fault            ♀
-                ########################################################
-                line = '\t\t\t<incrementalMFD minMag=\"'+ str(M_min)+'\" binWidth=\"0.10\">\n'
-                XMLfile.write(line)
-                #MFD_model += MFD
-                if sum(MFD)!=0 :
-                    log_mdf_file.write(str(fault_name)+'\t'+str(M_min)+'\t'+' '.join(list(map(str, MFD)))+'\n')
-                    line = '\t\t\t\t<occurRates> ' + ' '.join(list(map(str, MFD))) + '</occurRates>\n'
-                    XMLfile.write(line)
-                else:
-                    MFD[0] += 0.00000000001 #so it's not zero
-                    log_mdf_file.write(str(fault_name)+'\t'+str(M_min)+'\t'+' '.join(list(map(str, MFD)))+'\n')
-                    line = '\t\t\t\t<occurRates> ' + ' '.join(list(map(str, MFD))) + '</occurRates>\n'
-                    XMLfile.write(line)
-                    
-                line = '\t\t\t</incrementalMFD>\n'
-                XMLfile.write(line)
-                
-                line='\t\t\t<rake>'+str(faults_data[index_fault]['rake'])+'</rake>\n'
-                XMLfile.write(line)
-                if type_of_fault == 'sf':
-                    line='\t\t</simpleFaultSource>\n'
-                    XMLfile.write(line)
-                if type_of_fault == 'cf':
-                    line='\t\t</complexFaultSource>\n'
-                    XMLfile.write(line)
+            line,self.Domain_in_the_model,ID_number =fault_source.write_simple_fault(index_fault,fault_name,
+            OQ_entry_faults,faults_names,faults_data,self.Model_name,
+            self.Domain_in_the_model,ScL_oq,log_mdf_file,M_min,ID_number)
+            XMLfile.write(line)
         
         if len(self.rupture_set) != 0 :
-            index_scenario = 0    
+#            index_scenario = 0
             
-            for scenario in enumerate(MFDs.scenarios_names):
-                index_scenario = np.where(np.array(MFDs.scenarios_names) == scenario[1])[0][0]
-                MFD = MFDs.OQ_entry_scenarios[index_scenario]
-                if sum(MFD)!=0:         
-                    ID_number = ID_number + 1
-                    index_fault = faults_names.index(scenario[1]['f_1'][0])
-#                    self.FaultProperties(scenario[1]['f_1'])
-                    scenar_name = '_'.join("{!s}={!r}".format(key,val) for (key,val) in scenario[1].items())
-                    Fault_Name = self.Model_name + '_scenario_' + str(scenar_name)
-                    line='\t\t<characteristicFaultSource id="'+ str(ID_number) +'" name="'+ str(Fault_Name) +'" tectonicRegion="' + str(faults_data[index_fault]['domain']) + '">\n'
-                    XMLfile.write(line)
-
-                    
-                    ########################################################
-                    #Part concerning the geometry            
-                    ########################################################
-                    index_faults_in_scenario =  MFDs.index_faults_in_scenario[index_scenario][0]
-                    faults_in_scenario = np.take(faults_names,index_faults_in_scenario)
-                    
-                    line='\t\t\t<surface>\n'
-                    XMLfile.write(line)
-                    
-                    scenario_mechanism = []
-                    for Fault_name in faults_in_scenario :
-                        index_fault = faults_names.index(Fault_name)
-                        
-#                        self.FaultProperties(Fault_name)
-                        
-#                        index_zones = np.where(np.array(self.Column_Fault_name) == Fault_name)
-                                       
-#                        ColLon = list(map(lambda i : self.Longitudes[i],index_zones[0]))
-#                        ColLat = list(map(lambda i : self.Latitudes[i],index_zones[0]))
-#                        Depth = list(map(lambda i : self.Depths[i],index_zones[0]))
-                        ColLon = faults_data[index_fault]['lon']
-                        ColLat = faults_data[index_fault]['lat']
-                        Depth = faults_data[index_fault]['depth']
-
-                        scenario_mechanism.append(faults_data[index_fault]['rake'])
-                        
-                        if Depth and all(elem == 'sf' for elem in Depth):
-                            type_of_fault = 'sf'
-                        else :
-                            type_of_fault = 'cf'
-                            Depth = [float(i) for i in Depth]
-                        if type_of_fault == 'sf':
-                            line='\t\t\t<simpleFaultGeometry>\n'
-                            XMLfile.write(line)
-                            line='\t\t\t\t<gml:LineString>\n'
-                            XMLfile.write(line)
-                            line='\t\t\t\t\t<gml:posList>\n'
-                            XMLfile.write(line)
-                            
-                            #polygon = []
-                            
-                            # orienting the arrays in order to respect OQ right hand rule
-                            compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[-1],ColLon[-1]))
-                            
-                            if str('N') in str(faults_data[index_fault]['oriented']):
-                                if compass_bearing < 180. :
-                                    ColLon = reversed(ColLon)
-                                    ColLat = reversed(ColLat)
-                            elif str('S') in str(faults_data[index_fault]['oriented']):
-                                if compass_bearing > 180. :
-                                    ColLon = reversed(ColLon)
-                                    ColLat = reversed(ColLat)
-                            elif str('E') in str(faults_data[index_fault]['oriented']):
-                                if compass_bearing > 90. and compass_bearing < 270. :
-                                    ColLon = reversed(ColLon)
-                                    ColLat = reversed(ColLat)
-                            elif str('W') in str(faults_data[index_fault]['oriented']):
-                                if compass_bearing < 90. or compass_bearing > 270. :
-                                    ColLon = reversed(ColLon)
-                                    ColLat = reversed(ColLat)
-                                
-                            for x,y in zip(ColLon,ColLat):
-                                #polygon.append((x,y)) #ecriture du polygone de la zone
-                                line='\t\t\t\t\t\t' + str(x) + ' ' + str(y) + '\n'
-                                XMLfile.write(line)
-                            line='\t\t\t\t\t</gml:posList>\n'
-                            XMLfile.write(line)
-                            line='\t\t\t\t</gml:LineString>\n'
-                            XMLfile.write(line)
-                            line='\t\t\t\t<dip>'+ str(faults_data[index_fault]['dip']) +'</dip>\n'
-                            XMLfile.write(line)
-                            line='\t\t\t\t<upperSeismoDepth>'+ str(faults_data[index_fault]['upper_sismo_depth']) +'</upperSeismoDepth>\n'
-                            XMLfile.write(line)
-                            line='\t\t\t\t<lowerSeismoDepth>'+ str(faults_data[index_fault]['lower_sismo_depth']) +'</lowerSeismoDepth>\n'
-                            XMLfile.write(line)
-                            line='\t\t\t</simpleFaultGeometry>\n'
-                            XMLfile.write(line)
-                            
-                        if type_of_fault == 'cf':
-                            line='\t\t\t<complexFaultGeometry>\n'
-                            XMLfile.write(line)
-                                    
-                            index_edge = 0
-                            for depth_i in sorted(set(Depth)):
-                                indexes_for_edge_i = np.where(np.array(Depth)==depth_i)[0]
-                                if index_edge == 0:
-                                    line='\t\t\t\t<faultTopEdge>\n'
-                                    XMLfile.write(line)
-                                elif index_edge == len(set(Depth))-1:
-                                    line='\t\t\t\t<faultBottomEdge>\n'
-                                    XMLfile.write(line)
-                                else :
-                                    line='\t\t\t\t<intermediateEdge>\n'
-                                    XMLfile.write(line)
-                                    
-                                line='\t\t\t\t<gml:LineString>\n'
-                                XMLfile.write(line)
-                                line='\t\t\t\t\t<gml:posList>\n'
-                                XMLfile.write(line)
-                                for index in indexes_for_edge_i:
-                                    line='\t\t\t\t\t\t' + str(ColLon[index]) + ' ' + str(ColLat[index])  + ' ' + str(Depth[index]) + '\n'
-                                    XMLfile.write(line)
-                                    
-                                line='\t\t\t\t\t</gml:posList>\n'
-                                XMLfile.write(line)
-                                line='\t\t\t\t</gml:LineString>\n'
-                                XMLfile.write(line)
-                                if index_edge == 0:
-                                    line='\t\t\t\t</faultTopEdge>\n'
-                                    XMLfile.write(line)
-                                elif index_edge == len(set(Depth))-1:
-                                    line='\t\t\t\t</faultBottomEdge>\n'
-                                    XMLfile.write(line)
-                                else :
-                                    line='\t\t\t\t</intermediateEdge>\n'
-                                    XMLfile.write(line)
-                                index_edge+=1   
-                                
-                            line='\t\t\t</complexFaultGeometry>\n'
-                            XMLfile.write(line)
-                            
-                    
-                    
-                    line='\t\t\t</surface>\n'
-                    XMLfile.write(line)
-                    
-                    ########################################################
-                    #scaling law and aspect ratio
-                    ########################################################
-                    
-                    line='\t\t\t<magScaleRel>'+ ScL_oq +'</magScaleRel>\n'
-                    XMLfile.write(line)
-                    line='\t\t\t<ruptAspectRatio>1.0</ruptAspectRatio>\n'
-                    XMLfile.write(line)
-                    
-                    ########################################################
-                    # seismicity of the scenario           
-                    ########################################################
-        #            
-                    log_mdf_file.write(str(Fault_Name) + '\t' + str(M_min) + '\t' + ' '.join(list(map(str, MFD)))+'\n')
-                    #while MFD[i_Mmin] == 0:
-                    #    i_Mmin += 1
-                    line = '\t\t\t<incrementalMFD minMag=\"'+ str(M_min)+'\" binWidth=\"0.10\">\n'# + 0.1 * i_Mmin
-                    XMLfile.write(line)
-                    #MFD_model += MFD
-                    line = '\t\t\t\t<occurRates> ' + ' '.join(list(map(str, MFD))) + '</occurRates>\n'#[-(len(MFD) - i_Mmin):]
-                    XMLfile.write(line)
-                    line = '\t\t\t</incrementalMFD>\n'
-                    XMLfile.write(line)
-                    
-                    #find the dominant kinematic of the scenario
-                    rake= np.mean(scenario_mechanism)
-                    line='\t\t\t<rake>'+str(rake)+'</rake>\n'
-                    XMLfile.write(line)
-                    line='\t\t</characteristicFaultSource>\n'
-                    XMLfile.write(line)
-                index_scenario += 1
-                
+            for scenario in enumerate(scenarios_names):
+                use_non_param = True
+                if use_non_param == False:
+                    line,ID_number = fault_source. write_characteristic_scenario(scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,scenario,faults_names,self.Model_name,faults_data,log_mdf_file,M_min,ID_number)
+                else :
+                    explo_time = 50. # TODO readc the input file
+                    line,ID_number = fault_source. write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,faults_names,faults_data,self.Model_name,self.Domain_in_the_model,ScL_oq,log_mdf_file,explo_time,M_min,ID_number)
+                XMLfile.write(line)
                 
         '''#########################
         # Defining the background
@@ -712,8 +331,9 @@ class Source_Model_Creator:
         Lon_bg, Lat_bg  = bg.geom(self.Model_name,self.File_bg )
         upperSeismoDepth, lowerSeismoDepth, ruptAspectRatio, nodalPlanes, hypoDepths = bg.prop(self.Model_name,self.file_prop_bg)
         
-        MFD = MFDs.EQ_rate_BG
-        do_bg_in_SHERIFS = True
+        MFD = EQ_rate_BG
+        do_bg_in_SHERIFS = False
+        use_smoothed_bg = True
         if sum(MFD) != 0. and do_bg_in_SHERIFS == True:
             line='\t\t<areaSource id="'+ str(ID_number + 1 ) +'" name="Background" tectonicRegion="' + str(self.Domain_in_the_model[0]) + '">\n'
             line+='\t\t\t<areaGeometry>\n'
@@ -748,6 +368,8 @@ class Source_Model_Creator:
             line+='\t\t\t</hypoDepthDist>\n'
             line+='\t\t</areaSource>\n'
             XMLfile.write(line)
+            
+        elif use_smoothed_bg==True
         
         '''#############################
         ### defining the other sources based on the host model
@@ -756,7 +378,9 @@ class Source_Model_Creator:
             host_model.build(XMLfile,self.host_model_file,Lon_bg,Lat_bg)
 
         #end of the file
-        line='\t</sourceModel>\n'
+                           
+        line='\t\t</sourceGroup>\n'
+        line+='\t</sourceModel>\n'
         XMLfile.write(line)
         line='</nrml>\n'
         XMLfile.write(line)
@@ -764,85 +388,3 @@ class Source_Model_Creator:
         log_sr_file.close()
         log_mdf_file.close()
                 
-#    def FaultGeometry(self):
-#        NomFichier_InfosZonage = self.File_geom
-#        InfosZonage = np.genfromtxt(NomFichier_InfosZonage,dtype=[('U100'),('U100'),('f8'),('f8'),('U100')],skip_header = 1)
-#        Column_model_name = list(map(lambda i : InfosZonage[i][0],range(len(InfosZonage))))
-#        index_model = np.where(np.array(Column_model_name) == self.Model_name)
-#        self.Column_Fault_name = list(map(lambda i : InfosZonage[i][1],index_model[0]))
-#        self.Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
-#        self.Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
-#        self.Depths = list(map(lambda i : InfosZonage[i][4],index_model[0]))
-#
-#        ZoneSelec = self.Column_Fault_name
-#        DicoZone = dict([(k,ZoneSelec.count(k)) for k in set(ZoneSelec)])
-#        Longitudes = []
-#        Latitudes = []
-#        Depths = []
-#        Column_Fault_name = []
-#        for cle in DicoZone.keys():
-#            indices_ZonesSelec = np.where(np.array(self.Column_Fault_name) == cle)
-#            ColonneNomZone_inter = np.take(self.Column_Fault_name,indices_ZonesSelec)
-#            Longitudes_inter = np.take(self.Longitudes,indices_ZonesSelec)
-#            Latitudes_inter = np.take(self.Latitudes,indices_ZonesSelec)
-#            depth_inter = np.take(self.Depths,indices_ZonesSelec)
-#
-#            Longitudes_inter = Longitudes_inter[0].tolist()
-#            Latitudes_inter = Latitudes_inter[0].tolist()
-#            depth_inter = depth_inter[0].tolist()
-#            ColonneNomZone_inter = ColonneNomZone_inter[0].tolist()
-#            compt = 0
-#            for xx,yy,nn,dd in zip(Longitudes_inter,Latitudes_inter,ColonneNomZone_inter,depth_inter):
-#                compt+=1
-#                Longitudes.append(xx)
-#                Latitudes.append(yy)
-#                Depths.append(dd)
-#                Column_Fault_name.append(nn)
-#
-#        self.Longitudes =Longitudes
-#        self.Latitudes =Latitudes
-#        self.Depths =Depths
-#        self.Column_Fault_name = Column_Fault_name
-#        self.Nb_data_per_zone = dict([(k,self.Column_Fault_name.count(k)) for k in set(self.Column_Fault_name)])
-#        self.Fault_Names = sorted(self.Nb_data_per_zone.keys())
-#
-#    def FaultProperties(self,Name_of_fault):
-#        FileName_Prop = self.File_prop
-#        Prop = np.genfromtxt(FileName_Prop,
-#                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
-#                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
-#        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
-#        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
-#        index_model = np.where(np.array(Column_model_name) == self.Model_name)[0]
-#
-#        Prop = np.take(Prop,index_model)
-#        index_fault = np.where(np.array(Column_fault_name[index_model[0]:index_model[-1]+1]) == Name_of_fault)
-#        Indexfault_final = index_fault[0]
-#
-#        self.dip = Prop[Indexfault_final][0][2]
-#        self.oriented = Prop[Indexfault_final][0][3]
-#        self.rake = Prop[Indexfault_final][0][4]
-#        self.upper_sismo_depth = Prop[Indexfault_final][0][5]
-#        self.lower_sismo_depth = Prop[Indexfault_final][0][6]
-#
-#        self.slip_rate_min = Prop[Indexfault_final][0][7]
-#        self.slip_rate_moy = Prop[Indexfault_final][0][8]
-#        self.slip_rate_max = Prop[Indexfault_final][0][9]
-#        self.Domain = Prop[Indexfault_final][0][10]
-#        self.shear_mod = Prop[Indexfault_final][0][11]
-#
-#
-#        if self.rake == 'N' :
-#            self.rake = -90.00
-#        if self.rake == 'S' :
-#            self.rake = 00.00
-#        if self.rake == 'SS' :
-#            self.rake = 00.00
-#        if self.rake == 'R' :
-#            self.rake = 90.00
-#        self.rake = float(self.rake)
-#
-#        if len(str(self.dip)) == 0:
-#            print('\nError!!! please verify your input file for fault parameters\n')
-
-

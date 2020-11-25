@@ -136,10 +136,12 @@ def map_faults(Run_name,Model_list,scenarios_names_list,
                     
 
                 # extract the Mmax of the faults and the scenarios
-                log_Mmax_file = (str(Run_name)  + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp_list[0]) + '/'
-                                + str(ScL_complet_list[0]) + '/sc_' +  str(scenario_set) + '/'
-                                + str(b_value_list[0]) + '/' + 'MFD_'+ str(MFD_type_list[0])
-                                +  '/Log/Mmax_sample_1.txt')
+#                log_Mmax_file = (str(Run_name)  + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp_list[0]) + '/'
+#                                + str(ScL_complet_list[0]) + '/sc_' +  str(scenario_set) + '/'
+#                                + str(b_value_list[0]) + '/' + 'MFD_'+ str(MFD_type_list[0])
+#                                +  '/Log/Mmax_sample_1.txt')
+                log_Mmax_file = (str(Run_name)  + '/' + str(Model) +'/Log/Mmax_sample_'+str(ScL_complet_list[0])+'_'+scenario_set+'_1.txt')
+                                                
                 sources_names,sources_Mmax,sources_Lengths,sources_Areas = Read_file.read_file_Mmax_log(log_Mmax_file) #read the log of Mmax associated with the model
                 rupture_set = available_sets['sc_'+scenario_set]
 

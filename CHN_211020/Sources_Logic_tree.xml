@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nrml xmlns:gml="http://www.opengis.net/gml"
+	xmlns="http://openquake.org/xmlns/nrml/0.4">
+	<logicTree logicTreeID="lt1">
+		<logicTreeBranchingLevel branchingLevelID="bl1">
+			<logicTreeBranchSet uncertaintyType="sourceModel"
+							branchSetID="bs1">
+				<logicTreeBranch branchID="CHN0-bg_BG_1-WC1994-A-m-sc_set_2-bmin_0.95_bmax_1.05-MFD_tapered_GR-s_1">
+					<uncertaintyModel>CHN0/bg_BG_1/WC1994_A_m/sc_set_2/bmin_0.95_bmax_1.05/MFD_tapered_GR/Source_model_1.xml</uncertaintyModel>
+					<uncertaintyWeight>6.0</uncertaintyWeight>
+				</logicTreeBranch>
+				<logicTreeBranch branchID="CHN0-bg_BG_2-WC1994-A-m-sc_set_2-bmin_0.95_bmax_1.05-MFD_tapered_GR-s_1">
+					<uncertaintyModel>CHN0/bg_BG_2/WC1994_A_m/sc_set_2/bmin_0.95_bmax_1.05/MFD_tapered_GR/Source_model_1.xml</uncertaintyModel>
+					<uncertaintyWeight>6.0</uncertaintyWeight>
+				</logicTreeBranch>
+				<logicTreeBranch branchID="CHN0-bg_BG_3-WC1994-A-m-sc_set_2-bmin_0.95_bmax_1.05-MFD_tapered_GR-s_1">
+					<uncertaintyModel>CHN0/bg_BG_3/WC1994_A_m/sc_set_2/bmin_0.95_bmax_1.05/MFD_tapered_GR/Source_model_1.xml</uncertaintyModel>
+					<uncertaintyWeight>6.0</uncertaintyWeight>
+				</logicTreeBranch>
+				<logicTreeBranch branchID="CHN0-bg_BG_1-WC1994-A-m-sc_set_2-bmin_0.85_bmax_0.95-MFD_tapered_GR-s_1">
+					<uncertaintyModel>CHN0/bg_BG_1/WC1994_A_m/sc_set_2/bmin_0.85_bmax_0.95/MFD_tapered_GR/Source_model_1.xml</uncertaintyModel>
+					<uncertaintyWeight>6.0</uncertaintyWeight>
+				</logicTreeBranch>
+				<logicTreeBranch branchID="CHN0-bg_BG_2-WC1994-A-m-sc_set_2-bmin_0.85_bmax_0.95-MFD_tapered_GR-s_1">
+					<uncertaintyModel>CHN0/bg_BG_2/WC1994_A_m/sc_set_2/bmin_0.85_bmax_0.95/MFD_tapered_GR/Source_model_1.xml</uncertaintyModel>
+					<uncertaintyWeight>6.0</uncertaintyWeight>
+				</logicTreeBranch>
+				<logicTreeBranch branchID="CHN0-bg_BG_3-WC1994-A-m-sc_set_2-bmin_0.85_bmax_0.95-MFD_tapered_GR-s_1">
+					<uncertaintyModel>CHN0/bg_BG_3/WC1994_A_m/sc_set_2/bmin_0.85_bmax_0.95/MFD_tapered_GR/Source_model_1.xml</uncertaintyModel>
+					<uncertaintyWeight>6.0</uncertaintyWeight>
+				</logicTreeBranch>
+			</logicTreeBranchSet>
+		</logicTreeBranchingLevel>
+	</logicTree>
+</nrml>

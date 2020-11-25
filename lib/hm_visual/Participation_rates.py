@@ -746,7 +746,8 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
                                 '7.0','7.1','7.2','7.3','7.4','7.5','7.6','7.7','7.8','7.9',
                                 '8.0','8.1','8.2','8.3','8.4','8.5','8.6','8.7','8.8','8.9',
                                 '9.0','9.1','9.2','9.3','9.4','9.5','9.6','9.7','9.8','9.9']
-                df_subarea_mfd['ratio'] = np.zeros(len(ratio_in_subarea))
+#                df_subarea_mfd["ratio"] = np.zeros(len(ratio_in_subarea))
+                df_subarea_mfd["ratio"] = np.zeros(len(df_subarea_mfd))
                 index_source = 0
                 for source in sources_in_sub_area:
                     df_subarea_mfd.loc[df_subarea_mfd.source == source, "ratio"] = ratio_in_subarea[index_source]
@@ -829,8 +830,49 @@ def plt_EQ_rates(Run_name,mega_MFD,df_mega_MFD, scenarios_names_list, ScL_comple
                     print("\t\t Done")
                     print("Doing details for LT branches")
                 
-                
+                ####################
                 #for a bit more detail
+                #####################
+                b_list = [[str(i.split('_')[1]),str(i.split('_')[-1])] for i in b_value_list]
+                branches_list = [MFD_type_list,scenarios_names_list,BG_hyp_list,b_list]
+                hyp_dfs = ["MFD_type","scenario_set","BG_hyp","b_value"]
+                
+                for hyp_list,hyp_df in zip(branches_list,hyp_dfs):
+                    if len(hyp_list)>1:
+                        for hyp_name in hyp_list :
+                            if not os.path.exists(str(Run_name) + '/analysis/figures/participation_rates/' + model + '/'+sub_area_names_i+ '/LT_branches'):
+                                os.makedirs(str(Run_name) + '/analysis/figures/participation_rates/' + model + '/'+sub_area_names_i+ '/LT_branches')
+                            if hyp_df == "MFD_type":
+                                df_source_i_mfd = df_subarea_mfd[(df_subarea_mfd.MFD_type == hyp_name)]
+                            if hyp_df == "scenario_set":
+                                df_source_i_mfd = df_subarea_mfd[(df_subarea_mfd.scenario_set == hyp_name)]
+                            if hyp_df == "BG_hyp":
+                                df_source_i_mfd = df_subarea_mfd[(df_subarea_mfd.BG_hyp == hyp_name)]
+                            if hyp_df == "b_value":
+#                                print("b_value",hyp_name[0],hyp_name[1])
+                                df_source_i_mfd = df_subarea_mfd[(df_subarea_mfd.b_min == hyp_name[0]) & (df_subarea_mfd.b_max == hyp_name[1])]
+                            if df_source_i_mfd.empty == False:
+                                df_source_i_mfd.columns = ['selected_ScL','dim_used','str_all_data','Model','BG_hyp',
+                                                            'b_min','b_max','MFD_type','scenario_set','sample','source',
+                                                            '4.0','4.1','4.2','4.3','4.4','4.5','4.6','4.7','4.8','4.9',
+                                                            '5.0','5.1','5.2','5.3','5.4','5.5','5.6','5.7','5.8','5.9',
+                                                            '6.0','6.1','6.2','6.3','6.4','6.5','6.6','6.7','6.8','6.9',
+                                                            '7.0','7.1','7.2','7.3','7.4','7.5','7.6','7.7','7.8','7.9',
+                                                            '8.0','8.1','8.2','8.3','8.4','8.5','8.6','8.7','8.8','8.9',
+                                                            '9.0','9.1','9.2','9.3','9.4','9.5','9.6','9.7','9.8','9.9']
+                            
+                            grouped_df_mfd = df_source_i_mfd.groupby(['selected_ScL','dim_used','str_all_data','BG_hyp',
+                            'b_min','b_max','MFD_type','scenario_set','sample']).sum()
+                        
+#                            print(hyp_df,len(df_subarea_mfd),len(df_source_i_mfd),len(grouped_df_mfd))
+        #                    data_for_boxplot = data_for_boxplot_cum
+                            path_for_boxplot = str(Run_name) + '/analysis/figures/participation_rates/' + model + '/'+sub_area_names_i+ '/LT_branches/' + sub_area_names_i+'_'+str(hyp_name)+'.png'
+                            title_for_boxplot = 'Frequency of rupture '+ model +' ' +str(hyp_name)+' '  + sub_area_names_i+' cumulative rate'
+                            mfd_X =   grouped_df_mfd.values
+                            do_the_plots(mfd_X,mega_bining_in_mag,xmin,xmax,ymin,ymax,Run_name,
+                                             path_for_boxplot,title_for_boxplot,self_data_on_fault_available,
+                                             self_data_M,self_data_sig_M,self_data_rate,self_data_sig_rate,self_data_type,True)
+                # grouped MFD and rupture set hypotheses
                 for MFD_type in MFD_type_list :
                     for scenario in scenarios_names_list :
                         if not os.path.exists(str(Run_name) + '/analysis/figures/participation_rates/' + model + '/'+sub_area_names_i+ '/' + MFD_type):

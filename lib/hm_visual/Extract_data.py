@@ -73,7 +73,7 @@ def extract(Run_name):
                                         '6.0','6.1','6.2','6.3','6.4','6.5','6.6','6.7','6.8','6.9',
                                         '7.0','7.1','7.2','7.3','7.4','7.5','7.6','7.7','7.8','7.9',
                                         '8.0','8.1','8.2','8.3','8.4','8.5','8.6','8.7','8.8','8.9',
-                                        '9.0','9.1','9.2','9.3','9.4','9.5','9.6','9.7','9.8','9.9'], index = range(len(Branch_names)*10000)) 
+                                        '9.0','9.1','9.2','9.3','9.4','9.5','9.6','9.7','9.8','9.9'], index = range(len(Branch_names)*100000))
 
     index_df = 0
                
@@ -136,10 +136,13 @@ def extract(Run_name):
         
         
         # extract the Mmax of the faults and the scenarios
-        log_Mmax_file = (str(Run_name)  + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp) + '/' + str(selected_ScL) + '_' 
-                           + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set) + '/' 
-                            + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '/' + 'MFD_'+ str(MFD_type)
-                            + '/Log/Mmax_sample_' + str(sample) + '.txt')                
+#        log_Mmax_file = (str(Run_name)  + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
+#                           + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set) + '/'
+#                            + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '/' + 'MFD_'+ str(MFD_type)
+#                            + '/Log/Mmax_sample_' + str(sample) + '.txt')
+        log_Mmax_file = (str(Run_name)  + '/' + str(Model) + '/Log/Mmax_sample_'+
+         str(selected_ScL) + '_'+ str(dim_used) + '_' + str_all_data+
+          '_sc_' +  str(scenario_set)+'_'+str(sample)+'.txt')
         sources_names,sources_Mmax,sources_Lengths,sources_Areas = Read_file.read_file_Mmax_log(log_Mmax_file) #read the log of Mmax associated with the model
         
         m_Mmax.append(max(sources_Mmax))
@@ -342,7 +345,6 @@ def extract(Run_name):
                                  '9.8':np.sum(mega_mfd_i[69:]),
                                  '9.9':np.sum(mega_mfd_i[70:])}
                 df_mega_MFD.loc[index_df] = pd.Series(dict_df_mfd_i)
-                
                 '''df_mega_MFD.loc[index_df] = mega_mfd_i
                 ,columns=['selected_ScL','dim_used','str_all_data','Model','BG_hyp',
                                         'b_min','b_max','MFD_type','scenario_set','sample','source',
@@ -370,6 +372,14 @@ def extract(Run_name):
     df_mega_MFD = df_mega_MFD.dropna(how = 'all')
 #    df_mega_MFD.info(memory_usage = 'deep')
     
+    logictree = {"model":Model_list,
+    "scaling_law":ScL_complet_list,
+    "background":BG_hyp_list,
+    "b_value":b_value_list,
+    "MDF_type":MFD_type_list,
+    "rupture_set":scenarios_names_list
+    }
+    
     return (mega_MFD,df_mega_MFD, scenarios_names_list, ScL_complet_list, ScL_list, Model_list,BG_hyp_list,
             dimension_used_list,faults_name_list,sample_list,b_value_list,MFD_type_list,m_Mmax,
-            mega_bining_in_mag,a_s_model,b_sample,sm_sample,Mt_sample,sources_Lengths,sources_Areas)
+            mega_bining_in_mag,a_s_model,b_sample,sm_sample,Mt_sample,sources_Lengths,sources_Areas,logictree)
