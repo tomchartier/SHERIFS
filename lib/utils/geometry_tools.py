@@ -36,6 +36,42 @@ def points_aligned(a, b, c):
     return True
 
 
+def point_at(lon, lat, azimuth, distance):
+    """
+    Modified from OQ hazardlib
+    Perform a forward geodetic transformation: find a point lying at a given
+    distance from a given one on a great circle arc defined by azimuth.
+    :param float lon, lat:
+        Coordinates of a reference point, in decimal degrees.
+    :param azimuth:
+        An azimuth of a great circle arc of interest measured in a reference
+        point in decimal degrees.
+    :param distance:
+        Distance to target point in km.
+    :returns:
+        Tuple of two float numbers: longitude and latitude of a target point
+        in decimal degrees respectively.
+    Implements the same approach as :func:`npoints_towards`.
+    """
+    # this is a simplified version of npoints_towards().
+    # code duplication is justified by performance reasons.
+    lon, lat = np.radians(lon), np.radians(lat)
+    tc = np.radians(360 - azimuth)
+    EARTH_RADIUS = 6371.0
+    sin_dists = np.sin(distance / EARTH_RADIUS)
+    cos_dists = np.cos(distance / EARTH_RADIUS)
+    sin_lat = np.sin(lat)
+    cos_lat = np.cos(lat)
+
+    sin_lats = sin_lat * cos_dists + cos_lat * sin_dists * np.cos(tc)
+    lats = np.degrees(np.arcsin(sin_lats))
+
+    dlon = np.arctan2(np.sin(tc) * sin_dists * cos_lat,
+                         cos_dists - sin_lat * sin_lats)
+    lons = np.mod(lon - dlon + np.pi, 2 * np.pi) - np.pi
+    lons = np.degrees(lons)
+
+    return lons, lats
 
     
   

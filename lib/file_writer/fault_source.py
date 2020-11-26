@@ -13,6 +13,7 @@ import math
 from decimal import Decimal, getcontext
 getcontext().prec = 10
 
+
 def write_simple_fault(index_fault,fault_name,OQ_entry_faults,faults_names,faults_data,Model_name,Domain_in_the_model,ScL_oq,log_mdf_file,M_min,ID_number):
 
     if fault_name in faults_names :
@@ -40,9 +41,6 @@ def write_simple_fault(index_fault,fault_name,OQ_entry_faults,faults_names,fault
             ) +'" tectonicRegion="' + str(faults_data[index_fault]['domain']
             ) + '">\n'
             test_ok += 1
-            line+='\t\t\t<simpleFaultGeometry>\n'
-            line+='\t\t\t\t<gml:LineString>\n'
-            line+='\t\t\t\t\t<gml:posList>\n'
             
             
             # orienting the arrays in order to respect OQ right hand rule
@@ -71,16 +69,52 @@ def write_simple_fault(index_fault,fault_name,OQ_entry_faults,faults_names,fault
                     ColLon = reversed(ColLon)
                     ColLat = reversed(ColLat)
                     #reveresed = 'yes'
+                    
+            use_kite = True
+            if use_kite == True:
+                usd = faults_data[index_fault]['upper_sismo_depth']
+                lsd = faults_data[index_fault]['lower_sismo_depth']
+                # Similar to :meth:`from_fault_data`, we just don't resample edges
+                dip_tan = math.tan(math.radians(faults_data[index_fault]['dip']))
+                hdist_top = usd / dip_tan
+                hdist_bottom = lsd / dip_tan
                 
-            for x,y in zip(ColLon,ColLat):
-                #polygon.append((x,y)) #ecriture du polygone de la zone
-                line+='\t\t\t\t\t\t' + str(x) + ' ' + str(y) + '\n'
-            line+='\t\t\t\t\t</gml:posList>\n'
-            line+='\t\t\t\t</gml:LineString>\n'
-            line+='\t\t\t\t<dip>'+ str(faults_data[index_fault]['dip']) +'</dip>\n'
-            line+='\t\t\t\t<upperSeismoDepth>'+ str(faults_data[index_fault]['upper_sismo_depth']) +'</upperSeismoDepth>\n'
-            line+='\t\t\t\t<lowerSeismoDepth>'+ str(faults_data[index_fault]['lower_sismo_depth']) +'</lowerSeismoDepth>\n'
-            line+='\t\t\t</simpleFaultGeometry>\n'
+                ColLon = list(ColLon)
+                ColLat = list(ColLat)
+                
+                compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[-1],ColLon[-1]))
+                strike = compass_bearing
+                azimuth = (strike + 90.0) % 360
+            
+                line+='\t\t\t<kiteSurface>\n'
+                # loop on profiles
+                for x,y in zip(ColLon,ColLat):
+                    line+='\t\t\t<profile>\n'
+                    line+='\t\t\t\t<gml:LineString>\n'
+                    line+='\t\t\t\t\t<gml:posList>\n'
+                    xt, yt = point_at(x, y, azimuth, hdist_top)
+                    line+='\t\t\t\t\t\t'+str(xt)+' '+str(yt)+' '+str(usd)+' '
+                    xb, yb = point_at(x, y, azimuth, hdist_bottom)
+                    line+=str(xb)+' '+str(yb)+' '+str(lsd)+'\n'
+                    line+='\t\t\t\t\t</gml:posList>\n'
+                    line+='\t\t\t\t</gml:LineString>\n'
+                    line+='\t\t\t</profile>\n'
+                line+='\t\t\t</kiteSurface>\n'
+            
+            else :
+                line+='\t\t\t<simpleFaultGeometry>\n'
+                line+='\t\t\t\t<gml:LineString>\n'
+                line+='\t\t\t\t\t<gml:posList>\n'
+                for x,y in zip(ColLon,ColLat):
+                    #polygon.append((x,y)) #ecriture du polygone de la zone
+                    line+='\t\t\t\t\t\t' + str(x) + ' ' + str(y) + '\n'
+                line+='\t\t\t\t\t</gml:posList>\n'
+                line+='\t\t\t\t</gml:LineString>\n'
+                
+                line+='\t\t\t\t<dip>'+ str(faults_data[index_fault]['dip']) +'</dip>\n'
+                line+='\t\t\t\t<upperSeismoDepth>'+ str(faults_data[index_fault]['upper_sismo_depth']) +'</upperSeismoDepth>\n'
+                line+='\t\t\t\t<lowerSeismoDepth>'+ str(faults_data[index_fault]['lower_sismo_depth']) +'</lowerSeismoDepth>\n'
+                line+='\t\t\t</simpleFaultGeometry>\n'
             
         if type_of_fault == 'cf':
             fault_name = Model_name + '_' + str(fault_name)
@@ -276,42 +310,6 @@ def write_characteristic_scenario(scenarios_names,OQ_entry_scenarios,index_fault
         line='\t\t</characteristicFaultSource>\n'
     return line,ID_number
 
-def point_at(lon, lat, azimuth, distance):
-    """
-    Modified from OQ hazardlib
-    Perform a forward geodetic transformation: find a point lying at a given
-    distance from a given one on a great circle arc defined by azimuth.
-    :param float lon, lat:
-        Coordinates of a reference point, in decimal degrees.
-    :param azimuth:
-        An azimuth of a great circle arc of interest measured in a reference
-        point in decimal degrees.
-    :param distance:
-        Distance to target point in km.
-    :returns:
-        Tuple of two float numbers: longitude and latitude of a target point
-        in decimal degrees respectively.
-    Implements the same approach as :func:`npoints_towards`.
-    """
-    # this is a simplified version of npoints_towards().
-    # code duplication is justified by performance reasons.
-    lon, lat = np.radians(lon), np.radians(lat)
-    tc = np.radians(360 - azimuth)
-    EARTH_RADIUS = 6371.0
-    sin_dists = np.sin(distance / EARTH_RADIUS)
-    cos_dists = np.cos(distance / EARTH_RADIUS)
-    sin_lat = np.sin(lat)
-    cos_lat = np.cos(lat)
-
-    sin_lats = sin_lat * cos_dists + cos_lat * sin_dists * np.cos(tc)
-    lats = np.degrees(np.arcsin(sin_lats))
-
-    dlon = np.arctan2(np.sin(tc) * sin_dists * cos_lat,
-                         cos_dists - sin_lat * sin_lats)
-    lons = np.mod(lon - dlon + np.pi, 2 * np.pi) - np.pi
-    lons = np.degrees(lons)
-
-    return lons, lats
     
 def write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,faults_names,faults_data,Model_name,Domain_in_the_model,ScL_oq,log_mdf_file,explo_time,M_min,ID_number):
 

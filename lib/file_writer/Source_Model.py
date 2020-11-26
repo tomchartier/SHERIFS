@@ -332,12 +332,12 @@ class Source_Model_Creator:
         # Defining the background
         #########################'''
         Lon_bg, Lat_bg  = bg.geom(self.Model_name,self.File_bg )
-        upperSeismoDepth, lowerSeismoDepth, ruptAspectRatio, nodalPlanes, hypoDepths = bg.prop(self.Model_name,self.file_prop_bg)
-        
         MFD = EQ_rate_BG
         do_bg_in_SHERIFS = False
         use_smoothed_bg = True
         if sum(MFD) != 0. and do_bg_in_SHERIFS == True:
+            upperSeismoDepth, lowerSeismoDepth, ruptAspectRatio, nodalPlanes, hypoDepths = bg.prop(self.Model_name,self.file_prop_bg)
+        
             line='\t\t<areaSource id="'+ str(ID_number + 1 ) +'" name="Background" tectonicRegion="' + str(self.Domain_in_the_model[0]) + '">\n'
             line+='\t\t\t<areaGeometry>\n'
             line+='\t\t\t\t<gml:Polygon>\n'
@@ -381,7 +381,7 @@ class Source_Model_Creator:
             
             # read the xml and stores the list of aValues
             list_bg_xml = ['input/CHN_201120/src_3.xml']
-            pts_list ={}
+            pts_list = {}
             sum_rates = 0.
             
             for fbg in list_bg_xml:
