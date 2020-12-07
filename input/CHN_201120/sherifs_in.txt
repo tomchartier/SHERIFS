@@ -8,7 +8,11 @@ File_bg : data/CHN/bg.geojson
 file_prop_bg : data/CHN/Background_properties.txt
 host_model_file : delete_share.xml
 
+#bg input file
+bgf : input/CHN_201120/src_3.xml
+
 # run parameters (optional)
 overwrite_files : False
 use_host_model : False
 fit_quality : 5
+

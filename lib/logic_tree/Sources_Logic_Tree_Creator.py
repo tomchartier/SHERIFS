@@ -35,7 +35,7 @@ import pickle
 class Sources_Logic_Tree_Creator:
     def __init__(self,Run_Name,File_geom,File_prop,File_bg,file_prop_bg,Domain_in_model,
                  nb_random_sampling,seed,Mmin,sr_correl,size_of_increment,Mmax_range,
-                 overwrite_files,fit_quality,calculation_log_file,use_host_model,host_model_file):
+                 overwrite_files,fit_quality,calculation_log_file,use_host_model,host_model_file,list_fbg):
         self.Run_Name = Run_Name
         self.File_geom = File_geom
         self.File_prop = File_prop
@@ -62,6 +62,7 @@ class Sources_Logic_Tree_Creator:
         self.calculation_log_file = calculation_log_file
         self.use_host_model = use_host_model
         self.host_model_file = host_model_file
+        self.list_fbg = list_fbg
         
         self.initialize()
 
@@ -226,10 +227,22 @@ class Sources_Logic_Tree_Creator:
                     self.calculation_log_file.write('\n'+str(Model) + '-' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
                            + str(dim_used) + '-' + str_all_data + '-' +  str(scenario_set) + '-'
                             + str(bvalue)+ '-' + str(mfd_hyp)  + '-s_' + str(sample))
+                            
+                            
                     line+=('\t\t\t\t\t<uncertaintyModel>' + (str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
                            + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
                             + str(bvalue)+ '/' + str(mfd_hyp)) + '/Source_model_'
-                    + str(sample) + '.xml</uncertaintyModel>\n')
+                    + str(sample) + '.xml ')
+                    
+                    print(self.list_fbg)
+                    if len(self.list_fbg) != 0 :
+                        pth_to_bg = (str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
+                           + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
+                            + str(bvalue)+ '/' + str(mfd_hyp)) + '/' + 'bg_'+str(sample)+'.xml '
+                        line+=pth_to_bg
+                    
+                    
+                    line+=('</uncertaintyModel>\n')
                     
                     line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(float(len(branches)*nb_random_sampling),5)) + '</uncertaintyWeight>\n'
                     line+='\t\t\t\t</logicTreeBranch>\n'
@@ -397,7 +410,8 @@ class Sources_Logic_Tree_Creator:
                                                             faults_names,
                                                             scenarios_names,
                                                             faults_data,
-                                                            faults_lon,faults_lat)
+                                                            faults_lon,faults_lat,
+                                                            self.list_fbg)
                         
                         self.Domain_in_model = Source_model.Domain_in_the_model
                     

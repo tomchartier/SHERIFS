@@ -39,7 +39,7 @@ import matplotlib.pyplot as plt
 class Source_Model_Creator:
     def __init__(self,path,Run_Name,Model_name,File_geom,File_prop,File_bg,file_prop_bg,rupture_set,
                  Domain_in_model,sample,seed,Mmin,selected_ScL,dimention_used,use_all_ScL_data,
-                 b_min,b_max,mfd_hyp,bg_ratio,sr_correl,size_of_increment,fit_quality,Mmax_range,calculation_log_file,use_host_model,host_model_file,faults_names,scenarios_names,faults_data,faults_lon,faults_lat):
+                 b_min,b_max,mfd_hyp,bg_ratio,sr_correl,size_of_increment,fit_quality,Mmax_range,calculation_log_file,use_host_model,host_model_file,faults_names,scenarios_names,faults_data,faults_lon,faults_lat,list_fbg):
         self.Run_Name = Run_Name
         self.Domain_in_the_model = Domain_in_model #list of the different domain included in the model
         #a envoyer dans job
@@ -73,6 +73,7 @@ class Source_Model_Creator:
         self.calculation_log_file = calculation_log_file
         self.use_host_model = use_host_model
         self.host_model_file = host_model_file
+        self.list_fbg = list_fbg
         
         self.faults_names = faults_names
         self.scenarios_names = scenarios_names
@@ -100,7 +101,7 @@ class Source_Model_Creator:
         
         line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
         line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
-        line+='\txmlns="http://openquake.org/xmlns/nrml/0.4">\n'
+        line+='\txmlns="http://openquake.org/xmlns/nrml/0.5">\n'
         line+='\t<sourceModel name="Hazard Model"'
         line+=' investigation_time="1.0"' #TODO
         line+='>'
@@ -380,12 +381,13 @@ class Source_Model_Creator:
             bbPath_BG = mplPath.Path(Poly_bg)
             
             # read the xml and stores the list of aValues
-            list_bg_xml = ['input/CHN_201120/src_3.xml']
+            list_bg_xml = self.list_fbg #['input/CHN_201120/src_3.xml']
             pts_list = {}
             sum_rates = 0.
             
             for fbg in list_bg_xml:
                 tree = ET.parse(fbg)
+                ET.register_namespace('', "http://openquake.org/xmlns/nrml/0.5")
                 nrml = tree.getroot()
                 i_point =0
                 for pointSource in nrml[0][0]:
@@ -399,13 +401,10 @@ class Source_Model_Creator:
                             if bbPath_BG.contains_point((s_tmp[0],s_tmp[1])) == 1:
                                 pt_in_BG = True
                             str_loc = str(s_tmp[0])+'_'+str(s_tmp[1])
-                            i_trGR = i_child
                         if "truncGutenbergRichterMFD" in str(child) :
                             aValue = nrml[0][0][i_point][i_child].get('aValue')
                             minMag = nrml[0][0][i_point][i_child].get("minMag")
                             i_trGR = i_child
-                        if "magScaleRel" in str(child) :
-                            nrml[0][0][i_point][i_child].text = ScL_oq
                         i_child+=1
                         
                     if pt_in_BG == True :
@@ -427,12 +426,15 @@ class Source_Model_Creator:
                         
             for fbg in list_bg_xml:
                 tree = ET.parse(fbg)
+                ET.register_namespace('', "http://openquake.org/xmlns/nrml/0.5")
                 nrml = tree.getroot()
                 i_point =0
                 for pointSource in nrml[0][0]:
                     pt_in_BG = False
                     i_child = 0
                     for child in pointSource.getchildren():
+                        if "magScaleRel" in str(child) :
+                            nrml[0][0][i_point][i_child].text = ScL_oq
                         if "pointGeometry" in str(child) :
                             s_tmp = pointSource[i_child][0][0].text
                             s_tmp=s_tmp.replace('\n','')
@@ -440,7 +442,9 @@ class Source_Model_Creator:
                             if bbPath_BG.contains_point((s_tmp[0],s_tmp[1])) == 1:
                                 pt_in_BG = True
                             str_loc = str(s_tmp[0])+'_'+str(s_tmp[1])
+                        if "truncGutenbergRichterMFD" in str(child) :
                             i_trGR = i_child
+                        i_child +=1
                     if pt_in_BG == True :
                         b_value = float(pts_list[str_loc]["bValue"])
                         a_value = float(pts_list[str_loc]["aValue"])
@@ -465,7 +469,7 @@ class Source_Model_Creator:
                         nrml[0][0][i_point].remove(nrml[0][0][i_point][i_trGR])
                     i_point+=1
                     
-                fbg_out = fbg[:-4]+'_bg.xml'
+                fbg_out = self.path + '/bg_'+str(self.sample)+'.xml'
                 tree.write(fbg_out)
                     
                     

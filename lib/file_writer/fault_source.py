@@ -70,7 +70,7 @@ def write_simple_fault(index_fault,fault_name,OQ_entry_faults,faults_names,fault
                     ColLat = reversed(ColLat)
                     #reveresed = 'yes'
                     
-            use_kite = True
+            use_kite = False
             if use_kite == True:
                 usd = faults_data[index_fault]['upper_sismo_depth']
                 lsd = faults_data[index_fault]['lower_sismo_depth']
@@ -312,6 +312,10 @@ def write_characteristic_scenario(scenarios_names,OQ_entry_scenarios,index_fault
 
     
 def write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,faults_names,faults_data,Model_name,Domain_in_the_model,ScL_oq,log_mdf_file,explo_time,M_min,ID_number):
+    '''
+    Write a non parametric source with fault trace defined as set of kite fault surfaces
+    for now the rupture occurs once of not. several occurences are not supported yet.
+    '''
 
     index_scenario = np.where(np.array(scenarios_names) == scenario[1])[0][0]
     MFD = OQ_entry_scenarios[index_scenario]
@@ -321,7 +325,7 @@ def write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,inde
     if sum(MFD)!=0:
         ID_number = ID_number + 1
         index_fault = faults_names.index(scenario[1]['f_1'][0])
-#                    self.FaultProperties(scenario[1]['f_1'])
+        
         scenar_name = '_'.join("{!s}={!r}".format(key,val) for (key,val) in scenario[1].items())
         Fault_Name = Model_name + '_scenario_' + str(scenar_name)
         
@@ -409,6 +413,59 @@ def write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,inde
                                         ColLat = reversed(ColLat)
                                 ColLon = list(ColLon)
                                 ColLat = list(ColLat)
+                                
+                                # does a resampling to reduce the number of points
+                                do_resample = True
+                                if do_resample == True :
+                                    # parameters
+                                    # min distance between two points
+                                    min_d = 5.
+                                    # max distance between two points
+                                    max_d = 15.
+                                    # change in azimuth to consider
+                                    az_d = 15.
+                                    
+                                    resampled_ColLon, resampled_ColLat = [ColLon[0]], [ColLat[0]]
+                                    for i_pt in range(len(ColLon)-2):
+                                        add_point = False
+                                        i_pt += 1
+                                        dist_before = distance(resampled_ColLon[-1], resampled_ColLat[-1],
+                                         ColLon[i_pt], ColLat[i_pt])
+                                        dist_after = distance(resampled_ColLon[-1], resampled_ColLat[-1],
+                                         ColLon[i_pt+1], ColLat[i_pt+1])
+                                         
+                                        az_before = calculate_initial_compass_bearing((resampled_ColLon[-1], resampled_ColLat[-1]),
+                                        (ColLon[i_pt], ColLat[i_pt]))
+                                        az_after = calculate_initial_compass_bearing((ColLon[i_pt], ColLat[i_pt]),
+                                        (ColLon[i_pt+1], ColLat[i_pt+1]))
+                                        
+                                        if dist_before > min_d and (dist_after > max_d or abs(az_before - az_after)>az_d):
+                                            add_point = True
+                                            #special rule for the antepenultimate point
+                                            if i_pt == len(ColLon)-2:
+                                                last_dist_after = distance(ColLon[i_pt], ColLat[i_pt],
+                                                                    ColLon[-1], ColLat[-1])
+                                                if last_dist_after < min_d :
+                                                    add_point = False
+                                        if add_point == True:
+                                            #add the point
+                                            resampled_ColLon.append(ColLon[i_pt])
+                                            resampled_ColLat.append(ColLat[i_pt])
+                                        
+                                    resampled_ColLon.append(ColLon[-1])
+                                    resampled_ColLat.append(ColLat[-1])
+                                    ColLon, ColLat = resampled_ColLon, resampled_ColLat
+                                    
+                                    plot_stuf_detail = True
+                                    if plot_stuf_detail == True:
+                                        min_dist_tmp = min_d
+                                        for i_pt in range(len(ColLon)-2):
+                                            dist_tmp = distance(resampled_ColLon[i_pt+1], resampled_ColLat[i_pt+1],
+                                                                    resampled_ColLon[i_pt], resampled_ColLat[i_pt])
+                                            if dist_tmp < min_dist_tmp :
+                                                min_dist_tmp = dist_tmp
+                                        if min_dist_tmp < min_d/2.:
+                                            print("min dist :",round(min_dist_tmp),"id: ",faults_data[index_fault]['name'])
                                 
                                 compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[-1],ColLon[-1]))
                                 strike = compass_bearing

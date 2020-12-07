@@ -50,6 +50,7 @@ def SHERIFS(input_file):
     # Load the input file
     lines = open(input_file,'r').readlines()
     lines = [line.rstrip('\n') for line in lines]
+    list_fbg = []
     for line in lines:
         if "Run_Name" in line :
             Run_Name = line.split(':')[1].replace(' ','')
@@ -76,8 +77,11 @@ def SHERIFS(input_file):
         #maximum misfit between the model and the target (in %)
         if "fit_quality" in line :
             fit_quality = float(line.split(':')[1].replace(' ',''))
-        
-
+        if "bgf" in line :
+            tmp = line.split(':')[1]
+            list_fbg = tmp.split(' ')
+            while '' in list_fbg:
+                list_fbg.remove('')
     if not os.path.exists(str(Run_Name)):
         os.makedirs(str(Run_Name))
     if not os.path.exists(str(Run_Name) + '/results'):
@@ -100,7 +104,8 @@ def SHERIFS(input_file):
                                                             File_prop,File_bg,file_prop_bg,Domain_in_model,
                                                             nb_random_sampling,seed,Mmin,sr_correl,
                                                             size_of_increment,Mmax_range,overwrite_files,float(fit_quality)/100.,
-                                                            calculation_log_file,use_host_model,host_model_file)
+                                                            calculation_log_file,use_host_model,host_model_file
+                                                            ,list_fbg)
                                                             #create the source models logic tree
                                                             
     calculation_log_file.close()
