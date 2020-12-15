@@ -330,7 +330,7 @@ class Source_Model_Creator:
                 XMLfile.write(line)
                 
         '''#########################
-        # Defining the background
+        # Defining the background seismicity
         #########################'''
         Lon_bg, Lat_bg  = bg.geom(self.Model_name,self.File_bg )
         MFD = EQ_rate_BG
