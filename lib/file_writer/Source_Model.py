@@ -305,34 +305,56 @@ class Source_Model_Creator:
             ScL_oq = 'WC1994'
         else : #default Scaling relationship for opanquake
             ScL_oq = 'WC1994'
+            
+        # Extract the background geometry
+        Lon_bg, Lat_bg  = bg.geom(self.Model_name,self.File_bg )
+        
+        #Create the BG polygon
+        Poly_bg = []
+        for x1,y1 in zip(Lon_bg,Lat_bg):
+            Poly_bg.append((x1,y1))
+        bbPath_BG = mplPath.Path(Poly_bg)
+        
+        # find the faults in the bg
+        f_in_bg = []
+        for index_fault,fault_name in zip(range(len(faults_names)),faults_names):
+            for lon,lat in zip(faults_data[index_fault]['lon'],faults_data[index_fault]['lat']):
+                if bbPath_BG.contains_point((lon,lat)):
+                    f_in_bg.append(index_fault)
         
         ########################################################
         #loop on simple faults  
         ########################################################
         ID_number = 0
-#        for Fault_name in enumerate(self.Fault_Names):
         for index_fault,fault_name in zip(range(len(faults_names)),faults_names):
-            line,self.Domain_in_the_model,ID_number =fault_source.write_simple_fault(index_fault,fault_name,
-            OQ_entry_faults,faults_names,faults_data,self.Model_name,
-            self.Domain_in_the_model,ScL_oq,log_mdf_file,M_min,ID_number)
-            XMLfile.write(line)
+            if index_fault in f_in_bg:
+                line,self.Domain_in_the_model,ID_number =fault_source.write_simple_fault(index_fault,fault_name,
+                OQ_entry_faults,faults_names,faults_data,self.Model_name,
+                self.Domain_in_the_model,ScL_oq,log_mdf_file,M_min,ID_number)
+                XMLfile.write(line)
         
         if len(self.rupture_set) != 0 :
-#            index_scenario = 0
-            
             for scenario in enumerate(scenarios_names):
-                use_non_param = True
-                if use_non_param == False:
-                    line,ID_number = fault_source. write_characteristic_scenario(scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,scenario,faults_names,self.Model_name,faults_data,log_mdf_file,M_min,ID_number)
-                else :
-                    explo_time = 50. # TODO readc the input file
-                    line,ID_number = fault_source. write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,faults_names,faults_data,self.Model_name,self.Domain_in_the_model,ScL_oq,log_mdf_file,explo_time,M_min,ID_number)
-                XMLfile.write(line)
+                
+                # check if the scenario has at least one fault in the bg
+                sc_in = False
+                index_scenario = np.where(np.array(scenarios_names) == scenario[1])[0][0]
+                for i in index_faults_in_scenario[index_scenario][0]:
+                    if i in f_in_bg:
+                        sc_in = True
+                        
+                if sc_in == True:
+                    use_non_param = True
+                    if use_non_param == False:
+                        line,ID_number = fault_source. write_characteristic_scenario(scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,scenario,faults_names,self.Model_name,faults_data,log_mdf_file,M_min,ID_number)
+                    else :
+                        explo_time = 50. # TODO readc the input file
+                        line,ID_number = fault_source. write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,faults_names,faults_data,self.Model_name,self.Domain_in_the_model,ScL_oq,log_mdf_file,explo_time,M_min,ID_number)
+                    XMLfile.write(line)
                 
         '''#########################
         # Defining the background seismicity
         #########################'''
-        Lon_bg, Lat_bg  = bg.geom(self.Model_name,self.File_bg )
         MFD = EQ_rate_BG
         do_bg_in_SHERIFS = False
         use_smoothed_bg = True
@@ -374,11 +396,6 @@ class Source_Model_Creator:
             XMLfile.write(line)
             
         elif sum(MFD) != 0. and use_smoothed_bg==True:
-            #Create the BG polygon
-            Poly_bg = []
-            for x1,y1 in zip(Lon_bg,Lat_bg):
-                Poly_bg.append((x1,y1))
-            bbPath_BG = mplPath.Path(Poly_bg)
             
             # read the xml and stores the list of aValues
             list_bg_xml = self.list_fbg #['input/CHN_201120/src_3.xml']
