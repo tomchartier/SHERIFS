@@ -234,7 +234,6 @@ class Sources_Logic_Tree_Creator:
                             + str(bvalue)+ '/' + str(mfd_hyp)) + '/Source_model_'
                     + str(sample) + '.xml ')
                     
-                    print(self.list_fbg)
                     if len(self.list_fbg) != 0 :
                         pth_to_bg = (str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
                            + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
@@ -314,7 +313,14 @@ class Sources_Logic_Tree_Creator:
                         geom_scenar = Geometry_scenario.Geom_scenar(faults_names,self.File_geom,Model)
                         faults_lon = geom_scenar.faults_lon
                         faults_lat = geom_scenar.faults_lat
-                        
+                                                    
+                        simplify_faults = True
+                        if simplify_faults == True :
+                            print("WARNING : fault simplification is applied!!")
+                            for i_fault in range(len(faults)):
+                                faults_lon[i_fault] = [faults_lon[i_fault][0],faults_lon[i_fault][-1]]
+                                faults_lat[i_fault] = [faults_lat[i_fault][0],faults_lat[i_fault][-1]]
+                            
                         
                         self.FaultGeometry(Model)  #extract the geometries from the geometry file
                         

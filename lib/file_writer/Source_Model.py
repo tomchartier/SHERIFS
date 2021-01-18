@@ -98,6 +98,7 @@ class Source_Model_Creator:
         log_mdf_file=open(self.path +'/Log/mdf_sample_' + str(self.sample) + '.txt','w')
         
         
+        # Initiate the xml file
         
         line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
         line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
@@ -109,7 +110,7 @@ class Source_Model_Creator:
         XMLfile.write(line)
             
         line='\t\t<sourceGroup\nname="group 1"\nrup_interdep="indep"\nsrc_interdep="indep"\ntectonicRegion="ASC"\n>\n'
-        XMLfile.write(line)
+        XMLfile.write(line) # TODO change the tectonic Region
 
         #initialisation of the general parameters (M_min, shear modulus and b value)
         log_general_parameters_file = open(self.path +'/Log/general_parameters_sample_' + str(self.sample) + '.txt','w')
@@ -499,7 +500,7 @@ class Source_Model_Creator:
 
         #end of the file
                            
-        line='\t\t</sourceGroup>\n'
+        line='\t\t\t</sourceGroup>\n'
         line+='\t</sourceModel>\n'
         XMLfile.write(line)
         line='</nrml>\n'

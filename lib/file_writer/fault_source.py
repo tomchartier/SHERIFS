@@ -376,6 +376,7 @@ def write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,inde
                             ColLon = faults_data[index_fault]['lon']
                             ColLat = faults_data[index_fault]['lat']
                             Depth = faults_data[index_fault]['depth']
+                            
 
                             scenario_mechanism.append(faults_data[index_fault]['rake'])
                             
@@ -467,14 +468,34 @@ def write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,inde
                                         if min_dist_tmp < min_d/2.:
                                             print("min dist :",round(min_dist_tmp),"id: ",faults_data[index_fault]['name'])
                                 
-                                compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[-1],ColLon[-1]))
-                                strike = compass_bearing
-                                azimuth = (strike + 90.0) % 360
                             
                                 str_geom+='\t\t\t<kiteSurface>\n'
+                                     
+                                #mean azimuth of the section
+                                compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[-1],ColLon[-1]))
+                                strike = compass_bearing
+                                mean_azimuth = (strike + 90.0) % 360
                                 
                                 # loop on profiles
+                                i_pt = 0
                                 for x,y in zip(ColLon,ColLat):
+                                    # local azimuth
+                                    if [x,y] == [ColLon[0],ColLat[0]]:
+                                        compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[1],ColLon[1]))
+                                        strike = compass_bearing
+                                        azimuth = (strike + 90.0) % 360
+                                    elif [x,y] == [ColLon[-1],ColLat[-1]]:
+                                        compass_bearing = calculate_initial_compass_bearing((ColLat[-2],ColLon[-2]),(ColLat[-1],ColLon[-1]))
+                                        strike = compass_bearing
+                                        azimuth = (strike + 90.0) % 360
+                                    else :
+                                        compass_bearing = calculate_initial_compass_bearing((ColLat[i_pt-1],ColLon[i_pt-1]),
+                                        (ColLat[i_pt+1],ColLon[i_pt+1]))
+                                        strike = compass_bearing
+                                        azimuth = (strike + 90.0) % 360
+                                        
+                                    azimuth = ((mean_azimuth+azimuth)/2.) % 360
+                                    
                                     str_geom+='\t\t\t<profile>\n'
                                     str_geom+='\t\t\t\t<gml:LineString>\n'
                                     str_geom+='\t\t\t\t\t<gml:posList>\n'
@@ -485,6 +506,7 @@ def write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,inde
                                     str_geom+='\t\t\t\t\t</gml:posList>\n'
                                     str_geom+='\t\t\t\t</gml:LineString>\n'
                                     str_geom+='\t\t\t</profile>\n'
+                                    i_pt +=1
                                 
                                 str_geom+='\t\t\t</kiteSurface>\n'
                                 
@@ -510,8 +532,8 @@ def write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,inde
                         
                         str_geom+='\t\t\t<hypocenter depth="'+str(hypo_depth)+'" lat="'+str(np.mean(faults_data[index_fault]['lat']))+'" lon="'+str(np.mean(faults_data[index_fault]['lon']))+'"/>\n'
                         
-                        str_geom+='\t\t\t<magScaleRel>'+ ScL_oq +'</magScaleRel>\n'
-                        str_geom+='\t\t\t<ruptAspectRatio>1.0</ruptAspectRatio>\n'
+#                        str_geom+='\t\t\t<magScaleRel>'+ ScL_oq +'</magScaleRel>\n'
+#                        str_geom+='\t\t\t<ruptAspectRatio>1.0</ruptAspectRatio>\n'
                         
                         rake= np.mean(scenario_mechanism)
                         str_geom+='\t\t\t<rake>'+str(rake)+'</rake>\n'

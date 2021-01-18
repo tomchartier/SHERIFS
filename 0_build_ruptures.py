@@ -128,7 +128,7 @@ def build_rup(input_file):
     write_rupt_file(rup,Run_Name)
     
     # Create visualization of ruptures
-    visu_rup(f_for_sherifs,rup,rups_length,rups_mag,path)
+    #visu_rup(f_for_sherifs,rup,rups_length,rups_mag,path)
 
     fin = time.time()-debut
     days = int(fin / 24. / 60. / 60.)
