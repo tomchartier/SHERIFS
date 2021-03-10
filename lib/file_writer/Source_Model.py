@@ -39,7 +39,7 @@ import matplotlib.pyplot as plt
 class Source_Model_Creator:
     def __init__(self,path,Run_Name,Model_name,File_geom,File_prop,File_bg,file_prop_bg,rupture_set,
                  Domain_in_model,sample,seed,Mmin,selected_ScL,dimention_used,use_all_ScL_data,
-                 b_min,b_max,mfd_hyp,bg_ratio,sr_correl,size_of_increment,fit_quality,Mmax_range,calculation_log_file,use_host_model,host_model_file,faults_names,scenarios_names,faults_data,faults_lon,faults_lat,list_fbg):
+                 b_min,b_max,mfd_hyp,bg_ratio,sr_correl,size_of_increment,fit_quality,Mmax_range,calculation_log_file,use_host_model,host_model_file,faults_names,scenarios_names,faults_data,faults_lon,faults_lat,list_fbg,fbgpath):
         self.Run_Name = Run_Name
         self.Domain_in_the_model = Domain_in_model #list of the different domain included in the model
         #a envoyer dans job
@@ -74,6 +74,7 @@ class Source_Model_Creator:
         self.use_host_model = use_host_model
         self.host_model_file = host_model_file
         self.list_fbg = list_fbg
+        self.fbgpath = fbgpath
         
         self.faults_names = faults_names
         self.scenarios_names = scenarios_names
@@ -83,34 +84,74 @@ class Source_Model_Creator:
         self.initialize()
 
     def initialize(self):
+    
+        explo_time = 1. # TODO readc the input file
+        
         
         faults_names = self.faults_names
         scenarios_names = self.scenarios_names
         faults_data = self.faults_data
         faults_lon,faults_lat= self.faults_lon,self.faults_lat
-        #self.FaultGeometry()  #extract the geometries from the geometry file
-        
-        XMLfile=open(self.path +'/Source_model_' + str(self.sample) + '.xml','w')
-        
+                
+        # create log files and repo
         if not os.path.exists(self.path +'/Log'):
             os.makedirs(self.path +'/Log')
         log_sr_file=open(self.path +'/Log/slip_rate_sample_' + str(self.sample) + '.txt','w')
         log_mdf_file=open(self.path +'/Log/mdf_sample_' + str(self.sample) + '.txt','w')
+                
+        # test if the model is large enough to deserve to be cut
+        cut_sm_file = False
+        
+        if len(faults_names) + len(scenarios_names) > 500 :
+            cut_sm_file = True
+        
+        if cut_sm_file == False :
+            XMLfile=open(self.path +'/Source_model_' + str(self.sample) + '.xml','w')
+        else :
+            # find number of subparts for simple faults sources
+            n_cut_sf = 1
+            while len(faults_names)/n_cut_sf > 500:
+                n_cut_sf +=1
+            # find number of subparts for multi faults sources
+            n_cut_mf = 1
+            while len(scenarios_names)/n_cut_mf > 500:
+                n_cut_mf +=1
+            
+            " create the file list"
+            sf_files, sf_counter = [], []
+            for i in range(n_cut_sf):
+                f = self.path +'/sm_' + str(self.sample) + '_sf_'+str(i+1)+'.xml'
+                sf_files.append(open(f,'w'))
+                sf_counter.append(0)
+            mf_files, mf_counter = [], []
+            for i in range(n_cut_mf):
+                f = self.path +'/sm_' + str(self.sample) + '_mf_'+str(i+1)+'.xml'
+                mf_files.append(open(f,'w'))
+                mf_counter.append(0)
+                
+        
+        
         
         
         # Initiate the xml file
-        
         line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
         line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
         line+='\txmlns="http://openquake.org/xmlns/nrml/0.5">\n'
         line+='\t<sourceModel name="Hazard Model"'
-        line+=' investigation_time="1.0"' #TODO
-        line+='>'
-        line+='\n'
-        XMLfile.write(line)
+        
+        line+=' investigation_time="'+str(round(explo_time,1))+'">\n'
+        if cut_sm_file == False :
+            XMLfile.write(line)
+        else :
+            for f in sf_files + mf_files  :
+                f.write(line)
             
-        line='\t\t<sourceGroup\nname="group 1"\nrup_interdep="indep"\nsrc_interdep="indep"\ntectonicRegion="ASC"\n>\n'
-        XMLfile.write(line) # TODO change the tectonic Region
+        line='\t\t<sourceGroup\nname="group 1"\nrup_interdep="indep"\nsrc_interdep="indep"\ntectonicRegion="Active Shallow Crust"\n>\n'
+        if cut_sm_file == False :
+            XMLfile.write(line) # TODO change the tectonic Region
+        else :
+            for f in sf_files + mf_files  :
+                f.write(line)
 
         #initialisation of the general parameters (M_min, shear modulus and b value)
         log_general_parameters_file = open(self.path +'/Log/general_parameters_sample_' + str(self.sample) + '.txt','w')
@@ -332,7 +373,16 @@ class Source_Model_Creator:
                 line,self.Domain_in_the_model,ID_number =fault_source.write_simple_fault(index_fault,fault_name,
                 OQ_entry_faults,faults_names,faults_data,self.Model_name,
                 self.Domain_in_the_model,ScL_oq,log_mdf_file,M_min,ID_number)
-                XMLfile.write(line)
+                        
+                if cut_sm_file == False :
+                    XMLfile.write(line)
+                else :
+                    #find index to write in
+                    i_w = 0
+                    while sf_counter[i_w] > 500 :
+                        i_w += 1
+                    sf_files[i_w].write(line)
+                    sf_counter[i_w]+=1
         
         if len(self.rupture_set) != 0 :
             for scenario in enumerate(scenarios_names):
@@ -349,9 +399,17 @@ class Source_Model_Creator:
                     if use_non_param == False:
                         line,ID_number = fault_source. write_characteristic_scenario(scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,scenario,faults_names,self.Model_name,faults_data,log_mdf_file,M_min,ID_number)
                     else :
-                        explo_time = 50. # TODO readc the input file
+                        
                         line,ID_number = fault_source. write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,faults_names,faults_data,self.Model_name,self.Domain_in_the_model,ScL_oq,log_mdf_file,explo_time,M_min,ID_number)
-                    XMLfile.write(line)
+                    if cut_sm_file == False :
+                        XMLfile.write(line)
+                    else :
+                        #find index to write in
+                        i_w = 0
+                        while mf_counter[i_w] > 500 :
+                            i_w += 1
+                        mf_files[i_w].write(line)
+                        mf_counter[i_w]+=1
                 
         '''#########################
         # Defining the background seismicity
@@ -394,12 +452,19 @@ class Source_Model_Creator:
                 line+='\t\t\t\t<hypoDepth probability="' + str(hypoDepths[i][0]) + '" depth="' + str(hypoDepths[i][1]) + '" />\n'
             line+='\t\t\t</hypoDepthDist>\n'
             line+='\t\t</areaSource>\n'
-            XMLfile.write(line)
+            if cut_sm_file == False :
+                XMLfile.write(line)
+            else :
+                # write in the first single faults file
+                sf_files[0].write(line)
             
         elif sum(MFD) != 0. and use_smoothed_bg==True:
-            
+            Mmin_checked = False
             # read the xml and stores the list of aValues
-            list_bg_xml = self.list_fbg #['input/CHN_201120/src_3.xml']
+            
+            list_bg_xml = self.list_fbg
+            if os.path.isdir(self.fbgpath):
+                list_bg_xml = [self.fbgpath+"/"+i for i in list_bg_xml]
             pts_list = {}
             sum_rates = 0.
             
@@ -436,12 +501,19 @@ class Source_Model_Creator:
                         "minMag":minMag}})
                         sum_rates += float(10.**float(aValue))
                         
+                        if Mmin_checked == False :
+                            if float(minMag) < M_min :
+                                print("!!!!")
+                                print("WARNING : BG has a small Mmin than the SHERIFS input")
+                                print("!!!!")
+                                Mmin_checked = True
                     i_point +=1
                     
             # Normalize to fit the BG MFD
             Mmax = M_min+len(EQ_rate_BG)*0.1-1
             mags = np.linspace(M_min,Mmax,len(EQ_rate_BG))
                         
+            i_bg = 0
             for fbg in list_bg_xml:
                 tree = ET.parse(fbg)
                 ET.register_namespace('', "http://openquake.org/xmlns/nrml/0.5")
@@ -486,8 +558,8 @@ class Source_Model_Creator:
                         nrml[0][0][i_point][-1][0].text =str_tmp
                         nrml[0][0][i_point].remove(nrml[0][0][i_point][i_trGR])
                     i_point+=1
-                    
-                fbg_out = self.path + '/bg_'+str(self.sample)+'.xml'
+                i_bg += 1
+                fbg_out = self.path + '/bg_'+str(self.sample)+'_'+str(i_bg)+'.xml'
                 tree.write(fbg_out)
                     
                     
@@ -495,17 +567,27 @@ class Source_Model_Creator:
         '''#############################
         ### defining the other sources based on the host model
         ##############################'''
-        if self.use_host_model == True :
+        if self.use_host_model == True and cut_sm_file == False:
             host_model.build(XMLfile,self.host_model_file,Lon_bg,Lat_bg)
+        if self.use_host_model == True and cut_sm_file == False:
+            print("WARNING : can't use host model and cut files yet !")
 
         #end of the file
-                           
         line='\t\t\t</sourceGroup>\n'
         line+='\t</sourceModel>\n'
-        XMLfile.write(line)
-        line='</nrml>\n'
-        XMLfile.write(line)
-        XMLfile.close()
+        line+='</nrml>\n'
+        
+        if cut_sm_file == False :
+            XMLfile.write(line)
+            XMLfile.close()
+        else :
+            for f in sf_files + mf_files  :
+                f.write(line)
+                f.close()
+                
+        
+        
         log_sr_file.close()
+        
         log_mdf_file.close()
                 

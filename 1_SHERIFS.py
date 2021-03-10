@@ -6,12 +6,12 @@ Seismic Hazard and Earthquake Rates In Fault Systems
 
 Version 1.3
 
-The Seismic Hazard and Earthquake Rates In Fault Systems (SHERIFS) program, is an open source collection of 
-tools for calculating the rates of earthquakes on each fault of a fault system 
-allowing complex Fault to Fault ruptures following the methodology presented 
+The Seismic Hazard and Earthquake Rates In Fault Systems (SHERIFS) program, is an open source collection of
+tools for calculating the rates of earthquakes on each fault of a fault system
+allowing complex Fault to Fault ruptures following the methodology presented
 in Chartier et al 2017. It includes a set of tools for checking and visualizing input and outputs
 and producing JPEG illustrations.It is released under the GNU Lesser General Public License.
-The SHERIFS program is a code developed in the framework of the PhD thesis of Thomas Chartier 
+The SHERIFS program is a code developed in the framework of the PhD thesis of Thomas Chartier
 under the supervision of Oona Scotti (IRSN) and Hélène Lyon-Caen (ENS).
 
 
@@ -23,6 +23,8 @@ import time
 import os
 import sys
 from lib.utils import sap
+from os import listdir
+from os.path import isfile, join
 
 # If you are running SHERIFS with spyder define "input_file" here. Then run.
 
@@ -46,7 +48,7 @@ def SHERIFS(input_file):
     '''###########################'''
     '''       Input files         '''
     '''###########################'''
-    
+
     # Load the input file
     lines = open(input_file,'r').readlines()
     lines = [line.rstrip('\n') for line in lines]
@@ -77,11 +79,19 @@ def SHERIFS(input_file):
         #maximum misfit between the model and the target (in %)
         if "fit_quality" in line :
             fit_quality = float(line.split(':')[1].replace(' ',''))
+
+        # read the list of bg files to use
         if "bgf" in line :
             tmp = line.split(':')[1]
-            list_fbg = tmp.split(' ')
-            while '' in list_fbg:
-                list_fbg.remove('')
+            fbgpath = tmp.replace(" ", "")
+            if os.path.isdir(fbgpath):
+                list_fbg = [f for f in listdir(fbgpath) if isfile(join(fbgpath, f))]
+            else :
+                list_fbg = tmp.split(' ')
+                while '' in list_fbg:
+                    list_fbg.remove('')
+
+    #create folder structure
     if not os.path.exists(str(Run_Name)):
         os.makedirs(str(Run_Name))
     if not os.path.exists(str(Run_Name) + '/results'):
@@ -105,9 +115,9 @@ def SHERIFS(input_file):
                                                             nb_random_sampling,seed,Mmin,sr_correl,
                                                             size_of_increment,Mmax_range,overwrite_files,float(fit_quality)/100.,
                                                             calculation_log_file,use_host_model,host_model_file
-                                                            ,list_fbg)
+                                                            ,list_fbg,fbgpath)
                                                             #create the source models logic tree
-                                                            
+
     calculation_log_file.close()
 
     Domain_in_model = Sources_Logic_Tree_Creator.Domain_in_model

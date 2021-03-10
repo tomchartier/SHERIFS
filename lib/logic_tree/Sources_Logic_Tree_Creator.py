@@ -35,7 +35,7 @@ import pickle
 class Sources_Logic_Tree_Creator:
     def __init__(self,Run_Name,File_geom,File_prop,File_bg,file_prop_bg,Domain_in_model,
                  nb_random_sampling,seed,Mmin,sr_correl,size_of_increment,Mmax_range,
-                 overwrite_files,fit_quality,calculation_log_file,use_host_model,host_model_file,list_fbg):
+                 overwrite_files,fit_quality,calculation_log_file,use_host_model,host_model_file,list_fbg,fbgpath):
         self.Run_Name = Run_Name
         self.File_geom = File_geom
         self.File_prop = File_prop
@@ -63,6 +63,7 @@ class Sources_Logic_Tree_Creator:
         self.use_host_model = use_host_model
         self.host_model_file = host_model_file
         self.list_fbg = list_fbg
+        self.fbgpath = fbgpath
         
         self.initialize()
 
@@ -417,7 +418,8 @@ class Sources_Logic_Tree_Creator:
                                                             scenarios_names,
                                                             faults_data,
                                                             faults_lon,faults_lat,
-                                                            self.list_fbg)
+                                                            self.list_fbg,
+                                                            self.fbgpath)
                         
                         self.Domain_in_model = Source_model.Domain_in_the_model
                     

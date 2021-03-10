@@ -49,12 +49,9 @@ def build_rup(input_file):
             File_Mmax_areas = line.split(':')[1].replace(' ','')
         if "Model_name" in line :
             Model_name = line.split(':')[1].replace(' ','')
+        if "rupture_mesh_spacing" in line :
+            rupture_mesh_spacing = float(line.split(':')[1].replace(' ',''))
             
-#        if "use_host_model" in line :
-#            if "rue" in line :
-#                use_host_model = True
-#            elif "alse" in line :
-#                use_host_model = False
 
                     
         if "File_Mu" in line :
@@ -77,13 +74,14 @@ def build_rup(input_file):
     assso_fault = find_possible_asso(maxmin_pt_lon,maxmin_pt_lat)
     
     # calc fault dimensions
-    f_lengths, f_areas = calc_f_dims(faults)
+    f_lengths, f_areas = calc_f_dims(faults,)
     
     # cutting into smaller sections
     f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot = cut_faults(faults,
     f_lengths,
     f_areas,
-    path)
+    path,
+    rupture_mesh_spacing)
     
     # force jumps
     force_jump_on_fault = force_jump_list()

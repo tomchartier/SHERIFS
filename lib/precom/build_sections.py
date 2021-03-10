@@ -17,7 +17,7 @@ from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 
 
-def cut_faults(faults,f_lengths,f_areas,path):
+def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
 
     # for all faults longer than 50 km cut them either in roughly 25 km long sections
     # or in 5 sections if the faults is longer than 25 x 5 = 125 km
@@ -33,7 +33,13 @@ def cut_faults(faults,f_lengths,f_areas,path):
         os.makedirs(path+"/qgis")
     file_section_tips = open(path+"/qgis/sect_tips.csv",'w')
     file_section_tips.write("lon,lat\n")
-
+    
+    # check if the smallest fault is large enough for discretization
+    error_msg = "A fault is too small for the discretization. Min length :"
+    error_msg += str(round(min(f_lengths),3))
+    error_msg += " km."
+    assert (min(f_lengths)> 2. * rupture_mesh_spacing), error_msg
+    
     nb_faults = len(faults)
     for fi in range(nb_faults):
         lons_tot = [i[0] for i in faults[fi]['geometry']["coordinates"]]
@@ -72,7 +78,7 @@ def cut_faults(faults,f_lengths,f_areas,path):
             lons_tot, lats_tot = inter_lon_i, inter_lat_i
             
             
-        if f_lengths[fi] < 35. :
+        if f_lengths[fi] < 35. : #TODO clean up hard variables
             f_name = str(fi)
             f_id += 1
             f_for_sherifs.update({f_id:{'f_name' : f_name,
@@ -99,9 +105,14 @@ def cut_faults(faults,f_lengths,f_areas,path):
             if f_lengths[fi] < 125. :
                 if max(dists) > 25. :
                     section_lenght = max(dists)
+                    nb_sections = int(round(f_lengths[fi]/section_lenght))
                 else :
-                    section_lenght = 25.
-                nb_sections = int(round(f_lengths[fi]/section_lenght))
+                    nb_sections = 1
+                    section_lenght = f_lengths[fi]/float(nb_sections)
+                    while section_lenght > 25.  :
+                        nb_sections += 1
+                        section_lenght = f_lengths[fi]/float(nb_sections)
+                        
             else :
                 if max(dists) > f_lengths[fi]/5. :
                     nb_sections = 5
@@ -113,9 +124,9 @@ def cut_faults(faults,f_lengths,f_areas,path):
                 av_section_len = f_lengths[fi]/float(nb_sections)
                 index_0 = 0
                 for cut in range(nb_sections-1):
-                    dist = 0 #if dist is great, force cut
+                    dist = 0 #if dist is large, force cut
                     index_cut = 0+index_0
-                    while dist < av_section_len * 0.9:
+                    while dist < av_section_len :
                         #print("cut",cut,"len",len(lons_tot),index_cut)
                         try :
                             dist += distance(lons_tot[index_cut],lats_tot[index_cut],
@@ -124,13 +135,13 @@ def cut_faults(faults,f_lengths,f_areas,path):
                             do_last = True
                             
                             # check for major azimut change
-                            if dist > av_section_len * 0.5 :
+                            if dist > av_section_len * 0.3 and dist > 2. * rupture_mesh_spacing:
                                 az1 = calculate_initial_compass_bearing([lons_tot[index_cut-1],lats_tot[index_cut-1]], [lons_tot[index_cut],lats_tot[index_cut]])
                                 az2 = calculate_initial_compass_bearing([lons_tot[index_cut],lats_tot[index_cut]], [lons_tot[index_cut+1],lats_tot[index_cut+1]])
                                 if abs(az1-az2) % 360 > 60. :
                                     dist = 100000.
                         except IndexError:
-                            index_cut = len(lons)-1
+                            index_cut = len(lons_tot)-1
                             do_last = False
                             dist = 100000.
 
@@ -172,6 +183,15 @@ def cut_faults(faults,f_lengths,f_areas,path):
                     width =((faults[fi]['properties']['lsd']-
                               faults[fi]['properties']['usd'])/
                               sin(radians(faults[fi]['properties']['dip'])))
+                              
+                    # check if the width is large enought for the discretization
+                    error_msg = "A fault is too thin for the discretization. Fault name :"
+                    error_msg += str(faults[fi]['properties']["fid"])
+                    error_msg += " width : "
+                    error_msg += str(round(width,2))
+                    error_msg += " km."
+                    assert (width > 2. * rupture_mesh_spacing), error_msg
+                    
                     area = length*width
         #             length = 0.
         #             for i in range(len(lons)-1):
@@ -326,7 +346,7 @@ def to_sherifs(f_for_sherifs,faults,Model_name,apply_sr_reduction,f_mu):
         f_for_sherifs[si]["oriented"] = faults[fi]['properties']["dip_dir"]
         
         # default for now but can be changed later
-        f_for_sherifs[si]["Domain"] = "ASC"
+        f_for_sherifs[si]["Domain"] = "Active Shallow Crust"
         
         if si in modify_mu:
             f_for_sherifs[si]["shear_modulus"] = mu_value[i_mu]
