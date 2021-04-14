@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nrml xmlns:gml="http://www.opengis.net/gml"
+	xmlns="http://openquake.org/xmlns/nrml/0.5">
+	<sourceModel name="Hazard Model" investigation_time="1.0">
+		<sourceGroup
+name="group 1"
+rup_interdep="indep"
+src_interdep="indep"
+tectonicRegion="Active Shallow Crust"
+>
+			</sourceGroup>
+	</sourceModel>
+</nrml>

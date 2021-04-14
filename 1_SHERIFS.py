@@ -90,6 +90,8 @@ def SHERIFS(input_file):
                 list_fbg = tmp.split(' ')
                 while '' in list_fbg:
                     list_fbg.remove('')
+        else :
+            fbgpath = None
 
     #create folder structure
     if not os.path.exists(str(Run_Name)):
