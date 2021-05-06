@@ -1,10 +1,2589 @@
-<?xml version='1.0' encoding='utf-8'?>
-<nrml xmlns:gml="http://www.opengis.net/gml"
+			</sourceGroup>
+	</sourceModel>
+</nrml>
+ml xmlns:gml="http://www.opengis.net/gml"
 	xmlns="http://openquake.org/xmlns/nrml/0.5">
-	<sourceModel name="Hazard Model" investigation_time="1.0">
-		<sourceGroup
-name="group 1"
-rup_interdep="indep"
-src_interdep="indep"
-tectonicRegion="Active Shallow Crust"
->
+<sourceModel name="Hazard Model" investigation_time="1.0">
+	<sourceGroup name="group 1" rup_interdep="indep"
+        src_interdep="indep" tectonicRegion="Active Shallow Crust">
+        <multiFaultSource id="1" name="single_fault_0" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.94446671 0.05553329">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.94124285 0.05875715">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98545566 0.01454434">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.95041124 0.04958876">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99265669 0.00734331">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97948524 0.02051476">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99263939 0.00736061">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99738203 0.00261797">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99814520 0.00185480">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99606892 0.00393108">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99260465 0.00739535">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99868307 0.00131693">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99813640 0.00186360">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99933954 0.00066046">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99906512 0.00093488">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99884203 0.00115797">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99964838 0.00035162">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99917064 0.00082936">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99941271 0.00058729">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99958416 0.00041584">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99970557 0.00029443">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99987492 0.00012508">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99977864 0.00022136">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99979105 0.00020895">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99984467 0.00015533">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99990050 0.00009950">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99994439 0.00005561">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99994488 0.00005512">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="0"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="2" name="single_fault_1" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.94893082 0.05106918">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.90301592 0.09698408">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.91310194 0.08689806">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98664369 0.01335631">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98119509 0.01880491">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98661241 0.01338759">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99521943 0.00478057">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99661086 0.00338914">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99520813 0.00479187">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99829852 0.00170148">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99281258 0.00718742">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99574714 0.00425286">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99758690 0.00241310">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99786397 0.00213603">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99727966 0.00272034">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99807261 0.00192739">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99984812 0.00015188">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99924779 0.00075221">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99939132 0.00060868">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99940748 0.00059252">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99965671 0.00034329">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99951401 0.00048599">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99975146 0.00024854">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99985110 0.00014890">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99991375 0.00008625">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99987788 0.00012212">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99996638 0.00003362">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99991499 0.00008501">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998074 0.00001926">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998807 0.00001193">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="3" name="single_fault_2" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.96283069 0.03716931">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98100874 0.01899126">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97332610 0.02667390">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97172253 0.02827747">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97326450 0.02673550">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99036685 0.00963315">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98307783 0.01692217">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99514851 0.00485149">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99144568 0.00855432">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99272336 0.00727664">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99913585 0.00086415">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99512555 0.00487445">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99826911 0.00173089">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99877400 0.00122600">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99934867 0.00065133">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99923158 0.00076842">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99956465 0.00043535">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99899891 0.00100109">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99945459 0.00054541">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99976825 0.00023175">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99967190 0.00032810">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99970965 0.00029035">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99976702 0.00023298">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99978655 0.00021345">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99989696 0.00010304">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99990274 0.00009726">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99993803 0.00006197">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99997319 0.00002681">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998965 0.00001035">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="2"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="4" name="single_fault_3" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.96517160 0.03482840">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97508198 0.02491802">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98222720 0.01777280">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97502433 0.02497567">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97351992 0.02648008">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99361991 0.00638009">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99547476 0.00452524">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99772686 0.00227314">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99678453 0.00321547">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99432317 0.00567683">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99517319 0.00482681">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99885673 0.00114327">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99797835 0.00202165">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99771067 0.00228933">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99918844 0.00081156">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99870790 0.00129210">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99918651 0.00081349">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99949593 0.00050407">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99959212 0.00040788">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99960296 0.00039704">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99974443 0.00025557">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99972861 0.00027139">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99980786 0.00019214">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99988210 0.00011790">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99987801 0.00012199">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99991818 0.00008182">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99993886 0.00006114">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99997722 0.00002278">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="3"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="5" name="single_fault_4" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.97564524 0.02435476">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98263195 0.01736805">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.96383868 0.03616132">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97411749 0.02588251">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99557921 0.00442079">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99375219 0.00624781">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99336791 0.00663209">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99373745 0.00626255">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99335227 0.00664773">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99606736 0.00393264">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99776891 0.00223109">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99841948 0.00158052">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99832178 0.00167822">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99920724 0.00079276">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99915819 0.00084181">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99920536 0.00079464">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99922646 0.00077354">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99960158 0.00039842">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99964741 0.00035259">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99975036 0.00024964">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99985860 0.00014140">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99977478 0.00022522">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99981398 0.00018602">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99986830 0.00013170">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99992896 0.00007104">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99993399 0.00006601">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="6" name="single_fault_5" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.97025933 0.02974067">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.93897550 0.06102450">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98923675 0.01076325">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99235595 0.00764405">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98390521 0.01609479">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98479374 0.01520626">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99727427 0.00272573">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99614505 0.00385495">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99726782 0.00273218">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99421513 0.00578487">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99794460 0.00205540">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99854401 0.00145599">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99793973 0.00206027">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99829774 0.00170226">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99896636 0.00103364">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99890242 0.00109758">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99905016 0.00094984">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99908302 0.00091698">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99943718 0.00056282">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99944830 0.00055170">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99952260 0.00047740">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99980023 0.00019977">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99985857 0.00014143">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99991527 0.00008473">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99989094 0.00010906">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99996139 0.00003861">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99997813 0.00002187">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998839 0.00001161">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999041 0.00000959">
+					<magnitude>7.7</magnitude>
+					<sectionIndexes indexes="5"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="7" name="single_fault_6" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.98019950 0.01980050">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97053009 0.02946991">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98586635 0.01413365">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99495052 0.00504948">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98235511 0.01764489">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98250893 0.01749107">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98931167 0.01068833">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99745684 0.00254316">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99819824 0.00180176">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99554747 0.00445253">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99864486 0.00135514">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99776347 0.00223653">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99773814 0.00226186">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99791796 0.00208204">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99886510 0.00113490">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99943726 0.00056274">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99931713 0.00068287">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99919438 0.00080562">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99962912 0.00037088">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99965664 0.00034336">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99974260 0.00025740">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99983801 0.00016199">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99980648 0.00019352">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99985792 0.00014208">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99992455 0.00007545">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="6"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="8" name="single_fault_7" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.92465514 0.07534486">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98985962 0.01014038">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99279965 0.00720035">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98921330 0.01078670">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99233924 0.00766076">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99456436 0.00543564">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99486757 0.00513243">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99636104 0.00363896">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99806455 0.00193545">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99771714 0.00228286">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99870580 0.00129420">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99816854 0.00183146">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99854081 0.00145919">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99908126 0.00091874">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99943068 0.00056932">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99890659 0.00109341">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99947007 0.00052993">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99962478 0.00037522">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99973434 0.00026566">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99969620 0.00030380">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99980539 0.00019461">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99984046 0.00015954">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99984599 0.00015401">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99986916 0.00013084">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="9" name="single_fault_8" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.92363082 0.07636918">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.93177009 0.06822991">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97963456 0.02036544">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98968668 0.01031332">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98189269 0.01810731">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99222656 0.00777344">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99738912 0.00261088">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99447120 0.00552880">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99607955 0.00392045">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99860873 0.00139127">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99704980 0.00295020">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99814144 0.00185856">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99819074 0.00180926">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99871847 0.00128153">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99966977 0.00033023">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99859881 0.00140119">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99925554 0.00074446">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99967778 0.00032222">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99937806 0.00062194">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99975041 0.00024959">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99963625 0.00036375">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99980867 0.00019133">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99983329 0.00016671">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99988197 0.00011803">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="10" name="single_fault_9" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.92383232 0.07616768">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.95528609 0.04471391">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.96790879 0.03209121">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97705998 0.02294002">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98364794 0.01635206">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.96866221 0.03133779">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98360976 0.01639024">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98546790 0.01453210">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99274467 0.00725533">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99266292 0.00733708">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99479452 0.00520548">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99778222 0.00221778">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99608153 0.00391847">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99722275 0.00277725">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99698597 0.00301403">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99860614 0.00139386">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99874990 0.00125010">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99925436 0.00074564">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99894458 0.00105542">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99929927 0.00070073">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99928896 0.00071104">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99955504 0.00044496">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99961865 0.00038135">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99964785 0.00035215">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99963436 0.00036564">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="11" name="single_fault_10" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.97768332 0.02231668">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98409530 0.01590470">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99620014 0.00379986">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98405814 0.01594186">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99194531 0.00805469">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99428418 0.00571582">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99864523 0.00135477">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99856147 0.00143853">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99762596 0.00237404">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99592529 0.00407471">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99812931 0.00187069">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99879524 0.00120476">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99897633 0.00102367">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99939583 0.00060417">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99944393 0.00055607">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99963655 0.00036345">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99952833 0.00047167">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99977227 0.00022773">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99986026 0.00013974">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99983259 0.00016741">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99985993 0.00014007">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="10"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="12" name="single_fault_11" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.98473978 0.01526022">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97853200 0.02146800">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98848344 0.01151656">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99453105 0.00546895">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98655867 0.01344133">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99179984 0.00820016">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99321743 0.00678257">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99724500 0.00275500">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99707491 0.00292509">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99723847 0.00276153">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99828756 0.00171244">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99757710 0.00242290">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99926364 0.00073636">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99947858 0.00052142">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99938483 0.00061517">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99934677 0.00065323">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99956828 0.00043172">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99965067 0.00034933">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99961360 0.00038640">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99974830 0.00025170">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99986053 0.00013947">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99980802 0.00019198">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="13" name="single_fault_12" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.94991114 0.05008886">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98165463 0.01834537">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.92666450 0.07333550">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.96390640 0.03609360">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97416651 0.02583349">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99069758 0.00930242">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99339631 0.00660369">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99299030 0.00700970">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99173969 0.00826031">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99297377 0.00702623">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99584280 0.00415720">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99764128 0.00235872">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99749559 0.00250441">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99822572 0.00177428">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99665569 0.00334431">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99733464 0.00266536">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99779756 0.00220244">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99933074 0.00066926">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99931563 0.00068437">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99932915 0.00067085">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99944586 0.00055414">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99968235 0.00031765">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99952385 0.00047615">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99970968 0.00029032">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99978119 0.00021881">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99984978 0.00015022">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99986042 0.00013958">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="14" name="single_fault_13" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.92419394 0.07580606">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.96263301 0.03736699">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.96041463 0.03958537">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.96254773 0.03745227">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98640519 0.01359481">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97619300 0.02380700">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98974465 0.01025535">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98317351 0.01682649">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98298582 0.01701418">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99270060 0.00729940">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99310705 0.00689295">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99511027 0.00488973">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99826366 0.00173634">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99754331 0.00245669">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99782538 0.00217462">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99876723 0.00123277">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99760278 0.00239722">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99861006 0.00138994">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99896096 0.00103904">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99918680 0.00081320">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99934196 0.00065804">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99934003 0.00065997">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99968383 0.00031617">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99975669 0.00024331">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99979329 0.00020671">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99988292 0.00011708">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99987222 0.00012778">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99989731 0.00010269">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="15" name="single_fault_14" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.87233506 0.12766494">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.93484795 0.06515205">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97587317 0.02412683">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.96618858 0.03381142">
+					<magnitude>4.8</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.94724911 0.05275089">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98275556 0.01724444">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98170770 0.01829230">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98484262 0.01515738">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98922105 0.01077895">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99017923 0.00982077">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98767152 0.01232848">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99124023 0.00875977">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99378253 0.00621747">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99476785 0.00523215">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99531856 0.00468144">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99861449 0.00138551">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99852883 0.00147117">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99923569 0.00076431">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99916383 0.00083617">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99947751 0.00052249">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99928501 0.00071499">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99949372 0.00050628">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99965389 0.00034611">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99964996 0.00035004">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99974597 0.00025403">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99976752 0.00023248">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99982299 0.00017701">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="16" name="single_fault_15" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.90467512 0.09532488">
+					<magnitude>4.5</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.82027851 0.17972149">
+					<magnitude>4.6</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.92642633 0.07357367">
+					<magnitude>4.7</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.93773130 0.06226870">
+					<magnitude>4.9</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97251805 0.02748195">
+					<magnitude>5.0</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.96154334 0.03845666">
+					<magnitude>5.1</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.94644848 0.05355152">
+					<magnitude>5.2</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.97080035 0.02919965">
+					<magnitude>5.3</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98141896 0.01858104">
+					<magnitude>5.4</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99004621 0.00995379">
+					<magnitude>5.5</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98827665 0.01172335">
+					<magnitude>5.6</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.98674170 0.01325830">
+					<magnitude>5.7</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99408953 0.00591047">
+					<magnitude>5.8</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99580844 0.00419156">
+					<magnitude>5.9</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99466485 0.00533515">
+					<magnitude>6.0</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99496249 0.00503751">
+					<magnitude>6.1</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99642844 0.00357156">
+					<magnitude>6.2</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99683810 0.00316190">
+					<magnitude>6.3</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99746150 0.00253850">
+					<magnitude>6.4</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99867697 0.00132303">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99868870 0.00131130">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99915085 0.00084915">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99922971 0.00077029">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99944126 0.00055874">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99954789 0.00045211">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99969989 0.00030011">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99974503 0.00025497">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99980277 0.00019723">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99988403 0.00011597">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="17" name="CHN_nit_scenario_f_1=['0']_f_2=['1']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99997101 0.00002899">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="0 1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999254 0.00000746">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="0 1"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="18" name="CHN_nit_scenario_f_1=['3']_f_2=['4']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99996606 0.00003394">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="3 4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998558 0.00001442">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="3 4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999320 0.00000680">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="3 4"/>
+					<rake>-35.46939157195934</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="19" name="CHN_nit_scenario_f_1=['6']_f_2=['7']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99981933 0.00018067">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="6 7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99981582 0.00018418">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="6 7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99990944 0.00009056">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="6 7"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="20" name="CHN_nit_scenario_f_1=['6']_f_2=['7']_f_3=['8']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99988381 0.00011619">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="6 7 8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99996161 0.00003839">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="6 7 8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99996700 0.00003300">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="6 7 8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="21" name="CHN_nit_scenario_f_1=['6']_f_2=['7']_f_3=['8']_f_4=['9']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99996550 0.00003450">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="6 7 8 9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998430 0.00001570">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="6 7 8 9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="22" name="CHN_nit_scenario_f_1=['7']_f_2=['8']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99975837 0.00024163">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="7 8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99982374 0.00017626">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="7 8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99984219 0.00015781">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="7 8"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="23" name="CHN_nit_scenario_f_1=['7']_f_2=['8']_f_3=['9']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99981790 0.00018210">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="7 8 9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99989428 0.00010572">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="7 8 9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="24" name="CHN_nit_scenario_f_1=['8']_f_2=['9']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99983424 0.00016576">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="8 9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99978878 0.00021122">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="8 9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99986707 0.00013293">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="8 9"/>
+					<rake>-75.5718039758808</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="25" name="CHN_nit_scenario_f_1=['10']_f_2=['11']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99970649 0.00029351">
+					<magnitude>6.6</magnitude>
+					<sectionIndexes indexes="10 11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99969217 0.00030783">
+					<magnitude>6.7</magnitude>
+					<sectionIndexes indexes="10 11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99983108 0.00016892">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="10 11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99985727 0.00014273">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="10 11"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="26" name="CHN_nit_scenario_f_1=['10']_f_2=['11']_f_3=['12']_f_4=['13']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99997155 0.00002845">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="10 11 12 13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998761 0.00001239">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="10 11 12 13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="27" name="CHN_nit_scenario_f_1=['10']_f_2=['11']_f_3=['12']_f_4=['13']_f_5=['14']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99998959 0.00001041">
+					<magnitude>7.7</magnitude>
+					<sectionIndexes indexes="10 11 12 13 14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="28" name="CHN_nit_scenario_f_1=['11']_f_2=['12']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99988393 0.00011607">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="11 12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99987522 0.00012478">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="11 12"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="29" name="CHN_nit_scenario_f_1=['11']_f_2=['12']_f_3=['13']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99997858 0.00002142">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="11 12 13"/>
+					<rake>-28.493131062047315</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="30" name="CHN_nit_scenario_f_1=['11']_f_2=['12']_f_3=['13']_f_4=['14']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99998069 0.00001931">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="11 12 13 14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99997813 0.00002187">
+					<magnitude>7.7</magnitude>
+					<sectionIndexes indexes="11 12 13 14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="31" name="CHN_nit_scenario_f_1=['12']_f_2=['13']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99983688 0.00016312">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="12 13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99993546 0.00006454">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="12 13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99993507 0.00006493">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="12 13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998468 0.00001532">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="12 13"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="32" name="CHN_nit_scenario_f_1=['12']_f_2=['13']_f_3=['14']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99997517 0.00002483">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="12 13 14"/>
+					<rake>-28.493131062047315</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998945 0.00001055">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="12 13 14"/>
+					<rake>-28.493131062047315</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="33" name="CHN_nit_scenario_f_1=['13']_f_2=['14']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99979570 0.00020430">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="13 14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99987179 0.00012821">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="13 14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99990690 0.00009310">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="13 14"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="34" name="CHN_nit_scenario_f_1=['14']_f_2=['15']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99990981 0.00009019">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="14 15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99997544 0.00002456">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="14 15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99997566 0.00002434">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="14 15"/>
+					<rake>-28.49313106204732</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="35" name="CHN_nit_scenario_f_1=['6']_f_2=['10']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99982691 0.00017309">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="6 10"/>
+					<rake>-52.032467518964054</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99991246 0.00008754">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="6 10"/>
+					<rake>-52.032467518964054</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="36" name="CHN_nit_scenario_f_1=['6']_f_2=['10']_f_3=['11']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99989256 0.00010744">
+					<magnitude>7.1</magnitude>
+					<sectionIndexes indexes="6 10 11"/>
+					<rake>-44.186022033325145</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99990809 0.00009191">
+					<magnitude>7.2</magnitude>
+					<sectionIndexes indexes="6 10 11"/>
+					<rake>-44.186022033325145</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="37" name="CHN_nit_scenario_f_1=['6']_f_2=['10']_f_3=['11']_f_4=['12']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99988272 0.00011728">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="6 10 11 12"/>
+					<rake>-40.26279929050569</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99993634 0.00006366">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="6 10 11 12"/>
+					<rake>-40.26279929050569</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99996669 0.00003331">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="6 10 11 12"/>
+					<rake>-40.26279929050569</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="38" name="CHN_nit_scenario_f_1=['6']_f_2=['10']_f_3=['11']_f_4=['12']_f_5=['13']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99998399 0.00001601">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="6 10 11 12 13"/>
+					<rake>-37.908865644814014</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999292 0.00000708">
+					<magnitude>7.7</magnitude>
+					<sectionIndexes indexes="6 10 11 12 13"/>
+					<rake>-37.908865644814014</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="39" name="CHN_nit_scenario_f_1=['6']_f_2=['7']_f_3=['10']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99992389 0.00007611">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="6 7 10"/>
+					<rake>-59.87891300460297</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99996767 0.00003233">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="6 7 10"/>
+					<rake>-59.87891300460297</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="40" name="CHN_nit_scenario_f_1=['6']_f_2=['7']_f_3=['10']_f_4=['11']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99995247 0.00004753">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="6 7 10 11"/>
+					<rake>-52.03246751896406</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="41" name="CHN_nit_scenario_f_1=['6']_f_2=['7']_f_3=['10']_f_4=['11']_f_5=['12']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99997394 0.00002606">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="6 7 10 11 12"/>
+					<rake>-47.32460022758072</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998524 0.00001476">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="6 7 10 11 12"/>
+					<rake>-47.32460022758072</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="42" name="CHN_nit_scenario_f_1=['6']_f_2=['7']_f_3=['8']_f_4=['10']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99997163 0.00002837">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="6 7 8 10"/>
+					<rake>-63.802135747422426</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="43" name="CHN_nit_scenario_f_1=['6']_f_2=['7']_f_3=['8']_f_4=['10']_f_5=['11']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99996117 0.00003883">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="6 7 8 10 11"/>
+					<rake>-56.740334810347406</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999485 0.00000515">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="6 7 8 10 11"/>
+					<rake>-56.740334810347406</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="44" name="CHN_nit_scenario_f_1=['6']_f_2=['7']_f_3=['8']_f_4=['10']_f_5=['11']_f_6=['12']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99998845 0.00001155">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="6 7 8 10 11 12"/>
+					<rake>-52.03246751896406</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998529 0.00001471">
+					<magnitude>7.7</magnitude>
+					<sectionIndexes indexes="6 7 8 10 11 12"/>
+					<rake>-52.03246751896406</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="45" name="CHN_nit_scenario_f_1=['6']_f_2=['7']_f_3=['8']_f_4=['9']_f_5=['10']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99998085 0.00001915">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="6 7 8 9 10"/>
+					<rake>-66.15606939311411</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="46" name="CHN_nit_scenario_f_1=['6']_f_2=['7']_f_3=['8']_f_4=['9']_f_5=['10']_f_6=['11']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="CHN_nit/CHN_nit/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999165 0.00000835">
+					<magnitude>7.6</magnitude>
+					<sectionIndexes indexes="6 7 8 9 10 11"/>
+					<rake>-59.87891300460297</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+	       </sourceGroup>
+    </sourceModel>
+</nrml>

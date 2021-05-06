@@ -2,15 +2,15 @@
 """SHERIFS
 Seismic Hazard and Earthquake Rates In Fault Systems
 
-Version 1.0 
+Version 1.0
 
-This code create a source logic tree 
+This code create a source logic tree
 
 @author: Thomas Chartier
 """
 import xml.etree.ElementTree as ET
 import numpy as np
-import os   
+import os
 import sys
 from shutil import copyfile
 
@@ -30,6 +30,7 @@ from OQ_job_Creator import OQ_job_Creator
 import read_input
 import geojson
 import pickle
+from geometry_tools import distance
 
 
 class Sources_Logic_Tree_Creator:
@@ -41,30 +42,30 @@ class Sources_Logic_Tree_Creator:
         self.File_prop = File_prop
         self.File_bg = File_bg
         self.file_prop_bg = file_prop_bg
-        
-        
+
+
         self.Domain_in_model = Domain_in_model
-        
+
         self.nb_random_sampling = nb_random_sampling
-        
-        
+
+
         self.seed = seed
         np.random.seed = seed
-        
+
         self.Mmin = Mmin
         self.sr_correl = sr_correl
         self.size_of_increment = size_of_increment
         self.Mmax_range = Mmax_range
-        
+
         self.overwrite = overwrite_files
         self.fit_quality = fit_quality
-        
+
         self.calculation_log_file = calculation_log_file
         self.use_host_model = use_host_model
         self.host_model_file = host_model_file
         self.list_fbg = list_fbg
         self.fbgpath = fbgpath
-        
+
         self.initialize()
 
     def initialize(self):
@@ -72,34 +73,34 @@ class Sources_Logic_Tree_Creator:
         LT_log_name  =  'input/'+str(self.Run_Name)+'/LT_log.txt'
 #        reading_file = False
         if not os.path.exists(LT_log_name) :
-        
+
             print('ERROR : Please provide a LT_log.txt file \n See the user manual for guidelines and the example for file setup example.')
             exit()
-        
+
         else : #get from the xml file
-            
+
 #            reading_file = True
-    
+
             file_log_LT = open(LT_log_name,'r')
             self.log_LT = file_log_LT.readlines()
-            
+
             OQ_job = OQ_job_Creator(self.Run_Name) # ask the info about the run and create the job.ini file
-            
-            nb_random_sampling = OQ_job.nb_sample               
-            
+
+            nb_random_sampling = OQ_job.nb_sample
+
             selected_Model = self.log_LT[1].split('\t')
             if '\r\n' in selected_Model:
                 selected_Model.remove('\r\n')
             if '\n' in selected_Model:
                 selected_Model.remove('\n')
-                
+
             selected_ScL = self.log_LT[3].split('\t')
             if '\r\n' in selected_ScL:
                 selected_ScL.remove('\r\n')
             if '\n' in selected_ScL:
                 selected_ScL.remove('\n')
-            
-                
+
+
             index_advance = 0
             mfd_hyps = []
             b_values_hyps = []
@@ -114,7 +115,7 @@ class Sources_Logic_Tree_Creator:
                     b_values_hyps_i.remove('\n')
                 b_values_hyps.append(b_values_hyps_i)
                 index_advance += 1
-                
+
             # Background
             bg_names = self.log_LT[6+index_advance].split('\t')
             if '\r\n' in bg_names:
@@ -130,8 +131,8 @@ class Sources_Logic_Tree_Creator:
             except:
                 print('Error related to the background file \n'+
                 'Please make sure input/run_name/bg_seismicity.txt is correctly set up')
-                    
-            
+
+
             # Scenario Set
             sc_names = self.log_LT[8+index_advance].split('\t')
             if '\r\n' in sc_names:
@@ -147,35 +148,35 @@ class Sources_Logic_Tree_Creator:
             except:
                 print('Error related to the rupture scenario set file \n'+
                 'Please make sure input/run_name/ruptures.txt is correctly set up')
-                
-            
+
+
             # Build branches
             branches = []
-            for model_i in selected_Model: 
+            for model_i in selected_Model:
                 index_mfd = 0
-                for mfd_i in mfd_hyps:               
-                    for bvalue in b_values_hyps[index_mfd]:            
-                        for bg_hyp_i in bg_names:             
-                            for sc_name in sc_names:  
-                                for ScL_i in selected_ScL :  
+                for mfd_i in mfd_hyps:
+                    for bvalue in b_values_hyps[index_mfd]:
+                        for bg_hyp_i in bg_names:
+                            for sc_name in sc_names:
+                                for ScL_i in selected_ScL :
                                     ScL_i = ScL_i.split(' ')
                                     ScL_name_i= ScL_i[0]
                                     use_all_i = ScL_i[2][0]
                                     dim_i = ScL_i[1]
-                    
+
                                     branch_i = [model_i,ScL_name_i,use_all_i,dim_i,mfd_i,bvalue,bg_hyp_i,sc_name]
                                     branches.append(branch_i)
                     index_mfd += 1
-                            
+
         str_all_data = []
         id_number = 1
         scenario_done = []
         scenario_path = []
-        
+
         last_bg = 'impossible_name'
         last_set = 'impossible_name'
         last_model = 'impossible_name'
-        
+
         # writting the xml file for the logic tree
         line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
         line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
@@ -184,7 +185,7 @@ class Sources_Logic_Tree_Creator:
         line+='\t\t<logicTreeBranchingLevel branchingLevelID="bl' + str(id_number) + '">\n'
         line+='\t\t\t<logicTreeBranchSet uncertaintyType="sourceModel"\n'
         line+='\t\t\t\t\t\t\tbranchSetID="bs' + str(id_number) + '">\n'
-        
+
         for branch in branches :
             # Branch info
             Model = branch[0]
@@ -198,12 +199,12 @@ class Sources_Logic_Tree_Creator:
             b_min = bvalue.split('_')[1]
             b_max = bvalue.split('_')[3]
 
-                
+
             if not len(Model)==0 or len(BG_hyp[3::])==0 or len(scenario_set[3::])==0 or len(mfd_hyp[4::])==0 or len(selected_ScL)==0  or len(dim_used)==0  or len(str_all_data)==0 :
                 path = (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp[3::]) + '/' + str(selected_ScL) + '_'
                        + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set[3::]) + '/'
                         + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '/' + 'MFD_'+ str(mfd_hyp[4::])) # path to the source file
-                 
+
                 for sample in range(1,nb_random_sampling+1):
                     rerun_the_files = False
                     if not os.path.exists(path):
@@ -215,12 +216,12 @@ class Sources_Logic_Tree_Creator:
                         rerun_the_files = True
                     if self.overwrite == True:
                         rerun_the_files = True
-    
+
                     line+=('\t\t\t\t<logicTreeBranch branchID="' + str(Model) + '-' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
                            + str(dim_used) + '-' + str_all_data + '-' +  str(scenario_set) + '-'
                             + str(bvalue)+ '-' + str(mfd_hyp)  + '-s_' + str(sample) + '">\n')
                     print('\nRunning logic tree branch:')
-                    
+
                     self.calculation_log_file.write('\n\nRunning logic tree branch:')
                     print(str(Model) + '-' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
                            + str(dim_used) + '-' + str_all_data + '-' +  str(scenario_set) + '-'
@@ -228,25 +229,25 @@ class Sources_Logic_Tree_Creator:
                     self.calculation_log_file.write('\n'+str(Model) + '-' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
                            + str(dim_used) + '-' + str_all_data + '-' +  str(scenario_set) + '-'
                             + str(bvalue)+ '-' + str(mfd_hyp)  + '-s_' + str(sample))
-                            
-                            
+
+
                     line+=('\t\t\t\t\t<uncertaintyModel>' + (str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
                            + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
                             + str(bvalue)+ '/' + str(mfd_hyp)) + '/Source_model_'
                     + str(sample) + '.xml ')
-                    
+
                     if len(self.list_fbg) != 0 :
                         pth_to_bg = (str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
                            + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
                             + str(bvalue)+ '/' + str(mfd_hyp)) + '/' + 'bg_'+str(sample)+'.xml '
                         line+=pth_to_bg
-                    
-                    
+
+
                     line+=('</uncertaintyModel>\n')
-                    
+
                     line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(float(len(branches)*nb_random_sampling),5)) + '</uncertaintyWeight>\n'
                     line+='\t\t\t\t</logicTreeBranch>\n'
-                    
+
                     path = (str(self.Run_Name) + '/' + str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
                            + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
                             + str(bvalue)+ '/' + str(mfd_hyp)) # path to the source file
@@ -258,7 +259,7 @@ class Sources_Logic_Tree_Creator:
                     if last_set != scenario_set :
                         # extracting the complexe multi fault ruptures
                         rupture_set = available_sets[scenario_set]
-                        
+
                         index_scenario = 0
                         scenarios_names = []
                         if np.size(rupture_set) == 0 :
@@ -276,15 +277,15 @@ class Sources_Logic_Tree_Creator:
                                     if len(scenario)!=0:
                                         scenarios_names.append(scenario)
                                 index_scenario += 1
-                                
+
                         last_set = scenario_set
-                        
+
                     if last_model != Model :
                         # Extraction of the fault geometry and properties
                         last_model = Model
                         print("Importing faults")
-                        
-                        
+
+
                         #Extraction of the faults and scenarios present in the model from the text file
                         if not ".geojson" in self.File_prop:
                             Prop = np.genfromtxt(self.File_prop,
@@ -314,17 +315,17 @@ class Sources_Logic_Tree_Creator:
                         geom_scenar = Geometry_scenario.Geom_scenar(faults_names,self.File_geom,Model)
                         faults_lon = geom_scenar.faults_lon
                         faults_lat = geom_scenar.faults_lat
-                                                    
+
                         simplify_faults = True
                         if simplify_faults == True :
                             print("WARNING : fault simplification is applied!!")
                             for i_fault in range(len(faults)):
                                 faults_lon[i_fault] = [faults_lon[i_fault][0],faults_lon[i_fault][-1]]
                                 faults_lat[i_fault] = [faults_lat[i_fault][0],faults_lat[i_fault][-1]]
-                            
-                        
+
+
                         self.FaultGeometry(Model)  #extract the geometries from the geometry file
-                        
+
                         print("\t - importing faults properties")
                         re_use = True
                         f_prop_tmp = str(self.Run_Name)+'/'+Model+'/prop.pkl'
@@ -344,14 +345,14 @@ class Sources_Logic_Tree_Creator:
                                 width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
                                 length = geom_scenar.length[index_fault] * 1000.
                                 area = length * width * 1000.
-                                
+
                                 if self.rake> -135. and self.rake< -45:
                                     mecanism = 'N'
                                 elif self.rake< 135. and self.rake> 45:
                                     mecanism = 'R'
                                 else :
                                     mecanism = 'S'
-                                    
+
                                 slip_rate_min = self.slip_rate_min
                                 slip_rate_moy = self.slip_rate_moy
                                 slip_rate_max = self.slip_rate_max
@@ -372,22 +373,57 @@ class Sources_Logic_Tree_Creator:
                                 'lat':faults_lat[index_fault],
                                 'depth':depth}})
                                 index_fault += 1
-                            
+
                             with open(f_prop_tmp, 'wb') as f:
                                 pickle.dump(faults_data, f)
-                        
+
                         else :
                             print('Reloading MFDs from pickle file')
                             with open(f_prop_tmp, 'rb') as f:
                                 faults_data = pickle.load(f)
-                            
+
                         print("Faults imported.")
-    
+
+                    # #######
+                    # # CHECK if the faults are long enough
+                    # #######
+                    # min_length = 5. #(km)
+                    # id_f_too_short = []
+                    # name_f_too_short = []
+                    # for i,name in zip(range(len(faults_names)),faults_names):
+                    #     lons = faults_lon[i]
+                    #     lats = faults_lat[i]
+                    #     if distance(lons[0],lats[0],lons[-1],lats[-1]) < min_length:
+                    #         print("sections ", name, " likely too short -> REMOVING")
+                    #         id_f_too_short.append(i)
+                    #         name_f_too_short.append(name)
+                    # #clean the scenarii
+                    # sc_to_remove = []
+                    # for index_scenario in range(len(rupture_set)):
+                    #     for fj in rupture_set[index_scenario]:
+                    #         if fj in name_f_too_short:
+                    #             sc_to_remove.append(index_scenario)
+                    #
+                    # for i in reversed(sc_to_remove):
+                    #     rupture_set.remove(rupture_set[i])
+                    #     scenarios_names.remove(scenarios_names[i])
+                    #
+                    # #remove associated fault info
+                    # for i in reversed(id_f_too_short):
+                    #     faults_names.remove(faults_names[i])
+                    #     faults_data.pop(i)
+                    #     faults_lon.remove(faults_lon[i])
+                    #     faults_lat.remove(faults_lat[i])
+                    # ################
+                    #
+                    #
+
+
                     if str_all_data == 'a' :
                         use_all_ScL_data = True
                     elif str_all_data == 'm' :
                         use_all_ScL_data = False
-                        
+
                     if rerun_the_files == True :
                         # Create the source model
                         Source_model = Source_Model_Creator(path,self.Run_Name,
@@ -420,21 +456,21 @@ class Sources_Logic_Tree_Creator:
                                                             faults_lon,faults_lat,
                                                             self.list_fbg,
                                                             self.fbgpath)
-                        
+
                         self.Domain_in_model = Source_model.Domain_in_the_model
-                    
+
                     id_number += 1
 
         line+='\t\t\t</logicTreeBranchSet>\n'
         line+='\t\t</logicTreeBranchingLevel>\n'
         line+='\t</logicTree>\n'
         line+='</nrml>\n'
-        
+
         LT_file = str(self.Run_Name)+'/Sources_Logic_tree.xml'
         XMLfile=open(LT_file,'w')
         XMLfile.write(line)
         XMLfile.close()
-     
+
 
     def FaultProperties(self,Name_of_fault,Model):
         if not ".geojson" in self.File_prop:
@@ -445,7 +481,7 @@ class Sources_Logic_Tree_Creator:
             Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
             Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
             index_model = np.where(np.array(Column_model_name) == Model)[0]
-            
+
             Prop = np.take(Prop,index_model)
             index_fault = np.where(np.array(Column_fault_name[index_model[0]:index_model[-1]+1]) == Name_of_fault)
             Indexfault_final = index_fault[0]
@@ -455,7 +491,7 @@ class Sources_Logic_Tree_Creator:
             self.rake = Prop[Indexfault_final][0][4]
             self.upper_sismo_depth = Prop[Indexfault_final][0][5]
             self.lower_sismo_depth = Prop[Indexfault_final][0][6]
-            
+
             self.slip_rate_min = Prop[Indexfault_final][0][7]
             self.slip_rate_moy = Prop[Indexfault_final][0][8]
             self.slip_rate_max = Prop[Indexfault_final][0][9]
@@ -475,18 +511,18 @@ class Sources_Logic_Tree_Creator:
 
             if len(str(self.dip)) == 0:
                 print('\nError!!! please verify your input file for fault parameters\n')
-                
-                
+
+
         else : #it's a geojson file
             with open(self.File_geom) as f:
                 gj = geojson.load(f)
             faults = gj['features']
-            
+
             Longitudes = []
             Latitudes = []
             Depths = []
             Column_Fault_name = []
-            
+
             for fi in range(len(faults)):
                 if str(faults[fi]['properties']['si']) == Name_of_fault :
                     if faults[fi]['properties']['model'] == Model :
@@ -554,7 +590,7 @@ class Sources_Logic_Tree_Creator:
             self.Longitudes = list(map(lambda i : InfosZonage[i][2],index_model[0]))
             self.Latitudes = list(map(lambda i : InfosZonage[i][3],index_model[0]))
             self.Depths = list(map(lambda i : InfosZonage[i][4],index_model[0]))
-            
+
             ZoneSelec = self.Column_Fault_name
             DicoZone = dict([(k,ZoneSelec.count(k)) for k in set(ZoneSelec)])
             Longitudes = []
@@ -567,7 +603,7 @@ class Sources_Logic_Tree_Creator:
                 Longitudes_inter = np.take(self.Longitudes,indices_ZonesSelec)
                 Latitudes_inter = np.take(self.Latitudes,indices_ZonesSelec)
                 depth_inter = np.take(self.Depths,indices_ZonesSelec)
-            
+
                 Longitudes_inter = Longitudes_inter[0].tolist()
                 Latitudes_inter = Latitudes_inter[0].tolist()
                 depth_inter = depth_inter[0].tolist()
@@ -579,23 +615,23 @@ class Sources_Logic_Tree_Creator:
                     Latitudes.append(yy)
                     Depths.append(dd)
                     Column_Fault_name.append(nn)
-                    
+
             self.Longitudes =Longitudes
             self.Latitudes =Latitudes
             self.Depths =Depths
             self.Column_Fault_name = Column_Fault_name
             #            self.Nb_data_per_zone = dict([(k,self.Column_Fault_name.count(k)) for k in set(self.Column_Fault_name)])
-            
+
         else : #the input file in a geojson
             with open(self.File_geom) as f:
                 gj = geojson.load(f)
             faults = gj['features']
-            
+
             Longitudes = []
             Latitudes = []
             Depths = []
             Column_Fault_name = []
-            
+
             for fi in range(len(faults)):
                 if faults[fi]['properties']['model'] == Model :
                     lons_i = [i[0] for i in faults[fi]['geometry']["coordinates"]]
@@ -607,7 +643,7 @@ class Sources_Logic_Tree_Creator:
                         Latitudes.append(yy)
                         Depths.append(dd)
                         Column_Fault_name.append(nn)
-            
+
             self.Longitudes =Longitudes
             self.Latitudes =Latitudes
             self.Depths =Depths

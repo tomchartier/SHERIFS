@@ -23,7 +23,7 @@ def build(f,txt):
     f.write(txt)
     f.close()
 
-def start():
+def start(model_name):
     '''
     txt : str containing the file info
     '''
@@ -36,7 +36,8 @@ def start():
 
     return txt
 
-def wrt_kite_geo(txt,fault_name,faults_names,faults_data,do_resample=False):
+
+def wrt_kite_geo(fault_name,faults_names,faults_data,do_resample=False):
     '''
     txt : str containing the file info
     faults_names : list of the fault names in order (serves for indexing)
@@ -51,8 +52,6 @@ def wrt_kite_geo(txt,fault_name,faults_names,faults_data,do_resample=False):
     ColLat = faults_data[index_fault]['lat']
     Depth = faults_data[index_fault]['depth']
 
-
-    scenario_mechanism.append(faults_data[index_fault]['rake'])
 
     if Depth and all(elem == 'sf' for elem in Depth):
         type_of_fault = 'sf'
@@ -90,7 +89,6 @@ def wrt_kite_geo(txt,fault_name,faults_names,faults_data,do_resample=False):
         ColLat = list(ColLat)
 
         # does a resampling to reduce the number of points
-        do_resample = True
         if do_resample == True :
             # parameters
             # min distance between two points
@@ -131,7 +129,7 @@ def wrt_kite_geo(txt,fault_name,faults_names,faults_data,do_resample=False):
             resampled_ColLat.append(ColLat[-1])
             ColLon, ColLat = resampled_ColLon, resampled_ColLat
 
-            plot_stuf_detail = True
+            plot_stuf_detail = False
             if plot_stuf_detail == True:
                 min_dist_tmp = min_d
                 for i_pt in range(len(ColLon)-2):
@@ -143,7 +141,7 @@ def wrt_kite_geo(txt,fault_name,faults_names,faults_data,do_resample=False):
                     print("min dist :",round(min_dist_tmp),"id: ",faults_data[index_fault]['name'])
 
 
-        str_geom+='\t\t\t<kiteSurface>\n'
+        txt='\t\t\t<kiteSurface>\n'
 
         #mean azimuth of the section
         compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[-1],ColLon[-1]))
@@ -170,48 +168,33 @@ def wrt_kite_geo(txt,fault_name,faults_names,faults_data,do_resample=False):
 
             azimuth = ((mean_azimuth+azimuth)/2.) % 360
 
-            str_geom+='\t\t\t<profile>\n'
-            str_geom+='\t\t\t\t<gml:LineString>\n'
-            str_geom+='\t\t\t\t\t<gml:posList>\n'
+            txt+='\t\t\t<profile>\n'
+            txt+='\t\t\t\t<gml:LineString>\n'
+            txt+='\t\t\t\t\t<gml:posList>\n'
             xt, yt = point_at(x, y, azimuth, hdist_top)
-            str_geom+='\t\t\t\t\t\t'+str(xt)+' '+str(yt)+' '+str(usd)+' '
+            txt+='\t\t\t\t\t\t'+str("%.5f" %xt)+' '+str("%.5f" %yt)+' '+str("%.2f" %usd)+' '
             xb, yb = point_at(x, y, azimuth, hdist_bottom)
-            str_geom+=str(xb)+' '+str(yb)+' '+str(lsd)+'\n'
-            str_geom+='\t\t\t\t\t</gml:posList>\n'
-            str_geom+='\t\t\t\t</gml:LineString>\n'
-            str_geom+='\t\t\t</profile>\n'
+            txt+=str("%.5f" % xb)+' '+str("%.5f" %yb)+' '+str("%.2f" %lsd)+'\n'
+            txt+='\t\t\t\t\t</gml:posList>\n'
+            txt+='\t\t\t\t</gml:LineString>\n'
+            txt+='\t\t\t</profile>\n'
             i_pt +=1
 
-        str_geom+='\t\t\t</kiteSurface>\n'
-
-    if type_of_fault == 'cf':
-        str_geom+='\t\t\t<kiteSurface>\n'
-
-        for depth_i in sorted(set(Depth)):
-            # write the upper profile
-            str_geom+='\t\t\t<profile>\n'
-            str_geom+='\t\t\t\t<gml:LineString>\n'
-            str_geom+='\t\t\t\t\t<gml:posList>\n'
-            for x,y in zip(ColLon,ColLat):
-                str_geom+='\t\t\t\t\t\t'+str(x)+' '+str(y)+' '+str(hdist_d)+'\n'
-            str_geom+='\t\t\t\t\t</gml:posList>\n'
-            str_geom+='\t\t\t\t</gml:LineString>\n'
-            str_geom+='\t\t\t<\profile>\n'
-
-        str_geom+='\t\t\t</kiteSurface>\n'
-
+        txt+='\t\t\t</kiteSurface>\n'
 
     return txt
 
-def wrt_section(txt,geotype):
+def wrt_section(txt,section_id,faults_names,faults_data,geotype="kite"):
     '''
     txt : str containing the file info
     geotype : type of geometry of the section (kite, complex, or  simple)
     '''
 
-    txt += '    <section name="'+section_name+'" id="'+section_id+'">\n'
+    section_name = faults_names[section_id]
+    txt += '    <section name="'+section_name+'" id="'+str(section_id)+'">\n'
+
     if geotype == "kite":
-        out = wrt_kite_geo()
+        out = wrt_kite_geo(section_name,faults_names,faults_data,False)
     if geotype == "complex":
         out = wrt_complex_geo()
     if geotype == "simple":

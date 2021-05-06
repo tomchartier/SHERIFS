@@ -15,7 +15,7 @@ from scipy.interpolate import interp1d
 
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
- 
+
 def progress(model_MFD,calculation_log,ratio_done,print_percent,rup_rates,fault_prop,bin_mag):
     if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
         rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
@@ -62,14 +62,14 @@ def weight_fault_sampling(picked_bin,rup_in_bin,faults_names,faults_slip_rates,s
             if len(involved_faults) == 0: #it's a fault
                 sr0 = faults_slip_rates[involved_faults[0]]
                 sr_used = slip_rate_use_per_fault[involved_faults[0]]
-                
+
                 # calculate the sr factor to help the faster moving faults more
                 # the srfactor goes from 1 to 6 with the ratio of the slip rate to the max of the slip rates
                 if float(sr0)/float(max(faults_slip_rates)) <= 0.2:
                     srfactor = 1.
                 else:
                     srfactor = 5.*float(sr0)/float(max(faults_slip_rates))
-                    
+
                 if 1. - float(sr_used)/float(sr0) >= 0.:
                     if involved_faults[0] in faults_alone: #we give a boost for faults that are alone so they can  break more
                         weight_i = 4. * 5.
@@ -88,7 +88,7 @@ def weight_fault_sampling(picked_bin,rup_in_bin,faults_names,faults_slip_rates,s
                             weight_i = 0.5 * srfactor
                         else :
                             weight_i = (0.5-4.*(float(sr_used)/float(sr0)+0.3)**6.)*srfactor
-                            
+
                         if weight_i < 1.:
                             weight_i = 1.
                         weight_fault.append(weight_i)
@@ -102,14 +102,14 @@ def weight_fault_sampling(picked_bin,rup_in_bin,faults_names,faults_slip_rates,s
                     sr0 = faults_slip_rates[index]
                     sr_used = slip_rate_use_per_fault[index]
                     fault_in_scenario = faults_names[index]
-                    
+
                     # calculate the sr factor to help the faster moving faults more
                     # the srfactor goes from 1 to 6 with the ratio of the slip rate to the max of the slip rates
                     if float(sr0)/float(max(faults_slip_rates)) <= 0.2:
                         srfactor = 1.
                     else:
                         srfactor = 5.*float(sr0)/float(max(faults_slip_rates))
-                        
+
                     if fault_in_scenario in faults_isolated: #we give a boost for faults that are isolated so they can  break more
                         if (float(sr_used)/float(sr0)) < 0.2:
                             ratio_w_i = 4. * srfactor
@@ -122,7 +122,7 @@ def weight_fault_sampling(picked_bin,rup_in_bin,faults_names,faults_slip_rates,s
                             ratio_w_i = 0.5 * srfactor
                         else :
                             ratio_w_i = (0.5 -4.*(float(sr_used)/float(sr0)+0.3)**6.)*srfactor
-                            
+
                         if ratio_w_i < 1.:
                             ratio_w_i = 1.
                     if ratio_w_i > ratio_w:
@@ -133,11 +133,11 @@ def weight_fault_sampling(picked_bin,rup_in_bin,faults_names,faults_slip_rates,s
                 else :
                     weight_i = 0.
                     weight_fault.append(weight_i)
-            
+
     weight_fault = [i**2 for i in weight_fault]
     weight_fault = np.array(weight_fault)
     weight_fault /= weight_fault.sum()
-    
+
     return weight_fault
 
 
@@ -161,23 +161,23 @@ def link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag,bg_rati
     '''
     Link each rupture with the area that describe the
     local mfd to respect (on top of the global mfd).
-    
+
     param :
     rup_rates : dict, contains the ruptures and the associated info and rates.
-    
+
     f_mfd_area : str, path to the geojson file that contains the areas where a local mfd should be respected.
-    
+
     faults_lon, faults_lat : list, list of the coordinates of the fault points.
-    
+
     bg_ratio : list, ratio of the seismicity occuring on the faults and not in the bachground for the whole model.
-    
+
     returns :
     local_mfds : list, list of mfd shapes tobe followed locally. (right now only GR is possible, but it can be modified.
-    
+
     associated_rup : list, ruptures associated with each area where a local mfd must be respected.
-    
+
     associated_weight : list, ratio between 0 and one representing how much of a given rupture is in the area.
-    
+
     '''
 
     with open(f_mfd_area) as f:
@@ -192,12 +192,12 @@ def link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag,bg_rati
                 for pt in area_i["geometry"]["coordinates"][0][0]:
                     poly.append((pt[0],pt[1]))
                 polygon = Polygon(poly)
-                
+
                 mfd_param = {"b_value" : b_value}
-                
+
                 p_MFD = mfd_shape.GR(mfd_param,bin_mag)
                 p_MFD /= sum(p_MFD)
-                
+
                 # Find if a local background has to be applied for the shape
                 apply_global_bg = True
                 if 'bg' in area_i["properties"].keys():
@@ -210,7 +210,7 @@ def link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag,bg_rati
                         bg_ratio_loc = area_i["properties"]["bg"]
                     else :
                         print("ERROR !!! please verify the local background proportions")
-                
+
                 # Apply the background ratio to the local target shape
                 bin_mag_fault_prop = [ 4., 4.5, 5., 5.5, 6., 6.5, 7., 7.5, 8.]
                 fault_prop_inc = bg_ratio_loc
@@ -222,16 +222,16 @@ def link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag,bg_rati
                 for mag in bin_mag :
                     p_MFD_faults.append(fault_prop(mag) * p_MFD[index_mag])
                     index_mag+=1
-                
+
                 # add to the list of local MFDs
                 local_mfds.append(p_MFD_faults)
-                
+
                 # Find the ruptures in the area
                 # The sum of their eq rates will need to follow the local shape
                 associated_rup_i = []
                 associated_weight_i = []
                 for rup_i in rup_rates:
-                    
+
                     id_sections = rup_rates.get(rup_i).get("involved_faults")
                     nb_sections = len(id_sections)
                     nb_in = 0
@@ -248,62 +248,62 @@ def link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag,bg_rati
                         associated_weight_i.append(float(nb_in)/float(nb_sections))
                 associated_rup.append(associated_rup_i)
                 associated_weight.append(associated_weight_i)
-                
+
     return local_mfds, associated_rup, associated_weight
 
 def check_local_mfd(rup_rates, rup_in_bin, picked_bin, bin_mag, local_mfds, associated_rup, associated_weight):
     '''
     Calculate the factor to apply to the weight of the rupture in order to help to respect the local MFD.
-    
+
     param :
     rup_rates : dict, contains the ruptures and the associated info and rates.
-    
+
     rup_in_bin : list, ruptures that can produce the magnitude picked.
-    
+
     picked_bin : int, index of the picked magnitude bin.
-    
+
     bin_mag : list, bining in magnitude.
-    
+
     local_mfds : list, list of mfd shapes tobe followed locally.
-    
+
     associated_rup : list, ruptures associated with each area where a local mfd must be respected.
-    
+
     associated_weight : list, ratio between 0 and one representing how much of a given rupture is in the area.
-    
+
     returns :
     factor_on_weight : list, factor to be appleid to the weight of picking the rupture.
     '''
     factor_on_weight = [1. for _ in rup_in_bin]
-    
+
     for local_mfd,associated_rup_i,associated_weight_i in zip(local_mfds,associated_rup,associated_weight):
         rates = np.zeros(len(bin_mag))
         for id_rup, w_i in zip(associated_rup_i,associated_weight_i) :
             rates  += rup_rates.get(str(id_rup)).get('rates') * w_i
         if sum(rates) != 0. :
             p_rates = (rates) / sum(rates) # transform to a probability distribution.
-            
+
 #            wiggle_room = 0.01
 #            # 1% of the first rate of bin as wiggle room
 #            # this allow the range of accepttalbe rates to be largers as the magnitude increase
 #            min_acceptable = local_mfd[picked_bin] - local_mfd[0] * wiggle_room
 #            max_acceptable = local_mfd[picked_bin] + local_mfd[0] * wiggle_room
-            
+
             wiggle_room = 0.2
             # Uniform +- 20% for all bins
             min_acceptable = local_mfd[picked_bin] - local_mfd[picked_bin] * wiggle_room
             max_acceptable = local_mfd[picked_bin] + local_mfd[picked_bin] * wiggle_room
-            
+
             # the factor is to be applied on the weight in order to help fit in the acceptable range.
             factor = 100.
             if p_rates[picked_bin] < min_acceptable :
                 for id_w in range(len(rup_in_bin)):
                     if rup_in_bin[id_w] in associated_rup_i:
                         factor_on_weight[id_w] =  factor_on_weight[id_w] * factor
-                        
+
             if p_rates[picked_bin] > max_acceptable :
                 for id_w in range(len(rup_in_bin)):
                     if rup_in_bin[id_w] in associated_rup_i:
                         factor_on_weight[id_w] =  factor_on_weight[id_w] / factor
-                
-    
+
+
     return factor_on_weight

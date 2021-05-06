@@ -1,0 +1,18 @@
+# Main input file for SHERIFS
+
+# list below the different inputs to be used for this run
+Run_Name : dom_test
+File_geom : data/DOM_v1/sections_nit.geojson
+File_prop : data/DOM_v1/sections_nit.geojson
+File_bg : data/DOM_v1/bg_nit.geojson
+#file_prop_bg : data/DOM_v1/Background_properties.txt
+host_model_file : _.xml
+
+#bg input file
+
+
+# run parameters (optional)
+overwrite_files : True
+use_host_model : False
+fit_quality : 5
+

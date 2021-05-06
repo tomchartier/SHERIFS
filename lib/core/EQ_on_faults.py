@@ -674,15 +674,15 @@ class EQ_on_faults_from_sr():
                         print("Sum of the rupture weights in 0")
 
                     '''#picking of the source'''
-                    #try :
-                    picked_rup = np.random.choice(rup_in_bin[picked_bin],1,p=weight_rup)[0] #picked source
-#                        picked_rup = rup_in_bin[picked_bin][np.random.multinomial(1, weight_rup)[0]]
-#                        print("index picked :",np.random.multinomial(1, weight_rup)[0],"  |  rup : ",picked_rup)
-#                        n_w_work += 1
-#                    except ValueError:
-#                        print("rupt weights didn't work. sum:",sum(weight_rup))
-#                        picked_rup = np.random.choice(rup_in_bin[picked_bin])
-#                        n_w_crash += 1
+                    try :
+                        picked_rup = np.random.choice(rup_in_bin[picked_bin],1,p=weight_rup)[0] #picked source
+                        #picked_rup = rup_in_bin[picked_bin][np.random.multinomial(1, weight_rup)[0]]
+                        #print("index picked :",np.random.multinomial(1, weight_rup)[0],"  |  rup : ",picked_rup)
+                        #n_w_work += 1
+                    except ValueError:
+                        print("rupt weights didn't work. sum:",sum(weight_rup))
+                        picked_rup = np.random.choice(rup_in_bin[picked_bin])
+                        n_w_crash += 1
 
                     #index_fault = np.where(np.array(faults_names) == picked_rup)[0]
                     index_fault = rup_rates.get(str(picked_rup)).get('involved_faults')

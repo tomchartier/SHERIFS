@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ # -*- coding: utf-8 -*-
 
 """SHERIFS
 Seismic Hazard and Earthquake Rates In Fault Systems
@@ -20,7 +20,7 @@ def GR(mfd_param,bin_mag):
         p_i = (((np.exp(-Beta * (mag - 0.05 - bin_mag[0]))) / ( 1. - np.exp(-Beta * (bin_mag[-1] - bin_mag[0]))))
         - ((np.exp(-Beta * (mag + 0.05 - bin_mag[0]))) / ( 1. - np.exp(-Beta * (bin_mag[-1] - bin_mag[0])))))
         p_MFD.append(p_i)
-    
+
     return p_MFD
 
 def tapered_GR(mfd_param,bin_mag):
@@ -30,7 +30,7 @@ def tapered_GR(mfd_param,bin_mag):
     M0_c = mag_to_M0(M_corner)
     M_t = bin_mag[0]-0.05
     M0_t = mag_to_M0(M_t)
-    
+
     p_MFD = [] #probability distribution
     for mag in bin_mag :
         M0_min = mag_to_M0(mag-0.05)
@@ -38,11 +38,11 @@ def tapered_GR(mfd_param,bin_mag):
         p_i = (((M0_t/M0_min)**Beta*np.exp((M0_t-M0_min)/M0_c))
         - ((M0_t/M0_max)**Beta*np.exp((M0_t-M0_max)/M0_c)))
         p_MFD.append(p_i)
-        
+
     return p_MFD
-    
+
 def user_defined(mfd_param,bin_mag):
-    
+
     return p_MFD
 
 def double_GR(mfd_param,bin_mag):
@@ -63,14 +63,14 @@ def double_GR(mfd_param,bin_mag):
         else :
             p_i = min(p_MFD)/3.
         p_MFD.append(p_i)
-    
+
     return p_MFD
 
 
 def YC(mfd_param,bin_mag):
     b_value = mfd_param['b_value']
     beta = b_value * np.log(10)
-    
+
     p_MFD = [] #probability distribution
     for mag in bin_mag :
         if mag < (Mmax - 0.5) :
@@ -100,7 +100,7 @@ def YC_marmara(mfd_param,bin_mag):
     '''
     #Mf= 7.5
     #size_of_bump = 0.25
-    
+
     p_MFD = [] #probability distribution
     for mag in bin_mag :
         if mag < (Mmax - 0.8) :
@@ -117,17 +117,17 @@ def YC_marmara(mfd_param,bin_mag):
 def user_defined(mfd_param,bin_mag):#Youngs and coppersmith 1985, see Makrup et al 2015 for simplified formulation
     #this  equation has been modified in order to have a stable moment for the last three bins of magnitude and keep the
     # target stable for the GR part of the distribution
-    
+
     b_value = mfd_param['b_value']
     Mf = mfd_param['Mf'] #Mmax with the best a priori fit
     size_of_bump = mfd_param['size_of_bump'] #in order to modify the respective size of the two parts of the distribution
-    
+
     beta = b_value * np.log(10)
     #Mf= 6.4 #Mmax with the best a priori fit
     #size_of_bump = 1.
-    
+
     self.calculation_log_file.write('\nUsing YC_modified with Mf='+ str(Mf)+' and size_of_bump='+str(size_of_bump)+'\n')
-    
+
     p_MFD = [] #probability distribution
     for mag in bin_mag :
         if mag < (Mmax - 0.5) :
@@ -139,7 +139,7 @@ def user_defined(mfd_param,bin_mag):#Youngs and coppersmith 1985, see Makrup et 
         elif mag > (Mmax + 0.09) :
             pi = 0.
         p_MFD.append(pi)
-    
+
     return p_MFD
 
 def UCERF_DV(bin_mag):
@@ -147,11 +147,11 @@ def UCERF_DV(bin_mag):
                  0.1133026657,0.0851402625,0.0811713962,0.017219035,0.011174207,
                  0.0092182702,0.0123154789,0.0066646595,0.0160229518,0.0328559211,
                  0.0630301509,0.2736356088,0.008430495,0.0009887329]
-                 
+
     mfd_ucerf_guessed = [0.1138501463,0.0088694563,0.1150115728,0.0225406165,0.1209122392,0.1606559551,
                  0.1207234632,0.1150958638,0.0244154936,0.015844313,0.0130709194,0.0032216881,
                  0.0041427486,0.0104758837,0.0226150741,0.0223162261,0.1019376482,0.0040203001,0.0002803921]
-                 
+
     mfd_ucerf = [0.,0.1225479995,0.0095470667,0.1237981981,0.0181124989,
                  0.1286539225,0.1709131163,0.1226901936,0.072599789,0.0215865667,
                  0.0120345436,0.0086226427,0.0115716064,0.0049446472,0.0100869533,
@@ -172,13 +172,13 @@ def UCERF_DV(bin_mag):
 
 
     bin_mfd_ucerf = np.linspace(6.0,7.9,len(mfd_ucerf))
-    
+
     interp_ucerf_mfd = interp1d(bin_mfd_ucerf,mfd_ucerf)
-    
+
     p_MFD = [] #probability distribution
     for mag in bin_mag :
         p_MFD.append(interp_ucerf_mfd(mag))
-                    
+
     return p_MFD
 
 def incrementally_defined(bin_mag,inc_rates):
@@ -186,11 +186,11 @@ def incrementally_defined(bin_mag,inc_rates):
                  0.1133026657,0.0851402625,0.0811713962,0.017219035,0.011174207,
                  0.0092182702,0.0123154789,0.0066646595,0.0160229518,0.0328559211,
                  0.0630301509,0.2736356088,0.008430495,0.0009887329]
-                 
+
     mfd_ucerf_guessed = [0.1138501463,0.0088694563,0.1150115728,0.0225406165,0.1209122392,0.1606559551,
                  0.1207234632,0.1150958638,0.0244154936,0.015844313,0.0130709194,0.0032216881,
                  0.0041427486,0.0104758837,0.0226150741,0.0223162261,0.1019376482,0.0040203001,0.0002803921]
-                 
+
     mfd_ucerf = [0.,0.1225479995,0.0095470667,0.1237981981,0.0181124989,
                  0.1286539225,0.1709131163,0.1226901936,0.072599789,0.0215865667,
                  0.0120345436,0.0086226427,0.0115716064,0.0049446472,0.0100869533,
@@ -211,11 +211,11 @@ def incrementally_defined(bin_mag,inc_rates):
 
 
     bin_mfd_ucerf = np.linspace(6.0,7.9,len(mfd_ucerf))
-    
+
     interp_ucerf_mfd = interp1d(bin_mfd_ucerf,mfd_ucerf)
-    
+
     p_MFD = [] #probability distribution
     for mag in bin_mag :
         p_MFD.append(interp_ucerf_mfd(mag))
-                    
+
     return p_MFD
