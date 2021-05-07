@@ -103,6 +103,9 @@ class Source_Model_Creator:
         faults_data = self.faults_data
         faults_lon,faults_lat= self.faults_lon,self.faults_lat
 
+        # list files for branch
+        list_src_files = []
+
         # create log files and repo
         if not os.path.exists(self.path +'/Log'):
             os.makedirs(self.path +'/Log')
@@ -137,11 +140,13 @@ class Source_Model_Creator:
                     f = self.path +'/sm_' + str(self.sample) + '_sf_'+str(i+1)+'.xml'
                     sf_files.append(open(f,'w'))
                     sf_counter.append(0)
+                    list_src_files.append(f)
                 mf_files, mf_counter = [], []
                 for i in range(n_cut_mf):
                     f = self.path +'/sm_' + str(self.sample) + '_mf_'+str(i+1)+'.xml'
                     mf_files.append(open(f,'w'))
                     mf_counter.append(0)
+                    list_src_files.append(f)
 
             if use_multiF == True  :
                 n_cut_f = n_cut_sf + n_cut_mf
@@ -149,6 +154,7 @@ class Source_Model_Creator:
                 for i in range(n_cut_mf):
                     f = self.path +'/sm_' + str(self.sample) + '_f_'+str(i+1)+'.xml'
                     s_files.append(f)
+                    list_src_files.append(f)
 
                 dict_txt, dict_n_source = {}, {}
                 for f in s_files  :
@@ -494,8 +500,7 @@ class Source_Model_Creator:
             else :
                 for f in s_files  :
                     if dict_n_source[f] > 0 :
-
-                        txt = dict_txt[f]
+                        txt = wmfs.end(dict_txt[f])
                         wmfs.build(f,txt)
 
 
@@ -799,14 +804,15 @@ class Source_Model_Creator:
         use_smoothed_bg = False
         if sum(MFD) != 0. and do_bg_in_SHERIFS == True:
             bg_file = open(self.path +'/Source_model_bg_' + str(self.sample) + '.xml','w')
+            list_src_files.append(bg_file)
             # Initiate the xml file
             line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
             line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
             line+='\txmlns="http://openquake.org/xmlns/nrml/0.5">\n'
-            line+='\t<sourceModel name="Hazard Model BG"\n'
+            line+='\t<sourceModel name="Hazard Model">\n'
 
             upperSeismoDepth, lowerSeismoDepth, ruptAspectRatio, nodalPlanes, hypoDepths = bg.prop(self.Model_name,self.file_prop_bg)
-
+            line+='\t\t<sourceGroup\nname="group 2"\nrup_interdep="indep"\nsrc_interdep="indep"\ntectonicRegion="' + str(self.Domain_in_the_model[0]) + '"\n>\n'
             line+='\t\t<areaSource id="'+ str(ID_number + 1 ) +'" name="Background" tectonicRegion="' + str(self.Domain_in_the_model[0]) + '">\n'
             line+='\t\t\t<areaGeometry>\n'
             line+='\t\t\t\t<gml:Polygon>\n'
@@ -839,8 +845,12 @@ class Source_Model_Creator:
                 line+='\t\t\t\t<hypoDepth probability="' + str(hypoDepths[i][0]) + '" depth="' + str(hypoDepths[i][1]) + '" />\n'
             line+='\t\t\t</hypoDepthDist>\n'
             line+='\t\t</areaSource>\n'
+            line+='\t</sourceGroup>\n'
+            line+='\t</sourceModel>\n'
+            line+='</nrml>\n'
 
             bg_file.write(line)
+            bg_file.close()
 
         elif sum(MFD) != 0. and use_smoothed_bg==True:
             Mmin_checked = False
@@ -945,6 +955,7 @@ class Source_Model_Creator:
                 i_bg += 1
                 fbg_out = self.path + '/bg_'+str(self.sample)+'_'+str(i_bg)+'.xml'
                 tree.write(fbg_out)
+                list_src_files.append(fbg_out)
 
 
 
@@ -973,3 +984,5 @@ class Source_Model_Creator:
         log_sr_file.close()
 
         log_mdf_file.close()
+
+        self.list_src_files = list_src_files

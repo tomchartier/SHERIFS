@@ -458,6 +458,7 @@ class Sources_Logic_Tree_Creator:
                                                             self.fbgpath)
 
                         self.Domain_in_model = Source_model.Domain_in_the_model
+                        list_src_files = Source_model.list_src_files
 
                     id_number += 1
 

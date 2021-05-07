@@ -4,391 +4,383 @@
 <sourceModel name="Hazard Model" investigation_time="1.0">
 	<sourceGroup name="group 1" rup_interdep="indep"
         src_interdep="indep" tectonicRegion="Active Shallow Crust">
-        <multiFaultSource id="403" name="DOM_v1_scenario_f_1=['36']_f_2=['39']_f_3=['40']_f_4=['41']_f_5=['42']_f_6=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="403" name="DOM_v1_scenario_f_1=['42']_f_2=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999989 1.1E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="36 39 40 41 42 97"/>
+				<multiPlanesRupture probs_occur="0.99999971 2.9E-7">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="42 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="404" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="404" name="DOM_v1_scenario_f_1=['42']_f_2=['96']_f_3=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="35 36 39 40 41 42 97"/>
+				<multiPlanesRupture probs_occur="0.99999983 1.7E-7">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="42 96 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="405" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['39']_f_5=['40']_f_6=['41']_f_7=['42']_f_8=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="405" name="DOM_v1_scenario_f_1=['36']_f_2=['42']_f_3=['96']_f_4=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999987 1.3E-7">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="36 42 96 97"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="406" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['42']_f_5=['97']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999974 2.6E-7">
+					<magnitude>7.800000000000001</magnitude>
+					<sectionIndexes indexes="34 35 36 42 97"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="407" name="DOM_v1_scenario_f_1=['39']_f_2=['40']_f_3=['41']_f_4=['42']_f_5=['96']_f_6=['97']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999961 3.9E-7">
+					<magnitude>7.800000000000001</magnitude>
+					<sectionIndexes indexes="39 40 41 42 96 97"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="39 40 41 42 96 97"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="408" name="DOM_v1_scenario_f_1=['40']_f_2=['41']_f_3=['42']_f_4=['97']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999980 2.0E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="40 41 42 97"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="34 35 36 39 40 41 42 97"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="406" name="DOM_v1_scenario_f_1=['40']_f_2=['41']_f_3=['42']_f_4=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
-					<magnitude>7.699999999999999</magnitude>
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="40 41 42 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="407" name="DOM_v1_scenario_f_1=['40']_f_2=['41']_f_3=['42']_f_4=['96']_f_5=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="409" name="DOM_v1_scenario_f_1=['36']_f_2=['40']_f_3=['41']_f_4=['42']_f_5=['96']_f_6=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999985 1.5E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="40 41 42 96 97"/>
+				<multiPlanesRupture probs_occur="0.99999990 1.0E-7">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="36 40 41 42 96 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="408" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['40']_f_4=['41']_f_5=['42']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="410" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['40']_f_4=['41']_f_5=['42']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999984 1.6E-7">
-					<magnitude>7.8</magnitude>
+				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
+					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="35 36 40 41 42 96 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="409" name="DOM_v1_scenario_f_1=['41']_f_2=['42']_f_3=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="411" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['96']_f_8=['97']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999991 9E-8">
+					<magnitude>8.0</magnitude>
+					<sectionIndexes indexes="34 35 36 40 41 42 96 97"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="412" name="DOM_v1_scenario_f_1=['41']_f_2=['42']_f_3=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999970 3.0E-7">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="41 42 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999979 2.1E-7">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="41 42 97"/>
+	    </multiFaultSource>
+        <multiFaultSource id="413" name="DOM_v1_scenario_f_1=['41']_f_2=['42']_f_3=['96']_f_4=['97']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999983 1.7E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="41 42 96 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="410" name="DOM_v1_scenario_f_1=['41']_f_2=['42']_f_3=['96']_f_4=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999977 2.3E-7">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="41 42 96 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="411" name="DOM_v1_scenario_f_1=['36']_f_2=['41']_f_3=['42']_f_4=['96']_f_5=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="414" name="DOM_v1_scenario_f_1=['36']_f_2=['41']_f_3=['42']_f_4=['96']_f_5=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999984 1.6E-7">
-					<magnitude>7.699999999999999</magnitude>
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="36 41 42 96 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="412" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['41']_f_4=['42']_f_5=['96']_f_6=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="415" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['41']_f_4=['42']_f_5=['96']_f_6=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999981 1.9E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
+					<magnitude>7.800000000000001</magnitude>
 					<sectionIndexes indexes="35 36 41 42 96 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="413" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['41']_f_5=['42']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="416" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['41']_f_5=['42']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999989 1.1E-7">
-					<magnitude>7.9</magnitude>
+				<multiPlanesRupture probs_occur="0.99999992 8E-8">
+					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="34 35 36 41 42 96 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="414" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['38']_f_5=['39']_f_6=['40']_f_7=['41']_f_8=['42']_f_9=['96']_f_10=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="417" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['38']_f_4=['39']_f_5=['40']_f_6=['41']_f_7=['42']_f_8=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999989 1.1E-7">
+				<multiPlanesRupture probs_occur="0.99999990 1.0E-7">
 					<magnitude>8.0</magnitude>
-					<sectionIndexes indexes="34 35 36 38 39 40 41 42 96 97"/>
+					<sectionIndexes indexes="35 36 38 39 40 41 42 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="415" name="DOM_v1_scenario_f_1=['36']_f_2=['37']_f_3=['38']_f_4=['39']_f_5=['40']_f_6=['41']_f_7=['42']_f_8=['96']_f_9=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="418" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['38']_f_5=['39']_f_6=['40']_f_7=['41']_f_8=['42']_f_9=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999985 1.5E-7">
-					<magnitude>7.9</magnitude>
+				<multiPlanesRupture probs_occur="0.99999992 8E-8">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="34 35 36 38 39 40 41 42 97"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="419" name="DOM_v1_scenario_f_1=['36']_f_2=['37']_f_3=['38']_f_4=['39']_f_5=['40']_f_6=['41']_f_7=['42']_f_8=['96']_f_9=['97']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999990 1.0E-7">
+					<magnitude>8.0</magnitude>
+					<sectionIndexes indexes="36 37 38 39 40 41 42 96 97"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999993 7E-8">
+					<magnitude>8.100000000000001</magnitude>
 					<sectionIndexes indexes="36 37 38 39 40 41 42 96 97"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="416" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['39']_f_5=['40']_f_6=['41']_f_7=['42']_f_8=['43']_f_9=['96']_f_10=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="420" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['37']_f_5=['38']_f_6=['39']_f_7=['40']_f_8=['41']_f_9=['42']_f_10=['96']_f_11=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
-					<magnitude>8.0</magnitude>
-					<sectionIndexes indexes="34 35 36 39 40 41 42 43 96 97"/>
-					<rake>5.515009542095352</rake>
+				<multiPlanesRupture probs_occur="0.99999994 6E-8">
+					<magnitude>8.200000000000001</magnitude>
+					<sectionIndexes indexes="34 35 36 37 38 39 40 41 42 96 97"/>
+					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="417" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['96']_f_10=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="421" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['96']_f_10=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999977 2.3E-7">
+				<multiPlanesRupture probs_occur="0.99999965 3.5E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="35 36 39 40 41 42 43 44 96 97"/>
 					<rake>11.030019084190704</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="418" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['39']_f_5=['40']_f_6=['41']_f_7=['42']_f_8=['43']_f_9=['44']_f_10=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="422" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['39']_f_5=['40']_f_6=['41']_f_7=['42']_f_8=['43']_f_9=['44']_f_10=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999963 3.7E-7">
+				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="34 35 36 39 40 41 42 43 44 97"/>
 					<rake>11.030019084190704</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
-					<magnitude>8.1</magnitude>
+				<multiPlanesRupture probs_occur="0.99999991 9E-8">
+					<magnitude>8.100000000000001</magnitude>
 					<sectionIndexes indexes="34 35 36 39 40 41 42 43 44 97"/>
 					<rake>11.030019084190704</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="419" name="DOM_v1_scenario_f_1=['39']_f_2=['40']_f_3=['41']_f_4=['42']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="423" name="DOM_v1_scenario_f_1=['39']_f_2=['40']_f_3=['41']_f_4=['42']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999944 5.6E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="39 40 41 42 43 44 45 97"/>
-					<rake>20.68128578285757</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999974 2.6E-7">
-					<magnitude>7.9</magnitude>
+				<multiPlanesRupture probs_occur="0.99999972 2.8E-7">
+					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="39 40 41 42 43 44 45 97"/>
 					<rake>20.68128578285757</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="420" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['45']_f_10=['96']_f_11=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="424" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['45']_f_10=['96']_f_11=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999973 2.7E-7">
-					<magnitude>8.1</magnitude>
+				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
+					<magnitude>8.100000000000001</magnitude>
 					<sectionIndexes indexes="35 36 39 40 41 42 43 44 45 96 97"/>
 					<rake>15.040935114805507</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="421" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['45']_f_10=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="425" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['45']_f_10=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999915 8.5E-7">
+				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="35 36 39 40 41 42 43 44 45 97"/>
 					<rake>16.545028626286058</rake>
 				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999991 9E-8">
-					<magnitude>8.1</magnitude>
+					<magnitude>8.100000000000001</magnitude>
 					<sectionIndexes indexes="35 36 39 40 41 42 43 44 45 97"/>
 					<rake>16.545028626286058</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="422" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['96']_f_10=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="426" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['96']_f_10=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="34 35 36 40 41 42 43 44 96 97"/>
 					<rake>11.030019084190704</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999983 1.7E-7">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="34 35 36 40 41 42 43 44 96 97"/>
+					<rake>11.030019084190704</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="423" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['41']_f_4=['42']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['96']_f_9=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="427" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['41']_f_4=['42']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['96']_f_9=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
-					<magnitude>7.9</magnitude>
+					<magnitude>8.100000000000001</magnitude>
 					<sectionIndexes indexes="35 36 41 42 43 44 45 96 97"/>
 					<rake>18.383365140317842</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="424" name="DOM_v1_scenario_f_1=['36']_f_2=['38']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['45']_f_10=['96']_f_11=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="428" name="DOM_v1_scenario_f_1=['36']_f_2=['38']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['45']_f_10=['96']_f_11=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
+				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="36 38 39 40 41 42 43 44 45 96 97"/>
 					<rake>15.040935114805507</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999991 9E-8">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="36 38 39 40 41 42 43 44 45 96 97"/>
+					<rake>15.040935114805507</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="425" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="429" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999937 6.3E-7">
+				<multiPlanesRupture probs_occur="0.99999968 3.2E-7">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="42 43 97"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999911 8.9E-7">
+				<multiPlanesRupture probs_occur="0.99999955 4.5E-7">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="42 43 97"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999937 6.3E-7">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999952 4.8E-7">
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="42 43 97"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="426" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['96']_f_4=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="430" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['96']_f_4=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999947 5.3E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="42 43 96 97"/>
+					<rake>13.78752385523838</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999975 2.5E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="42 43 96 97"/>
 					<rake>13.78752385523838</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="427" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['42']_f_4=['43']_f_5=['96']_f_6=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="431" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['42']_f_4=['43']_f_5=['96']_f_6=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999939 6.1E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999928 7.2E-7">
+					<magnitude>7.800000000000001</magnitude>
+					<sectionIndexes indexes="35 36 42 43 96 97"/>
+					<rake>9.19168257015892</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999970 3.0E-7">
+					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="35 36 42 43 96 97"/>
 					<rake>9.19168257015892</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="428" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['42']_f_5=['43']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="432" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['42']_f_5=['43']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999983 1.7E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="34 35 36 42 43 96 97"/>
-					<rake>7.878585060136217</rake>
-				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
 					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="34 35 36 42 43 96 97"/>
 					<rake>7.878585060136217</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999992 8E-8">
+					<magnitude>8.0</magnitude>
+					<sectionIndexes indexes="34 35 36 42 43 96 97"/>
+					<rake>7.878585060136217</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="429" name="DOM_v1_scenario_f_1=['36']_f_2=['42']_f_3=['43']_f_4=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="433" name="DOM_v1_scenario_f_1=['36']_f_2=['42']_f_3=['43']_f_4=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999984 1.6E-7">
-					<magnitude>7.699999999999999</magnitude>
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="36 42 43 97"/>
 					<rake>13.78752385523838</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="430" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['44']_f_4=['96']_f_5=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="434" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['44']_f_4=['96']_f_5=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999969 3.1E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999922 7.8E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="42 43 44 96 97"/>
 					<rake>22.060038168381407</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="431" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="435" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['42']_f_4=['43']_f_5=['44']_f_6=['45']_f_7=['96']_f_8=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999953 4.7E-7">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="42 43 44 45 97"/>
-					<rake>33.090057252572116</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="432" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['42']_f_4=['43']_f_5=['44']_f_6=['45']_f_7=['96']_f_8=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="35 36 42 43 44 45 96 97"/>
-					<rake>20.68128578285757</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999936 6.4E-7">
+				<multiPlanesRupture probs_occur="0.99999974 2.6E-7">
 					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="35 36 42 43 44 45 96 97"/>
 					<rake>20.68128578285757</rake>
 				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="433" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['42']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['96']_f_9=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999927 7.3E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="34 35 36 42 43 44 45 96 97"/>
-					<rake>18.383365140317842</rake>
+				<multiPlanesRupture probs_occur="0.99999991 9E-8">
+					<magnitude>8.0</magnitude>
+					<sectionIndexes indexes="35 36 42 43 44 45 96 97"/>
+					<rake>20.68128578285757</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999979 2.1E-7">
+	    </multiFaultSource>
+        <multiFaultSource id="436" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['42']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['96']_f_9=['97']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999990 1.0E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="34 35 36 42 43 44 45 96 97"/>
 					<rake>18.383365140317842</rake>
 				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="434" name="DOM_v1_scenario_f_1=['43']_f_2=['94']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999391 0.00000609">
-					<magnitude>7.0</magnitude>
-					<sectionIndexes indexes="43 94"/>
-					<rake>27.57504771047676</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999407 0.00000593">
-					<magnitude>7.1</magnitude>
-					<sectionIndexes indexes="43 94"/>
-					<rake>27.57504771047676</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999466 0.00000534">
-					<magnitude>7.199999999999999</magnitude>
-					<sectionIndexes indexes="43 94"/>
-					<rake>27.57504771047676</rake>
+				<multiPlanesRupture probs_occur="0.99999985 1.5E-7">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="34 35 36 42 43 44 45 96 97"/>
+					<rake>18.383365140317842</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="435" name="DOM_v1_scenario_f_1=['43']_f_2=['94']_f_3=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="437" name="DOM_v1_scenario_f_1=['43']_f_2=['94']_f_3=['95']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999251 0.00000749">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="43 94 95"/>
-					<rake>18.38336514031784</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999582 0.00000418">
+				<multiPlanesRupture probs_occur="0.99999442 0.00000558">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="43 94 95"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999566 0.00000434">
+				<multiPlanesRupture probs_occur="0.99999348 0.00000652">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="43 94 95"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="436" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['94']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999053 0.00000947">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="43 44 94"/>
-					<rake>36.76673028063568</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999777 0.00000223">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="43 44 94"/>
-					<rake>36.76673028063568</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="437" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['94']_f_4=['95']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999766 0.00000234">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="43 44 94 95"/>
-					<rake>27.57504771047676</rake>
+				<multiPlanesRupture probs_occur="0.99999357 0.00000643">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="43 94 95"/>
+					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
         <multiFaultSource id="438" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['94']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999690 0.00000310">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="43 44 45 94"/>
-					<rake>41.36257156571514</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999732 0.00000268">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99999726 0.00000274">
+					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="43 44 45 94"/>
 					<rake>41.36257156571514</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="439" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['94']_f_5=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="439" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['94']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999725 0.00000275">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="43 44 45 94 95"/>
-					<rake>33.090057252572116</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999307 0.00000693">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="43 44 45 94 95"/>
-					<rake>33.090057252572116</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="440" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['94']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999960 4.0E-7">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="41 43 94"/>
-					<rake>18.38336514031784</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999859 0.00000141">
-					<magnitude>7.4</magnitude>
+				<multiPlanesRupture probs_occur="0.99999801 0.00000199">
+					<magnitude>7.300000000000001</magnitude>
 					<sectionIndexes indexes="41 43 94"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
@@ -397,144 +389,138 @@
 					<sectionIndexes indexes="41 43 94"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="41 43 94"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="441" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['94']_f_4=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="440" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['94']_f_4=['95']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999922 7.8E-7">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99999944 5.6E-7">
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="41 43 94 95"/>
 					<rake>13.78752385523838</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999907 9.3E-7">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="41 43 94 95"/>
-					<rake>13.78752385523838</rake>
-				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="442" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['94']_f_5=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="441" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['94']_f_5=['95']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999977 2.3E-7">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="41 43 44 94 95"/>
-					<rake>22.060038168381407</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999951 4.9E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999886 0.00000114">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="41 43 44 94 95"/>
 					<rake>22.060038168381407</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="443" name="DOM_v1_scenario_f_1=['39']_f_2=['40']_f_3=['41']_f_4=['42']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['94']_f_9=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="442" name="DOM_v1_scenario_f_1=['39']_f_2=['40']_f_3=['41']_f_4=['42']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['94']_f_9=['95']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999962 3.8E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="39 40 41 42 43 44 45 94 95"/>
-					<rake>18.383365140317842</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999973 2.7E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="39 40 41 42 43 44 45 94 95"/>
-					<rake>18.383365140317842</rake>
-				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999962 3.8E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="39 40 41 42 43 44 45 94 95"/>
 					<rake>18.383365140317842</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="444" name="DOM_v1_scenario_f_1=['41']_f_2=['42']_f_3=['43']_f_4=['94']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="443" name="DOM_v1_scenario_f_1=['41']_f_2=['42']_f_3=['43']_f_4=['94']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999976 2.4E-7">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99999967 3.3E-7">
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="41 42 43 94"/>
 					<rake>13.78752385523838</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999950 5.0E-7">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999965 3.5E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="41 42 43 94"/>
 					<rake>13.78752385523838</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="445" name="DOM_v1_scenario_f_1=['41']_f_2=['42']_f_3=['43']_f_4=['44']_f_5=['45']_f_6=['94']_f_7=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="444" name="DOM_v1_scenario_f_1=['41']_f_2=['42']_f_3=['43']_f_4=['44']_f_5=['45']_f_6=['94']_f_7=['95']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999939 6.1E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999885 0.00000115">
+					<magnitude>7.800000000000001</magnitude>
+					<sectionIndexes indexes="41 42 43 44 45 94 95"/>
+					<rake>23.635755180408655</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999990 1.0E-7">
+					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="41 42 43 44 45 94 95"/>
 					<rake>23.635755180408655</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="446" name="DOM_v1_scenario_f_1=['38']_f_2=['39']_f_3=['40']_f_4=['41']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['94']_f_9=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="445" name="DOM_v1_scenario_f_1=['38']_f_2=['39']_f_3=['40']_f_4=['41']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['94']_f_9=['95']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999884 0.00000116">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="38 39 40 41 43 44 45 94 95"/>
-					<rake>18.383365140317842</rake>
-				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
 					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="38 39 40 41 43 44 45 94 95"/>
 					<rake>18.383365140317842</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999981 1.9E-7">
+				<multiPlanesRupture probs_occur="0.99999961 3.9E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="38 39 40 41 43 44 45 94 95"/>
 					<rake>18.383365140317842</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="447" name="DOM_v1_scenario_f_1=['37']_f_2=['38']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['43']_f_7=['44']_f_8=['45']_f_9=['94']_f_10=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="446" name="DOM_v1_scenario_f_1=['37']_f_2=['38']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['43']_f_7=['44']_f_8=['45']_f_9=['94']_f_10=['95']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999989 1.1E-7">
+				<multiPlanesRupture probs_occur="0.99999967 3.3E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="37 38 39 40 41 43 44 45 94 95"/>
 					<rake>16.545028626286058</rake>
 				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="448" name="DOM_v1_scenario_f_1=['37']_f_2=['38']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['42']_f_7=['43']_f_8=['44']_f_9=['45']_f_10=['94']_f_11=['95']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999976 2.4E-7">
-					<magnitude>8.0</magnitude>
-					<sectionIndexes indexes="37 38 39 40 41 42 43 44 45 94 95"/>
-					<rake>15.040935114805507</rake>
+				<multiPlanesRupture probs_occur="0.99999984 1.6E-7">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="37 38 39 40 41 43 44 45 94 95"/>
+					<rake>16.545028626286058</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="449" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['94']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="447" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['94']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999709 0.00000291">
-					<magnitude>7.199999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999807 0.00000193">
+					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="42 43 94"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999828 0.00000172">
-					<magnitude>7.3</magnitude>
+				<multiPlanesRupture probs_occur="0.99999932 6.8E-7">
+					<magnitude>7.1000000000000005</magnitude>
 					<sectionIndexes indexes="42 43 94"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999927 7.3E-7">
+				<multiPlanesRupture probs_occur="0.99999855 0.00000145">
+					<magnitude>7.200000000000001</magnitude>
+					<sectionIndexes indexes="42 43 94"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999966 3.4E-7">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="42 43 94"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999951 4.9E-7">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="42 43 94"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="450" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['94']_f_4=['95']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999977 2.3E-7">
+				<multiPlanesRupture probs_occur="0.99999966 3.4E-7">
 					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="42 43 94"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="448" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['94']_f_4=['95']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999934 6.6E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="42 43 94 95"/>
+					<rake>13.78752385523838</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="42 43 94 95"/>
 					<rake>13.78752385523838</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="451" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['94']_f_6=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="449" name="DOM_v1_scenario_f_1=['36']_f_2=['42']_f_3=['43']_f_4=['94']_f_5=['95']_f_6=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999952 4.8E-7">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="42 43 44 45 94 95"/>
-					<rake>27.575047710476763</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="452" name="DOM_v1_scenario_f_1=['36']_f_2=['42']_f_3=['43']_f_4=['94']_f_5=['95']_f_6=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999935 6.5E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999954 4.6E-7">
+					<magnitude>7.800000000000001</magnitude>
 					<sectionIndexes indexes="36 42 43 94 95 97"/>
 					<rake>9.19168257015892</rake>
 				</multiPlanesRupture>
@@ -544,1368 +530,1255 @@
 					<rake>9.19168257015892</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="453" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['44']_f_4=['94']_f_5=['95']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="450" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['44']_f_4=['94']_f_5=['95']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999935 6.5E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999924 7.6E-7">
+					<magnitude>7.800000000000001</magnitude>
 					<sectionIndexes indexes="42 43 44 94 95 96 97"/>
 					<rake>15.757170120272434</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999970 3.0E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="42 43 44 94 95 96 97"/>
-					<rake>15.757170120272434</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999978 2.2E-7">
+				<multiPlanesRupture probs_occur="0.99999957 4.3E-7">
 					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="42 43 44 94 95 96 97"/>
 					<rake>15.757170120272434</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="454" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['42']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['94']_f_9=['95']_f_10=['96']_f_11=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="451" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['42']_f_5=['43']_f_6=['44']_f_7=['45']_f_8=['94']_f_9=['95']_f_10=['96']_f_11=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999963 3.7E-7">
+				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="34 35 36 42 43 44 45 94 95 96 97"/>
+					<rake>15.040935114805507</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="452" name="DOM_v1_scenario_f_1=['36']_f_2=['43']_f_3=['97']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999647 0.00000353">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="36 43 97"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999500 0.00000500">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="36 43 97"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="453" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['97']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999900 0.00000100">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="41 43 97"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999965 3.5E-7">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="41 43 97"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999975 2.5E-7">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="41 43 97"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999947 5.3E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="41 43 97"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999962 3.8E-7">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="41 43 97"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="454" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['43']_f_5=['94']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99998591 0.00001409">
+					<magnitude>7.800000000000001</magnitude>
+					<sectionIndexes indexes="34 35 36 43 94 96 97"/>
+					<rake>7.878585060136217</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999187 0.00000813">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="34 35 36 43 94 96 97"/>
+					<rake>7.878585060136217</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999032 0.00000968">
 					<magnitude>8.0</magnitude>
-					<sectionIndexes indexes="34 35 36 42 43 44 45 94 95 96 97"/>
-					<rake>15.040935114805507</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
-					<magnitude>8.1</magnitude>
-					<sectionIndexes indexes="34 35 36 42 43 44 45 94 95 96 97"/>
-					<rake>15.040935114805507</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="455" name="DOM_v1_scenario_f_1=['43']_f_2=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999157 0.00000843">
-					<magnitude>7.199999999999999</magnitude>
-					<sectionIndexes indexes="43 97"/>
-					<rake>27.57504771047676</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99998694 0.00001306">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="43 97"/>
-					<rake>27.57504771047676</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999498 0.00000502">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="43 97"/>
-					<rake>27.57504771047676</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="456" name="DOM_v1_scenario_f_1=['36']_f_2=['43']_f_3=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999529 0.00000471">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="36 43 97"/>
-					<rake>18.38336514031784</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999725 0.00000275">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="36 43 97"/>
-					<rake>18.38336514031784</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999792 0.00000208">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="36 43 97"/>
-					<rake>18.38336514031784</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="457" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999577 0.00000423">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="43 44 97"/>
-					<rake>36.76673028063568</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999726 0.00000274">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="43 44 97"/>
-					<rake>36.76673028063568</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="458" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999894 0.00000106">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="41 43 97"/>
-					<rake>18.38336514031784</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999925 7.5E-7">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="41 43 97"/>
-					<rake>18.38336514031784</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="41 43 97"/>
-					<rake>18.38336514031784</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="459" name="DOM_v1_scenario_f_1=['34']_f_2=['35']_f_3=['36']_f_4=['43']_f_5=['94']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99998939 0.00001061">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="34 35 36 43 94 96 97"/>
-					<rake>7.878585060136217</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999557 0.00000443">
-					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="34 35 36 43 94 96 97"/>
 					<rake>7.878585060136217</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="460" name="DOM_v1_scenario_f_1=['43']_f_2=['94']_f_3=['95']_f_4=['96']_f_5=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="455" name="DOM_v1_scenario_f_1=['43']_f_2=['94']_f_3=['95']_f_4=['96']_f_5=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999720 0.00000280">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="43 94 95 96 97"/>
-					<rake>11.030019084190704</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999553 0.00000447">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999818 0.00000182">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="43 94 95 96 97"/>
 					<rake>11.030019084190704</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="461" name="DOM_v1_scenario_f_1=['44']_f_2=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="456" name="DOM_v1_scenario_f_1=['44']_f_2=['96']_f_3=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999470 0.00000530">
-					<magnitude>7.199999999999999</magnitude>
-					<sectionIndexes indexes="44 97"/>
-					<rake>27.57504771047676</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="462" name="DOM_v1_scenario_f_1=['44']_f_2=['96']_f_3=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99998949 0.00001051">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="44 96 97"/>
-					<rake>18.38336514031784</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999752 0.00000248">
+				<multiPlanesRupture probs_occur="0.99999477 0.00000523">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="44 96 97"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999766 0.00000234">
+				<multiPlanesRupture probs_occur="0.99999473 0.00000527">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="44 96 97"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999600 0.00000400">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="44 96 97"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="463" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['44']_f_4=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="457" name="DOM_v1_scenario_f_1=['35']_f_2=['36']_f_3=['44']_f_4=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999676 0.00000324">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999738 0.00000262">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="35 36 44 97"/>
 					<rake>13.78752385523838</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999624 0.00000376">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="35 36 44 97"/>
-					<rake>13.78752385523838</rake>
-				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="464" name="DOM_v1_scenario_f_1=['42']_f_2=['44']_f_3=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="458" name="DOM_v1_scenario_f_1=['42']_f_2=['44']_f_3=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999971 2.9E-7">
+				<multiPlanesRupture probs_occur="0.99999883 0.00000117">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="42 44 97"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999917 8.3E-7">
+				<multiPlanesRupture probs_occur="0.99999896 0.00000104">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="42 44 97"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999956 4.4E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="42 44 97"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="465" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['94']_f_5=['95']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="459" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['94']_f_5=['95']_f_6=['96']_f_7=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999517 0.00000483">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99998553 0.00001447">
+					<magnitude>7.800000000000001</magnitude>
 					<sectionIndexes indexes="43 44 45 94 95 96 97"/>
 					<rake>23.635755180408655</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999035 0.00000965">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="43 44 45 94 95 96 97"/>
-					<rake>23.635755180408655</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999570 0.00000430">
+				<multiPlanesRupture probs_occur="0.99999648 0.00000352">
 					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="43 44 45 94 95 96 97"/>
 					<rake>23.635755180408655</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="466" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="460" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['94']_f_6=['95']_f_7=['96']_f_8=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999308 0.00000692">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="44 45 97"/>
-					<rake>36.76673028063568</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999418 0.00000582">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="44 45 97"/>
-					<rake>36.76673028063568</rake>
+				<multiPlanesRupture probs_occur="0.99999975 2.5E-7">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="41 43 44 45 94 95 96 97"/>
+					<rake>20.68128578285757</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="467" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['96']_f_4=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="461" name="DOM_v1_scenario_f_1=['45']_f_2=['81']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999759 0.00000241">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="44 45 96 97"/>
-					<rake>27.57504771047676</rake>
+				<multiPlanesRupture probs_occur="0.99976903 0.00023097">
+					<magnitude>6.5</magnitude>
+					<sectionIndexes indexes="45 81"/>
+					<rake>55.15009542095352</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99948192 0.00051808">
+					<magnitude>6.6000000000000005</magnitude>
+					<sectionIndexes indexes="45 81"/>
+					<rake>55.15009542095352</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99979162 0.00020838">
+					<magnitude>6.700000000000001</magnitude>
+					<sectionIndexes indexes="45 81"/>
+					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="468" name="DOM_v1_scenario_f_1=['45']_f_2=['81']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="462" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99996587 0.00003413">
+				<multiPlanesRupture probs_occur="0.99977659 0.00022341">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="45 81 82"/>
+					<rake>55.15009542095353</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99983304 0.00016696">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="45 81 82"/>
+					<rake>55.15009542095353</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="463" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99976295 0.00023705">
+					<magnitude>6.9</magnitude>
+					<sectionIndexes indexes="45 81 82 83"/>
+					<rake>55.15009542095352</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99987173 0.00012827">
 					<magnitude>7.0</magnitude>
-					<sectionIndexes indexes="45 81"/>
-					<rake>55.15009542095352</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99992304 0.00007696">
-					<magnitude>7.1</magnitude>
-					<sectionIndexes indexes="45 81"/>
-					<rake>55.15009542095352</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99996357 0.00003643">
-					<magnitude>7.199999999999999</magnitude>
-					<sectionIndexes indexes="45 81"/>
-					<rake>55.15009542095352</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="469" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99994387 0.00005613">
-					<magnitude>7.199999999999999</magnitude>
-					<sectionIndexes indexes="45 81 82"/>
-					<rake>55.15009542095353</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99993561 0.00006439">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="45 81 82"/>
-					<rake>55.15009542095353</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99998515 0.00001485">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="45 81 82"/>
-					<rake>55.15009542095353</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="470" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99997395 0.00002605">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="45 81 82 83"/>
-					<rake>55.15009542095352</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99996991 0.00003009">
-					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="45 81 82 83"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="471" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="464" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99996423 0.00003577">
-					<magnitude>7.4</magnitude>
+				<multiPlanesRupture probs_occur="0.99977473 0.00022527">
+					<magnitude>6.9</magnitude>
 					<sectionIndexes indexes="43 44 45 81"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99996201 0.00003799">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99989462 0.00010538">
+					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="43 44 45 81"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="472" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="465" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99994113 0.00005887">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99967634 0.00032366">
+					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="43 44 45 81 82"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99998066 0.00001934">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99990936 0.00009064">
+					<magnitude>7.1000000000000005</magnitude>
 					<sectionIndexes indexes="43 44 45 81 82"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="473" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="466" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99997991 0.00002009">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99980458 0.00019542">
+					<magnitude>7.1000000000000005</magnitude>
+					<sectionIndexes indexes="43 44 45 81 82 83"/>
+					<rake>55.15009542095351</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99988110 0.00011890">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="43 44 45 81 82 83"/>
 					<rake>55.15009542095351</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="474" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['81']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="467" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['81']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99994484 0.00005516">
-					<magnitude>7.199999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99965389 0.00034611">
+					<magnitude>6.700000000000001</magnitude>
+					<sectionIndexes indexes="44 45 81"/>
+					<rake>55.15009542095353</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99956878 0.00043122">
+					<magnitude>6.800000000000001</magnitude>
+					<sectionIndexes indexes="44 45 81"/>
+					<rake>55.15009542095353</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99980569 0.00019431">
+					<magnitude>6.9</magnitude>
 					<sectionIndexes indexes="44 45 81"/>
 					<rake>55.15009542095353</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="475" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['81']_f_4=['82']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="468" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['81']_f_4=['82']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99994493 0.00005507">
-					<magnitude>7.4</magnitude>
+				<multiPlanesRupture probs_occur="0.99973936 0.00026064">
+					<magnitude>6.9</magnitude>
 					<sectionIndexes indexes="44 45 81 82"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99995065 0.00004935">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99981963 0.00018037">
+					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="44 45 81 82"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="476" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['81']_f_4=['82']_f_5=['83']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="469" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['81']_f_4=['82']_f_5=['83']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99997011 0.00002989">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99982334 0.00017666">
+					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="44 45 81 82 83"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99997884 0.00002116">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99997328 0.00002672">
+					<magnitude>7.1000000000000005</magnitude>
 					<sectionIndexes indexes="44 45 81 82 83"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="477" name="DOM_v1_scenario_f_1=['41']_f_2=['42']_f_3=['43']_f_4=['44']_f_5=['45']_f_6=['81']_f_7=['82']_f_8=['83']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="470" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['94']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999951 4.9E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="41 42 43 44 45 81 82 83"/>
-					<rake>41.36257156571514</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="478" name="DOM_v1_scenario_f_1=['38']_f_2=['39']_f_3=['40']_f_4=['41']_f_5=['42']_f_6=['43']_f_7=['44']_f_8=['45']_f_9=['81']_f_10=['82']_f_11=['83']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999983 1.7E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="38 39 40 41 42 43 44 45 81 82 83"/>
-					<rake>30.08187022961101</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="479" name="DOM_v1_scenario_f_1=['37']_f_2=['38']_f_3=['39']_f_4=['40']_f_5=['41']_f_6=['43']_f_7=['44']_f_8=['45']_f_9=['81']_f_10=['82']_f_11=['83']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999947 5.3E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="37 38 39 40 41 43 44 45 81 82 83"/>
-					<rake>30.08187022961101</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="480" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['94']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999349 0.00000651">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99998430 0.00001570">
+					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="43 44 45 81 94"/>
 					<rake>44.120076336762814</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999605 0.00000395">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99996666 0.00003334">
+					<magnitude>7.1000000000000005</magnitude>
 					<sectionIndexes indexes="43 44 45 81 94"/>
 					<rake>44.120076336762814</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="481" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['94']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="471" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['94']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999567 0.00000433">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99997718 0.00002282">
+					<magnitude>7.1000000000000005</magnitude>
+					<sectionIndexes indexes="43 44 45 81 82 94"/>
+					<rake>45.958412850794595</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998061 0.00001939">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="43 44 45 81 82 94"/>
 					<rake>45.958412850794595</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="482" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['94']_f_7=['95']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999402 0.00000598">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="43 44 45 81 82 94 95"/>
-					<rake>39.392925300681085</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999621 0.00000379">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="43 44 45 81 82 94 95"/>
-					<rake>39.392925300681085</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="483" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['94']_f_8=['95']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999597 0.00000403">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="43 44 45 81 82 83 94 95"/>
-					<rake>41.36257156571514</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="484" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['94']_f_9=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="472" name="DOM_v1_scenario_f_1=['14']_f_2=['15']_f_3=['33']_f_4=['46']_f_5=['47']_f_6=['48']_f_7=['49']_f_8=['200']_f_9=['201']_f_10=['202']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999943 5.7E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="41 43 44 45 81 82 83 94 95"/>
-					<rake>36.766730280635684</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="485" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['94']_f_9=['95']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999838 0.00000162">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="42 43 44 45 81 82 83 94 95"/>
-					<rake>36.766730280635684</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="486" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['81']_f_4=['82']_f_5=['83']_f_6=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999356 0.00000644">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="44 45 81 82 83 97"/>
-					<rake>45.958412850794595</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999689 0.00000311">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="44 45 81 82 83 97"/>
-					<rake>45.958412850794595</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="487" name="DOM_v1_scenario_f_1=['14']_f_2=['15']_f_3=['33']_f_4=['46']_f_5=['47']_f_6=['48']_f_7=['49']_f_8=['200']_f_9=['201']_f_10=['202']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999933 6.7E-7">
-					<magnitude>7.9</magnitude>
+					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="14 15 33 46 47 48 49 200 201 202"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="488" name="DOM_v1_scenario_f_1=['14']_f_2=['15']_f_3=['31']_f_4=['32']_f_5=['33']_f_6=['46']_f_7=['47']_f_8=['48']_f_9=['49']_f_10=['200']_f_11=['201']_f_12=['202']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="473" name="DOM_v1_scenario_f_1=['14']_f_2=['15']_f_3=['31']_f_4=['32']_f_5=['33']_f_6=['46']_f_7=['47']_f_8=['48']_f_9=['49']_f_10=['200']_f_11=['201']_f_12=['202']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999950 5.0E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="14 15 31 32 33 46 47 48 49 200 201 202"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999953 4.7E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="14 15 31 32 33 46 47 48 49 200 201 202"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999967 3.3E-7">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="14 15 31 32 33 46 47 48 49 200 201 202"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="489" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['88']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="474" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['88']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99997429 0.00002571">
-					<magnitude>7.4</magnitude>
+				<multiPlanesRupture probs_occur="0.99978730 0.00021270">
+					<magnitude>6.9</magnitude>
 					<sectionIndexes indexes="81 82 83 88"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99997244 0.00002756">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99989034 0.00010966">
+					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="81 82 83 88"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="490" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['88']_f_5=['89']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="475" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['88']_f_5=['89']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99997876 0.00002124">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99994488 0.00005512">
+					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="81 82 83 88 89"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99998427 0.00001573">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99992846 0.00007154">
+					<magnitude>7.1000000000000005</magnitude>
 					<sectionIndexes indexes="81 82 83 88 89"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="491" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['88']_f_5=['89']_f_6=['90']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="476" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['88']_f_5=['89']_f_6=['90']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99997029 0.00002971">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99995823 0.00004177">
+					<magnitude>7.1000000000000005</magnitude>
+					<sectionIndexes indexes="81 82 83 88 89 90"/>
+					<rake>55.15009542095351</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99995729 0.00004271">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="81 82 83 88 89 90"/>
 					<rake>55.15009542095351</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="492" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['88']_f_5=['89']_f_6=['90']_f_7=['91']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="477" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['88']_f_5=['89']_f_6=['90']_f_7=['91']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99998055 0.00001945">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="81 82 83 88 89 90 91"/>
-					<rake>55.15009542095351</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999157 0.00000843">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99991678 0.00008322">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="81 82 83 88 89 90 91"/>
 					<rake>55.15009542095351</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="493" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['88']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="478" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['88']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99997674 0.00002326">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99973849 0.00026151">
+					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="45 81 82 83 88"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99998613 0.00001387">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99991716 0.00008284">
+					<magnitude>7.1000000000000005</magnitude>
 					<sectionIndexes indexes="45 81 82 83 88"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="494" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['88']_f_6=['89']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="479" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['88']_f_6=['89']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99996702 0.00003298">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99976264 0.00023736">
+					<magnitude>7.1000000000000005</magnitude>
+					<sectionIndexes indexes="45 81 82 83 88 89"/>
+					<rake>55.15009542095351</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99997584 0.00002416">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="45 81 82 83 88 89"/>
 					<rake>55.15009542095351</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="495" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['88']_f_6=['89']_f_7=['90']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="480" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['88']_f_6=['89']_f_7=['90']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99998954 0.00001046">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="45 81 82 83 88 89 90"/>
-					<rake>55.15009542095351</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999695 0.00000305">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99994489 0.00005511">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="45 81 82 83 88 89 90"/>
 					<rake>55.15009542095351</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="496" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['88']_f_6=['89']_f_7=['90']_f_8=['91']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="481" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['88']_f_6=['89']_f_7=['90']_f_8=['91']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999177 0.00000823">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999100 0.00000900">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="45 81 82 83 88 89 90 91"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="497" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['88']_f_8=['89']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="482" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['88']_f_8=['89']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99998509 0.00001491">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="43 44 45 81 82 83 88 89"/>
-					<rake>55.15009542095352</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99998661 0.00001339">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99991026 0.00008974">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="43 44 45 81 82 83 88 89"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="498" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['81']_f_4=['82']_f_5=['83']_f_6=['88']_f_7=['89']_f_8=['90']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="483" name="DOM_v1_scenario_f_1=['44']_f_2=['45']_f_3=['81']_f_4=['82']_f_5=['83']_f_6=['88']_f_7=['89']_f_8=['90']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99996264 0.00003736">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99987676 0.00012324">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="44 45 81 82 83 88 89 90"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="499" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['88']_f_9=['89']_f_10=['90']_f_11=['91']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="484" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['88']_f_9=['89']_f_10=['90']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999977 2.3E-7">
-					<magnitude>7.8</magnitude>
+				<multiPlanesRupture probs_occur="0.99999745 0.00000255">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="41 43 44 45 81 82 83 88 89 90"/>
+					<rake>49.63508587885816</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999729 0.00000271">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="41 43 44 45 81 82 83 88 89 90"/>
+					<rake>49.63508587885816</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="485" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['88']_f_9=['89']_f_10=['90']_f_11=['91']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999813 0.00000187">
+					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="41 43 44 45 81 82 83 88 89 90 91"/>
 					<rake>50.13645038268501</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="500" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['88']_f_8=['89']_f_9=['90']_f_10=['91']_f_11=['94']_f_12=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="486" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['84']_f_5=['88']_f_6=['89']_f_7=['90']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99998095 0.00001905">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="43 44 45 81 82 83 88 89 90 91 94 95"/>
-					<rake>45.958412850794595</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999478 0.00000522">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="43 44 45 81 82 83 88 89 90 91 94 95"/>
-					<rake>45.958412850794595</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="501" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['88']_f_9=['89']_f_10=['94']_f_11=['95']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999901 9.9E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="41 43 44 45 81 82 83 88 89 94 95"/>
-					<rake>40.10916030614801</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="502" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['88']_f_9=['89']_f_10=['94']_f_11=['95']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999976 2.4E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="42 43 44 45 81 82 83 88 89 94 95"/>
-					<rake>40.10916030614801</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999983 1.7E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="42 43 44 45 81 82 83 88 89 94 95"/>
-					<rake>40.10916030614801</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="503" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['84']_f_5=['88']_f_6=['89']_f_7=['90']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999774 0.00000226">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="81 82 83 84 88 89 90"/>
-					<rake>55.15009542095351</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99998836 0.00001164">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99993582 0.00006418">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="81 82 83 84 88 89 90"/>
 					<rake>55.15009542095351</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="504" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['84']_f_5=['88']_f_6=['89']_f_7=['90']_f_8=['91']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="487" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['84']_f_5=['88']_f_6=['89']_f_7=['90']_f_8=['91']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99997418 0.00002582">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99990859 0.00009141">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="81 82 83 84 88 89 90 91"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="505" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['84']_f_6=['88']_f_7=['89']_f_8=['90']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="488" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['84']_f_6=['88']_f_7=['89']_f_8=['90']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99996683 0.00003317">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99992227 0.00007773">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="45 81 82 83 84 88 89 90"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="506" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['84']_f_6=['88']_f_7=['89']_f_8=['90']_f_9=['91']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="489" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['84']_f_5=['85']_f_6=['88']_f_7=['89']_f_8=['90']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999135 0.00000865">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="45 81 82 83 84 88 89 90 91"/>
-					<rake>55.15009542095352</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="507" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['84']_f_5=['85']_f_6=['88']_f_7=['89']_f_8=['90']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99998030 0.00001970">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99996211 0.00003789">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="81 82 83 84 85 88 89 90"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="508" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['84']_f_8=['85']_f_9=['88']_f_10=['89']_f_11=['90']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="490" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['84']_f_8=['85']_f_9=['88']_f_10=['89']_f_11=['90']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99994230 0.00005770">
-					<magnitude>7.8</magnitude>
+				<multiPlanesRupture probs_occur="0.99971774 0.00028226">
+					<magnitude>7.300000000000001</magnitude>
 					<sectionIndexes indexes="43 44 45 81 82 83 84 85 88 89 90"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99998408 0.00001592">
-					<magnitude>7.9</magnitude>
+				<multiPlanesRupture probs_occur="0.99984788 0.00015212">
+					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="43 44 45 81 82 83 84 85 88 89 90"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="509" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['84']_f_8=['85']_f_9=['88']_f_10=['89']_f_11=['90']_f_12=['91']_f_13=['94']_f_14=['95']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="491" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['84']_f_5=['85']_f_6=['86']_f_7=['88']_f_8=['89']_f_9=['90']_f_10=['91']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999258 0.00000742">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="43 44 45 81 82 83 84 85 88 89 90 91 94 95"/>
-					<rake>47.27151036081731</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999144 0.00000856">
-					<magnitude>8.0</magnitude>
-					<sectionIndexes indexes="43 44 45 81 82 83 84 85 88 89 90 91 94 95"/>
-					<rake>47.27151036081731</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="510" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['84']_f_6=['85']_f_7=['86']_f_8=['88']_f_9=['89']_f_10=['90']_f_11=['91']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99995374 0.00004626">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="45 81 82 83 84 85 86 88 89 90 91"/>
+				<multiPlanesRupture probs_occur="0.99986873 0.00013127">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="81 82 83 84 85 86 88 89 90 91"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99998222 0.00001778">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="45 81 82 83 84 85 86 88 89 90 91"/>
+				<multiPlanesRupture probs_occur="0.99988383 0.00011617">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="81 82 83 84 85 86 88 89 90 91"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="511" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['84']_f_9=['85']_f_10=['86']_f_11=['88']_f_12=['89']_f_13=['90']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="492" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['84']_f_6=['85']_f_7=['86']_f_8=['88']_f_9=['89']_f_10=['90']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999958 4.2E-7">
-					<magnitude>7.9</magnitude>
+				<multiPlanesRupture probs_occur="0.99989886 0.00010114">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="45 81 82 83 84 85 86 88 89 90"/>
+					<rake>55.15009542095352</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99993824 0.00006176">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="45 81 82 83 84 85 86 88 89 90"/>
+					<rake>55.15009542095352</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="493" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['84']_f_6=['85']_f_7=['86']_f_8=['88']_f_9=['89']_f_10=['90']_f_11=['91']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99990560 0.00009440">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="45 81 82 83 84 85 86 88 89 90 91"/>
+					<rake>55.15009542095352</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="494" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['84']_f_9=['85']_f_10=['86']_f_11=['88']_f_12=['89']_f_13=['90']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999763 0.00000237">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="41 43 44 45 81 82 83 84 85 86 88 89 90"/>
+					<rake>50.90778038857248</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999832 0.00000168">
+					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="41 43 44 45 81 82 83 84 85 86 88 89 90"/>
 					<rake>50.90778038857248</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="512" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['84']_f_9=['85']_f_10=['86']_f_11=['88']_f_12=['89']_f_13=['90']_f_14=['91']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="495" name="DOM_v1_scenario_f_1=['41']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']_f_6=['82']_f_7=['83']_f_8=['84']_f_9=['85']_f_10=['86']_f_11=['88']_f_12=['89']_f_13=['90']_f_14=['91']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999954 4.6E-7">
-					<magnitude>8.0</magnitude>
+				<multiPlanesRupture probs_occur="0.99999484 0.00000516">
+					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="41 43 44 45 81 82 83 84 85 86 88 89 90 91"/>
 					<rake>51.21080289088542</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="513" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['84']_f_8=['85']_f_9=['86']_f_10=['87']_f_11=['88']_f_12=['89']_f_13=['90']_f_14=['91']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="496" name="DOM_v1_scenario_f_1=['81']_f_2=['82']_f_3=['83']_f_4=['84']_f_5=['85']_f_6=['86']_f_7=['87']_f_8=['88']_f_9=['89']_f_10=['90']_f_11=['91']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99998912 0.00001088">
-					<magnitude>7.9</magnitude>
+				<multiPlanesRupture probs_occur="0.99985213 0.00014787">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="81 82 83 84 85 86 87 88 89 90 91"/>
+					<rake>55.15009542095352</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="497" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['84']_f_8=['85']_f_9=['86']_f_10=['87']_f_11=['88']_f_12=['89']_f_13=['90']_f_14=['91']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99982586 0.00017414">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="43 44 45 81 82 83 84 85 86 87 88 89 90 91"/>
+					<rake>55.15009542095353</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99993918 0.00006082">
+					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="43 44 45 81 82 83 84 85 86 87 88 89 90 91"/>
 					<rake>55.15009542095353</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="514" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['84']_f_8=['88']_f_9=['89']_f_10=['90']_f_11=['91']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="498" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['45']_f_4=['81']_f_5=['82']_f_6=['83']_f_7=['84']_f_8=['88']_f_9=['89']_f_10=['90']_f_11=['91']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99991120 0.00008880">
-					<magnitude>7.8</magnitude>
+				<multiPlanesRupture probs_occur="0.99975104 0.00024896">
+					<magnitude>7.300000000000001</magnitude>
 					<sectionIndexes indexes="43 44 45 81 82 83 84 88 89 90 91"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99998566 0.00001434">
-					<magnitude>7.9</magnitude>
+				<multiPlanesRupture probs_occur="0.99993624 0.00006376">
+					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="43 44 45 81 82 83 84 88 89 90 91"/>
 					<rake>55.15009542095352</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="515" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['84']_f_6=['85']_f_7=['86']_f_8=['87']_f_9=['88']_f_10=['89']_f_11=['90']_f_12=['91']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="499" name="DOM_v1_scenario_f_1=['45']_f_2=['81']_f_3=['82']_f_4=['83']_f_5=['84']_f_6=['85']_f_7=['86']_f_8=['87']_f_9=['88']_f_10=['89']_f_11=['90']_f_12=['91']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99998122 0.00001878">
-					<magnitude>7.9</magnitude>
+				<multiPlanesRupture probs_occur="0.99988756 0.00011244">
+					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="45 81 82 83 84 85 86 87 88 89 90 91"/>
 					<rake>55.15009542095353</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="516" name="DOM_v1_scenario_f_1=['92']_f_2=['98']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="500" name="DOM_v1_scenario_f_1=['92']_f_2=['98']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999650 0.00000350">
-					<magnitude>7.1</magnitude>
+				<multiPlanesRupture probs_occur="0.99999950 5.0E-7">
+					<magnitude>7.1000000000000005</magnitude>
 					<sectionIndexes indexes="92 98"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999929 7.1E-7">
-					<magnitude>7.199999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999965 3.5E-7">
+					<magnitude>7.200000000000001</magnitude>
+					<sectionIndexes indexes="92 98"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999850 0.00000150">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="92 98"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999965 3.5E-7">
+					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="92 98"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="517" name="DOM_v1_scenario_f_1=['92']_f_2=['98']_f_3=['99']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="501" name="DOM_v1_scenario_f_1=['92']_f_2=['98']_f_3=['99']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999806 0.00000194">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="92 98 99"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999945 5.5E-7">
+				<multiPlanesRupture probs_occur="0.99999973 2.7E-7">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="92 98 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999961 3.9E-7">
+				<multiPlanesRupture probs_occur="0.99999942 5.8E-7">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="92 98 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999972 2.8E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="92 98 99"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="518" name="DOM_v1_scenario_f_1=['92']_f_2=['98']_f_3=['99']_f_4=['100']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="502" name="DOM_v1_scenario_f_1=['92']_f_2=['98']_f_3=['99']_f_4=['100']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999957 4.3E-7">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99999985 1.5E-7">
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="92 98 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="519" name="DOM_v1_scenario_f_1=['24']_f_2=['92']_f_3=['98']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="503" name="DOM_v1_scenario_f_1=['24']_f_2=['92']_f_3=['98']_f_4=['99']_f_5=['100']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999914 8.6E-7">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="24 92 98"/>
+				<multiPlanesRupture probs_occur="0.99999983 1.7E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="24 92 98 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999980 2.0E-7">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="24 92 98"/>
+				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="24 92 98 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="520" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['92']_f_4=['98']_f_5=['99']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="504" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['92']_f_4=['98']_f_5=['99']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999970 3.0E-7">
-					<magnitude>7.699999999999999</magnitude>
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="24 25 92 98 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="521" name="DOM_v1_scenario_f_1=['24']_f_2=['29']_f_3=['92']_f_4=['98']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="505" name="DOM_v1_scenario_f_1=['24']_f_2=['29']_f_3=['92']_f_4=['98']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999941 5.9E-7">
-					<magnitude>7.4</magnitude>
+				<multiPlanesRupture probs_occur="0.99999958 4.2E-7">
+					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="24 29 92 98"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="522" name="DOM_v1_scenario_f_1=['24']_f_2=['29']_f_3=['92']_f_4=['98']_f_5=['99']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="506" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999980 2.0E-7">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="24 29 92 98 99"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="523" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999965 3.5E-7">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="92 93 98"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
+				<multiPlanesRupture probs_occur="0.99999947 5.3E-7">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="92 93 98"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="524" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="507" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999926 7.4E-7">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="92 93 98 99"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999983 1.7E-7">
-					<magnitude>7.6</magnitude>
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="92 93 98 99"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999975 2.5E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="92 93 98 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="525" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['100']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="508" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['100']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999981 1.9E-7">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999960 4.0E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="92 93 98 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="526" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['92']_f_4=['93']_f_5=['98']_f_6=['99']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="509" name="DOM_v1_scenario_f_1=['24']_f_2=['92']_f_3=['93']_f_4=['98']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="24 25 92 93 98 99"/>
+				<multiPlanesRupture probs_occur="0.99999980 2.0E-7">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="24 92 93 98"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="527" name="DOM_v1_scenario_f_1=['19']_f_2=['24']_f_3=['25']_f_4=['26']_f_5=['92']_f_6=['93']_f_7=['98']_f_8=['99']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="510" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['92']_f_4=['93']_f_5=['98']_f_6=['99']_f_7=['100']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="19 24 25 26 92 93 98 99"/>
+				<multiPlanesRupture probs_occur="0.99999973 2.7E-7">
+					<magnitude>7.800000000000001</magnitude>
+					<sectionIndexes indexes="24 25 92 93 98 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999987 1.3E-7">
+				<multiPlanesRupture probs_occur="0.99999991 9E-8">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="24 25 92 93 98 99 100"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="511" name="DOM_v1_scenario_f_1=['19']_f_2=['24']_f_3=['25']_f_4=['26']_f_5=['92']_f_6=['93']_f_7=['98']_f_8=['99']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999975 2.5E-7">
 					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="19 24 25 26 92 93 98 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="528" name="DOM_v1_scenario_f_1=['92']_f_2=['99']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="512" name="DOM_v1_scenario_f_1=['92']_f_2=['99']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999853 0.00000147">
-					<magnitude>7.0</magnitude>
+				<multiPlanesRupture probs_occur="0.99999948 5.2E-7">
+					<magnitude>7.300000000000001</magnitude>
 					<sectionIndexes indexes="92 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999844 0.00000156">
-					<magnitude>7.1</magnitude>
-					<sectionIndexes indexes="92 99"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999926 7.4E-7">
-					<magnitude>7.199999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
+					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="92 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="529" name="DOM_v1_scenario_f_1=['92']_f_2=['99']_f_3=['100']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="513" name="DOM_v1_scenario_f_1=['92']_f_2=['99']_f_3=['100']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999818 0.00000182">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="92 99 100"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999936 6.4E-7">
+				<multiPlanesRupture probs_occur="0.99999914 8.6E-7">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="92 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="530" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999928 7.2E-7">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="92 93 99"/>
+				<multiPlanesRupture probs_occur="0.99999985 1.5E-7">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="92 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
+	    </multiFaultSource>
+        <multiFaultSource id="514" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="92 93 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="531" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']_f_4=['100']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="515" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']_f_4=['100']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999959 4.1E-7">
+				<multiPlanesRupture probs_occur="0.99999939 6.1E-7">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="92 93 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="532" name="DOM_v1_scenario_f_1=['93']_f_2=['99']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999856 0.00000144">
-					<magnitude>7.1</magnitude>
-					<sectionIndexes indexes="93 99"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999932 6.8E-7">
-					<magnitude>7.199999999999999</magnitude>
-					<sectionIndexes indexes="93 99"/>
+				<multiPlanesRupture probs_occur="0.99999928 7.2E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="92 93 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="533" name="DOM_v1_scenario_f_1=['93']_f_2=['98']_f_3=['99']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="516" name="DOM_v1_scenario_f_1=['24']_f_2=['92']_f_3=['98']_f_4=['99']_f_5=['199']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999926 7.4E-7">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="93 98 99"/>
+				<multiPlanesRupture probs_occur="0.99999971 2.9E-7">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="24 92 98 99 199"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999948 5.2E-7">
+	    </multiFaultSource>
+        <multiFaultSource id="517" name="DOM_v1_scenario_f_1=['93']_f_2=['99']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999966 3.4E-7">
+					<magnitude>7.200000000000001</magnitude>
+					<sectionIndexes indexes="93 99"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999976 2.4E-7">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="93 99"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999966 3.4E-7">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="93 99"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="518" name="DOM_v1_scenario_f_1=['93']_f_2=['98']_f_3=['99']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999922 7.8E-7">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="93 98 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999963 3.7E-7">
+				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="93 98 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999961 3.9E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="93 98 99"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="534" name="DOM_v1_scenario_f_1=['93']_f_2=['98']_f_3=['99']_f_4=['100']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="519" name="DOM_v1_scenario_f_1=['93']_f_2=['98']_f_3=['99']_f_4=['100']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999938 6.2E-7">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99999971 2.9E-7">
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="93 98 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="535" name="DOM_v1_scenario_f_1=['93']_f_2=['99']_f_3=['100']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="520" name="DOM_v1_scenario_f_1=['93']_f_2=['99']_f_3=['100']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999972 2.8E-7">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="93 99 100"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999980 2.0E-7">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="93 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="536" name="DOM_v1_scenario_f_1=['93']_f_2=['100']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="521" name="DOM_v1_scenario_f_1=['24']_f_2=['92']_f_3=['93']_f_4=['98']_f_5=['99']_f_6=['100']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999826 0.00000174">
-					<magnitude>6.9</magnitude>
-					<sectionIndexes indexes="93 100"/>
+				<multiPlanesRupture probs_occur="0.99999957 4.3E-7">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="24 92 93 98 99 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999877 0.00000123">
+	    </multiFaultSource>
+        <multiFaultSource id="522" name="DOM_v1_scenario_f_1=['93']_f_2=['100']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999959 4.1E-7">
 					<magnitude>7.0</magnitude>
 					<sectionIndexes indexes="93 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999942 5.8E-7">
-					<magnitude>7.1</magnitude>
-					<sectionIndexes indexes="93 100"/>
+	    </multiFaultSource>
+        <multiFaultSource id="523" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['100']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999973 2.7E-7">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="92 93 100"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="537" name="DOM_v1_scenario_f_1=['93']_f_2=['101']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="524" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['100']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999809 0.00000191">
-					<magnitude>7.0</magnitude>
-					<sectionIndexes indexes="93 101"/>
-					<rake>21.972759781154423</rake>
+				<multiPlanesRupture probs_occur="0.99999960 4.0E-7">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="92 93 98 100"/>
+					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999955 4.5E-7">
-					<magnitude>7.1</magnitude>
-					<sectionIndexes indexes="93 101"/>
-					<rake>21.972759781154423</rake>
+				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="92 93 98 100"/>
+					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999872 0.00000128">
-					<magnitude>7.199999999999999</magnitude>
+	    </multiFaultSource>
+        <multiFaultSource id="525" name="DOM_v1_scenario_f_1=['93']_f_2=['101']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999968 3.2E-7">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="93 101"/>
 					<rake>21.972759781154423</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="538" name="DOM_v1_scenario_f_1=['93']_f_2=['101']_f_3=['102']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="526" name="DOM_v1_scenario_f_1=['93']_f_2=['101']_f_3=['102']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="93 101 102"/>
-					<rake>29.29701304153923</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999948 5.2E-7">
+				<multiPlanesRupture probs_occur="0.99999974 2.6E-7">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="93 101 102"/>
 					<rake>29.29701304153923</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="539" name="DOM_v1_scenario_f_1=['93']_f_2=['101']_f_3=['102']_f_4=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="527" name="DOM_v1_scenario_f_1=['93']_f_2=['101']_f_3=['102']_f_4=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999929 7.1E-7">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="93 101 102 103"/>
-					<rake>32.959139671731634</rake>
-				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999916 8.4E-7">
-					<magnitude>7.6</magnitude>
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="93 101 102 103"/>
+					<rake>32.959139671731634</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="93 101 102 103"/>
 					<rake>32.959139671731634</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="540" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['101']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="528" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['101']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999826 0.00000174">
-					<magnitude>7.3</magnitude>
+				<multiPlanesRupture probs_occur="0.99999896 0.00000104">
+					<magnitude>7.300000000000001</magnitude>
 					<sectionIndexes indexes="92 93 101"/>
 					<rake>14.648506520769615</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999926 7.4E-7">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="92 93 101"/>
-					<rake>14.648506520769615</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999965 3.5E-7">
+				<multiPlanesRupture probs_occur="0.99999930 7.0E-7">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="92 93 101"/>
 					<rake>14.648506520769615</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="541" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['101']_f_4=['102']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="529" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['101']_f_4=['102']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999902 9.8E-7">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="92 93 101 102"/>
+					<rake>21.972759781154423</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999965 3.5E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="92 93 101 102"/>
+					<rake>21.972759781154423</rake>
+				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999976 2.4E-7">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="92 93 101 102"/>
-					<rake>21.972759781154423</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999965 3.5E-7">
-					<magnitude>7.6</magnitude>
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="92 93 101 102"/>
 					<rake>21.972759781154423</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="542" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['101']_f_4=['102']_f_5=['103']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999979 2.1E-7">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="92 93 101 102 103"/>
-					<rake>26.367311737385307</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999955 4.5E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="92 93 101 102 103"/>
-					<rake>26.367311737385307</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="543" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['101']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="530" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['101']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999976 2.4E-7">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="92 93 98 101"/>
 					<rake>10.986379890577211</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999966 3.4E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="92 93 98 101"/>
+					<rake>10.986379890577211</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="92 93 98 101"/>
+					<rake>10.986379890577211</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="544" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['101']_f_5=['102']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="531" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['101']_f_5=['102']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999985 1.5E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999969 3.1E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="92 93 98 101 102"/>
 					<rake>17.57820782492354</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="545" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['101']_f_5=['102']_f_6=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="532" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['101']_f_5=['102']_f_6=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999923 7.7E-7">
+					<magnitude>7.800000000000001</magnitude>
+					<sectionIndexes indexes="92 93 98 101 102 103"/>
+					<rake>21.972759781154423</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999991 9E-8">
+					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="92 93 98 101 102 103"/>
 					<rake>21.972759781154423</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="546" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['101']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="533" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['101']_f_6=['102']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999935 6.5E-7">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="92 93 98 99 101"/>
-					<rake>8.78910391246177</rake>
+				<multiPlanesRupture probs_occur="0.99999960 4.0E-7">
+					<magnitude>7.800000000000001</magnitude>
+					<sectionIndexes indexes="92 93 98 99 101 102"/>
+					<rake>14.648506520769615</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999969 3.1E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="92 93 98 99 101"/>
-					<rake>8.78910391246177</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="547" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['101']_f_6=['102']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999981 1.9E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999991 9E-8">
+					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="92 93 98 99 101 102"/>
 					<rake>14.648506520769615</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="548" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['101']_f_6=['102']_f_7=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="534" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['101']_f_6=['102']_f_7=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999954 4.6E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="92 93 98 99 101 102 103"/>
-					<rake>18.833794098132362</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999967 3.3E-7">
+				<multiPlanesRupture probs_occur="0.99999946 5.4E-7">
 					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="92 93 98 99 101 102 103"/>
 					<rake>18.833794098132362</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="549" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['100']_f_6=['101']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="535" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['100']_f_6=['101']_f_7=['102']_f_8=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999950 5.0E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="92 93 98 99 100 101"/>
-					<rake>7.324253260384808</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="550" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['100']_f_6=['101']_f_7=['102']_f_8=['103']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999943 5.7E-7">
+				<multiPlanesRupture probs_occur="0.99999966 3.4E-7">
 					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="92 93 98 99 100 101 102 103"/>
 					<rake>16.479569835865817</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999984 1.6E-7">
+					<magnitude>8.0</magnitude>
+					<sectionIndexes indexes="92 93 98 99 100 101 102 103"/>
+					<rake>16.479569835865817</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="551" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['92']_f_4=['93']_f_5=['98']_f_6=['99']_f_7=['101']_f_8=['102']_f_9=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="536" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['92']_f_4=['93']_f_5=['98']_f_6=['99']_f_7=['101']_f_8=['102']_f_9=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999971 2.9E-7">
+				<multiPlanesRupture probs_occur="0.99999981 1.9E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="24 25 92 93 98 99 101 102 103"/>
 					<rake>14.648506520769615</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="552" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['92']_f_4=['93']_f_5=['98']_f_6=['99']_f_7=['100']_f_8=['101']_f_9=['102']_f_10=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="537" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['92']_f_4=['93']_f_5=['98']_f_6=['99']_f_7=['100']_f_8=['101']_f_9=['102']_f_10=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999980 2.0E-7">
+				<multiPlanesRupture probs_occur="0.99999990 1.0E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="24 25 92 93 98 99 100 101 102 103"/>
 					<rake>13.183655868692654</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="553" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']_f_4=['101']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="538" name="DOM_v1_scenario_f_1=['19']_f_2=['24']_f_3=['25']_f_4=['26']_f_5=['92']_f_6=['93']_f_7=['98']_f_8=['99']_f_9=['101']_f_10=['102']_f_11=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999976 2.4E-7">
+				<multiPlanesRupture probs_occur="0.99999963 3.7E-7">
+					<magnitude>8.0</magnitude>
+					<sectionIndexes indexes="19 24 25 26 92 93 98 99 101 102 103"/>
+					<rake>11.985141698811503</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="539" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']_f_4=['101']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999951 4.9E-7">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="92 93 99 101"/>
 					<rake>10.986379890577211</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999983 1.7E-7">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999948 5.2E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="92 93 99 101"/>
+					<rake>10.986379890577211</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="92 93 99 101"/>
 					<rake>10.986379890577211</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="554" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']_f_4=['101']_f_5=['102']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="540" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']_f_4=['101']_f_5=['102']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999969 3.1E-7">
-					<magnitude>7.699999999999999</magnitude>
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="92 93 99 101 102"/>
 					<rake>17.57820782492354</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="555" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']_f_4=['100']_f_5=['101']_f_6=['102']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="541" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']_f_4=['101']_f_5=['102']_f_6=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999933 6.7E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="92 93 99 100 101 102"/>
-					<rake>14.648506520769615</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="556" name="DOM_v1_scenario_f_1=['93']_f_2=['99']_f_3=['101']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999745 0.00000255">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="93 99 101"/>
-					<rake>14.648506520769615</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999948 5.2E-7">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="93 99 101"/>
-					<rake>14.648506520769615</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999982 1.8E-7">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="93 99 101"/>
-					<rake>14.648506520769615</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="557" name="DOM_v1_scenario_f_1=['93']_f_2=['99']_f_3=['101']_f_4=['102']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999950 5.0E-7">
-					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="93 99 101 102"/>
+				<multiPlanesRupture probs_occur="0.99999935 6.5E-7">
+					<magnitude>7.800000000000001</magnitude>
+					<sectionIndexes indexes="92 93 99 101 102 103"/>
 					<rake>21.972759781154423</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999972 2.8E-7">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="92 93 99 101 102 103"/>
+					<rake>21.972759781154423</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="542" name="DOM_v1_scenario_f_1=['93']_f_2=['99']_f_3=['101']_f_4=['102']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
-					<magnitude>7.6</magnitude>
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="93 99 101 102"/>
 					<rake>21.972759781154423</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="558" name="DOM_v1_scenario_f_1=['93']_f_2=['99']_f_3=['101']_f_4=['102']_f_5=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="543" name="DOM_v1_scenario_f_1=['93']_f_2=['99']_f_3=['101']_f_4=['102']_f_5=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999870 0.00000130">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999969 3.1E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="93 99 101 102 103"/>
 					<rake>26.367311737385307</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="559" name="DOM_v1_scenario_f_1=['93']_f_2=['99']_f_3=['100']_f_4=['101']_f_5=['102']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="544" name="DOM_v1_scenario_f_1=['93']_f_2=['99']_f_3=['100']_f_4=['101']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999942 5.8E-7">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="93 99 100 101 102"/>
-					<rake>17.57820782492354</rake>
+				<multiPlanesRupture probs_occur="0.99999918 8.2E-7">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="93 99 100 101"/>
+					<rake>10.986379890577211</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999973 2.7E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999942 5.8E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="93 99 100 101"/>
+					<rake>10.986379890577211</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="545" name="DOM_v1_scenario_f_1=['93']_f_2=['99']_f_3=['100']_f_4=['101']_f_5=['102']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999959 4.1E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="93 99 100 101 102"/>
 					<rake>17.57820782492354</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="560" name="DOM_v1_scenario_f_1=['24']_f_2=['92']_f_3=['93']_f_4=['98']_f_5=['99']_f_6=['100']_f_7=['101']_f_8=['102']_f_9=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="546" name="DOM_v1_scenario_f_1=['24']_f_2=['92']_f_3=['93']_f_4=['98']_f_5=['99']_f_6=['100']_f_7=['101']_f_8=['102']_f_9=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
-					<magnitude>7.9</magnitude>
+				<multiPlanesRupture probs_occur="0.99999992 8E-8">
+					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="24 92 93 98 99 100 101 102 103"/>
 					<rake>14.648506520769615</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="561" name="DOM_v1_scenario_f_1=['93']_f_2=['100']_f_3=['101']_f_4=['102']_f_5=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="547" name="DOM_v1_scenario_f_1=['93']_f_2=['100']_f_3=['101']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999945 5.5E-7">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999892 0.00000108">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="93 100 101"/>
+					<rake>14.648506520769615</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999981 1.9E-7">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="93 100 101"/>
+					<rake>14.648506520769615</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="548" name="DOM_v1_scenario_f_1=['93']_f_2=['100']_f_3=['101']_f_4=['102']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999980 2.0E-7">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="93 100 101 102"/>
+					<rake>21.972759781154423</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="93 100 101 102"/>
+					<rake>21.972759781154423</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="549" name="DOM_v1_scenario_f_1=['93']_f_2=['100']_f_3=['101']_f_4=['102']_f_5=['103']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999974 2.6E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="93 100 101 102 103"/>
 					<rake>26.367311737385307</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="562" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['100']_f_4=['101']_f_5=['102']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="550" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['100']_f_4=['101']_f_5=['102']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999981 1.9E-7">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999973 2.7E-7">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="92 93 100 101 102"/>
 					<rake>17.57820782492354</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="563" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['100']_f_4=['101']_f_5=['102']_f_6=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="551" name="DOM_v1_scenario_f_1=['43']_f_2=['94']_f_3=['97']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999984 1.6E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="92 93 100 101 102 103"/>
-					<rake>21.972759781154423</rake>
+				<multiPlanesRupture probs_occur="0.99998881 0.00001119">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="43 94 97"/>
+					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="564" name="DOM_v1_scenario_f_1=['43']_f_2=['94']_f_3=['97']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999552 0.00000448">
+				<multiPlanesRupture probs_occur="0.99999277 0.00000723">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="43 94 97"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999659 0.00000341">
+				<multiPlanesRupture probs_occur="0.99999512 0.00000488">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="43 94 97"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999862 0.00000138">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999568 0.00000432">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="43 94 97"/>
+					<rake>18.38336514031784</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999682 0.00000318">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="43 94 97"/>
 					<rake>18.38336514031784</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="565" name="DOM_v1_scenario_f_1=['43']_f_2=['44']_f_3=['94']_f_4=['97']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="552" name="DOM_v1_scenario_f_1=['19']_f_2=['24']_f_3=['25']_f_4=['26']_f_5=['98']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999761 0.00000239">
-					<magnitude>7.6</magnitude>
-					<sectionIndexes indexes="43 44 94 97"/>
-					<rake>27.57504771047676</rake>
+				<multiPlanesRupture probs_occur="0.99999952 4.8E-7">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="19 24 25 26 98"/>
+					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="566" name="DOM_v1_scenario_f_1=['24']_f_2=['93']_f_3=['98']_f_4=['99']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="553" name="DOM_v1_scenario_f_1=['24']_f_2=['93']_f_3=['98']_f_4=['99']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999980 2.0E-7">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="24 93 98 99"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="567" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['92']_f_4=['93']_f_5=['98']_f_6=['101']_f_7=['102']_f_8=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="554" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['92']_f_4=['93']_f_5=['98']_f_6=['101']_f_7=['102']_f_8=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999917 8.3E-7">
-					<magnitude>7.8</magnitude>
+				<multiPlanesRupture probs_occur="0.99999988 1.2E-7">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="24 25 92 93 98 101 102 103"/>
+					<rake>16.479569835865817</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999992 8E-8">
+					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="24 25 92 93 98 101 102 103"/>
 					<rake>16.479569835865817</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="568" name="DOM_v1_scenario_f_1=['24']_f_2=['25']_f_3=['28']_f_4=['29']_f_5=['30']_f_6=['92']_f_7=['93']_f_8=['98']_f_9=['101']_f_10=['102']_f_11=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="555" name="DOM_v1_scenario_f_1=['98']_f_2=['199']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999984 1.6E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="24 25 28 29 30 92 93 98 101 102 103"/>
-					<rake>11.985141698811503</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="569" name="DOM_v1_scenario_f_1=['98']_f_2=['199']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999487 0.00000513">
-					<magnitude>7.1</magnitude>
+				<multiPlanesRupture probs_occur="0.99999718 0.00000282">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="98 199"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999354 0.00000646">
-					<magnitude>7.199999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999629 0.00000371">
+					<magnitude>7.300000000000001</magnitude>
 					<sectionIndexes indexes="98 199"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999343 0.00000657">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="98 199"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999757 0.00000243">
+				<multiPlanesRupture probs_occur="0.99999697 0.00000303">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="98 199"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="570" name="DOM_v1_scenario_f_1=['98']_f_2=['198']_f_3=['199']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="556" name="DOM_v1_scenario_f_1=['98']_f_2=['198']_f_3=['199']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999612 0.00000388">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="98 198 199"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999725 0.00000275">
+				<multiPlanesRupture probs_occur="0.99999493 0.00000507">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="98 198 199"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999776 0.00000224">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="98 198 199"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="571" name="DOM_v1_scenario_f_1=['92']_f_2=['98']_f_3=['199']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="557" name="DOM_v1_scenario_f_1=['92']_f_2=['98']_f_3=['199']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999942 5.8E-7">
+				<multiPlanesRupture probs_occur="0.99999971 2.9E-7">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="92 98 199"/>
 					<rake>0.0</rake>
@@ -1915,222 +1788,239 @@
 					<sectionIndexes indexes="92 98 199"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="92 98 199"/>
+					<rake>0.0</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="572" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['101']_f_5=['102']_f_6=['198']_f_7=['199']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="558" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['101']_f_5=['102']_f_6=['198']_f_7=['199']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999954 4.6E-7">
-					<magnitude>7.699999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999935 6.5E-7">
+					<magnitude>7.800000000000001</magnitude>
 					<sectionIndexes indexes="92 93 98 101 102 198 199"/>
 					<rake>12.555862732088242</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999984 1.6E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="92 93 98 101 102 198 199"/>
-					<rake>12.555862732088242</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999989 1.1E-7">
+				<multiPlanesRupture probs_occur="0.99999977 2.3E-7">
 					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="92 93 98 101 102 198 199"/>
 					<rake>12.555862732088242</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="573" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['101']_f_5=['102']_f_6=['103']_f_7=['199']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="559" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['101']_f_5=['102']_f_6=['103']_f_7=['199']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999937 6.3E-7">
-					<magnitude>7.8</magnitude>
-					<sectionIndexes indexes="92 93 98 101 102 103 199"/>
-					<rake>18.833794098132362</rake>
-				</multiPlanesRupture>
 				<multiPlanesRupture probs_occur="0.99999978 2.2E-7">
 					<magnitude>7.9</magnitude>
 					<sectionIndexes indexes="92 93 98 101 102 103 199"/>
 					<rake>18.833794098132362</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="574" name="DOM_v1_scenario_f_1=['19']_f_2=['20']_f_3=['26']_f_4=['92']_f_5=['93']_f_6=['98']_f_7=['101']_f_8=['102']_f_9=['103']_f_10=['198']_f_11=['199']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="560" name="DOM_v1_scenario_f_1=['19']_f_2=['20']_f_3=['26']_f_4=['92']_f_5=['93']_f_6=['98']_f_7=['101']_f_8=['102']_f_9=['103']_f_10=['198']_f_11=['199']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999964 3.6E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="19 20 26 92 93 98 101 102 103 198 199"/>
-					<rake>11.985141698811503</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999987 1.3E-7">
+				<multiPlanesRupture probs_occur="0.99999962 3.8E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="19 20 26 92 93 98 101 102 103 198 199"/>
 					<rake>11.985141698811503</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999973 2.7E-7">
-					<magnitude>8.1</magnitude>
+				<multiPlanesRupture probs_occur="0.99999991 9E-8">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="19 20 26 92 93 98 101 102 103 198 199"/>
+					<rake>11.985141698811503</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999987 1.3E-7">
+					<magnitude>8.200000000000001</magnitude>
 					<sectionIndexes indexes="19 20 26 92 93 98 101 102 103 198 199"/>
 					<rake>11.985141698811503</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="575" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['100']_f_6=['101']_f_7=['102']_f_8=['103']_f_9=['199']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="561" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['100']_f_6=['101']_f_7=['102']_f_8=['103']_f_9=['199']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999987 1.3E-7">
-					<magnitude>7.9</magnitude>
+				<multiPlanesRupture probs_occur="0.99999962 3.8E-7">
+					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="92 93 98 99 100 101 102 103 199"/>
 					<rake>14.648506520769615</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="576" name="DOM_v1_scenario_f_1=['25']_f_2=['26']_f_3=['92']_f_4=['93']_f_5=['98']_f_6=['99']_f_7=['100']_f_8=['101']_f_9=['102']_f_10=['103']_f_11=['199']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="562" name="DOM_v1_scenario_f_1=['25']_f_2=['26']_f_3=['92']_f_4=['93']_f_5=['98']_f_6=['99']_f_7=['100']_f_8=['101']_f_9=['102']_f_10=['103']_f_11=['199']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999965 3.5E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="25 26 92 93 98 99 100 101 102 103 199"/>
-					<rake>11.985141698811503</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999963 3.7E-7">
+				<multiPlanesRupture probs_occur="0.99999951 4.9E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="25 26 92 93 98 99 100 101 102 103 199"/>
 					<rake>11.985141698811503</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999974 2.6E-7">
-					<magnitude>8.1</magnitude>
-					<sectionIndexes indexes="25 26 92 93 98 99 100 101 102 103 199"/>
-					<rake>11.985141698811503</rake>
-				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="577" name="DOM_v1_scenario_f_1=['92']_f_2=['98']_f_3=['198']_f_4=['199']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="563" name="DOM_v1_scenario_f_1=['92']_f_2=['98']_f_3=['198']_f_4=['199']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999942 5.8E-7">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999904 9.6E-7">
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="92 98 198 199"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999932 6.8E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="92 98 198 199"/>
-					<rake>0.0</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="578" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['100']_f_6=['101']_f_7=['102']_f_8=['198']_f_9=['199']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
 				<multiPlanesRupture probs_occur="0.99999973 2.7E-7">
-					<magnitude>7.9</magnitude>
-					<sectionIndexes indexes="92 93 98 99 100 101 102 198 199"/>
-					<rake>9.76567101384641</rake>
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="92 98 198 199"/>
+					<rake>0.0</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999990 1.0E-7">
+	    </multiFaultSource>
+        <multiFaultSource id="564" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['99']_f_4=['100']_f_5=['101']_f_6=['102']_f_7=['103']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999980 2.0E-7">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="92 93 99 100 101 102 103"/>
+					<rake>18.833794098132362</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="565" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['99']_f_5=['100']_f_6=['101']_f_7=['102']_f_8=['198']_f_9=['199']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999981 1.9E-7">
 					<magnitude>8.0</magnitude>
 					<sectionIndexes indexes="92 93 98 99 100 101 102 198 199"/>
 					<rake>9.76567101384641</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="579" name="DOM_v1_scenario_f_1=['99']_f_2=['101']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="566" name="DOM_v1_scenario_f_1=['99']_f_2=['101']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999042 0.00000958">
-					<magnitude>7.0</magnitude>
+				<multiPlanesRupture probs_occur="0.99999739 0.00000261">
+					<magnitude>7.1000000000000005</magnitude>
 					<sectionIndexes indexes="99 101"/>
 					<rake>21.972759781154423</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999687 0.00000313">
-					<magnitude>7.1</magnitude>
+				<multiPlanesRupture probs_occur="0.99999741 0.00000259">
+					<magnitude>7.200000000000001</magnitude>
 					<sectionIndexes indexes="99 101"/>
 					<rake>21.972759781154423</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999594 0.00000406">
-					<magnitude>7.199999999999999</magnitude>
+				<multiPlanesRupture probs_occur="0.99999555 0.00000445">
+					<magnitude>7.300000000000001</magnitude>
+					<sectionIndexes indexes="99 101"/>
+					<rake>21.972759781154423</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999815 0.00000185">
+					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="99 101"/>
 					<rake>21.972759781154423</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="580" name="DOM_v1_scenario_f_1=['99']_f_2=['101']_f_3=['102']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="567" name="DOM_v1_scenario_f_1=['99']_f_2=['101']_f_3=['102']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999000 0.00001000">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="99 101 102"/>
-					<rake>29.29701304153923</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999462 0.00000538">
+				<multiPlanesRupture probs_occur="0.99999802 0.00000198">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="99 101 102"/>
 					<rake>29.29701304153923</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999639 0.00000361">
+				<multiPlanesRupture probs_occur="0.99999399 0.00000601">
 					<magnitude>7.5</magnitude>
 					<sectionIndexes indexes="99 101 102"/>
 					<rake>29.29701304153923</rake>
 				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999518 0.00000482">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="99 101 102"/>
+					<rake>29.29701304153923</rake>
+				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="581" name="DOM_v1_scenario_f_1=['99']_f_2=['101']_f_3=['102']_f_4=['103']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="568" name="DOM_v1_scenario_f_1=['99']_f_2=['101']_f_3=['102']_f_4=['103']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999695 0.00000305">
-					<magnitude>7.5</magnitude>
+				<multiPlanesRupture probs_occur="0.99999333 0.00000667">
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="99 101 102 103"/>
 					<rake>32.959139671731634</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999604 0.00000396">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999553 0.00000447">
+					<magnitude>7.700000000000001</magnitude>
 					<sectionIndexes indexes="99 101 102 103"/>
 					<rake>32.959139671731634</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="582" name="DOM_v1_scenario_f_1=['99']_f_2=['100']_f_3=['101']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="569" name="DOM_v1_scenario_f_1=['99']_f_2=['100']_f_3=['101']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999299 0.00000701">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="99 100 101"/>
-					<rake>14.648506520769615</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999763 0.00000237">
+				<multiPlanesRupture probs_occur="0.99999806 0.00000194">
 					<magnitude>7.4</magnitude>
 					<sectionIndexes indexes="99 100 101"/>
 					<rake>14.648506520769615</rake>
 				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="583" name="DOM_v1_scenario_f_1=['100']_f_2=['101']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999436 0.00000564">
-					<magnitude>7.0</magnitude>
-					<sectionIndexes indexes="100 101"/>
-					<rake>21.972759781154423</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999534 0.00000466">
-					<magnitude>7.1</magnitude>
-					<sectionIndexes indexes="100 101"/>
-					<rake>21.972759781154423</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="584" name="DOM_v1_scenario_f_1=['100']_f_2=['101']_f_3=['102']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999115 0.00000885">
-					<magnitude>7.3</magnitude>
-					<sectionIndexes indexes="100 101 102"/>
-					<rake>29.29701304153923</rake>
-				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999762 0.00000238">
-					<magnitude>7.4</magnitude>
-					<sectionIndexes indexes="100 101 102"/>
-					<rake>29.29701304153923</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="585" name="DOM_v1_scenario_f_1=['100']_f_2=['101']_f_3=['102']_f_4=['103']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999731 0.00000269">
+				<multiPlanesRupture probs_occur="0.99999496 0.00000504">
 					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="99 100 101"/>
+					<rake>14.648506520769615</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="570" name="DOM_v1_scenario_f_1=['100']_f_2=['101']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999634 0.00000366">
+					<magnitude>7.1000000000000005</magnitude>
+					<sectionIndexes indexes="100 101"/>
+					<rake>21.972759781154423</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999835 0.00000165">
+					<magnitude>7.200000000000001</magnitude>
+					<sectionIndexes indexes="100 101"/>
+					<rake>21.972759781154423</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="571" name="DOM_v1_scenario_f_1=['100']_f_2=['101']_f_3=['102']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999676 0.00000324">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="100 101 102"/>
+					<rake>29.29701304153923</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999357 0.00000643">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="100 101 102"/>
+					<rake>29.29701304153923</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="572" name="DOM_v1_scenario_f_1=['100']_f_2=['101']_f_3=['102']_f_4=['103']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999648 0.00000352">
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="100 101 102 103"/>
 					<rake>32.959139671731634</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
-        <multiFaultSource id="586" name="DOM_v1_scenario_f_1=['24']_f_2=['92']_f_3=['93']_f_4=['98']_f_5=['99']_f_6=['100']_f_7=['101']" tectonicRegion="Active Shallow Crust"
+        <multiFaultSource id="573" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['100']_f_4=['101']" tectonicRegion="Active Shallow Crust"
                     faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999948 5.2E-7">
-					<magnitude>7.699999999999999</magnitude>
-					<sectionIndexes indexes="24 92 93 98 99 100 101"/>
-					<rake>6.277931366044121</rake>
-				</multiPlanesRupture>
-	    </multiFaultSource>
-        <multiFaultSource id="587" name="DOM_v1_scenario_f_1=['24']_f_2=['29']_f_3=['30']_f_4=['195']" tectonicRegion="Active Shallow Crust"
-                    faultSectionFname="dom_test/DOM_v1/sections.xml">
-				<multiPlanesRupture probs_occur="0.99999978 2.2E-7">
+				<multiPlanesRupture probs_occur="0.99999902 9.8E-7">
 					<magnitude>7.5</magnitude>
-					<sectionIndexes indexes="24 29 30 195"/>
-					<rake>0.0</rake>
+					<sectionIndexes indexes="92 93 100 101"/>
+					<rake>10.986379890577211</rake>
 				</multiPlanesRupture>
-				<multiPlanesRupture probs_occur="0.99999954 4.6E-7">
-					<magnitude>7.6</magnitude>
+				<multiPlanesRupture probs_occur="0.99999986 1.4E-7">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="92 93 100 101"/>
+					<rake>10.986379890577211</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="574" name="DOM_v1_scenario_f_1=['92']_f_2=['93']_f_3=['98']_f_4=['100']_f_5=['101']_f_6=['102']_f_7=['103']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999981 1.9E-7">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="92 93 98 100 101 102 103"/>
+					<rake>18.833794098132362</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+        <multiFaultSource id="575" name="DOM_v1_scenario_f_1=['24']_f_2=['29']_f_3=['30']_f_4=['195']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999969 3.1E-7">
+					<magnitude>7.6000000000000005</magnitude>
 					<sectionIndexes indexes="24 29 30 195"/>
 					<rake>0.0</rake>
 				</multiPlanesRupture>
 	    </multiFaultSource>
+        <multiFaultSource id="576" name="DOM_v1_scenario_f_1=['42']_f_2=['43']_f_3=['44']_f_4=['45']_f_5=['81']" tectonicRegion="Active Shallow Crust"
+                    faultSectionFname="dom_test/DOM_v1/sections.xml">
+				<multiPlanesRupture probs_occur="0.99999674 0.00000326">
+					<magnitude>7.0</magnitude>
+					<sectionIndexes indexes="42 43 44 45 81"/>
+					<rake>44.120076336762814</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999885 0.00000115">
+					<magnitude>7.1000000000000005</magnitude>
+					<sectionIndexes indexes="42 43 44 45 81"/>
+					<rake>44.120076336762814</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+	       </sourceGroup>
+    </sourceModel>
+</nrml>
