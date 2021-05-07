@@ -62,7 +62,7 @@ def wrt_rupture(txt,mag,l,explo_time,rake,sections_id):
     txt += str(p_not_occur) +' '+ str(xxx1) +'">\n'
     txt += '\t\t\t\t\t<magnitude>'+ str(mag) +'</magnitude>\n'
 
-    list_sections = ' '.join(str(i) for i in sections_id)
+    list_sections = ','.join(str(i) for i in sections_id)
     txt += '\t\t\t\t\t<sectionIndexes indexes="'
     txt += str(list_sections)
     txt += '"/>\n'
@@ -73,18 +73,28 @@ def wrt_rupture(txt,mag,l,explo_time,rake,sections_id):
 
     return txt
 
-def wrt_multifault_source(txt,name,trt,sec_f,MFD,Mmin,
-    explo_time,rake,sections_id,ID_number):
+def start_multifault_source(txt,name,trt,sec_f,ID_number):
+
+    txt += '        <multiFaultSource id="'+str(ID_number)+'" name="'+name
+    txt += '" tectonicRegion="'+trt+'"\n'
+    txt += '                    faultSectionFname="'+sec_f+'">\n'
+    return txt
+
+def end_multifault_source(txt):
+    '''
+    txt : str containing the file info
+    '''
+
+    txt += '	    </multiFaultSource>\n'
+    return txt
+
+def wrt_multifault_source(txt,MFD,Mmin,explo_time,rake,sections_id):
     '''
     txt : str containing the file info
     name : str, rupture names
     trt : str, tectonic region type
 
     '''
-
-    txt += '        <multiFaultSource id="'+str(ID_number)+'" name="'+name
-    txt += '" tectonicRegion="'+trt+'"\n'
-    txt += '                    faultSectionFname="'+sec_f+'">\n'
 
     bin_mag = np.linspace(Mmin,Mmin+0.1*len(MFD)+0.1,num = 2+len(MFD))
 
@@ -95,8 +105,6 @@ def wrt_multifault_source(txt,name,trt,sec_f,MFD,Mmin,
             if l!=0. :
                 txt = wrt_rupture(txt,mag,l,explo_time,rake,
                 sections_id)
-
-    txt += '	    </multiFaultSource>\n'
 
     return txt
 

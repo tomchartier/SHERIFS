@@ -95,7 +95,7 @@ class Source_Model_Creator:
         #maxi number of sources per input files
         # cutting the files in smaller chunks allow OQ to read the sources in
         # parallel
-        max_srcs_per_file = 200
+        max_rup_per_file = 200
 
         # init
         faults_names = self.faults_names
@@ -115,7 +115,7 @@ class Source_Model_Creator:
         # test if the model is large enough to deserve to be cut
 
         cut_sm_file = False
-        if len(faults_names) + len(scenarios_names) > max_srcs_per_file :
+        if len(faults_names) + len(scenarios_names) > max_rup_per_file :
             cut_sm_file = True
         # if use_multiF == True  :
         #     cut_sm_file = False
@@ -125,11 +125,11 @@ class Source_Model_Creator:
         else :
             # find number of subparts for simple faults sources
             n_cut_sf = 1
-            while len(faults_names)/n_cut_sf > max_srcs_per_file:
+            while len(faults_names)/n_cut_sf > max_rup_per_file:
                 n_cut_sf +=1
             # find number of subparts for multi faults sources
             n_cut_mf = 1
-            while len(scenarios_names)/n_cut_mf > max_srcs_per_file:
+            while len(scenarios_names)/n_cut_mf > max_rup_per_file:
                 n_cut_mf +=1
 
             if use_multiF == False  :
@@ -156,10 +156,10 @@ class Source_Model_Creator:
                     s_files.append(f)
                     list_src_files.append(f)
 
-                dict_txt, dict_n_source = {}, {}
+                dict_txt, dict_n_rup = {}, {}
                 for f in s_files  :
                     dict_txt.update({f:''})
-                    dict_n_source.update({f:0})
+                    dict_n_rup.update({f:0})
 
 
 
@@ -385,21 +385,28 @@ class Source_Model_Creator:
                         f_in_bg.append(index_fault)
 
 
+            source_id = 0
 
             # write source file
             if cut_sm_file == False :
                 source_xml = self.path +'/Source_model_' + str(self.sample) + '.xml'
                 trt = faults_data[0]['domain']
                 txt = wmfs.start(explo_time,trt)
+                name = "multifaultsource"
+                txt = wmfs.start_multifault_source(txt,name,trt,
+                sections_xml,source_id)
             else :
                 for f in s_files  :
                     trt = faults_data[0]['domain']
                     dict_txt[f] = wmfs.start(explo_time,trt)
+                    name = "multifaultsource_"+str(source_id)
+                    dict_txt[f] = wmfs.start_multifault_source(dict_txt[f],
+                    name,trt,sections_xml,source_id)
+                    source_id+=1
                 # working file
                 f = list(dict_txt.keys())[0]
 
             #loop on simple faults
-            ID_number = 0
             for index_fault,fault_name in zip(range(len(faults_names)),faults_names):
                 if index_fault in f_in_bg:
                     # write the single fault ruptures in the file
@@ -407,7 +414,7 @@ class Source_Model_Creator:
                     MFD = OQ_entry_faults[i_MFD]
 
                     if sum(MFD)!=0:
-                        ID_number = ID_number + 1
+                        source_id = source_id + 1
                         Fault_Name = self.Model_name + '_' + str(fault_name)
                         fault_trt = faults_data[index_fault]['domain']
                         if not fault_trt in str(self.Domain_in_the_model):
@@ -418,20 +425,18 @@ class Source_Model_Creator:
 
                         name = "single_fault_"+fault_name
                         if cut_sm_file == False :
-                            txt = wmfs.wrt_multifault_source(txt,name,trt,
-                                sections_xml,MFD,
-                                self.Mmin,explo_time,rake,[index_fault],ID_number)
+                            txt = wmfs.wrt_multifault_source(txt,MFD,
+                                self.Mmin,explo_time,rake,[index_fault])
                         else :
-                            if not dict_n_source[f] < max_srcs_per_file :
+                            if not dict_n_rup[f] < max_rup_per_file :
                                 i = 0
-                                while dict_n_source[f] > max_srcs_per_file:
+                                while dict_n_rup[f] > max_rup_per_file:
                                     i+=1
                                     f = list(dict_txt.keys())[i]
                             txt = dict_txt[f]
-                            dict_txt[f] = wmfs.wrt_multifault_source(txt,name,trt,
-                                sections_xml,MFD,
-                                self.Mmin,explo_time,rake,[index_fault],ID_number)
-                            dict_n_source[f] += 1
+                            dict_txt[f] = wmfs.wrt_multifault_source(txt,MFD,
+                                self.Mmin,explo_time,rake,[index_fault])
+                            dict_n_rup[f] += 1
 
 
 
@@ -455,7 +460,7 @@ class Source_Model_Creator:
                         if sum(MFD)!=0:
                             faults_in_scenario = np.take(faults_names,index_faults_in_sc)
 
-                            ID_number = ID_number + 1
+                            source_id = source_id + 1
 
                             scenar_name = '_'.join("{!s}={!r}".format(key,val)
                              for (key,val) in scenario[1].items())
@@ -478,28 +483,28 @@ class Source_Model_Creator:
                             rake= np.mean(scenario_mechanism)
 
                             if cut_sm_file == False :
-                                txt = wmfs.wrt_multifault_source(txt,source_name,trt,
-                                    sections_xml,MFD,
-                                    self.Mmin,explo_time,rake,index_faults_in_sc,ID_number)
+                                txt = wmfs.wrt_multifault_source(txt,MFD,
+                                    self.Mmin,explo_time,rake,index_faults_in_sc)
                             else :
-                                if not dict_n_source[f] < max_srcs_per_file :
+                                if not dict_n_rup[f] < max_rup_per_file :
                                     i = 0
-                                    while dict_n_source[f] > max_srcs_per_file:
+                                    while dict_n_rup[f] > max_rup_per_file:
                                         i+=1
                                         f = list(dict_txt.keys())[i]
                                 txt = dict_txt[f]
-                                dict_txt[f] = wmfs.wrt_multifault_source(txt,source_name,trt,
-                                    sections_xml,MFD,
-                                    self.Mmin,explo_time,rake,index_faults_in_sc,ID_number)
-                                dict_n_source[f] += 1
+                                dict_txt[f] = wmfs.wrt_multifault_source(txt,MFD,
+                                    self.Mmin,explo_time,rake,index_faults_in_sc)
+                                dict_n_rup[f] += 1
 
             # completing the file
             if cut_sm_file == False :
+                txt = wmfs.end_multifault_source(txt)
                 txt = wmfs.end(txt)
                 wmfs.build(source_xml,txt)
             else :
                 for f in s_files  :
-                    if dict_n_source[f] > 0 :
+                    if dict_n_rup[f] > 0 :
+                        dict_txt[f] = wmfs.end_multifault_source(dict_txt[f])
                         txt = wmfs.end(dict_txt[f])
                         wmfs.build(f,txt)
 
@@ -813,7 +818,7 @@ class Source_Model_Creator:
 
             upperSeismoDepth, lowerSeismoDepth, ruptAspectRatio, nodalPlanes, hypoDepths = bg.prop(self.Model_name,self.file_prop_bg)
             line+='\t\t<sourceGroup\nname="group 2"\nrup_interdep="indep"\nsrc_interdep="indep"\ntectonicRegion="' + str(self.Domain_in_the_model[0]) + '"\n>\n'
-            line+='\t\t<areaSource id="'+ str(ID_number + 1 ) +'" name="Background" tectonicRegion="' + str(self.Domain_in_the_model[0]) + '">\n'
+            line+='\t\t<areaSource id="'+ str(source_id + 1 ) +'" name="Background" tectonicRegion="' + str(self.Domain_in_the_model[0]) + '">\n'
             line+='\t\t\t<areaGeometry>\n'
             line+='\t\t\t\t<gml:Polygon>\n'
             line+='\t\t\t\t\t<gml:exterior>\n'
