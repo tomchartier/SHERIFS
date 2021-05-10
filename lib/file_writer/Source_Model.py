@@ -805,8 +805,8 @@ class Source_Model_Creator:
         # Defining the background seismicity
         #########################'''
         MFD = EQ_rate_BG
-        do_bg_in_SHERIFS = True
-        use_smoothed_bg = False
+        do_bg_in_SHERIFS = False
+        use_smoothed_bg = True
         if sum(MFD) != 0. and do_bg_in_SHERIFS == True:
             bg_file = open(self.path +'/Source_model_bg_' + str(self.sample) + '.xml','w')
             list_src_files.append(bg_file)

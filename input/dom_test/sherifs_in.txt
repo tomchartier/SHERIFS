@@ -8,11 +8,12 @@ File_bg : data/DOM_v1/bg_nit.geojson
 #file_prop_bg : data/DOM_v1/Background_properties.txt
 host_model_file : _.xml
 
-#bg input file
-
 
 # run parameters (optional)
 overwrite_files : True
 use_host_model : False
 fit_quality : 5
 
+
+#bg input file
+bgf : /Users/tchartier/venv/src/SHERIFS/data/DOM_v1/zones 
