@@ -39,16 +39,26 @@ from seismic_moment import mag_to_M0
 import matplotlib.pyplot as plt
 
 class Source_Model_Creator:
-    def __init__(self,path,Run_Name,Model_name,File_geom,File_prop,File_bg,file_prop_bg,rupture_set,
-                 Domain_in_model,sample,seed,Mmin,selected_ScL,dimention_used,use_all_ScL_data,
-                 b_min,b_max,mfd_hyp,bg_ratio,sr_correl,size_of_increment,fit_quality,Mmax_range,calculation_log_file,use_host_model,host_model_file,faults_names,scenarios_names,faults_data,faults_lon,faults_lat,list_fbg,fbgpath):
-        self.Run_Name = Run_Name
-        self.Domain_in_the_model = Domain_in_model #list of the different domain included in the model
-        #a envoyer dans job
-        self.File_geom = File_geom
-        self.File_prop = File_prop
-        self.File_bg = File_bg
-        self.file_prop_bg = file_prop_bg
+    def __init__(self,path,param,Model_name,rupture_set,sample,
+                 Domain_in_model,selected_ScL,dimention_used,use_all_ScL_data,
+                 b_min,b_max,mfd_hyp,bg_ratio,calculation_log_file,faults_names,
+                 scenarios_names,faults_data,faults_lon,faults_lat,
+                 list_fbg,fbgpath):
+
+        self.Run_Name = param["Run_Name"]
+        self.param = param
+        self.Domain_in_the_model = Domain_in_model
+        #list of the different domain included in the model
+
+        # if param[1]["fault_input_type"] == "geojson" :
+        #     self.faults_file = param[1]["faults_file"]
+        # elif param[1]["fault_input_type"] == "txtsherifs" :
+        #     self.File_geom = param[1]["File_geom"]
+        #     self.File_prop = param[1]["File_prop"]
+
+        # self.File_geom = File_geom
+        # self.File_prop = File_prop
+
         self.rupture_set = rupture_set
 
         #a envoyer dans logic tree
@@ -61,27 +71,38 @@ class Source_Model_Creator:
 
         self.path = path
 
-        np.random.seed = seed
-        self.Mmin = Mmin
+        np.random.seed = param["main"]["parameters"]["Random_seed"]
+        self.Mmin = param["main"]["parameters"]["Mmin"]
+
         self.selected_ScL = selected_ScL
         self.dimention_used = dimention_used
         self.use_all_ScL_data = use_all_ScL_data
         self.bg_ratio = bg_ratio
-        self.sr_correl = sr_correl
-        self.size_of_increment = size_of_increment
-        self.fit_quality = fit_quality
-        self.Mmax_range = Mmax_range
+
+        self.sr_correl = param["main"]["parameters"]["SR_correl"]
+        self.size_of_increment = param["main"]["parameters"]["dsr"]
+        self.fit_quality = param["main"]["parameters"]["fit_quality"] / 100.
+        self.Mmax_range = param["main"]["parameters"]["Mmax_range"]
 
         self.calculation_log_file = calculation_log_file
-        self.use_host_model = use_host_model
-        self.host_model_file = host_model_file
-        self.list_fbg = list_fbg
-        self.fbgpath = fbgpath
+
+        # background option and parameters
+        if not param["main"]["background"]["option_bg"] in ["None","none"]:
+            self.File_bg = param["main"]["background"]["File_bg"]
+
+        if param["main"]["background"]["option_bg"] == "zone":
+            if param["main"]["background"]["use_host_model"] in ["true","True"]:
+                self.use_host_model = True
+                self.host_model_file = param["main"]["background"]["host_model_file"]
+                self.file_prop_bg =  param["main"]["background"]["file_prop_bg"]
 
         self.faults_names = faults_names
         self.scenarios_names = scenarios_names
         self.faults_data=faults_data
         self.faults_lon,self.faults_lat= faults_lon,faults_lat
+
+        self.list_fbg = list_fbg
+        self.fbgpath = fbgpath
 
         self.initialize()
 
@@ -262,7 +283,11 @@ class Source_Model_Creator:
                     faults_data[index_fault]['slip_rate_max']]
 
                     #selects randomly the slip rate
-                    slip_rate = select_sr.select(sr_values,self.sample,index_fault,M_linked_lvl[index_fault],list_quater_picked)
+                    slip_rate = select_sr.select(sr_values,
+                                                self.sample,
+                                                index_fault,
+                                                M_linked_lvl[index_fault],
+                                                list_quater_picked)
 
                     log_line = str(Fault_name) + '\t' + str(slip_rate) + '\n' #writting in the log file
                     log_sr_file.write(log_line)
@@ -310,9 +335,30 @@ class Source_Model_Creator:
                 re_use_mfd_pkl = False
             if re_use_mfd_pkl == False:
                 while abs(ratio_test-1) >self.fit_quality or math.isnan(ratio_test) == True:
-                    MFDs = EQ_on_faults.EQ_on_faults_from_sr(M_min,mfd_param,
-                    faults_names,faults_area,faults_length,faults_width,faults_slip_rates,scenarios_names,faults_shear_mod,self.path,self.sample,self.selected_ScL,self.dimention_used,self.use_all_ScL_data,faults_mecanism,self.bg_ratio,self.size_of_increment,self.mfd_hyp,count_reruns,faults_lon,faults_lat,
-                        self.Mmax_range,self.calculation_log_file)
+                    MFDs = EQ_on_faults.EQ_on_faults_from_sr(M_min,
+                                                            mfd_param,
+                                                            faults_names,
+                                                            faults_area,
+                                                            faults_length,
+                                                            faults_width,
+                                                            faults_slip_rates,
+                                                            scenarios_names,
+                                                            faults_shear_mod,
+                                                            self.path,
+                                                            self.sample,
+                                                            self.selected_ScL,
+                                                            self.dimention_used,
+                                                            self.use_all_ScL_data,
+                                                            faults_mecanism,
+                                                            self.bg_ratio,
+                                                            self.size_of_increment,
+                                                            self.mfd_hyp,
+                                                            count_reruns,
+                                                            faults_lon,
+                                                            faults_lat,
+                                                            self.Mmax_range,
+                                                            self.calculation_log_file)
+
                     ratio_test = MFDs.ratio_test
                     if abs(ratio_test-1) > self.fit_quality:
                         print('bad sampling => re-run')
@@ -673,9 +719,29 @@ class Source_Model_Creator:
                 re_use_mfd_pkl = False
             if re_use_mfd_pkl == False:
                 while abs(ratio_test-1) >self.fit_quality or math.isnan(ratio_test) == True:
-                    MFDs = EQ_on_faults.EQ_on_faults_from_sr(M_min,mfd_param,
-                    faults_names,faults_area,faults_length,faults_width,faults_slip_rates,scenarios_names,faults_shear_mod,self.path,self.sample,self.selected_ScL,self.dimention_used,self.use_all_ScL_data,faults_mecanism,self.bg_ratio,self.size_of_increment,self.mfd_hyp,count_reruns,faults_lon,faults_lat,
-                        self.Mmax_range,self.calculation_log_file)
+                    MFDs = EQ_on_faults.EQ_on_faults_from_sr(M_min,
+                                                            mfd_param,
+                                                            faults_names,
+                                                            faults_area,
+                                                            faults_length,
+                                                            faults_width,
+                                                            faults_slip_rates,
+                                                            scenarios_names,
+                                                            faults_shear_mod,
+                                                            self.path,
+                                                            self.sample,
+                                                            self.selected_ScL,
+                                                            self.dimention_used,
+                                                            self.use_all_ScL_data,
+                                                            faults_mecanism,
+                                                            self.bg_ratio,
+                                                            self.size_of_increment,
+                                                            self.mfd_hyp,
+                                                            count_reruns,
+                                                            faults_lon,
+                                                            faults_lat,
+                                                            self.Mmax_range,
+                                                            self.calculation_log_file)
                     ratio_test = MFDs.ratio_test
                     if abs(ratio_test-1) > self.fit_quality:
                         print('bad sampling => re-run')
@@ -787,10 +853,31 @@ class Source_Model_Creator:
                     if sc_in == True:
                         use_non_param = True
                         if use_non_param == False:
-                            line,ID_number = fault_source. write_characteristic_scenario(scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,scenario,faults_names,self.Model_name,faults_data,log_mdf_file,M_min,ID_number)
+                            line,ID_number = fault_source. write_characteristic_scenario(scenarios_names,
+                                                                                        OQ_entry_scenarios,
+                                                                                        index_faults_in_scenario,
+                                                                                        scenario,
+                                                                                        faults_names,
+                                                                                        self.Model_name,
+                                                                                        faults_data,
+                                                                                        log_mdf_file,
+                                                                                        M_min,
+                                                                                        ID_number)
                         else :
 
-                            line,ID_number = fault_source. write_non_parametric_source(scenario,scenarios_names,OQ_entry_scenarios,index_faults_in_scenario,faults_names,faults_data,self.Model_name,self.Domain_in_the_model,ScL_oq,log_mdf_file,explo_time,M_min,ID_number)
+                            line,ID_number = fault_source. write_non_parametric_source(scenario,
+                                                                                        scenarios_names,
+                                                                                        OQ_entry_scenarios,
+                                                                                        index_faults_in_scenario,
+                                                                                        faults_names,
+                                                                                        faults_data,
+                                                                                        self.Model_name,
+                                                                                        self.Domain_in_the_model,
+                                                                                        ScL_oq,
+                                                                                        log_mdf_file,
+                                                                                        explo_time,
+                                                                                        M_min,
+                                                                                        ID_number)
                         if cut_sm_file == False :
                             XMLfile.write(line)
                         else :
@@ -805,9 +892,12 @@ class Source_Model_Creator:
         # Defining the background seismicity
         #########################'''
         MFD = EQ_rate_BG
-        do_bg_in_SHERIFS = False
-        use_smoothed_bg = True
-        if sum(MFD) != 0. and do_bg_in_SHERIFS == True:
+        # if self.param["main"]["background"]["option_bg"] in ["None","none"]:
+        #     do_bg_in_SHERIFS = False
+        # else :
+        #     do_bg_in_SHERIFS = True
+
+        if sum(MFD) != 0. and self.param["main"]["background"]["option_bg"] == "zone":
             bg_file = open(self.path +'/Source_model_bg_' + str(self.sample) + '.xml','w')
             list_src_files.append(bg_file)
             # Initiate the xml file
@@ -857,7 +947,7 @@ class Source_Model_Creator:
             bg_file.write(line)
             bg_file.close()
 
-        elif sum(MFD) != 0. and use_smoothed_bg==True:
+        elif sum(MFD) != 0. and self.param["main"]["background"]["option_bg"]=="smooth":
             Mmin_checked = False
             # read the xml and stores the list of aValues
 
@@ -967,9 +1057,9 @@ class Source_Model_Creator:
         '''#############################
         ### defining the other sources based on the host model
         ##############################'''
-        if self.use_host_model == True and cut_sm_file == False:
+        if self.param["main"]["background"]["use_host_model"] == True and cut_sm_file == False:
             host_model.build(XMLfile,self.host_model_file,Lon_bg,Lat_bg)
-        if self.use_host_model == True and cut_sm_file == False:
+        if self.param["main"]["background"]["use_host_model"] == True and cut_sm_file == True:
             print("WARNING : can't use host model and cut files yet !")
 
         if use_multiF == False :

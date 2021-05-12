@@ -11,6 +11,8 @@ This code create a source logic tree
 import xml.etree.ElementTree as ET
 import numpy as np
 import os
+from os import listdir
+from os.path import isfile, join
 import sys
 from shutil import copyfile
 
@@ -34,37 +36,41 @@ from geometry_tools import distance
 
 
 class Sources_Logic_Tree_Creator:
-    def __init__(self,Run_Name,File_geom,File_prop,File_bg,file_prop_bg,Domain_in_model,
-                 nb_random_sampling,seed,Mmin,sr_correl,size_of_increment,Mmax_range,
-                 overwrite_files,fit_quality,calculation_log_file,use_host_model,host_model_file,list_fbg,fbgpath):
-        self.Run_Name = Run_Name
-        self.File_geom = File_geom
-        self.File_prop = File_prop
-        self.File_bg = File_bg
-        self.file_prop_bg = file_prop_bg
+    def __init__(self,param,calculation_log_file):
+        self.param = param
 
+        # initiat the parameters
+        self.Run_Name = param["Run_Name"]
 
-        self.Domain_in_model = Domain_in_model
+        if param["main"]["fault_input_type"] == "geojson" :
+            self.faults_file = param["main"]["faults_file"]
+            self.File_geom = self.faults_file #geometry is included
+        elif param[1]["fault_input_type"] == "txtsherifs" :
+            self.File_geom = param["main"]["File_geom"]
+            self.File_prop = param["main"]["File_prop"]
 
-        self.nb_random_sampling = nb_random_sampling
+        # find the background option
+        if param["main"]["background"]["option_bg"] == "smooth":
+            fbgpath = param["main"]["background"]["smoothing_xml"]
+            if os.path.isdir(fbgpath):
+                list_fbg = [f for f in listdir(fbgpath) if isfile(join(fbgpath, f))]
+            else :
+                list_fbg = fbgpath.split(' ')
+                while '' in list_fbg:
+                    list_fbg.remove('')
+        else :
+            list_fbg = []
+            fbgpath = None
 
-
-        self.seed = seed
-        np.random.seed = seed
-
-        self.Mmin = Mmin
-        self.sr_correl = sr_correl
-        self.size_of_increment = size_of_increment
-        self.Mmax_range = Mmax_range
-
-        self.overwrite = overwrite_files
-        self.fit_quality = fit_quality
-
-        self.calculation_log_file = calculation_log_file
-        self.use_host_model = use_host_model
-        self.host_model_file = host_model_file
         self.list_fbg = list_fbg
         self.fbgpath = fbgpath
+
+        self.nb_random_sampling = param["main"]["parameters"]["nb_sample"]
+
+        self.overwrite = param["main"]["parameters"]["overwrite_files"]
+
+        self.calculation_log_file = calculation_log_file
+        self.Domain_in_model = []
 
         self.initialize()
 
@@ -84,9 +90,9 @@ class Sources_Logic_Tree_Creator:
             file_log_LT = open(LT_log_name,'r')
             self.log_LT = file_log_LT.readlines()
 
-            OQ_job = OQ_job_Creator(self.Run_Name) # ask the info about the run and create the job.ini file
+            #OQ_job = OQ_job_Creator(self.Run_Name) # ask the info about the run and create the job.ini file
 
-            nb_random_sampling = OQ_job.nb_sample
+            #nb_random_sampling = OQ_job.nb_sample
 
             selected_Model = self.log_LT[1].split('\t')
             if '\r\n' in selected_Model:
@@ -144,7 +150,8 @@ class Sources_Logic_Tree_Creator:
 
             # extracting the complexe multi fault ruptures
             try:
-                available_sets = read_input.extract_sc_input('input/'+self.Run_Name+'/ruptures.txt')
+                #available_sets = read_input.extract_sc_input('input/'+self.Run_Name+'/ruptures.txt')
+                available_sets = read_input.extract_sc_input(self.param["main"]["rupture_file"])
             except:
                 print('Error related to the rupture scenario set file \n'+
                 'Please make sure input/run_name/ruptures.txt is correctly set up')
@@ -205,7 +212,7 @@ class Sources_Logic_Tree_Creator:
                        + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set[3::]) + '/'
                         + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '/' + 'MFD_'+ str(mfd_hyp[4::])) # path to the source file
 
-                for sample in range(1,nb_random_sampling+1):
+                for sample in range(1,self.nb_random_sampling+1):
                     rerun_the_files = False
                     if not os.path.exists(path):
                         os.makedirs(path)
@@ -245,7 +252,7 @@ class Sources_Logic_Tree_Creator:
 
                     line+=('</uncertaintyModel>\n')
 
-                    line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(float(len(branches)*nb_random_sampling),5)) + '</uncertaintyWeight>\n'
+                    line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(float(len(branches)*self.nb_random_sampling),5)) + '</uncertaintyWeight>\n'
                     line+='\t\t\t\t</logicTreeBranch>\n'
 
                     path = (str(self.Run_Name) + '/' + str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
@@ -286,8 +293,9 @@ class Sources_Logic_Tree_Creator:
                         print("Importing faults")
 
 
-                        #Extraction of the faults and scenarios present in the model from the text file
-                        if not ".geojson" in self.File_prop:
+                        # Extraction of the faults and scenarios present
+                        # in the model from the text file
+                        if self.param["main"]["fault_input_type"] == "txtsherifs":
                             Prop = np.genfromtxt(self.File_prop,
                                                        dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
                                                               ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
@@ -297,8 +305,8 @@ class Sources_Logic_Tree_Creator:
                             Prop = np.take(Prop,index_model)
                             faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
                             faults_names = list(faults_names)
-                        else :
-                            with open(self.File_prop) as f:
+                        elif self.param["main"]["fault_input_type"] == "geojson":
+                            with open(self.faults_file) as f:
                                 gj = geojson.load(f)
                             faults = gj['features']
                             faults_names = []
@@ -426,16 +434,12 @@ class Sources_Logic_Tree_Creator:
 
                     if rerun_the_files == True :
                         # Create the source model
-                        Source_model = Source_Model_Creator(path,self.Run_Name,
+                        Source_model = Source_Model_Creator(path,
+                                                            self.param,
                                                             Model,
-                                                            self.File_geom,
-                                                            self.File_prop,
-                                                            self.File_bg,
-                                                            self.file_prop_bg,
                                                             rupture_set,
+                                                            sample,
                                                             self.Domain_in_model,
-                                                            sample,self.seed,
-                                                            self.Mmin,
                                                             selected_ScL,
                                                             dim_used,
                                                             use_all_ScL_data,
@@ -443,17 +447,12 @@ class Sources_Logic_Tree_Creator:
                                                             b_max,
                                                             mfd_hyp[4::],
                                                             bg_ratio,
-                                                            self.sr_correl,
-                                                            self.size_of_increment,
-                                                            self.fit_quality,
-                                                            self.Mmax_range,
                                                             self.calculation_log_file,
-                                                            self.use_host_model,
-                                                            self.host_model_file,
                                                             faults_names,
                                                             scenarios_names,
                                                             faults_data,
-                                                            faults_lon,faults_lat,
+                                                            faults_lon,
+                                                            faults_lat,
                                                             self.list_fbg,
                                                             self.fbgpath)
 
@@ -474,7 +473,7 @@ class Sources_Logic_Tree_Creator:
 
 
     def FaultProperties(self,Name_of_fault,Model):
-        if not ".geojson" in self.File_prop:
+        if self.param["main"]["fault_input_type"] == "txtsherifs":
             FileName_Prop = self.File_prop
             Prop = np.genfromtxt(FileName_Prop,
                                        dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
@@ -514,7 +513,7 @@ class Sources_Logic_Tree_Creator:
                 print('\nError!!! please verify your input file for fault parameters\n')
 
 
-        else : #it's a geojson file
+        elif self.param["main"]["fault_input_type"] == "geojson":
             with open(self.File_geom) as f:
                 gj = geojson.load(f)
             faults = gj['features']
@@ -624,7 +623,7 @@ class Sources_Logic_Tree_Creator:
             #            self.Nb_data_per_zone = dict([(k,self.Column_Fault_name.count(k)) for k in set(self.Column_Fault_name)])
 
         else : #the input file in a geojson
-            with open(self.File_geom) as f:
+            with open(self.faults_file) as f:
                 gj = geojson.load(f)
             faults = gj['features']
 

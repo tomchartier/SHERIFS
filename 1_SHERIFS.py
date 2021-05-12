@@ -23,8 +23,7 @@ import time
 import os
 import sys
 from lib.utils import sap
-from os import listdir
-from os.path import isfile, join
+import toml
 
 # If you are running SHERIFS with spyder define "input_file" here. Then run.
 
@@ -48,8 +47,10 @@ def SHERIFS(input_file):
     '''###########################'''
     '''       Input files         '''
     '''###########################'''
-
     # Load the input file
+    param = toml.load(input_file)
+    '''
+    # Load the input file (old)
     lines = open(input_file,'r').readlines()
     lines = [line.rstrip('\n') for line in lines]
     list_fbg = []
@@ -90,18 +91,20 @@ def SHERIFS(input_file):
                 list_fbg = tmp.split(' ')
                 while '' in list_fbg:
                     list_fbg.remove('')
-                    
+
         else :
             fbgpath = None
-
+    '''
+    Run_Name = param["Run_Name"]
     #create folder structure
     if not os.path.exists(str(Run_Name)):
         os.makedirs(str(Run_Name))
     if not os.path.exists(str(Run_Name) + '/results'):
          os.makedirs(str(Run_Name) + '/results')
 
-    Domain_in_model = []
+    #Domain_in_model = []
 
+    '''
     OQ_job_Creator = OQ_job_Creator(Run_Name) # ask the info about the run and create the job.ini file
 
     seed = OQ_job_Creator.seed
@@ -111,19 +114,25 @@ def SHERIFS(input_file):
     size_of_increment = OQ_job_Creator.size_of_increment
     Mmax_range = OQ_job_Creator.Mmax_range
     #fit_quality = 5 #maximum misfit between the model and the target (in %)
-
+    '''
     calculation_log_file = open(Run_Name+'/calculation_log.txt','w')
-    Sources_Logic_Tree_Creator = Sources_Logic_Tree_Creator(Run_Name,File_geom,
-                                                            File_prop,File_bg,file_prop_bg,Domain_in_model,
-                                                            nb_random_sampling,seed,Mmin,sr_correl,
-                                                            size_of_increment,Mmax_range,overwrite_files,float(fit_quality)/100.,
-                                                            calculation_log_file,use_host_model,host_model_file
-                                                            ,list_fbg,fbgpath)
-                                                            #create the source models logic tree
+
+    '''
+    sltc = Sources_Logic_Tree_Creator(Run_Name,File_geom,
+                                    File_prop,File_bg,file_prop_bg,Domain_in_model,
+                                    nb_random_sampling,seed,Mmin,sr_correl,
+                                    size_of_increment,Mmax_range,overwrite_files,float(fit_quality)/100.,
+                                    calculation_log_file,use_host_model,host_model_file
+                                    ,list_fbg,fbgpath)
+                                    #create the source models logic tree
+    '''
+
+    Sources_Logic_Tree_Creator(param,calculation_log_file)
+                                #create the source models logic tree
 
     calculation_log_file.close()
 
-    Domain_in_model = Sources_Logic_Tree_Creator.Domain_in_model
+    #Domain_in_model = sltc.Domain_in_model
 
     #if you want to build a GMPE logic tree for OpenQuake, you can always do it later before running the hazard calculation
     #build_GMPE_LT = False
