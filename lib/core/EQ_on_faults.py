@@ -28,10 +28,11 @@ warnings.simplefilter("ignore",RuntimeWarning)
 
 
 class EQ_on_faults_from_sr():
-    def __init__(self,M_min,mfd_param,faults_names,faults_area,faults_length,faults_width,faults_slip_rates,
-                 scenarios,faults_shear_mod,path,sample,selected_ScL,dimention_used,
+    def __init__(self,Run_Name,M_min,mfd_param,faults_names,faults_area,faults_length,faults_width,faults_slip_rates,
+                 scenarios,faults_shear_mod,path,pathlog,sample,selected_ScL,dimention_used,
                  use_all_ScL_data,faults_mecanism,bg_ratio,size_of_increment,mfd_hyp,count_reruns,
-                 faults_lon,faults_lat,Mmax_range,calculation_log_file):
+                 faults_lon,faults_lat,Mmax_range,calculation_log_file,branch):
+        self.Run_Name = Run_Name
         self.M_min = M_min
         self.mfd_param = mfd_param
         self.faults_names = faults_names
@@ -42,6 +43,7 @@ class EQ_on_faults_from_sr():
         self.scenarios = scenarios
         self.faults_shear_mod = faults_shear_mod
         self.path = path
+        self.pathlog = pathlog
         self.sample = sample
         self.selected_ScL = selected_ScL
         self.dimention_used = dimention_used
@@ -55,6 +57,7 @@ class EQ_on_faults_from_sr():
         self.faults_lat=faults_lat
         self.Mmax_range = Mmax_range
         self.calculation_log_file = calculation_log_file
+        self.branch = branch
 
         self.initialize()
     def initialize(self):
@@ -77,9 +80,9 @@ class EQ_on_faults_from_sr():
         faults_slip_rates = self.faults_slip_rates
 
         # file containing a log of what happened during the calculation
-        log_calculation_file = open(self.path +'/Log/calculation_sample_' + str(self.sample) + '.txt','w')
+        log_calculation_file = open(self.pathlog +'/calculation_sample_' + str(self.sample) + '.txt','w')
 
-        log_sliprep_file = self.path +'/Log/sliprep_sample_' + str(self.sample) + '.pkl'
+        log_sliprep_file = self.pathlog +'/sliprep_sample_' + str(self.sample) + '.pkl'
 
 
         re_use = True
@@ -88,15 +91,16 @@ class EQ_on_faults_from_sr():
         #####################################################################
         scenarios_names = self.scenarios
 
-        run_name = self.path.split('/')[0]
-        model_name = self.path.split('/')[1]
+        run_name = self.Run_Name
+        model_name = self.branch["model"]
 
-        if not os.path.exists(run_name+'/'+model_name+'/Log'):
-            os.makedirs(run_name+'/'+model_name +'/Log')
-        scl_name = self.path.split('/')[3]
-        set_name = self.path.split('/')[4]
+        # if not os.path.exists(run_name+'/'+model_name+'_Log'):
+        #     os.makedirs(run_name+'/'+model_name +'_Log')
+        scl_name = self.branch["scl"][0] + "_" + \
+         self.branch["scl"][1] + "_" + self.branch["scl"][2]
+        set_name = self.branch["set"]
         #f_bin_pop = self.path +'/Log/bin_pop_'+str(self.sample)+'.pkl'
-        f_mmax = run_name+'/'+model_name +'/mmax_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
+        f_mmax = run_name+'/'+model_name +'_mmax_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
         if not os.path.isfile(f_mmax):
             re_use = False
         if re_use == False:
@@ -194,7 +198,7 @@ class EQ_on_faults_from_sr():
             while Mmax< Mmaxmin or Mmax > Mmaxmax :
                 # file containing the log of the maximal magnitude of each fault and each scenario
 #                log_Mmax_file=open(self.path +'/Log/Mmax_sample_' + str(self.sample) + '.txt','w')
-                log_Mmax_file=open(run_name+'/'+model_name +'/Log/Mmax_sample_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.txt','w')
+                log_Mmax_file=open(run_name+'/'+model_name +'_Log_Mmax_sample_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.txt','w')
 
                 if loop_Mmax == 1 :
                     Mmaxs = scalling_laws.Calc_Mmax(self.faults_area,scenario_area,self.faults_length,scenario_length,self.faults_width,scenario_width,self.selected_ScL,
@@ -224,7 +228,6 @@ class EQ_on_faults_from_sr():
                     log_Mmax_file.write(line)
                     index_scenario += 1
                 log_Mmax_file.close()
-
 
                 if np.size(scenarios_names) == 0 :
                     Mmax = max(Mmax_faults)
@@ -297,7 +300,7 @@ class EQ_on_faults_from_sr():
                 index_rup.append(i_end+j)
 
         if str(self.sample) == '1':
-            log_rup_file = open(self.path +'/Log/ruptures.txt','w')
+            log_rup_file = open(self.pathlog +'/ruptures.txt','w')
             log_rup_file.write('rup_id\tinvolved_faults\n')
             for i in range(len(rup_rates)):
                 log_rup_file.write(str(rup_rates.get(str(i)).get('rup_id'))+'\t')
@@ -315,10 +318,10 @@ class EQ_on_faults_from_sr():
         #####################################################################'''
 
 #        model_name = self.path.split('/')[0]
-        scl_name = self.path.split('/')[3]
-        set_name = self.path.split('/')[4]
+        # scl_name = self.path.split('/')[3]
+        # set_name = self.path.split('/')[4]
         #f_bin_pop = self.path +'/Log/bin_pop_'+str(self.sample)+'.pkl'
-        f_bin_pop = run_name+'/'+model_name +'/bin_pop_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
+        f_bin_pop = run_name+'/'+model_name +'_bin_pop_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
         #f_bin_pop = self.path +'/Log/bin_pop_'+str(self.sample)+'.pkl'
 #        f_bin_pop = model_name +'/bin_pop_'+scl_name+'_'+str(self.sample)+'.pkl'
         if not os.path.isfile(f_bin_pop):
@@ -620,7 +623,7 @@ class EQ_on_faults_from_sr():
                         ax1.set_yscale('log')
                         ax1.legend()
 
-                        plt.savefig(self.path +'/Log/tmp_' + str(self.sample) + '.png' ,dpi = 80, transparent=True)
+                        plt.savefig(self.pathlog +'/Log_tmp_' + str(self.sample) + '.png' ,dpi = 80, transparent=True)
                         plt.close()
 
 
@@ -1009,7 +1012,7 @@ class EQ_on_faults_from_sr():
         plt.plot(bin_mag,TARGET,':b')
         plt.scatter(bin_mag[-3:],rate_tot_model[-3:],c='k')
         plt.yscale('log')
-        plt.savefig(self.path +'/Log/target_fit_' + str(self.sample) + '.png' ,dpi = 180, transparent=True)
+        plt.savefig(self.pathlog +'/Log_target_fit_' + str(self.sample) + '.png' ,dpi = 180, transparent=True)
         plt.close()
 
         index_5 = 0

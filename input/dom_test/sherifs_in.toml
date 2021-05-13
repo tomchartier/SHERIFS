@@ -28,6 +28,9 @@ faults_file = "data/DOM_v1/sections_nit.geojson"
 # rupture file
 rupture_file = "input/dom_test/ruptures.txt"
 
+# Logic Tree file
+LT_file = "input/dom_test/LT.toml"
+
 
 [main.background]
 # option_bg : smooth, zone, none
@@ -45,7 +48,10 @@ smoothing_xml = "/Users/tchartier/venv/src/SHERIFS/data/DOM_v1/zones"
 # 2 is for the SHERIFS paremeters
 [main.parameters]
 # run parameters
+force_rerun = "True"
 overwrite_files = "True"
+# a fit quality of 5 means that the shape of the modelled MFD
+# is within 5% of the target shape. 
 fit_quality = 5
 
 #nb sample (sr,b_value, Mmax)
@@ -56,7 +62,9 @@ Mmin = 4.5
 Random_seed = 805
 SR_correl =	"True"
 Mmax_range =	[0.0,	10.0]
+explo_time = 1
 
+use_multiF = "True"
 # 3 is for various OQ parameters important
 # if the goal is to run a hazard calculation
 [OQ]

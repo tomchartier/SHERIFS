@@ -33,6 +33,9 @@ import read_input
 import geojson
 import pickle
 from geometry_tools import distance
+import toml
+import glob
+
 
 
 class Sources_Logic_Tree_Creator:
@@ -75,110 +78,140 @@ class Sources_Logic_Tree_Creator:
         self.initialize()
 
     def initialize(self):
-        LT_file = str(self.Run_Name)+'/Sources_Logic_tree.xml'
-        LT_log_name  =  'input/'+str(self.Run_Name)+'/LT_log.txt'
+        LT_file = self.Run_Name+'/Sources_Logic_tree.xml'
+
+        #LT_log_name  =  'input/'+str(self.Run_Name)+'/LT_log.txt'
+        LT_log_name  =  self.param["main"]["LT_file"]
 #        reading_file = False
         if not os.path.exists(LT_log_name) :
-
-            print('ERROR : Please provide a LT_log.txt file \n See the user manual for guidelines and the example for file setup example.')
+            print('ERROR : Please provide a LT_file file \n \
+             See the user manual for guidelines and \
+              the example for file setup example.')
+            #print('ERROR : Please provide a LT_log.txt file \n See the user manual for guidelines and the example for file setup example.')
             exit()
 
         else : #get from the xml file
+            LT = toml.load(LT_log_name)
+            model_hyps = LT["Models"]
+            mfd_hyps = LT["MFD_shape"]
+            bg_hyps = LT["Background"]
+            sc_hyps = LT["scenario_set"]
+            scL_hyps = LT["Scaling_Laws"]
 
-#            reading_file = True
+            # all the branches
+            branches = []
+            for model in model_hyps :
+                for mfd in mfd_hyps :
+                    for bg in bg_hyps :
+                        for sc in sc_hyps :
+                            for scl in scL_hyps:
+                                bi = [model,
+                                    mfd,
+                                    bg,
+                                    sc,
+                                    scl]
+                                branches.append(bi)
+            tmp = branches
+            branches = []
+            b_indexes = []
+            for i_b in range(len(tmp)):
+                for sample in range(1,self.nb_random_sampling+1):
+                    bi = tmp[i_b]+[sample]
+                    branches.append(bi)
+                    b_indexes.append(i_b)
 
-            file_log_LT = open(LT_log_name,'r')
-            self.log_LT = file_log_LT.readlines()
+            force_rerun = self.param["main"]["parameters"]["force_rerun"]
+            if force_rerun in ["False","false"] :
+                if os.isfile(self.Run_Name+"\lt_branchs.pkl"):
+                    old_branches = pickle.load(self.Run_Name+"\lt_branchs.pkl")
+                    old_indexes = pickle.load(self.Run_Name+"\lt_b_id.pkl")
+                else :
+                    old_branches = []
+                    old_indexes = []
+            else :
+                old_branches = []
+                old_indexes = []
 
-            #OQ_job = OQ_job_Creator(self.Run_Name) # ask the info about the run and create the job.ini file
+            # creates a dict with all the branches info
+            dict_LT = {}
+            used_id = []
+            for bi in branches:
+                if force_rerun in ["False","false"] :
+                    if bi in old_branches:
+                        rerun_bi = False
+                        i = old_branches.index(branches)
+                        id = old_indexes[i]
+                        used_id.append(id)
+                    else:
+                        rerun_bi = True
+                        id = None
+                else:
+                    rerun_bi = True
+                    id = None
 
-            #nb_random_sampling = OQ_job.nb_sample
+                #find free id
+                if rerun_bi == True :
+                    i = 0
+                    while i in used_id + old_indexes:
+                        i += 1
+                    id = i
 
-            selected_Model = self.log_LT[1].split('\t')
-            if '\r\n' in selected_Model:
-                selected_Model.remove('\r\n')
-            if '\n' in selected_Model:
-                selected_Model.remove('\n')
+                used_id.append(id)
+                dict_LT.update({id:{
+                                "run_branch" : rerun_bi,
+                                "model" : bi[0],
+                                "mfd" : bi[1],
+                                "set" : bi[3],
+                                "bg" : bi[2],
+                                "scl" : bi[4],
+                                "smp" : bi[5]
+                                }})
 
-            selected_ScL = self.log_LT[3].split('\t')
-            if '\r\n' in selected_ScL:
-                selected_ScL.remove('\r\n')
-            if '\n' in selected_ScL:
-                selected_ScL.remove('\n')
+            # Extract the background hypotheses
+            if not self.param["main"]["background"]["option_bg"] \
+             in ["None","none"]:
+                # setting the ration of seismicity that is in the background
+                try:
+                    available_bg = read_input.extract_bg_input(
+                    'input/'+self.Run_Name+'/bg_seismicity.txt')
+                except:
+                    print('Error related to the background file \n'+
+                    'Please make sure input/run_name/bg_seismicity.txt \
+                     is correctly set up')
+            else :
+                print("No background is used")
 
-
-            index_advance = 0
-            mfd_hyps = []
-            b_values_hyps = []
-            while self.log_LT[5+index_advance][0:3] == 'MFD':
-                mfd_hyps.append(self.log_LT[5+index_advance].split('\t')[0])
-                b_values_hyps_i = []
-                for b_hyp in self.log_LT[5+index_advance].split('\t')[1:]:
-                    b_values_hyps_i.append(b_hyp)
-                if '\r\n' in b_values_hyps_i:
-                    b_values_hyps_i.remove('\r\n')
-                if '\n' in b_values_hyps_i:
-                    b_values_hyps_i.remove('\n')
-                b_values_hyps.append(b_values_hyps_i)
-                index_advance += 1
-
-            # Background
-            bg_names = self.log_LT[6+index_advance].split('\t')
-            if '\r\n' in bg_names:
-                bg_names.remove('\r\n')
-            if '\n' in bg_names:
-                bg_names.remove('\n')
-            if '' in bg_names:
-                bg_names.remove('')
-
-            # setting the ration of seismicity that is in the background
+            # extracting the rupture scenarios
             try:
-                available_bg = read_input.extract_bg_input('input/'+self.Run_Name+'/bg_seismicity.txt')
-            except:
-                print('Error related to the background file \n'+
-                'Please make sure input/run_name/bg_seismicity.txt is correctly set up')
-
-
-            # Scenario Set
-            sc_names = self.log_LT[8+index_advance].split('\t')
-            if '\r\n' in sc_names:
-                sc_names.remove('\r\n')
-            if '\n' in sc_names:
-                sc_names.remove('\n')
-            if '' in sc_names:
-                sc_names.remove('')
-
-            # extracting the complexe multi fault ruptures
-            try:
-                #available_sets = read_input.extract_sc_input('input/'+self.Run_Name+'/ruptures.txt')
-                available_sets = read_input.extract_sc_input(self.param["main"]["rupture_file"])
+                rupt_file = self.param["main"]["rupture_file"]
+                available_sets = read_input.extract_sc_input(rupt_file)
             except:
                 print('Error related to the rupture scenario set file \n'+
                 'Please make sure input/run_name/ruptures.txt is correctly set up')
 
 
-            # Build branches
-            branches = []
-            for model_i in selected_Model:
-                index_mfd = 0
-                for mfd_i in mfd_hyps:
-                    for bvalue in b_values_hyps[index_mfd]:
-                        for bg_hyp_i in bg_names:
-                            for sc_name in sc_names:
-                                for ScL_i in selected_ScL :
-                                    ScL_i = ScL_i.split(' ')
-                                    ScL_name_i= ScL_i[0]
-                                    use_all_i = ScL_i[2][0]
-                                    dim_i = ScL_i[1]
+            # # Build branches
+            # branches = []
+            # for model_i in model:
+            #     index_mfd = 0
+            #     for mfd_i in mfd_hyps:
+            #         for bvalue in b_values_hyps[index_mfd]:
+            #             for bg_hyp_i in bg_names:
+            #                 for sc_name in sc_names:
+            #                     for ScL_i in selected_ScL :
+            #                         ScL_i = ScL_i.split(' ')
+            #                         ScL_name_i= ScL_i[0]
+            #                         use_all_i = ScL_i[2][0]
+            #                         dim_i = ScL_i[1]
+            #
+            #                         branch_i = [model_i,ScL_name_i,use_all_i,dim_i,mfd_i,bvalue,bg_hyp_i,sc_name]
+            #                         branches.append(branch_i)
+            #         index_mfd += 1
 
-                                    branch_i = [model_i,ScL_name_i,use_all_i,dim_i,mfd_i,bvalue,bg_hyp_i,sc_name]
-                                    branches.append(branch_i)
-                    index_mfd += 1
-
-        str_all_data = []
-        id_number = 1
-        scenario_done = []
-        scenario_path = []
+        #str_all_data = []
+        #id_number = 1
+        #scenario_done = []
+        #scenario_path = []
 
         last_bg = 'impossible_name'
         last_set = 'impossible_name'
@@ -187,279 +220,255 @@ class Sources_Logic_Tree_Creator:
         # writting the xml file for the logic tree
         line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
         line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
-        line+='\txmlns="http://openquake.org/xmlns/nrml/0.4">\n'
+        line+='\txmlns="http://openquake.org/xmlns/nrml/0.5">\n'
         line+='\t<logicTree logicTreeID="lt1">\n'
-        line+='\t\t<logicTreeBranchingLevel branchingLevelID="bl' + str(id_number) + '">\n'
+        line+='\t\t<logicTreeBranchingLevel branchingLevelID="bl_1">\n'
         line+='\t\t\t<logicTreeBranchSet uncertaintyType="sourceModel"\n'
-        line+='\t\t\t\t\t\t\tbranchSetID="bs' + str(id_number) + '">\n'
+        line+='\t\t\t\t\t\t\tbranchSetID="bs_1">\n'
 
-        for branch in branches :
-            # Branch info
-            Model = branch[0]
-            selected_ScL = branch[1]
-            dim_used = branch[3][0]
-            str_all_data = branch[2]
-            bvalue = branch[5]
-            mfd_hyp = str(branch[4])
-            BG_hyp = branch[6]
-            scenario_set = branch[7]
-            b_min = bvalue.split('_')[1]
-            b_max = bvalue.split('_')[3]
+        for id in used_id:
+            branch = dict_LT[id]
+            if branch["run_branch"]==True:
+                model_hyp = branch["model"]
+                scl_hyp = branch["scl"]
+                mfd_hyp = branch["mfd"]
+                bg_hyp = branch["bg"]
+                set_hyp = branch["set"]
+                smp = branch["smp"] # sample
 
+                b_path = self.Run_Name + "/ssm/b_" + str(id)
+                log_path = self.Run_Name + "/ssm/log_b_" + str(id)
+                if not os.path.exists(b_path):
+                    os.makedirs(b_path)
+                    print("running branch id ",str(id)," for the first time")
+                else :
+                    files = glob.glob(b_path+"/*")
+                    for f in files:
+                        os.remove(f)
+                    print("rerunning branch id ",str(id))
+                # creating of cleaning the log
+                if not os.path.exists(log_path):
+                    os.makedirs(log_path)
+                else :
+                    files = glob.glob(log_path+"/*")
+                    for f in files:
+                        os.remove(f)
 
-            if not len(Model)==0 or len(BG_hyp[3::])==0 or len(scenario_set[3::])==0 or len(mfd_hyp[4::])==0 or len(selected_ScL)==0  or len(dim_used)==0  or len(str_all_data)==0 :
-                path = (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp[3::]) + '/' + str(selected_ScL) + '_'
-                       + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set[3::]) + '/'
-                        + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '/' + 'MFD_'+ str(mfd_hyp[4::])) # path to the source file
+                line+=('\t\t\t\t<logicTreeBranch branchID= "b_' +str(id)+ '">\n')
 
-                for sample in range(1,self.nb_random_sampling+1):
-                    rerun_the_files = False
-                    if not os.path.exists(path):
-                        os.makedirs(path)
-                    path_file = (str(self.Run_Name) + '/' +(str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
-                           + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
-                            + str(bvalue)+ '/' + str(mfd_hyp)) + '/Source_model_'+ str(sample) + '.xml')
-                    if not os.path.isfile(path_file):
-                        rerun_the_files = True
-                    if self.overwrite == True:
-                        rerun_the_files = True
+                self.calculation_log_file.write('\n\nRunning logic tree branch:')
 
-                    line+=('\t\t\t\t<logicTreeBranch branchID="' + str(Model) + '-' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
-                           + str(dim_used) + '-' + str_all_data + '-' +  str(scenario_set) + '-'
-                            + str(bvalue)+ '-' + str(mfd_hyp)  + '-s_' + str(sample) + '">\n')
-                    print('\nRunning logic tree branch:')
+                print(str(model_hyp) + '-' + str(scl_hyp)
+                + '-' + str(mfd_hyp) + '-'+ str(bg_hyp) + '-' + str(smp))
 
-                    self.calculation_log_file.write('\n\nRunning logic tree branch:')
-                    print(str(Model) + '-' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
-                           + str(dim_used) + '-' + str_all_data + '-' +  str(scenario_set) + '-'
-                            + str(bvalue)+ '-' + str(mfd_hyp)  + '-s_' + str(sample))
-                    self.calculation_log_file.write('\n'+str(Model) + '-' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
-                           + str(dim_used) + '-' + str_all_data + '-' +  str(scenario_set) + '-'
-                            + str(bvalue)+ '-' + str(mfd_hyp)  + '-s_' + str(sample))
+                self.calculation_log_file.write('\n'+str(model_hyp) + '-' + str(scl_hyp)
+                + '-' + str(mfd_hyp) + '-'+ str(bg_hyp) + '-' + str(set_hyp)
+                       + '-' +  str(set_hyp) + '-' + str(smp))
 
 
-                    line+=('\t\t\t\t\t<uncertaintyModel>' + (str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
-                           + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
-                            + str(bvalue)+ '/' + str(mfd_hyp)) + '/Source_model_'
-                    + str(sample) + '.xml ')
+                if last_bg != bg_hyp :
+                    # setting the ration of seismicity that is in the background
+                    bg_ratio = available_bg[bg_hyp]
+                    last_bg = bg_hyp
+                if last_set != set_hyp :
+                    # extracting the complexe multi fault ruptures
+                    rupture_set = available_sets[set_hyp]
 
-                    if len(self.list_fbg) != 0 :
-                        pth_to_bg = (str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
-                           + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
-                            + str(bvalue)+ '/' + str(mfd_hyp)) + '/' + 'bg_'+str(sample)+'.xml '
-                        line+=pth_to_bg
-
-
-                    line+=('</uncertaintyModel>\n')
-
-                    line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(float(len(branches)*self.nb_random_sampling),5)) + '</uncertaintyWeight>\n'
-                    line+='\t\t\t\t</logicTreeBranch>\n'
-
-                    path = (str(self.Run_Name) + '/' + str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
-                           + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
-                            + str(bvalue)+ '/' + str(mfd_hyp)) # path to the source file
-
-                    if last_bg != BG_hyp :
-                        # setting the ration of seismicity that is in the background
-                        bg_ratio = available_bg[BG_hyp]
-                        last_bg = BG_hyp
-                    if last_set != scenario_set :
-                        # extracting the complexe multi fault ruptures
-                        rupture_set = available_sets[scenario_set]
-
-                        index_scenario = 0
+                    index_scenario = 0
+                    scenarios_names = []
+                    if np.size(rupture_set) == 0 :
                         scenarios_names = []
-                        if np.size(rupture_set) == 0 :
-                            scenarios_names = []
-                        else :
-                            for index_scenario in range(len(rupture_set)):
-                                faults_in_scenario = rupture_set[index_scenario]
-                                if len(faults_in_scenario) > 1:
-                                    scenario = {}
-                                    faults_done = []
-                                    for i in range(len(faults_in_scenario)):
-                                        if not str(faults_in_scenario[i]).replace('\r','') in faults_done:
-                                            scenario["f_%s" % str(i+1)] = [str(faults_in_scenario[i]).replace('\r','').replace('\t','').replace('\n','')]
-                                            faults_done.append(str(faults_in_scenario[i]).replace('\r','').replace('\t','').replace('\n',''))
-                                    if len(scenario)!=0:
-                                        scenarios_names.append(scenario)
-                                index_scenario += 1
+                    else :
+                        for index_scenario in range(len(rupture_set)):
+                            faults_in_scenario = rupture_set[index_scenario]
+                            if len(faults_in_scenario) > 1:
+                                scenario = {}
+                                faults_done = []
+                                for i in range(len(faults_in_scenario)):
+                                    if not str(faults_in_scenario[i]).replace('\r','') in faults_done:
+                                        scenario["f_%s" % str(i+1)] = [str(faults_in_scenario[i]).replace('\r','').replace('\t','').replace('\n','')]
+                                        faults_done.append(str(faults_in_scenario[i]).replace('\r','').replace('\t','').replace('\n',''))
+                                if len(scenario)!=0:
+                                    scenarios_names.append(scenario)
+                            index_scenario += 1
 
-                        last_set = scenario_set
+                    last_set = set_hyp
 
-                    if last_model != Model :
-                        # Extraction of the fault geometry and properties
-                        last_model = Model
-                        print("Importing faults")
+                if last_model != model_hyp :
+                    # Extraction of the fault geometry and properties
+                    last_model = model_hyp
+                    print("Importing faults")
 
 
-                        # Extraction of the faults and scenarios present
-                        # in the model from the text file
-                        if self.param["main"]["fault_input_type"] == "txtsherifs":
-                            Prop = np.genfromtxt(self.File_prop,
-                                                       dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
-                                                              ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
-                            Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
-                            Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
-                            index_model = np.where(np.array(Column_model_name) == Model)[0]
-                            Prop = np.take(Prop,index_model)
-                            faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
-                            faults_names = list(faults_names)
-                        elif self.param["main"]["fault_input_type"] == "geojson":
-                            with open(self.faults_file) as f:
-                                gj = geojson.load(f)
-                            faults = gj['features']
-                            faults_names = []
-                            for fi in range(len(faults)):
-                                if faults[fi]['properties']['model'] == Model : faults_names.append(str(faults[fi]['properties']['si']))
+                    # Extraction of the faults and scenarios present
+                    # in the model from the text file
+                    if self.param["main"]["fault_input_type"] == "txtsherifs":
+                        Prop = np.genfromtxt(self.File_prop,
+                                                   dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+                                                          ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+                        Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+                        Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+                        index_model = np.where(np.array(Column_model_name) == model_hyp)[0]
+                        Prop = np.take(Prop,index_model)
+                        faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
+                        faults_names = list(faults_names)
+                    elif self.param["main"]["fault_input_type"] == "geojson":
+                        with open(self.faults_file) as f:
+                            gj = geojson.load(f)
+                        faults = gj['features']
+                        faults_names = []
+                        for fi in range(len(faults)):
+                            if faults[fi]['properties']['model'] == model_hyp : faults_names.append(str(faults[fi]['properties']['si']))
 
-                        ########################################################
-                        #Extraction of the properties and geometries of faults
-                        ########################################################
-                        print("\t - importing faults geometry")
-                        faults_data = {}
-                        index_fault = 0
-                        #extractions of the geometries of the faults
-                        geom_scenar = Geometry_scenario.Geom_scenar(faults_names,self.File_geom,Model)
-                        faults_lon = geom_scenar.faults_lon
-                        faults_lat = geom_scenar.faults_lat
+                    ########################################################
+                    #Extraction of the properties and geometries of faults
+                    ########################################################
+                    print("\t - importing faults geometry")
+                    faults_data = {}
+                    index_fault = 0
+                    #extractions of the geometries of the faults
+                    geom_scenar = Geometry_scenario.Geom_scenar(faults_names,self.File_geom,model_hyp)
+                    faults_lon = geom_scenar.faults_lon
+                    faults_lat = geom_scenar.faults_lat
 
-                        simplify_faults = True
-                        if simplify_faults == True :
-                            print("WARNING : fault simplification is applied!!")
-                            for i_fault in range(len(faults)):
-                                faults_lon[i_fault] = [faults_lon[i_fault][0],faults_lon[i_fault][-1]]
-                                faults_lat[i_fault] = [faults_lat[i_fault][0],faults_lat[i_fault][-1]]
-
-
-                        self.FaultGeometry(Model)  #extract the geometries from the geometry file
-
-                        print("\t - importing faults properties")
-                        re_use = True
-                        f_prop_tmp = str(self.Run_Name)+'/'+Model+'/prop.pkl'
-
-                        if not os.path.isfile(f_prop_tmp):
-                            re_use = False
-                        if re_use == False:
-                            for Fault_name in faults_names:
-                                # extract depth
-                                i_d = np.where(np.array(self.Column_Fault_name) == Fault_name)
-                                depth = list(map(lambda i : self.Depths[i],i_d[0]))
-                                #extractions of the properties of the fault
-                                self.FaultProperties(Fault_name,Model)
-                                dip = self.dip
-                                upper_sismo_depth = self.upper_sismo_depth
-                                lower_sismo_depth = self.lower_sismo_depth
-                                width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
-                                length = geom_scenar.length[index_fault] * 1000.
-                                area = length * width * 1000.
-
-                                if self.rake> -135. and self.rake< -45:
-                                    mecanism = 'N'
-                                elif self.rake< 135. and self.rake> 45:
-                                    mecanism = 'R'
-                                else :
-                                    mecanism = 'S'
-
-                                slip_rate_min = self.slip_rate_min
-                                slip_rate_moy = self.slip_rate_moy
-                                slip_rate_max = self.slip_rate_max
-
-                                faults_data.update({index_fault:{'name':Fault_name,
-                                'dip':dip,
-                                'oriented':self.oriented,
-                                'upper_sismo_depth':upper_sismo_depth,
-                                'lower_sismo_depth':lower_sismo_depth,
-                                'width':width,'length':length,'area':area,
-                                'mecanism':mecanism,'rake':self.rake,
-                                'slip_rate_min':slip_rate_min,
-                                'slip_rate_moy':slip_rate_moy,
-                                'slip_rate_max':slip_rate_max,
-                                'shear_mod':float(self.shear_mod)*10**9,
-                                'domain':self.Domain,
-                                'lon':faults_lon[index_fault],
-                                'lat':faults_lat[index_fault],
-                                'depth':depth}})
-                                index_fault += 1
-
-                            with open(f_prop_tmp, 'wb') as f:
-                                pickle.dump(faults_data, f)
-
-                        else :
-                            print('Reloading MFDs from pickle file')
-                            with open(f_prop_tmp, 'rb') as f:
-                                faults_data = pickle.load(f)
-
-                        print("Faults imported.")
-
-                    # #######
-                    # # CHECK if the faults are long enough
-                    # #######
-                    # min_length = 5. #(km)
-                    # id_f_too_short = []
-                    # name_f_too_short = []
-                    # for i,name in zip(range(len(faults_names)),faults_names):
-                    #     lons = faults_lon[i]
-                    #     lats = faults_lat[i]
-                    #     if distance(lons[0],lats[0],lons[-1],lats[-1]) < min_length:
-                    #         print("sections ", name, " likely too short -> REMOVING")
-                    #         id_f_too_short.append(i)
-                    #         name_f_too_short.append(name)
-                    # #clean the scenarii
-                    # sc_to_remove = []
-                    # for index_scenario in range(len(rupture_set)):
-                    #     for fj in rupture_set[index_scenario]:
-                    #         if fj in name_f_too_short:
-                    #             sc_to_remove.append(index_scenario)
-                    #
-                    # for i in reversed(sc_to_remove):
-                    #     rupture_set.remove(rupture_set[i])
-                    #     scenarios_names.remove(scenarios_names[i])
-                    #
-                    # #remove associated fault info
-                    # for i in reversed(id_f_too_short):
-                    #     faults_names.remove(faults_names[i])
-                    #     faults_data.pop(i)
-                    #     faults_lon.remove(faults_lon[i])
-                    #     faults_lat.remove(faults_lat[i])
-                    # ################
-                    #
-                    #
+                    simplify_faults = True
+                    if simplify_faults == True :
+                        print("WARNING : fault simplification is applied!!")
+                        for i_fault in range(len(faults)):
+                            faults_lon[i_fault] = [faults_lon[i_fault][0],faults_lon[i_fault][-1]]
+                            faults_lat[i_fault] = [faults_lat[i_fault][0],faults_lat[i_fault][-1]]
 
 
-                    if str_all_data == 'a' :
-                        use_all_ScL_data = True
-                    elif str_all_data == 'm' :
-                        use_all_ScL_data = False
+                    self.FaultGeometry(model_hyp)  #extract the geometries from the geometry file
 
-                    if rerun_the_files == True :
-                        # Create the source model
-                        Source_model = Source_Model_Creator(path,
-                                                            self.param,
-                                                            Model,
-                                                            rupture_set,
-                                                            sample,
-                                                            self.Domain_in_model,
-                                                            selected_ScL,
-                                                            dim_used,
-                                                            use_all_ScL_data,
-                                                            b_min,
-                                                            b_max,
-                                                            mfd_hyp[4::],
-                                                            bg_ratio,
-                                                            self.calculation_log_file,
-                                                            faults_names,
-                                                            scenarios_names,
-                                                            faults_data,
-                                                            faults_lon,
-                                                            faults_lat,
-                                                            self.list_fbg,
-                                                            self.fbgpath)
+                    print("\t - importing faults properties")
+                    re_use = True
+                    f_prop_tmp = str(self.Run_Name)+'/ssm/'+model_hyp+'_prop.pkl'
 
-                        self.Domain_in_model = Source_model.Domain_in_the_model
-                        list_src_files = Source_model.list_src_files
+                    if not os.path.isfile(f_prop_tmp):
+                        re_use = False
+                    if re_use == False:
+                        for Fault_name in faults_names:
+                            # extract depth
+                            i_d = np.where(np.array(self.Column_Fault_name) == Fault_name)
+                            depth = list(map(lambda i : self.Depths[i],i_d[0]))
+                            #extractions of the properties of the fault
+                            self.FaultProperties(Fault_name,model_hyp)
+                            dip = self.dip
+                            upper_sismo_depth = self.upper_sismo_depth
+                            lower_sismo_depth = self.lower_sismo_depth
+                            width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
+                            length = geom_scenar.length[index_fault] * 1000.
+                            area = length * width * 1000.
 
-                    id_number += 1
+                            if self.rake> -135. and self.rake< -45:
+                                mecanism = 'N'
+                            elif self.rake< 135. and self.rake> 45:
+                                mecanism = 'R'
+                            else :
+                                mecanism = 'S'
+
+                            slip_rate_min = self.slip_rate_min
+                            slip_rate_moy = self.slip_rate_moy
+                            slip_rate_max = self.slip_rate_max
+
+                            faults_data.update({index_fault:{'name':Fault_name,
+                            'dip':dip,
+                            'oriented':self.oriented,
+                            'upper_sismo_depth':upper_sismo_depth,
+                            'lower_sismo_depth':lower_sismo_depth,
+                            'width':width,'length':length,'area':area,
+                            'mecanism':mecanism,'rake':self.rake,
+                            'slip_rate_min':slip_rate_min,
+                            'slip_rate_moy':slip_rate_moy,
+                            'slip_rate_max':slip_rate_max,
+                            'shear_mod':float(self.shear_mod)*10**9,
+                            'domain':self.Domain,
+                            'lon':faults_lon[index_fault],
+                            'lat':faults_lat[index_fault],
+                            'depth':depth}})
+                            index_fault += 1
+
+                        with open(f_prop_tmp, 'wb') as f:
+                            pickle.dump(faults_data, f)
+
+                    else :
+                        print('Reloading MFDs from pickle file')
+                        with open(f_prop_tmp, 'rb') as f:
+                            faults_data = pickle.load(f)
+
+                    print("Faults imported.")
+
+
+                if scl[2] in ['a','A'] :
+                    use_all_ScL_data = True
+                elif scl[2] in ['m','M'] :
+                    use_all_ScL_data = False
+                b_value = float(mfd_hyp[1])
+
+                # if rerun_the_files == True :
+                #     # Create the source model
+                Source_model = Source_Model_Creator(b_path,
+                                                    log_path,
+                                                    self.param,
+                                                    model_hyp,
+                                                    rupture_set,
+                                                    smp,
+                                                    self.Domain_in_model,
+                                                    scl[0],
+                                                    scl[1],
+                                                    use_all_ScL_data,
+                                                    b_value,
+                                                    mfd_hyp[0],
+                                                    bg_ratio,
+                                                    self.calculation_log_file,
+                                                    faults_names,
+                                                    scenarios_names,
+                                                    faults_data,
+                                                    faults_lon,
+                                                    faults_lat,
+                                                    self.list_fbg,
+                                                    self.fbgpath,
+                                                    branch)
+
+                self.Domain_in_model = Source_model.Domain_in_the_model
+                list_src_files = Source_model.list_src_files
+
+                #id_number += 1
+
+
+            elif branch["run_branch"]==False:
+                print("not rerunning branch id ", str(id))
+                print(str(model_hyp) + '-' + str(scl_hyp)
+                + '-' + str(mfd_hyp) + '-'+ str(bg_hyp) + '-' + str(set_hyp)
+                       + '-' +  str(set_hyp) + '-' + str(smp))
+
+                # find all the files in the folder
+
+                # write branch in the logic tree
+
+            # write after
+            line+=('\t\t\t\t\t<uncertaintyModel> \n')
+            if self.param["main"]["parameters"]["use_multiF"]in ['True','true']:
+                line+="\t\t\t\t\t\t\tssm/"+model+'_sections.xml \n'
+
+            for f in list_src_files:
+                line+="\t\t\t\t\t\t\t"+f+"\n"
+
+            # for f in self.list_fbg:
+            #     line+="ssm/"+f+"\n"
+
+            # if len(self.list_fbg) != 0 :
+            #     pth_to_bg = (str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
+            #        + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
+            #         + str(bvalue)+ '/' + str(mfd_hyp)) + '/' + 'bg_'+str(sample)+'.xml '
+            #     line+=pth_to_bg
+
+
+            line+=('</uncertaintyModel>\n')
+
+            line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(float(len(branches)*self.nb_random_sampling),5)) + '</uncertaintyWeight>\n'
+            line+='\t\t\t\t</logicTreeBranch>\n'
 
         line+='\t\t\t</logicTreeBranchSet>\n'
         line+='\t\t</logicTreeBranchingLevel>\n'
@@ -470,6 +479,296 @@ class Sources_Logic_Tree_Creator:
         XMLfile=open(LT_file,'w')
         XMLfile.write(line)
         XMLfile.close()
+
+        with open(self.Run_Name+"\lt_branchs.pkl", 'wb') as f:
+            pickle.dump(branches, f)
+        with open(self.Run_Name+"\lt_b_id.pkl", 'wb') as f:
+            pickle.dump(used_id, f)
+
+        #
+        # for branch in branches :
+        #     # Branch info
+        #     Model = branch[0]
+        #     selected_ScL = branch[1]
+        #     dim_used = branch[3][0]
+        #     str_all_data = branch[2]
+        #     bvalue = branch[5]
+        #     mfd_hyp = str(branch[4])
+        #     BG_hyp = branch[6]
+        #     scenario_set = branch[7]
+        #     b_min = bvalue.split('_')[1]
+        #     b_max = bvalue.split('_')[3]
+        #
+        #
+        #     if not len(Model)==0 or len(BG_hyp[3::])==0 or len(scenario_set[3::])==0 or len(mfd_hyp[4::])==0 or len(selected_ScL)==0  or len(dim_used)==0  or len(str_all_data)==0 :
+        #         path = (str(self.Run_Name) + '/' + str(Model) + '/' + 'bg_' + str(BG_hyp[3::]) + '/' + str(selected_ScL) + '_'
+        #                + str(dim_used) + '_' + str_all_data + '/sc_' +  str(scenario_set[3::]) + '/'
+        #                 + 'bmin_' + str(b_min) + '_bmax_' + str(b_max) + '/' + 'MFD_'+ str(mfd_hyp[4::])) # path to the source file
+        #
+        #         for sample in range(1,self.nb_random_sampling+1):
+        #             rerun_the_files = False
+        #             if not os.path.exists(path):
+        #                 os.makedirs(path)
+        #             path_file = (str(self.Run_Name) + '/' +(str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
+        #                    + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
+        #                     + str(bvalue)+ '/' + str(mfd_hyp)) + '/Source_model_'+ str(sample) + '.xml')
+        #             if not os.path.isfile(path_file):
+        #                 rerun_the_files = True
+        #             if self.overwrite == True:
+        #                 rerun_the_files = True
+        #
+        #             line+=('\t\t\t\t<logicTreeBranch branchID="' + str(Model) + '-' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
+        #                    + str(dim_used) + '-' + str_all_data + '-' +  str(scenario_set) + '-'
+        #                     + str(bvalue)+ '-' + str(mfd_hyp)  + '-s_' + str(sample) + '">\n')
+        #             print('\nRunning logic tree branch:')
+        #
+        #             self.calculation_log_file.write('\n\nRunning logic tree branch:')
+        #             print(str(Model) + '-' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
+        #                    + str(dim_used) + '-' + str_all_data + '-' +  str(scenario_set) + '-'
+        #                     + str(bvalue)+ '-' + str(mfd_hyp)  + '-s_' + str(sample))
+        #             self.calculation_log_file.write('\n'+str(Model) + '-' + str(BG_hyp) + '-' + str(selected_ScL) + '-'
+        #                    + str(dim_used) + '-' + str_all_data + '-' +  str(scenario_set) + '-'
+        #                     + str(bvalue)+ '-' + str(mfd_hyp)  + '-s_' + str(sample))
+        #
+        #
+        #             line+=('\t\t\t\t\t<uncertaintyModel>' + (str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
+        #                    + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
+        #                     + str(bvalue)+ '/' + str(mfd_hyp)) + '/Source_model_'
+        #             + str(sample) + '.xml ')
+        #
+        #             if len(self.list_fbg) != 0 :
+        #                 pth_to_bg = (str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
+        #                    + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
+        #                     + str(bvalue)+ '/' + str(mfd_hyp)) + '/' + 'bg_'+str(sample)+'.xml '
+        #                 line+=pth_to_bg
+        #
+        #
+        #             line+=('</uncertaintyModel>\n')
+        #
+        #             line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(float(len(branches)*self.nb_random_sampling),5)) + '</uncertaintyWeight>\n'
+        #             line+='\t\t\t\t</logicTreeBranch>\n'
+        #
+        #             path = (str(self.Run_Name) + '/' + str(Model) + '/' + str(BG_hyp) + '/' + str(selected_ScL) + '_'
+        #                    + str(dim_used) + '_' + str_all_data + '/' +  str(scenario_set) + '/'
+        #                     + str(bvalue)+ '/' + str(mfd_hyp)) # path to the source file
+        # #
+        #             if last_bg != BG_hyp :
+        #                 # setting the ration of seismicity that is in the background
+        #                 bg_ratio = available_bg[BG_hyp]
+        #                 last_bg = BG_hyp
+        #             if last_set != scenario_set :
+        #                 # extracting the complexe multi fault ruptures
+        #                 rupture_set = available_sets[scenario_set]
+        #
+        #                 index_scenario = 0
+        #                 scenarios_names = []
+        #                 if np.size(rupture_set) == 0 :
+        #                     scenarios_names = []
+        #                 else :
+        #                     for index_scenario in range(len(rupture_set)):
+        #                         faults_in_scenario = rupture_set[index_scenario]
+        #                         if len(faults_in_scenario) > 1:
+        #                             scenario = {}
+        #                             faults_done = []
+        #                             for i in range(len(faults_in_scenario)):
+        #                                 if not str(faults_in_scenario[i]).replace('\r','') in faults_done:
+        #                                     scenario["f_%s" % str(i+1)] = [str(faults_in_scenario[i]).replace('\r','').replace('\t','').replace('\n','')]
+        #                                     faults_done.append(str(faults_in_scenario[i]).replace('\r','').replace('\t','').replace('\n',''))
+        #                             if len(scenario)!=0:
+        #                                 scenarios_names.append(scenario)
+        #                         index_scenario += 1
+        #
+        #                 last_set = scenario_set
+        #
+        #             if last_model != Model :
+        #                 # Extraction of the fault geometry and properties
+        #                 last_model = Model
+        #                 print("Importing faults")
+        #
+        #
+        #                 # Extraction of the faults and scenarios present
+        #                 # in the model from the text file
+        #                 if self.param["main"]["fault_input_type"] == "txtsherifs":
+        #                     Prop = np.genfromtxt(self.File_prop,
+        #                                                dtype=[('U100'),('U100'),('f8'),('U100'),('U100'),('f8'),('f8'),('f8'),
+        #                                                       ('f8'),('f8'),('U100'),('f8')],skip_header = 1)
+        #                     Column_model_name = list(map(lambda i : Prop[i][0],range(len(Prop))))
+        #                     Column_fault_name = list(map(lambda i : Prop[i][1],range(len(Prop))))
+        #                     index_model = np.where(np.array(Column_model_name) == Model)[0]
+        #                     Prop = np.take(Prop,index_model)
+        #                     faults_names = np.array(Column_fault_name[index_model[0]:index_model[-1]+1])
+        #                     faults_names = list(faults_names)
+        #                 elif self.param["main"]["fault_input_type"] == "geojson":
+        #                     with open(self.faults_file) as f:
+        #                         gj = geojson.load(f)
+        #                     faults = gj['features']
+        #                     faults_names = []
+        #                     for fi in range(len(faults)):
+        #                         if faults[fi]['properties']['model'] == Model : faults_names.append(str(faults[fi]['properties']['si']))
+        #
+        #                 ########################################################
+        #                 #Extraction of the properties and geometries of faults
+        #                 ########################################################
+        #                 print("\t - importing faults geometry")
+        #                 faults_data = {}
+        #                 index_fault = 0
+        #                 #extractions of the geometries of the faults
+        #                 geom_scenar = Geometry_scenario.Geom_scenar(faults_names,self.File_geom,Model)
+        #                 faults_lon = geom_scenar.faults_lon
+        #                 faults_lat = geom_scenar.faults_lat
+        #
+        #                 simplify_faults = True
+        #                 if simplify_faults == True :
+        #                     print("WARNING : fault simplification is applied!!")
+        #                     for i_fault in range(len(faults)):
+        #                         faults_lon[i_fault] = [faults_lon[i_fault][0],faults_lon[i_fault][-1]]
+        #                         faults_lat[i_fault] = [faults_lat[i_fault][0],faults_lat[i_fault][-1]]
+        #
+        #
+        #                 self.FaultGeometry(Model)  #extract the geometries from the geometry file
+        #
+        #                 print("\t - importing faults properties")
+        #                 re_use = True
+        #                 f_prop_tmp = str(self.Run_Name)+'/'+Model+'/prop.pkl'
+        #
+        #                 if not os.path.isfile(f_prop_tmp):
+        #                     re_use = False
+        #                 if re_use == False:
+        #                     for Fault_name in faults_names:
+        #                         # extract depth
+        #                         i_d = np.where(np.array(self.Column_Fault_name) == Fault_name)
+        #                         depth = list(map(lambda i : self.Depths[i],i_d[0]))
+        #                         #extractions of the properties of the fault
+        #                         self.FaultProperties(Fault_name,Model)
+        #                         dip = self.dip
+        #                         upper_sismo_depth = self.upper_sismo_depth
+        #                         lower_sismo_depth = self.lower_sismo_depth
+        #                         width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
+        #                         length = geom_scenar.length[index_fault] * 1000.
+        #                         area = length * width * 1000.
+        #
+        #                         if self.rake> -135. and self.rake< -45:
+        #                             mecanism = 'N'
+        #                         elif self.rake< 135. and self.rake> 45:
+        #                             mecanism = 'R'
+        #                         else :
+        #                             mecanism = 'S'
+        #
+        #                         slip_rate_min = self.slip_rate_min
+        #                         slip_rate_moy = self.slip_rate_moy
+        #                         slip_rate_max = self.slip_rate_max
+        #
+        #                         faults_data.update({index_fault:{'name':Fault_name,
+        #                         'dip':dip,
+        #                         'oriented':self.oriented,
+        #                         'upper_sismo_depth':upper_sismo_depth,
+        #                         'lower_sismo_depth':lower_sismo_depth,
+        #                         'width':width,'length':length,'area':area,
+        #                         'mecanism':mecanism,'rake':self.rake,
+        #                         'slip_rate_min':slip_rate_min,
+        #                         'slip_rate_moy':slip_rate_moy,
+        #                         'slip_rate_max':slip_rate_max,
+        #                         'shear_mod':float(self.shear_mod)*10**9,
+        #                         'domain':self.Domain,
+        #                         'lon':faults_lon[index_fault],
+        #                         'lat':faults_lat[index_fault],
+        #                         'depth':depth}})
+        #                         index_fault += 1
+        #
+        #                     with open(f_prop_tmp, 'wb') as f:
+        #                         pickle.dump(faults_data, f)
+        #
+        #                 else :
+        #                     print('Reloading MFDs from pickle file')
+        #                     with open(f_prop_tmp, 'rb') as f:
+        #                         faults_data = pickle.load(f)
+        #
+        #                 print("Faults imported.")
+        #
+        #             # #######
+        #             # # CHECK if the faults are long enough
+        #             # #######
+        #             # min_length = 5. #(km)
+        #             # id_f_too_short = []
+        #             # name_f_too_short = []
+        #             # for i,name in zip(range(len(faults_names)),faults_names):
+        #             #     lons = faults_lon[i]
+        #             #     lats = faults_lat[i]
+        #             #     if distance(lons[0],lats[0],lons[-1],lats[-1]) < min_length:
+        #             #         print("sections ", name, " likely too short -> REMOVING")
+        #             #         id_f_too_short.append(i)
+        #             #         name_f_too_short.append(name)
+        #             # #clean the scenarii
+        #             # sc_to_remove = []
+        #             # for index_scenario in range(len(rupture_set)):
+        #             #     for fj in rupture_set[index_scenario]:
+        #             #         if fj in name_f_too_short:
+        #             #             sc_to_remove.append(index_scenario)
+        #             #
+        #             # for i in reversed(sc_to_remove):
+        #             #     rupture_set.remove(rupture_set[i])
+        #             #     scenarios_names.remove(scenarios_names[i])
+        #             #
+        #             # #remove associated fault info
+        #             # for i in reversed(id_f_too_short):
+        #             #     faults_names.remove(faults_names[i])
+        #             #     faults_data.pop(i)
+        #             #     faults_lon.remove(faults_lon[i])
+        #             #     faults_lat.remove(faults_lat[i])
+        #             # ################
+        #             #
+        #             #
+        #
+        #
+        #             if str_all_data == 'a' :
+        #                 use_all_ScL_data = True
+        #             elif str_all_data == 'm' :
+        #                 use_all_ScL_data = False
+        #
+        #             if rerun_the_files == True :
+        #                 # Create the source model
+        #                 Source_model = Source_Model_Creator(path,
+        #                                                     self.param,
+        #                                                     Model,
+        #                                                     rupture_set,
+        #                                                     sample,
+        #                                                     self.Domain_in_model,
+        #                                                     selected_ScL,
+        #                                                     dim_used,
+        #                                                     use_all_ScL_data,
+        #                                                     b_min,
+        #                                                     b_max,
+        #                                                     mfd_hyp[4::],
+        #                                                     bg_ratio,
+        #                                                     self.calculation_log_file,
+        #                                                     faults_names,
+        #                                                     scenarios_names,
+        #                                                     faults_data,
+        #                                                     faults_lon,
+        #                                                     faults_lat,
+        #                                                     self.list_fbg,
+        #                                                     self.fbgpath)
+        #
+        #                 self.Domain_in_model = Source_model.Domain_in_the_model
+        #                 list_src_files = Source_model.list_src_files
+        #
+        #             id_number += 1
+        #
+        # line+='\t\t\t</logicTreeBranchSet>\n'
+        # line+='\t\t</logicTreeBranchingLevel>\n'
+        # line+='\t</logicTree>\n'
+        # line+='</nrml>\n'
+        #
+        # LT_file = str(self.Run_Name)+'/Sources_Logic_tree.xml'
+        # XMLfile=open(LT_file,'w')
+        # XMLfile.write(line)
+        # XMLfile.close()
+        #
+        # with open(self.Run_Name+"\lt_branchs.pkl", 'wb') as f:
+        #     pickle.dump(branches, f)
+        # with open(self.Run_Name+"\lt_b_id.pkl", 'wb') as f:
+        #     pickle.dump(used_id, f)
+
 
 
     def FaultProperties(self,Name_of_fault,Model):

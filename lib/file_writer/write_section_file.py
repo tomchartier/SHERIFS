@@ -32,7 +32,7 @@ def start(model_name):
     txt += '<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
     txt += '<nrml xmlns:gml="http://www.opengis.net/gml"\n'
     txt += '\txmlns="http://openquake.org/xmlns/nrml/0.5">\n'
-    txt += '\t<faultSectionCollection name="'+model_name+'" id="fs1">"'
+    txt += '\t<geometryModel name="fault_sections">'
 
     return txt
 
@@ -207,7 +207,7 @@ def end(txt):
     '''
     txt : str containing the file info
     '''
-    txt += '    </faultSectionCollection>\n'
+    txt += '    </geometryModel>\n'
     txt += '</nrml>\n'
     return txt
 

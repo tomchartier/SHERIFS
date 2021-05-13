@@ -101,6 +101,8 @@ def SHERIFS(input_file):
         os.makedirs(str(Run_Name))
     if not os.path.exists(str(Run_Name) + '/results'):
          os.makedirs(str(Run_Name) + '/results')
+    if not os.path.exists(str(Run_Name) + '/ssm'):
+         os.makedirs(str(Run_Name) + '/ssm')
 
     #Domain_in_model = []
 

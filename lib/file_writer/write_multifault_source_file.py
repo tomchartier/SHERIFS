@@ -38,7 +38,7 @@ def start(explo_time,trt):
     txt += '<sourceModel name="Hazard Model"'
     txt += ' investigation_time="'+explo_time+'">\n'
     txt += '	<sourceGroup name="group 1" rup_interdep="indep"\n'
-    txt += '        src_interdep="indep" tectonicRegion="'+trt+'">\n'
+    txt += '        src_interdep="indep" >\n'
 
     return txt
 
@@ -76,15 +76,13 @@ def wrt_rupture(txt,mag,l,explo_time,rake,sections_id):
 def start_multifault_source(txt,name,trt,sec_f,ID_number):
 
     txt += '        <multiFaultSource id="'+str(ID_number)+'" name="'+name
-    txt += '" tectonicRegion="'+trt+'"\n'
-    txt += '                    faultSectionFname="'+sec_f+'">\n'
+    txt += '" tectonicRegion="'+trt+'">\n'
     return txt
 
 def end_multifault_source(txt):
     '''
     txt : str containing the file info
     '''
-
     txt += '	    </multiFaultSource>\n'
     return txt
 
@@ -113,7 +111,7 @@ def end(txt):
     '''
     txt : str containing the file info
     '''
-    txt += '	       </sourceGroup>\n'
+    txt += '	</sourceGroup>\n'
     txt += '    </sourceModel>\n'
     txt += '</nrml>\n'
     return txt

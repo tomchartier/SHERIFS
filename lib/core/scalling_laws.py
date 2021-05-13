@@ -3,7 +3,7 @@
 """SHERIFS
 Seismic Hazard and Earthquake Rates In Fault Systems
 
-Version 1.0 
+Version 1.0
 
 Return the maximum magnitude of the faults and scenarios using a scalling relationship
 
@@ -27,27 +27,27 @@ class Calc_Mmax():
         self.faults_mecanism = faults_mecanism
         self.index_faults_in_scenario = index_faults_in_scenario
         self.sample = sample
-        
-       
+
+
         self.initialize()
     def initialize(self):
         self.Mmax_faults = [] #Mmax of each fault
         self.Mmax_scenario = [] #Mmax of each scenario
-        
-        # find the dominant fault kinematic of the FtF scenario 
+
+        # find the dominant fault kinematic of the FtF scenario
         scenario_mecanism = []
-        index_scenario = 0    
+        index_scenario = 0
         for length in self.scenario_length:
             a= np.take(self.faults_mecanism,self.index_faults_in_scenario[index_scenario][0])
             unique,pos = np.unique(a,return_inverse=True) #Finds all unique elements and their positions
             counts = np.bincount(pos)                     #Count the number of each unique element
             maxpos = counts.argmax()                      #Finds the positions of the maximum count
-            
+
             scenario_mecanism.append(unique[maxpos])
-            
+
             index_scenario += 1
-            
-        # check if all the aspect ratio of the faults and scenario are okay. 
+
+        # check if all the aspect ratio of the faults and scenario are okay.
         # if some are not acceptable (according to TMG201- relationship)
         # need to ask the authors to provide the right equation for each fault kinematics
         # not accepatble is defined as two sigmas more than the median value of the regression
@@ -68,7 +68,7 @@ class Calc_Mmax():
 #                        print w,l,10**(np.log10(w)*(1.5+2.*0.21)-0.45)
                         #print('Warning ! : Some faults or scenarios have a extremely large aspect ratio')
                         print_ar = False
-                
+
             if self.faults_mecanism[i] == 'R':
                 if np.log10(l) > np.log10(w)*(1.39+2.*0.09)-0.29:
                     string = 'aspect ratio too large'
@@ -77,7 +77,7 @@ class Calc_Mmax():
                     if print_ar == True :
                         #print('Warning ! : Some faults or scenarios have a extremely large aspect ratio')
                         print_ar = False
-                
+
             if self.faults_mecanism[i] == 'S':
                 if np.log10(l) > np.log10(w)*(2.62+2.*0.20)-1.52:
                     string = 'aspect ratio too large'
@@ -88,7 +88,7 @@ class Calc_Mmax():
                         print_ar = False
             self.final_fault_length.append(string)
             i+=1
-            
+
         i=0
         for l,w in zip([x / 1000. for x in self.scenario_length],self.scenario_width):
             string = 'aspect ratio acceptable'
@@ -101,7 +101,7 @@ class Calc_Mmax():
                         #print( w,l,10**(np.log10(w)*(1.5+2.*0.21)-0.45))
                         #print('Warning ! : Some faults or scenarios have a extremely large aspect ratio')
                         print_ar = False
-                
+
             if scenario_mecanism[i] == 'R':
                 if np.log10(l) > (np.log10(w)*(1.39+2.*0.09)-0.29):
                     string = 'aspect ratio too large'
@@ -110,7 +110,7 @@ class Calc_Mmax():
                     if print_ar == True :
                         #print('Warning ! : Some faults or scenarios have a extremely large aspect ratio')
                         print_ar = False
-                
+
             if scenario_mecanism[i] == 'S':
                 if np.log10(l) > (np.log10(w)*(2.62+2.*0.20)-1.52):
                     string = 'aspect ratio too large'
@@ -120,7 +120,7 @@ class Calc_Mmax():
                         #print('Warning ! : Some faults or scenarios have a extremely large aspect ratio')
                         print_ar = False
             self.final_scenario_length.append(string)
-                
+
             i+=1
 
 
@@ -130,10 +130,10 @@ class Calc_Mmax():
 #            matrix, row 1 for normal; row 2 for reverse; row 3 for strikeslip; row 4 for ALL
 #            each row contains aRup_Length, bRup_Length, sdRup_Length, aRup_Area, bRup_Area, sdRup_Area
             coeff_ref=np.array(([4.34, 1.54, 0.31, 3.93, 1.02, 0.25],[4.49, 1.49, 0.26, 4.33, 0.90, 0.25],[4.33, 1.49, 0.24, 3.98, 1.02, 0.23],[4.38, 1.49, 0.26, 4.07, 0.98, 0.24]))
-            
+
             #random sampling of the uncertainty on the scaling law
             if self.sample == 1 : #for the first sample, the mean value is prefered
-                
+
                 coeff=np.array(([4.34, 1.54, 0., 3.93, 1.02, 0.],[4.49, 1.49, 0., 4.33, 0.90, 0.],[4.33, 1.49, 0., 3.98, 1.02, 0.],[4.38, 1.49, 0., 4.07, 0.98, 0.]))
             else:
                 #triangular sampling
@@ -151,9 +151,9 @@ class Calc_Mmax():
                 ,[4.49, 1.49, stats.truncnorm(-2., 2., loc=0., scale=coeff_ref[1][2]).rvs(1)[0], 4.33, 0.90, stats.truncnorm(-2., 2., loc=0., scale=coeff_ref[1][5]).rvs(1)[0]]
                 ,[4.33, 1.49, stats.truncnorm(-2., 2., loc=0., scale=coeff_ref[2][2]).rvs(1)[0], 3.98, 1.02, stats.truncnorm(-2., 2., loc=0., scale=coeff_ref[2][5]).rvs(1)[0]]
                 ,[4.38, 1.49, stats.truncnorm(-2., 2., loc=0., scale=coeff_ref[3][2]).rvs(1)[0], 4.07, 0.98, stats.truncnorm(-2., 2., loc=0., scale=coeff_ref[3][5]).rvs(1)[0]]))
-            
-                
-            if self.dimention_used == 'L' :  #the length is used 
+
+
+            if self.dimention_used in ['L','Length'] :  #the length is used
                 index_fault = 0
                 for length in self.faults_length:
                     if self.use_all_ScL_data == True :
@@ -161,35 +161,35 @@ class Calc_Mmax():
                     else:
                         if self.faults_mecanism[index_fault] == 'N':
                             Mmax_i = coeff[0][0] + coeff[0][1] * np.log10(length/1000.) + coeff[0][2]
-                            
+
                         if self.faults_mecanism[index_fault] == 'R':
                             Mmax_i = coeff[1][0] + coeff[1][1] * np.log10(length/1000.) + coeff[1][2]
-                            
+
                         if self.faults_mecanism[index_fault] == 'S':
                             Mmax_i = coeff[2][0] + coeff[2][1] * np.log10(length/1000.) + coeff[2][2]
                     self.Mmax_faults.append(round(Mmax_i,1))
-                    
+
                     index_fault += 1
-                    
-                index_scenario = 0    
+
+                index_scenario = 0
                 for length in self.scenario_length:
                     if self.use_all_ScL_data == True :
                         Mmax_i = coeff[3][0] + coeff[3][1] * np.log10(length/1000.) + coeff[3][2]
                     else:
                         if scenario_mecanism[index_scenario] == 'N':
                             Mmax_i = coeff[0][0] + coeff[0][1] * np.log10(length/1000.) + coeff[0][2]
-                            
+
                         if scenario_mecanism[index_scenario] == 'R':
                             Mmax_i = coeff[1][0] + coeff[1][1] * np.log10(length/1000.) + coeff[1][2]
-                            
+
                         if scenario_mecanism[index_scenario] == 'S':
                             Mmax_i = coeff[2][0] + coeff[2][1] * np.log10(length/1000.) + coeff[2][2]
                     self.Mmax_scenario.append(round(Mmax_i,1))
-                    
+
                     index_scenario += 1
-                    
-            
-            if self.dimention_used == 'A' : #the area is used 
+
+
+            if self.dimention_used in ['A','Area'] : #the area is used
                 index_fault = 0
                 for area in self.faults_area:
                     if self.use_all_ScL_data == True :
@@ -197,37 +197,37 @@ class Calc_Mmax():
                     else:
                         if self.faults_mecanism[index_fault] == 'N':
                             Mmax_i = coeff[0][3] + coeff[0][4] * np.log10(area/1000000.) + coeff[0][5]
-                            
+
                         if self.faults_mecanism[index_fault] == 'R':
                             Mmax_i = coeff[1][3] + coeff[1][4] * np.log10(area/1000000.) + coeff[1][5]
-                            
+
                         if self.faults_mecanism[index_fault] == 'S':
                             Mmax_i = coeff[2][3] + coeff[2][4] * np.log10(area/1000000.) + coeff[2][5]
                     self.Mmax_faults.append(round(Mmax_i,1))
-                    
+
                     index_fault += 1
-                    
-                index_scenario = 0 
-                for area in self.scenario_area : 
+
+                index_scenario = 0
+                for area in self.scenario_area :
                     if self.use_all_ScL_data == True :
                         Mmax_i = coeff[3][3] + coeff[3][4] * np.log10(area/1000000.) + coeff[3][5]
-                    else : 
+                    else :
                         if scenario_mecanism[index_scenario] == 'N':
                             Mmax_i = coeff[0][3] + coeff[0][4] * np.log10(area/1000000.) + coeff[0][5]
-                            
+
                         if scenario_mecanism[index_scenario] == 'R':
                             Mmax_i = coeff[1][3] + coeff[1][4] * np.log10(area/1000000.) + coeff[1][5]
-                            
+
                         if scenario_mecanism[index_scenario] == 'S':
                             Mmax_i = coeff[2][3] + coeff[2][4] * np.log10(area/1000000.) + coeff[2][5]
                     self.Mmax_scenario.append(round(Mmax_i,1))
-                    
+
                     index_scenario += 1
-                    
-           
-                    
-                    
-                    
+
+
+
+
+
         #######################################################################
         # in the case the scaling law Leonard 2010 is chosen
         if self.selected_ScL == 'Le2010' :
@@ -236,15 +236,15 @@ class Calc_Mmax():
 
             coeff=np.array(([2.5, 7.53, 8.51, 1.5, 5.69, 6.6],
                             [1.5, 12.01, 12.88, 1.5, 5.69, 6.47]))
-            
-            #random sampling of the uncertainty on the scaling law 
+
+            #random sampling of the uncertainty on the scaling law
             #d_le10 is a number between 0 and 1, will locate the Mmax between the Mmax_min (d_le10 = 0) ad Mmax_max (d_le10 = 1)
             if self.sample == 1 : #for the first sample, the mean value is prefered
                 d_le10 = 0.5
             else :
                 d_le10 = np.random.triangular(0.,0.5,1.) #triangular picking
-                         
-            if self.dimention_used == 'L' : #the length is used 
+
+            if self.dimention_used in ['L','Length'] : #the length is used
                 index_fault = 0
                 for length in self.faults_length:
                     if self.faults_mecanism[index_fault] == 'N' or self.faults_mecanism[index_fault] == 'R':
@@ -268,10 +268,10 @@ class Calc_Mmax():
                             Mmax_max = 2. / 3. (coeff[1][2] + coeff[1][0] * np.log10(length)) - 6.07
                             Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
                     self.Mmax_faults.append(round(Mmax_i,1))
-                    
+
                     index_fault += 1
-                    
-                index_scenario = 0    
+
+                index_scenario = 0
                 for length in self.scenario_length:
                     if scenario_mecanism[index_scenario] == 'N' or scenario_mecanism[index_scenario] == 'R':
                         if length > 5500. :
@@ -280,7 +280,7 @@ class Calc_Mmax():
                             Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
                         else:
                             Mmax_i = 2. / 3. * (6.1 + 3. * np.log10(length)) - 6.07
-                        
+
                     if scenario_mecanism[index_scenario] == 'S':
                         if length < 3400.:
                             Mmax_min = 2. / 3. * (5.65 + 3.0 * np.log10(length)) - 6.07
@@ -295,44 +295,44 @@ class Calc_Mmax():
                             Mmax_max = 2. / 3. * (coeff[1][2] + coeff[1][0] * np.log10(length)) - 6.07
                             Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
                     self.Mmax_scenario.append(round(Mmax_i,1))
-                    
+
                     index_scenario += 1
-                    
-            
-            if self.dimention_used == 'A' : #the area is used 
+
+
+            if self.dimention_used in ['A','Area'] : #the area is used
                 index_fault = 0
                 for area in self.faults_area:
                     if self.faults_mecanism[index_fault] == 'N' or self.faults_mecanism[index_fault] == 'R':
                         Mmax_min = 2. / 3. * (coeff[0][4] + coeff[0][3] * np.log10(area)) - 6.07
                         Mmax_max = 2. / 3. * (coeff[0][5] + coeff[0][3] * np.log10(area)) - 6.07
                         Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
-                        
+
                     if self.faults_mecanism[index_fault] == 'S':
                         Mmax_min = 2. / 3. * (coeff[1][4] + coeff[1][3] * np.log10(area)) - 6.07
                         Mmax_max = 2. / 3. * (coeff[1][5] + coeff[1][3] * np.log10(area)) - 6.07
                         Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
                     self.Mmax_faults.append(round(Mmax_i,1))
-                    
+
                     index_fault += 1
-                    
-                index_scenario = 0 
+
+                index_scenario = 0
                 for area in self.scenario_area:
                     if scenario_mecanism[index_scenario] == 'N' or scenario_mecanism[index_scenario] == 'R':
                         Mmax_min = 2. / 3. * (coeff[0][4] + coeff[0][3] * np.log10(area)) - 6.07
                         Mmax_max = 2. / 3. * (coeff[0][5] + coeff[0][3] * np.log10(area)) - 6.07
                         Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
-                        
+
                     if scenario_mecanism[index_scenario] == 'S':
                         Mmax_min = 2. / 3. * (coeff[1][4] + coeff[1][3] * np.log10(area)) - 6.07
                         Mmax_max = 2. / 3. * (coeff[1][5] + coeff[1][3] * np.log10(area)) - 6.07
                         Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
                     self.Mmax_scenario.append(round(Mmax_i,1))
-                    
+
                     index_scenario += 1
-        
-                    
-                    
-        ####################################################################################            
+
+
+
+        ####################################################################################
         # in the case the scaling law Hanks and Bakun 2008 is chosen
         # only for Area
         # two cases depending if area is smaller or bigger than 537 km2
@@ -343,7 +343,7 @@ class Calc_Mmax():
             else :
                 d_i = np.random.normal(0,1.)
                 d_i = stats.truncnorm(-2., 2., loc=0., scale=1.).rvs(1)[0]
-            
+
             for area in self.faults_area:
                 area = area/1000000.
                 if area < 537.:
@@ -352,10 +352,10 @@ class Calc_Mmax():
                   Mmax_i = 4./3.* np.log10(area) + 3.07 + d_i * 0.04
                 self.Mmax_faults.append(round(Mmax_i,1))
                 index_fault += 1
-                
-                
-            index_scenario = 0 
-            for area in self.scenario_area : 
+
+
+            index_scenario = 0
+            for area in self.scenario_area :
                 area = area/1000000.
                 if area < 537.:
                   Mmax_i = np.log10(area) + 3.98 + d_i * 0.03
@@ -363,14 +363,14 @@ class Calc_Mmax():
                   Mmax_i = 4./3.* np.log10(area) + 3.07 + d_i * 0.04
                 self.Mmax_scenario.append(round(Mmax_i,1))
                 index_scenario += 1
-                
-                
-                
-                
-                
-                
-                
-        ####################################################################################            
+
+
+
+
+
+
+
+        ####################################################################################
         # in the case the scaling law Thingbaijam Mai and Goda 2017
         #  mean value works -- need to find the good way to explore the uncertainties
         #
@@ -381,13 +381,13 @@ class Calc_Mmax():
                             [ -2.693, 0.614, 0.292, 0.043, -4.362, 1.049, 0.445, 0.066],
                             [ -2.943, 0.681, 0.357, 0.052, -3.486, 0.942, 0.399, 0.058],
                             [ -2.412, 0.583, 0.288, 0.037, -3.292, 0.949, 0.377, 0.049]))
-            
+
 #            each row contains aRup_Length, bRup_Length, sigmaMRup_Length,  aRup_Area, bRup_Area, sigmaMRup_Area
             coeff=np.array(([ -1.722, 0.485, 0.128, -2.551, 0.808, 0.181],
                             [ -2.693, 0.614, 0.083, -4.362, 1.049, 0.121],
                             [ -2.943, 0.681, 0.151, -3.486, 0.942, 0.184],
                             [ -2.412, 0.583, 0.107, -3.292, 0.949, 0.150]))
-            
+
             #random sampling of the uncertainty on the scaling law
             if self.sample == 1 : #for the first sample, the mean value is prefered
                 coeff=np.array(([ -1.722, 0.485, 0., -2.551, 0.808, 0.],
@@ -406,98 +406,98 @@ class Calc_Mmax():
                                 [ -2.412, 0.583, stats.truncnorm(-2., 2., loc=0., scale=0.107).rvs(1)[0], -3.292, 0.949, stats.truncnorm(-2., 2., loc=0., scale=0.150).rvs(1)[0]]))
 
 
-            if self.dimention_used == 'L' :  #the length is used 
+            if self.dimention_used in ['L','Length'] :  #the length is used
                 index_fault = 0
                 for length in self.faults_length:
                     if self.faults_mecanism[index_fault] == 'N':
                         Mmax_i = (np.log10(length/1000.) - (coeff[0][0]))/(coeff[0][1]) + coeff[0][2]
-                        
+
                     if self.faults_mecanism[index_fault] == 'R':
                         Mmax_i = (np.log10(length/1000.) - (coeff[1][0]))/(coeff[1][1]) + coeff[1][2]
-                        
+
                     if self.faults_mecanism[index_fault] == 'S':
                         Mmax_i = (np.log10(length/1000.) - (coeff[2][0]))/(coeff[2][1]) + coeff[2][2]
 
                     if self.faults_mecanism[index_fault] == 'Sub':
                         Mmax_i = (np.log10(length/1000.) - (coeff[3][0]))/(coeff[3][1]) + coeff[3][2]
                     self.Mmax_faults.append(round(Mmax_i,1))
-                    
+
                     index_fault += 1
-                    
-                index_scenario = 0    
+
+                index_scenario = 0
                 for length in self.scenario_length:
                     if scenario_mecanism[index_scenario] == 'N':
                         Mmax_i = (np.log10(length/1000.) - (coeff[0][0]))/(coeff[0][1]) + coeff[0][2]
-                        
+
                     if scenario_mecanism[index_scenario] == 'R':
                         Mmax_i = (np.log10(length/1000.) - (coeff[1][0]))/(coeff[1][1]) + coeff[1][2]
-                        
+
                     if scenario_mecanism[index_scenario] == 'S':
                         Mmax_i = (np.log10(length/1000.) - (coeff[2][0]))/(coeff[2][1]) + coeff[2][2]
 
                     if scenario_mecanism[index_scenario] == 'Sub':
                         Mmax_i = (np.log10(length/1000.) - (coeff[3][0]))/(coeff[3][1]) + coeff[3][2]
                     self.Mmax_scenario.append(round(Mmax_i,1))
-                    
+
                     index_scenario += 1
-                    
-            
-            if self.dimention_used == 'A' : #the area is used 
+
+
+            if self.dimention_used in ['A','Area'] : #the area is used
                 index_fault = 0
                 for area in self.faults_area:
                     if self.faults_mecanism[index_fault] == 'N':
                         Mmax_i = (np.log10(area/1000000.) - (coeff[0][3]))/(coeff[0][4]) + coeff[0][5]
-                        
+
                     if self.faults_mecanism[index_fault] == 'R':
                         Mmax_i = (np.log10(area/1000000.) - (coeff[1][3]))/(coeff[1][4]) + coeff[1][5]
-                        
+
                     if self.faults_mecanism[index_fault] == 'S':
                         Mmax_i = (np.log10(area/1000000.) - (coeff[2][3]))/(coeff[2][4]) + coeff[2][5]
 
                     if self.faults_mecanism[index_fault] == 'Sub':
                         Mmax_i = (np.log10(area/1000000.) - (coeff[3][3]))/(coeff[3][4]) + coeff[3][5]
                     self.Mmax_faults.append(round(Mmax_i,1))
-                    
+
                     index_fault += 1
-                    
-                index_scenario = 0 
-                for area in self.scenario_area : 
-                    
+
+                index_scenario = 0
+                for area in self.scenario_area :
+
                     if scenario_mecanism[index_scenario] == 'N':
                         Mmax_i = (np.log10(area/1000000.) - (coeff[0][3]))/(coeff[0][4]) + coeff[0][5]
-                        
+
                     if scenario_mecanism[index_scenario] == 'R':
                         Mmax_i = (np.log10(area/1000000.) - (coeff[1][3]))/(coeff[1][4]) + coeff[1][5]
-                        
+
                     if scenario_mecanism[index_scenario] == 'S':
                         Mmax_i = (np.log10(area/1000000.) - (coeff[2][3]))/(coeff[2][4]) + coeff[2][5]
 
                     if scenario_mecanism[index_scenario] == 'Sub':
                         Mmax_i = (np.log10(area/1000000.) - (coeff[3][3]))/(coeff[3][4]) + coeff[3][5]
                     self.Mmax_scenario.append(round(Mmax_i,1))
-                    
+
                     index_scenario += 1
-                
-                
-                
-                
-                
-                
-                
-                
-                
-        ####################################################################################            
+
+
+
+
+
+
+
+
+
+        ####################################################################################
         # in the case the scaling law Thingbaijam Mai and Goda 2017
         #  mean value works -- need to find the good way to explore the uncertainties
         #
         if self.selected_ScL == 'Shaw2009mod' :
-                
+
             if self.sample == 1 : #for the first sample, the mean value is prefered
                 d_i = 0.
             else :
                 d_i = np.random.normal(0,1.)
                 d_i = stats.truncnorm(-2., 2., loc=0., scale=1.).rvs(1)[0]
-            
+
             index_fault = 0
             for area,lenght in zip(self.faults_area,self.faults_length):
                 area = area/1000000.
@@ -507,18 +507,12 @@ class Calc_Mmax():
                 Mmax_i = Mmax_i + d_i * 0.2
                 self.Mmax_faults.append(round(Mmax_i,1))
                 index_fault += 1
-                
-                
-            index_scenario = 0 
-            for area,length in zip(self.scenario_area,self.scenario_length) : 
+
+
+            index_scenario = 0
+            for area,length in zip(self.scenario_area,self.scenario_length) :
                 area = area/1000000.
                 Mmax_i = np.log10(area)+2./3.*np.log10(max(1.,np.sqrt(area/width**2.))/((1.+max(1.,area/(width**2.*7.4)))/2.))+3.98
                 Mmax_i = Mmax_i + d_i * 0.2
                 self.Mmax_scenario.append(round(Mmax_i,1))
                 index_scenario += 1
-                
-                
-                
-                
-                
-                

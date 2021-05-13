@@ -10,7 +10,7 @@ Version 1.2
 def extract_bg_input(file):
     '''
     file : str, file containing the seismicity ratio bg/fault
-    
+
     available_bg : dict, seismicity ratio fault/total
     '''
     available_bg = {}
@@ -25,7 +25,7 @@ def extract_bg_input(file):
                 hyp_name = line.split(' ')[1]
                 ratios = lines[i+1].split(' ')
                 ratios = [float(x) for x in ratios if x != '']
-                available_bg.update({'bg_'+hyp_name:ratios})
+                available_bg.update({hyp_name:ratios})
             else:
                 pass
     return available_bg
@@ -33,7 +33,7 @@ def extract_bg_input(file):
 def extract_sc_input(file):
     '''
     file : str, file containing the complex fault ruptures
-    
+
     available_set : dict, complexe ruptures for each hypothesis
     '''
     available_sets = {}
@@ -56,7 +56,7 @@ def extract_sc_input(file):
                             set.append(faults)
                     else :
                         loop_in = False
-                available_sets.update({'sc_'+hyp_name:set})
+                available_sets.update({hyp_name:set})
             else:
                 pass
     return available_sets

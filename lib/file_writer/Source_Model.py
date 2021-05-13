@@ -39,37 +39,28 @@ from seismic_moment import mag_to_M0
 import matplotlib.pyplot as plt
 
 class Source_Model_Creator:
-    def __init__(self,path,param,Model_name,rupture_set,sample,
+    def __init__(self,path,pathlog,param,Model_name,rupture_set,sample,
                  Domain_in_model,selected_ScL,dimention_used,use_all_ScL_data,
-                 b_min,b_max,mfd_hyp,bg_ratio,calculation_log_file,faults_names,
+                 b_value,mfd_hyp,bg_ratio,calculation_log_file,faults_names,
                  scenarios_names,faults_data,faults_lon,faults_lat,
-                 list_fbg,fbgpath):
+                 list_fbg,fbgpath,branch):
 
         self.Run_Name = param["Run_Name"]
         self.param = param
         self.Domain_in_the_model = Domain_in_model
-        #list of the different domain included in the model
-
-        # if param[1]["fault_input_type"] == "geojson" :
-        #     self.faults_file = param[1]["faults_file"]
-        # elif param[1]["fault_input_type"] == "txtsherifs" :
-        #     self.File_geom = param[1]["File_geom"]
-        #     self.File_prop = param[1]["File_prop"]
-
-        # self.File_geom = File_geom
-        # self.File_prop = File_prop
 
         self.rupture_set = rupture_set
 
         #a envoyer dans logic tree
         self.Model_name = Model_name
-        self.b_min = float(b_min)
-        self.b_max = float(b_max)
+        self.b_value = float(b_value)
+
         self.mfd_hyp = mfd_hyp
 
         self.sample = sample
 
         self.path = path
+        self.pathlog = pathlog
 
         np.random.seed = param["main"]["parameters"]["Random_seed"]
         self.Mmin = param["main"]["parameters"]["Mmin"]
@@ -104,19 +95,24 @@ class Source_Model_Creator:
         self.list_fbg = list_fbg
         self.fbgpath = fbgpath
 
+        self.branch = branch
+
         self.initialize()
 
     def initialize(self):
 
-        explo_time = 1. # TODO readc the input file
+        explo_time = self.param["main"]["parameters"]["explo_time"]
 
         # for the use of multifault source
-        use_multiF = True
+        if self.param["main"]["parameters"]["use_multiF"] in ["True",'true']:
+            use_multiF = True
+        else :
+            use_multiF == False
 
         #maxi number of sources per input files
         # cutting the files in smaller chunks allow OQ to read the sources in
         # parallel
-        max_rup_per_file = 200
+        max_rup_per_file = 2000
 
         # init
         faults_names = self.faults_names
@@ -128,18 +124,14 @@ class Source_Model_Creator:
         list_src_files = []
 
         # create log files and repo
-        if not os.path.exists(self.path +'/Log'):
-            os.makedirs(self.path +'/Log')
-        log_sr_file=open(self.path +'/Log/slip_rate_sample_' + str(self.sample) + '.txt','w')
-        log_mdf_file=open(self.path +'/Log/mdf_sample_' + str(self.sample) + '.txt','w')
+        log_sr_file=open(self.pathlog+'/slip_rate_sample_' + str(self.sample) + '.txt','w')
+        log_mdf_file=open(self.pathlog+'/mdf_sample_' + str(self.sample) + '.txt','w')
 
         # test if the model is large enough to deserve to be cut
 
         cut_sm_file = False
         if len(faults_names) + len(scenarios_names) > max_rup_per_file :
             cut_sm_file = True
-        # if use_multiF == True  :
-        #     cut_sm_file = False
 
         if cut_sm_file == False :
             XMLfile=open(self.path +'/Source_model_' + str(self.sample) + '.xml','w')
@@ -194,7 +186,7 @@ class Source_Model_Creator:
             #######################################
             '''
             # write the section files
-            sections_xml = self.Run_Name+'/'+self.Model_name+'/sections.xml'
+            sections_xml = self.Run_Name+'/ssm/'+self.Model_name+'_sections.xml'
             if not os.path.exists(sections_xml):
                 txt = wsf.start(self.Model_name)
                 for section_id in range(len(faults_names)):
@@ -205,13 +197,14 @@ class Source_Model_Creator:
 
 
             #initialisation of the general parameters (M_min, shear modulus and b value)
-            log_general_parameters_file = open(self.path +'/Log/general_parameters_sample_' + str(self.sample) + '.txt','w')
+            log_general_parameters_file = open(self.pathlog +'/general_parameters_sample_' + str(self.sample) + '.txt','w')
             M_min = float(self.Mmin)
             log_general_parameters_file.write('M_tronc\t'+str(M_min)+'\n')
-            if self.sample == 1 :
-                b_value = (self.b_min + self.b_max)/2.
-            else :
-                b_value = np.random.triangular(self.b_min,(self.b_min + self.b_max)/2.,self.b_max)
+            # if self.sample == 1 :
+            #     b_value = (self.b_min + self.b_max)/2.
+            # else :
+            #     b_value = np.random.triangular(self.b_min,(self.b_min + self.b_max)/2.,self.b_max)
+            b_value = self.b_value
             mfd_param = {}
             mfd_param.update({'b_value' : b_value})
             log_general_parameters_file.write('b_value\t'+str(b_value)+'\n')
@@ -329,13 +322,14 @@ class Source_Model_Creator:
             count_reruns = 1 #used to divide the sr increment if the fit is not good
             count_mfd90 = 1
 
-            f_pkl_mdf = self.path +'/mfd_' + str(self.sample) + '.pkl'
+            f_pkl_mdf = self.pathlog +'/mfd_' + str(self.sample) + '.pkl'
             re_use_mfd_pkl= True
             if not os.path.isfile(f_pkl_mdf):
                 re_use_mfd_pkl = False
             if re_use_mfd_pkl == False:
                 while abs(ratio_test-1) >self.fit_quality or math.isnan(ratio_test) == True:
-                    MFDs = EQ_on_faults.EQ_on_faults_from_sr(M_min,
+                    MFDs = EQ_on_faults.EQ_on_faults_from_sr(self.Run_Name,
+                                                            M_min,
                                                             mfd_param,
                                                             faults_names,
                                                             faults_area,
@@ -345,6 +339,7 @@ class Source_Model_Creator:
                                                             scenarios_names,
                                                             faults_shear_mod,
                                                             self.path,
+                                                            self.pathlog,
                                                             self.sample,
                                                             self.selected_ScL,
                                                             self.dimention_used,
@@ -357,7 +352,8 @@ class Source_Model_Creator:
                                                             faults_lon,
                                                             faults_lat,
                                                             self.Mmax_range,
-                                                            self.calculation_log_file)
+                                                            self.calculation_log_file,
+                                                            self.branch)
 
                     ratio_test = MFDs.ratio_test
                     if abs(ratio_test-1) > self.fit_quality:
@@ -583,17 +579,17 @@ class Source_Model_Creator:
                     f.write(line)
 
             #initialisation of the general parameters (M_min, shear modulus and b value)
-            log_general_parameters_file = open(self.path +'/Log/general_parameters_sample_' + str(self.sample) + '.txt','w')
+            log_general_parameters_file = open(self.pathlog +'/Log/general_parameters_sample_' + str(self.sample) + '.txt','w')
 
             M_min = float(self.Mmin)
             log_general_parameters_file.write('M_tronc\t'+str(M_min)+'\n')
-            if self.sample == 1 :
-                b_value = (self.b_min + self.b_max)/2.
-            else :
-                b_value = np.random.triangular(self.b_min,(self.b_min + self.b_max)/2.,self.b_max)
+            # if self.sample == 1 :
+            #     b_value = (self.b_min + self.b_max)/2.
+            # else :
+            #     b_value = np.random.triangular(self.b_min,(self.b_min + self.b_max)/2.,self.b_max)
             mfd_param = {}
-            mfd_param.update({'b_value' : b_value})
-            log_general_parameters_file.write('b_value\t'+str(b_value)+'\n')
+            mfd_param.update({'b_value' : self.b_value})
+            log_general_parameters_file.write('b_value\t'+str(self.b_value)+'\n')
 
             log_general_parameters_file.close()
 
@@ -741,7 +737,8 @@ class Source_Model_Creator:
                                                             faults_lon,
                                                             faults_lat,
                                                             self.Mmax_range,
-                                                            self.calculation_log_file)
+                                                            self.calculation_log_file,
+                                                            self.branch)
                     ratio_test = MFDs.ratio_test
                     if abs(ratio_test-1) > self.fit_quality:
                         print('bad sampling => re-run')
