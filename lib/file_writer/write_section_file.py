@@ -32,7 +32,7 @@ def start(model_name):
     txt += '<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
     txt += '<nrml xmlns:gml="http://www.opengis.net/gml"\n'
     txt += '\txmlns="http://openquake.org/xmlns/nrml/0.5">\n'
-    txt += '\t<geometryModel name="fault_sections">'
+    txt += '\t<geometryModel name="fault_sections">\n'
 
     return txt
 

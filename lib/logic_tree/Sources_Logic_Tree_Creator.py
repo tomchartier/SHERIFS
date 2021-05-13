@@ -465,9 +465,9 @@ class Sources_Logic_Tree_Creator:
             #     line+=pth_to_bg
 
 
-            line+=('</uncertaintyModel>\n')
+            line+=('\t\t\t\t\t</uncertaintyModel>\n')
 
-            line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(float(len(branches)*self.nb_random_sampling),5)) + '</uncertaintyWeight>\n'
+            line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(1./float(len(branches))),5) + '</uncertaintyWeight>\n'
             line+='\t\t\t\t</logicTreeBranch>\n'
 
         line+='\t\t\t</logicTreeBranchSet>\n'
