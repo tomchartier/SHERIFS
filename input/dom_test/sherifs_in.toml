@@ -48,14 +48,21 @@ smoothing_xml = "/Users/tchartier/venv/src/SHERIFS/data/DOM_v1/zones"
 # 2 is for the SHERIFS paremeters
 [main.parameters]
 # run parameters
-force_rerun = "False"
-overwrite_files = "True"
+
+# if force_ruren is True, all the branches are ran again (important if fault
+# parameters have changed). If False, only new branches are ran, useful for
+# speeding up calculation when adding new granches to the logic tree.
+force_rerun = "True"
+
 # a fit quality of 5 means that the shape of the modelled MFD
 # is within 5% of the target shape.
 fit_quality = 5
 
-#nb sample (sr,b_value, Mmax)
+#nb sample explores random sampling on the slip-rate uncertainty and the
+# uncertainty within the scalling law. sample 1 is always the mean parameters.
 nb_sample = 1
+
+
 #SR increment size (mm/yr)
 dsr =	0.001
 Mmin = 4.5
@@ -64,7 +71,11 @@ SR_correl =	"True"
 Mmax_range =	[0.0,	10.0]
 explo_time = 1
 
+# use the multifault typology (recommended True)
 use_multiF = "True"
+
+# can force the
+overwrite_files = "True"
 # 3 is for various OQ parameters important
 # if the goal is to run a hazard calculation
 [OQ]

@@ -16,7 +16,7 @@
 							bg_1_4.xml
 							sm_1_f_1.xml
 					</uncertaintyModel>
-					<uncertaintyWeight>0.5</uncertaintyWeight>
+					<uncertaintyWeight>0.25</uncertaintyWeight>
 				</logicTreeBranch>
 					<uncertaintyModel> 
 							ssm/DOM_v1_sections.xml 
@@ -29,7 +29,35 @@
 							bg_1_4.xml
 							sm_1_f_1.xml
 					</uncertaintyModel>
-					<uncertaintyWeight>0.5</uncertaintyWeight>
+					<uncertaintyWeight>0.25</uncertaintyWeight>
+				</logicTreeBranch>
+				<logicTreeBranch branchID= "b_2">
+					<uncertaintyModel> 
+							ssm/DOM_v1_sections.xml 
+							dom_test/ssm/b_2/sm_1_f_1.xml
+							dom_test/ssm/b_2/bg_1_1.xml
+							dom_test/ssm/b_2/bg_1_2.xml
+							dom_test/ssm/b_2/bg_1_3.xml
+							dom_test/ssm/b_2/bg_1_4.xml
+							dom_test/ssm/b_2/bg_1_5.xml
+							dom_test/ssm/b_2/bg_1_6.xml
+							dom_test/ssm/b_2/bg_1_7.xml
+					</uncertaintyModel>
+					<uncertaintyWeight>0.25</uncertaintyWeight>
+				</logicTreeBranch>
+				<logicTreeBranch branchID= "b_3">
+					<uncertaintyModel> 
+							ssm/DOM_v1_sections.xml 
+							dom_test/ssm/b_3/sm_1_f_1.xml
+							dom_test/ssm/b_3/bg_1_1.xml
+							dom_test/ssm/b_3/bg_1_2.xml
+							dom_test/ssm/b_3/bg_1_3.xml
+							dom_test/ssm/b_3/bg_1_4.xml
+							dom_test/ssm/b_3/bg_1_5.xml
+							dom_test/ssm/b_3/bg_1_6.xml
+							dom_test/ssm/b_3/bg_1_7.xml
+					</uncertaintyModel>
+					<uncertaintyWeight>0.25</uncertaintyWeight>
 				</logicTreeBranch>
 			</logicTreeBranchSet>
 		</logicTreeBranchingLevel>
