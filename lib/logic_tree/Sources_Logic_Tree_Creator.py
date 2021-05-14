@@ -128,9 +128,9 @@ class Sources_Logic_Tree_Creator:
 
             force_rerun = self.param["main"]["parameters"]["force_rerun"]
             if force_rerun in ["False","false"] :
-                if os.path.isfile(self.Run_Name+"\lt_branchs.pkl"):
-                    old_branches = pickle.load(open(self.Run_Name+"\lt_branchs.pkl", 'rb'))
-                    old_indexes = pickle.load(open(self.Run_Name+"\lt_b_id.pkl", 'rb'))
+                if os.path.isfile(self.Run_Name+"/LOG/lt_branchs.pkl"):
+                    old_branches = pickle.load(open(self.Run_Name+"/LOG/lt_branchs.pkl", 'rb'))
+                    old_indexes = pickle.load(open(self.Run_Name+"/LOG/t_b_id.pkl", 'rb'))
                 else :
                     old_branches = []
                     old_indexes = []
@@ -374,7 +374,7 @@ class Sources_Logic_Tree_Creator:
 
                     print("\t - importing faults properties")
                     re_use = True
-                    f_prop_tmp = str(self.Run_Name)+'/ssm/'+model_hyp+'_prop.pkl'
+                    f_prop_tmp = str(self.Run_Name)+'/LOG/'+model_hyp+'_prop.pkl'
 
                     if not os.path.isfile(f_prop_tmp):
                         re_use = False
@@ -491,6 +491,7 @@ class Sources_Logic_Tree_Creator:
                 line+="\t\t\t\t\t\t\tssm/"+model+'_sections.xml \n'
 
             for f in list_src_files:
+                f = f.replace(model+'/','')
                 line+="\t\t\t\t\t\t\t"+f+"\n"
 
 
@@ -519,9 +520,9 @@ class Sources_Logic_Tree_Creator:
         XMLfile.write(line)
         XMLfile.close()
 
-        with open(self.Run_Name+"/lt_branchs.pkl", 'wb') as f:
+        with open(self.Run_Name+"/LOG/lt_branchs.pkl", 'wb') as f:
             pickle.dump(branches, f)
-        with open(self.Run_Name+"/lt_b_id.pkl", 'wb') as f:
+        with open(self.Run_Name+"/LOG/lt_b_id.pkl", 'wb') as f:
             pickle.dump(used_id, f)
 
         #

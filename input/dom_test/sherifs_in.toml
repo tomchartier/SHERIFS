@@ -31,6 +31,8 @@ rupture_file = "input/dom_test/ruptures.txt"
 # Logic Tree file
 LT_file = "input/dom_test/LT.toml"
 
+# optional
+local_MFD_file = ""
 
 [main.background]
 # option_bg : smooth, zone, none
@@ -73,6 +75,27 @@ explo_time = 1
 
 # use the multifault typology (recommended True)
 use_multiF = "True"
+
+# More advanced parameters
+local_MFD = "False"
+
+# If uniform_spending is False, the slip-rate budget
+# is not spent uniformly for the section participating to a rupture,
+# faster faults will slip-more.
+uniform_spending = "True"
+
+
+# If deep analysis is turned on, display intermediate values in the prompt
+# can easily be overwelming for new users!
+deep_analysis = "False"
+
+# Option to not to the weighting of the ruptures at every loop but only
+# every few loops.
+faster_rup_weight = "True"
+
+# loop several time if the faults has a much higher than the slowest faults
+# in the system saving calculation time
+option_fast = "True"
 
 # can force the
 overwrite_files = "True"

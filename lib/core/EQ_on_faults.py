@@ -31,7 +31,7 @@ class EQ_on_faults_from_sr():
     def __init__(self,Run_Name,M_min,mfd_param,faults_names,faults_area,faults_length,faults_width,faults_slip_rates,
                  scenarios,faults_shear_mod,path,pathlog,sample,selected_ScL,dimention_used,
                  use_all_ScL_data,faults_mecanism,bg_ratio,size_of_increment,mfd_hyp,count_reruns,
-                 faults_lon,faults_lat,Mmax_range,calculation_log_file,branch):
+                 faults_lon,faults_lat,Mmax_range,calculation_log_file,branch,param):
         self.Run_Name = Run_Name
         self.M_min = M_min
         self.mfd_param = mfd_param
@@ -58,6 +58,7 @@ class EQ_on_faults_from_sr():
         self.Mmax_range = Mmax_range
         self.calculation_log_file = calculation_log_file
         self.branch = branch
+        self.param = param
 
         self.initialize()
     def initialize(self):
@@ -100,7 +101,7 @@ class EQ_on_faults_from_sr():
          self.branch["scl"][1] + "_" + self.branch["scl"][2]
         set_name = self.branch["set"]
         #f_bin_pop = self.path +'/Log/bin_pop_'+str(self.sample)+'.pkl'
-        f_mmax = run_name+'/'+model_name +'_mmax_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
+        f_mmax = run_name+'/LOG/'+model_name +'_mmax_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
         if not os.path.isfile(f_mmax):
             re_use = False
         if re_use == False:
@@ -198,7 +199,7 @@ class EQ_on_faults_from_sr():
             while Mmax< Mmaxmin or Mmax > Mmaxmax :
                 # file containing the log of the maximal magnitude of each fault and each scenario
 #                log_Mmax_file=open(self.path +'/Log/Mmax_sample_' + str(self.sample) + '.txt','w')
-                log_Mmax_file=open(run_name+'/'+model_name +'_Log_Mmax_sample_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.txt','w')
+                log_Mmax_file=open(run_name+'/LOG/'+model_name +'_Log_Mmax_sample_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.txt','w')
 
                 if loop_Mmax == 1 :
                     Mmaxs = scalling_laws.Calc_Mmax(self.faults_area,scenario_area,self.faults_length,scenario_length,self.faults_width,scenario_width,self.selected_ScL,
@@ -317,17 +318,9 @@ class EQ_on_faults_from_sr():
         # For each bin, find which fault and which scenario populates it.
         #####################################################################'''
 
-#        model_name = self.path.split('/')[0]
-        # scl_name = self.path.split('/')[3]
-        # set_name = self.path.split('/')[4]
-        #f_bin_pop = self.path +'/Log/bin_pop_'+str(self.sample)+'.pkl'
-        f_bin_pop = run_name+'/'+model_name +'_bin_pop_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
-        #f_bin_pop = self.path +'/Log/bin_pop_'+str(self.sample)+'.pkl'
-#        f_bin_pop = model_name +'/bin_pop_'+scl_name+'_'+str(self.sample)+'.pkl'
+        f_bin_pop = run_name+'/LOG/'+model_name +'_bin_pop_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
         if not os.path.isfile(f_bin_pop):
             re_use = False
-#        if str(self.sample) != '1'  :
-#            re_use = False
         rup_in_bin = populate_bins.pop(bin_mag,index_rup,rup_rates,M_min,re_use,f_bin_pop)
 
 
@@ -340,11 +333,9 @@ class EQ_on_faults_from_sr():
         fault_prop_inc = self.bg_ratio
 
         bin_mag_fault_prop.append(10.)
-        #print type(fault_prop_inc)
         fault_prop_inc = np.append(np.array(fault_prop_inc),1.)
         fault_prop = interp1d(bin_mag_fault_prop,fault_prop_inc)
 
-        #EQ_rate_BG = np.zeros(len(bin_mag)) #rate of EQ in the BG for each magnitude
 
 
         '''##################################################################
@@ -501,31 +492,46 @@ class EQ_on_faults_from_sr():
         print("Max of sdr :",max(faults_budget.values()))
         self.calculation_log_file.write("\nnumber of dsr to spend : "+ str(nb_ss_to_spend)+"\n")
 
+        # !!!!!!!!!!!!!!!!!
         # Booleans used in the calculation, DO NOT MODIFY
         print_percent = True
         do_the_target = True
         bool_target_set = False
+        # !!!!!!!!!!!!!!!!!
 
         # If uniform_spending is activated, the slip-rate budget
         # is not spent uniformly for the section participating to a rupture,
         # faster faults will slip-more
-        uniform_spending = True
+        uniform_spending = self.param["main"]["parameters"]["uniform_spending"]
+        if uniform_spending in ["True", "true"] :
+            uniform_spending = True
+        else :
+            uniform_spending = False
 
         # If deep analysis is turned on, display intermediate values in the prompt
-        deep_analysis =  False
+        deep_analysis = self.param["main"]["parameters"]["deep_analysis"]
+        if deep_analysis in ["True", "true"] :
+            deep_analysis = True
+        else :
+            deep_analysis = False
 
         # Option to not to the weighting of the ruptures at every loop.
         faster_rup_weight = True
 
         # loop several time if the faults are much faster than the min ones
         # saving time on the random sampling and the calculation of the weights
-        option_fast = True
+        option_fast = self.param["main"]["parameters"]["option_fast"]
+        if option_fast in ["True", "true"] :
+            option_fast = True
+        else :
+            option_fast = False
+
 
         # if local MFD should also be respected
         # in this case, the
-        local_MFD = True
-        if local_MFD == True :
-            f_mfd_area = "./data/CHN/mfd_area.geojson"
+        local_MFD = self.param["main"]["parameters"]["local_MFD"]
+        if local_MFD in ["True", "true"] :
+            f_mfd_area = self.param["main"]["local_MFD_file"]
             local_mfds, associated_rup, associated_weight = core_utils.link_rup_mfd_area(rup_rates,f_mfd_area,self.faults_lon,self.faults_lat,bin_mag,self.bg_ratio)
 
         #log the time used for several parts

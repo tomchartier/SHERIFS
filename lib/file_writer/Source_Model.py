@@ -353,7 +353,8 @@ class Source_Model_Creator:
                                                             faults_lat,
                                                             self.Mmax_range,
                                                             self.calculation_log_file,
-                                                            self.branch)
+                                                            self.branch,
+                                                            self.param)
 
                     ratio_test = MFDs.ratio_test
                     if abs(ratio_test-1) > self.fit_quality:
@@ -709,7 +710,7 @@ class Source_Model_Creator:
             count_reruns = 1 #used to divide the sr increment if the fit is not good
             count_mfd90 = 1
 
-            f_pkl_mdf = self.path +'/mfd_' + str(self.sample) + '.pkl'
+            f_pkl_mdf = self.pathlog +'/mfd_' + str(self.sample) + '.pkl'
             re_use_mfd_pkl= True
             if not os.path.isfile(f_pkl_mdf):
                 re_use_mfd_pkl = False
@@ -738,7 +739,8 @@ class Source_Model_Creator:
                                                             faults_lat,
                                                             self.Mmax_range,
                                                             self.calculation_log_file,
-                                                            self.branch)
+                                                            self.branch,
+                                                            self.param)
                     ratio_test = MFDs.ratio_test
                     if abs(ratio_test-1) > self.fit_quality:
                         print('bad sampling => re-run')
