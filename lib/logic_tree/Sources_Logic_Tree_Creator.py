@@ -519,9 +519,9 @@ class Sources_Logic_Tree_Creator:
         XMLfile.write(line)
         XMLfile.close()
 
-        with open(self.Run_Name+"\lt_branchs.pkl", 'wb') as f:
+        with open(self.Run_Name+"/lt_branchs.pkl", 'wb') as f:
             pickle.dump(branches, f)
-        with open(self.Run_Name+"\lt_b_id.pkl", 'wb') as f:
+        with open(self.Run_Name+"/lt_b_id.pkl", 'wb') as f:
             pickle.dump(used_id, f)
 
         #
