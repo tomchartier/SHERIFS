@@ -82,6 +82,12 @@ class Sources_Logic_Tree_Creator:
 
         #LT_log_name  =  'input/'+str(self.Run_Name)+'/LT_log.txt'
         LT_log_name  =  self.param["main"]["LT_file"]
+
+        lt_info_file = open(self.Run_Name + '/ssm/lt_branches_id.txt','w')
+
+        lt_info_file.write("id\tmodel\tmfd\trup_set\tbackground\tscaling\t")
+        lt_info_file.write("sample\n")
+
 #        reading_file = False
         if not os.path.exists(LT_log_name) :
             print('ERROR : Please provide a LT_file file \n \
@@ -122,9 +128,9 @@ class Sources_Logic_Tree_Creator:
 
             force_rerun = self.param["main"]["parameters"]["force_rerun"]
             if force_rerun in ["False","false"] :
-                if os.isfile(self.Run_Name+"\lt_branchs.pkl"):
-                    old_branches = pickle.load(self.Run_Name+"\lt_branchs.pkl")
-                    old_indexes = pickle.load(self.Run_Name+"\lt_b_id.pkl")
+                if os.path.isfile(self.Run_Name+"\lt_branchs.pkl"):
+                    old_branches = pickle.load(open(self.Run_Name+"\lt_branchs.pkl", 'rb'))
+                    old_indexes = pickle.load(open(self.Run_Name+"\lt_b_id.pkl", 'rb'))
                 else :
                     old_branches = []
                     old_indexes = []
@@ -139,9 +145,10 @@ class Sources_Logic_Tree_Creator:
                 if force_rerun in ["False","false"] :
                     if bi in old_branches:
                         rerun_bi = False
-                        i = old_branches.index(branches)
+                        i = old_branches.index(bi)
                         id = old_indexes[i]
-                        used_id.append(id)
+                        if not id in used_id:
+                            used_id.append(id)
                     else:
                         rerun_bi = True
                         id = None
@@ -156,7 +163,8 @@ class Sources_Logic_Tree_Creator:
                         i += 1
                     id = i
 
-                used_id.append(id)
+                if not id in used_id:
+                    used_id.append(id)
                 dict_LT.update({id:{
                                 "run_branch" : rerun_bi,
                                 "model" : bi[0],
@@ -166,6 +174,18 @@ class Sources_Logic_Tree_Creator:
                                 "scl" : bi[4],
                                 "smp" : bi[5]
                                 }})
+
+
+                lt_info_file.write(str(id)+"\t")
+                lt_info_file.write(str(bi[0])+"\t")
+                lt_info_file.write(' '.join(str(i for i in bi[1]))+"\t")
+                lt_info_file.write(str(bi[3])+"\t")
+                lt_info_file.write(str(bi[2])+"\t")
+                lt_info_file.write(' '.join(str(i for i in bi[4]))+"\t")
+                lt_info_file.write(str(bi[5])+"\n")
+
+            lt_info_file.close()
+
 
             # Extract the background hypotheses
             if not self.param["main"]["background"]["option_bg"] \
@@ -227,14 +247,17 @@ class Sources_Logic_Tree_Creator:
         line+='\t\t\t\t\t\t\tbranchSetID="bs_1">\n'
 
         for id in used_id:
+            print("\n*******\nLOGIC TREE BRANCH",id,"\n*******")
             branch = dict_LT[id]
+
+            model_hyp = branch["model"]
+            scl_hyp = branch["scl"]
+            mfd_hyp = branch["mfd"]
+            bg_hyp = branch["bg"]
+            set_hyp = branch["set"]
+            smp = branch["smp"] # sample
+
             if branch["run_branch"]==True:
-                model_hyp = branch["model"]
-                scl_hyp = branch["scl"]
-                mfd_hyp = branch["mfd"]
-                bg_hyp = branch["bg"]
-                set_hyp = branch["set"]
-                smp = branch["smp"] # sample
 
                 b_path = self.Run_Name + "/ssm/b_" + str(id)
                 log_path = self.Run_Name + "/ssm/log_b_" + str(id)
@@ -258,8 +281,16 @@ class Sources_Logic_Tree_Creator:
 
                 self.calculation_log_file.write('\n\nRunning logic tree branch:')
 
-                print(str(model_hyp) + '-' + str(scl_hyp)
-                + '-' + str(mfd_hyp) + '-'+ str(bg_hyp) + '-' + str(smp))
+                # display the branch info
+                print()
+                # display the branch info
+                print("Model : \t",model_hyp)
+                print("Rupture set : \t\t",set_hyp)
+                print("Model : \t\t\t",mfd_hyp[0]," b : ",mfd_hyp[1])
+                print("Model : \t\t\t\t",bg_hyp)
+                print("Scaling law : \t\t\t\t\t",' '.join(i for i in scl_hyp))
+                print("Sample : ",smp)
+                print()
 
                 self.calculation_log_file.write('\n'+str(model_hyp) + '-' + str(scl_hyp)
                 + '-' + str(mfd_hyp) + '-'+ str(bg_hyp) + '-' + str(set_hyp)
@@ -438,22 +469,30 @@ class Sources_Logic_Tree_Creator:
 
 
             elif branch["run_branch"]==False:
-                print("not rerunning branch id ", str(id))
-                print(str(model_hyp) + '-' + str(scl_hyp)
-                + '-' + str(mfd_hyp) + '-'+ str(bg_hyp) + '-' + str(set_hyp)
-                       + '-' +  str(set_hyp) + '-' + str(smp))
+                print("\nnot rerunning branch id ", str(id))
+                print()
+                # display the branch info
+                print("Model : \t",model_hyp)
+                print("Rupture set : \t\t",set_hyp)
+                print("Model : \t\t\t",mfd_hyp[0]," b : ",mfd_hyp[1])
+                print("Model : \t\t\t\t",bg_hyp)
+                print("Scaling law : \t\t\t\t\t",' '.join(i for i in scl_hyp))
+                print("Sample : ",smp)
+                print()
 
                 # find all the files in the folder
+                b_path = self.Run_Name + "/ssm/b_" + str(id)
+                list_src_files = [f for f in listdir(b_path) if isfile(join(b_path, f))]
 
-                # write branch in the logic tree
 
-            # write after
+            # write branch in the logic tree file
             line+=('\t\t\t\t\t<uncertaintyModel> \n')
             if self.param["main"]["parameters"]["use_multiF"]in ['True','true']:
                 line+="\t\t\t\t\t\t\tssm/"+model+'_sections.xml \n'
 
             for f in list_src_files:
                 line+="\t\t\t\t\t\t\t"+f+"\n"
+
 
             # for f in self.list_fbg:
             #     line+="ssm/"+f+"\n"
@@ -467,7 +506,7 @@ class Sources_Logic_Tree_Creator:
 
             line+=('\t\t\t\t\t</uncertaintyModel>\n')
 
-            line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(1./float(len(branches))),5) + '</uncertaintyWeight>\n'
+            line+='\t\t\t\t\t<uncertaintyWeight>' + str(round(1./float(len(branches)),5)) + '</uncertaintyWeight>\n'
             line+='\t\t\t\t</logicTreeBranch>\n'
 
         line+='\t\t\t</logicTreeBranchSet>\n'

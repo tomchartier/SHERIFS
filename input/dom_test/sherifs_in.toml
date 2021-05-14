@@ -48,10 +48,10 @@ smoothing_xml = "/Users/tchartier/venv/src/SHERIFS/data/DOM_v1/zones"
 # 2 is for the SHERIFS paremeters
 [main.parameters]
 # run parameters
-force_rerun = "True"
+force_rerun = "False"
 overwrite_files = "True"
 # a fit quality of 5 means that the shape of the modelled MFD
-# is within 5% of the target shape. 
+# is within 5% of the target shape.
 fit_quality = 5
 
 #nb sample (sr,b_value, Mmax)
