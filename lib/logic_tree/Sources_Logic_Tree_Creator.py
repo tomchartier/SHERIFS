@@ -286,7 +286,14 @@ class Sources_Logic_Tree_Creator:
                 # display the branch info
                 print("Model : \t",model_hyp)
                 print("Rupture set : \t\t",set_hyp)
-                print("Model : \t\t\t",mfd_hyp[0]," b : ",mfd_hyp[1])
+                if mfd_hyp[0] in ["GR","YC","tapered_GR"] :
+                    print("Model : \t\t\t",mfd_hyp[0]," b : ",mfd_hyp[1])
+                elif mfd_hyp[0] == "YC_modified" :
+                    print("Model : \t\t\t",mfd_hyp[0]," b : ",mfd_hyp[1],
+                     " Mf : ",mfd_hyp[2]," size_of_bump : ", mfd_hyp[3])
+                 elif mfd_hyp[0] == "double_GR" :
+                     print("Model : \t\t\t",mfd_hyp[0]," b : ",mfd_hyp[1],
+                      " Mrupt : ",mfd_hyp[2])
                 print("Model : \t\t\t\t",bg_hyp)
                 print("Scaling law : \t\t\t\t\t",' '.join(i for i in scl_hyp))
                 print("Sample : ",smp)
@@ -435,7 +442,14 @@ class Sources_Logic_Tree_Creator:
                     use_all_ScL_data = True
                 elif scl[2] in ['m','M'] :
                     use_all_ScL_data = False
-                b_value = float(mfd_hyp[1])
+
+                mfd_param = {}
+                mfd_param.update({'b_value' : mfd_hyp[1]})
+                if mfd_hyp[0] == "YC_modified" :
+                    mfd_param.update({'Mf' : mfd_hyp[2]})
+                    mfd_param.update({'size_of_bump' : mfd_hyp[3]})
+                 elif mfd_hyp[0] == "double_GR" :
+                     mfd_param.update({'Mrupt' : mfd_hyp[2]})
 
                 # if rerun_the_files == True :
                 #     # Create the source model
@@ -449,7 +463,7 @@ class Sources_Logic_Tree_Creator:
                                                     scl[0],
                                                     scl[1],
                                                     use_all_ScL_data,
-                                                    b_value,
+                                                    mfd_param,
                                                     mfd_hyp[0],
                                                     bg_ratio,
                                                     self.calculation_log_file,

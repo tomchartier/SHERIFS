@@ -67,7 +67,7 @@ def double_GR(mfd_param,bin_mag):
     return p_MFD
 
 
-def YC(mfd_param,bin_mag):
+def YC(mfd_param,bin_mag,Mmax):
     b_value = mfd_param['b_value']
     beta = b_value * np.log(10)
 

@@ -121,6 +121,12 @@ model_mfd = "True"
 part_mfd = "False"
 parts_gjson = ""
 
+# specific_section gets the participation rate (rate of all ruptures involving
+# this section) for a set of predefined sections. This can be useful for
+# comparing with paleoseismicity rates. sections is defined as a list of str.
+specific_section = "False"
+sections = ["1", "2"]
+
 #####################################################
 # 3 is for various OQ parameters important
 # if the goal is to run a hazard calculation
