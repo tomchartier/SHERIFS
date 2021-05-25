@@ -3,7 +3,7 @@
 """SHERIFS
 Seismic Hazard and Earthquake Rates In Fault Systems
 
-Version 1.2
+Version 1.3
 
 This code is pretty much the core of SHERIFS. It converts the slip-rate into earthquake rates.
 
@@ -15,6 +15,7 @@ import os
 import sys
 import pickle
 import scipy
+import math
 from scipy.interpolate import interp1d
 import scalling_laws
 import populate_bins
@@ -516,7 +517,11 @@ class EQ_on_faults_from_sr():
             deep_analysis = False
 
         # Option to not to the weighting of the ruptures at every loop.
-        faster_rup_weight = True
+        faster_rup_weight = self.param["main"]["parameters"]["faster_rup_weight"]
+        if faster_rup_weight in ["True", "true"] :
+            faster_rup_weight = True
+        else :
+            faster_rup_weight = False
 
         # loop several time if the faults are much faster than the min ones
         # saving time on the random sampling and the calculation of the weights
@@ -544,7 +549,7 @@ class EQ_on_faults_from_sr():
         budget_init = sum(faults_budget.values())
 
         if faster_rup_weight == True :
-            nb_weigthings_rup_sampling = 1000
+            nb_weigthings_rup_sampling = int(self.param["main"]["parameters"]["nb_weigthings_rup_sampling"])
             weigthing_built = [int(i) for i in np.logspace(0.,np.log10(budget_init),nb_weigthings_rup_sampling)]
         else :
             weigthing_built = [int(i) for i in range(budget_init)]
@@ -564,6 +569,7 @@ class EQ_on_faults_from_sr():
 
         n_w_work = 0
         n_w_crash = 0
+        loop_last_rup_w = 0
         picked_empty_rup = 0
         old_percent = '0000'
 
@@ -639,28 +645,46 @@ class EQ_on_faults_from_sr():
                 picked_bin = np.random.choice(len(bin_mag), 1, p = target_i)[0]
                 mag = bin_mag[picked_bin] #magnitude of that bin
 
-#                test_mean_picked.append(picked_bin)
-#                if str(round(ratio_done,2))[-1]=='9' and len(test_mean_picked) > 15:
-#                    print(round(ratio_done,2),
-#                    round(max(set(most_likely_pick[-10:]),key = most_likely_pick[-10:].count),1),
-#                     round(np.mean(test_mean_picked[-10:]),1),
-#                     len(bin_target_reached),len(bin_mag))
+                # if len(empty_bins) != 0 :
+                # testing if bin is not empty
+                not_empty_rup = []
+                for i_rup in rup_in_bin[picked_bin]:
+                    if not str(i_rup) in empty_rups :
+                        not_empty_rup.append(i_rup)
+                if len(not_empty_rup) == 0 :
+                    empty_bins.append(picked_bin)
+
 
                 if not picked_bin in empty_bins:
                     tmp = time.time()
                     '''Calculate the weight for sampling of the fault or scenario'''
 
-                    if number_of_loops == 1 or sum(faults_budget.values()) < weigthing_built[weigth_rup_sample]:
-                        #print("doing rupture weigths",weigth_rup_sample,weigthing_built[weigth_rup_sample])
+                    do_rup_weight = False
+                    if number_of_loops == 1 :
+                        do_rup_weight = True
+                    if sum(faults_budget.values()) < weigthing_built[weigth_rup_sample]:
+                        do_rup_weight = True
+                    if number_of_loops - loop_last_rup_w > 50 :
+                        do_rup_weight = True
+
+                    if do_rup_weight == True :
+                        loop_last_rup_w = number_of_loops
                         weigth_rup_sample += 1
 
+                        if faster_rup_weight == True :
+                            list_of_bins = range(len(bin_mag))
+                        else :
+                            list_of_bins = [picked_bin]
+
                         w_rup_binmag = []
-                        for index_mag in range(len(bin_mag)):
+                        for index_mag in list_of_bins:
                             if index_mag in empty_bins :
                                 w_rup_binmag.append([])
                             else :
-                                weight_rup_i = core_utils.weight_fault_sampling(index_mag,rup_in_bin,faults_names,faults_slip_rates,slip_rate_use_per_fault,faults_alone,scenarios_names,faults_isolated,index_faults_in_scenario,rup_rates,empty_rups)
-
+                                weight_rup_i = core_utils.weight_fault_sampling(index_mag,
+                                rup_in_bin,faults_names,faults_slip_rates,slip_rate_use_per_fault,
+                                faults_alone,scenarios_names,faults_isolated,index_faults_in_scenario,
+                                rup_rates,empty_rups)
 
                                 if local_MFD == True :
                                     # we check if local a local MFD is followed, if not, the ruptures that can help
@@ -669,25 +693,61 @@ class EQ_on_faults_from_sr():
                                     weight_rup_i = np.array([i*w for i,w in zip(weight_rup_i,factor_on_weight)])
                                     weight_rup_i /= weight_rup_i.sum()
 
-                                weight_rup_i /= weight_rup_i.sum()
+                                if sum(weight_rup_i) != 0. :
+                                    weight_rup_i  = [float(i)/sum(weight_rup_i) for i in weight_rup_i]
+
                                 w_rup_binmag.append(weight_rup_i)
 
                     time_weight_rupt += time.time() - tmp
 
-                    weight_rup = w_rup_binmag[picked_bin]
+                    if faster_rup_weight == True :
+                        weight_rup = w_rup_binmag[picked_bin]
+                    else :
+                        weight_rup = w_rup_binmag[0]
 
-                    if weight_rup.sum() != 1.0:
-                        weight_rup = weight_rup*(1./weight_rup.sum())
+                    i=0
+                    for i_rup in rup_in_bin[picked_bin]:
+                        if str(i_rup) in empty_rups : #the rup is empty
+                            weight_rup[i]= 0.
+                        i+=1
 
-                    if weight_rup.sum() == 0. :
+                    #weight_rup = w_rup_binmag[picked_bin]
+                    weight_rup = list(weight_rup)
+
+                    if sum(weight_rup) != 1.0:
+                        weight_rup = [float(i)/sum(weight_rup) for i in weight_rup]
+                        #weight_rup = weight_rup*(1./weight_rup.sum())
+
+                    if sum(weight_rup) == 0. :
                         print("Sum of the rupture weights in 0")
+                        exit()
 
-                    '''#picking of the source'''
+                    if math.isnan(sum(weight_rup)):
+                        print("WARNING : sum rup weight is nan")
+                        nb_nans = 0
+                        id = 0
+                        for i in weight_rup:
+                            if math.isnan(i):
+                                nb_nans += 1
+                            weight_rup[id] = 0.
+                            id += 1
+
+
+                    # i = 0
+                    # for i_rup in rup_in_bin[picked_bin]:
+                    #     if str(i_rup) in empty_rups : #the rup is empty
+                    #         if weight_rup[i]!=0:
+                    #             print("empty with weight",i_rup,weight_rup[i])
+                    #     i+=1
+
+                    #picking of the source'''
                     try :
-                        picked_rup = np.random.choice(rup_in_bin[picked_bin],1,p=weight_rup)[0] #picked source
-                        #picked_rup = rup_in_bin[picked_bin][np.random.multinomial(1, weight_rup)[0]]
+                        #picked_rup = np.random.choice(rup_in_bin[picked_bin],1,p=weight_rup)[0] #picked source
+                        i_picked = np.where(np.random.multinomial(1, weight_rup)==1)[0][0]
+                        picked_rup = rup_in_bin[picked_bin][i_picked]
                         #print("index picked :",np.random.multinomial(1, weight_rup)[0],"  |  rup : ",picked_rup)
                         #n_w_work += 1
+
                     except ValueError:
                         print("rupt weights didn't work. sum:",sum(weight_rup))
                         picked_rup = np.random.choice(rup_in_bin[picked_bin])
@@ -803,6 +863,7 @@ class EQ_on_faults_from_sr():
 
                     if picked_bin in bin_target_reached:
                         print("WHAT ARE YOU DOING HERE?",bin_mag[picked_bin])
+                        exit()
 
                     ''' spending the slip_rate increment '''
                     tmp =time.time()
@@ -811,7 +872,7 @@ class EQ_on_faults_from_sr():
                     shear_mod = 0
                     for index in index_fault :
                         shear_mod += faults_shear_mod[index]
-                        if faults_budget[index] <= 0:
+                        if faults_budget[index] <= 0.:
                             sr_to_spend = False #one of the faults don't have anymore budget
 
                     if sr_to_spend == False :

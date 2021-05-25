@@ -1,0 +1,3004 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nrml
+xmlns="http://openquake.org/xmlns/nrml/0.5"
+xmlns:gml="http://www.opengis.net/gml"
+>
+    <sourceModel
+    name="Zone 7"
+    >
+        <sourceGroup
+        rup_interdep="indep"
+        src_interdep="indep"
+        tectonicRegion="Active Shallow Crust"
+        >
+            <pointSource
+            id="L01_7_0"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -69.41517639160156 17.427480697631836
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.5507444390188396" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_1"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -76.52118682861328 19.495988845825195
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.095111755535775" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_10"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -69.64874267578125 17.72502899169922
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.0190688623028183" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_11"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.4588394165039 19.777023315429688
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.169501018020211" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_12"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -68.79585266113281 17.125417709350586
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.3715327260446069" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_13"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -69.80281066894531 17.430124282836914
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.758712978076935" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_14"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.93925476074219 18.907066345214844
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.2798187488953405" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_15"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -64.46369171142578 17.255033493041992
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="0.9844510613349372" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_16"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.81645202636719 19.19346618652344
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.6965719865782813" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_17"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -65.41818237304689 17.291816711425778
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.6866692285956817" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_18"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.67913818359375 18.322813034057614
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.7746039994877307" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_19"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.3083724975586 18.616106033325195
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.4303709210498203" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_2"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.83174896240234 19.487834930419922
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.468228408886709" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_20"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -73.64481353759766 19.77488899230957
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.4258581615318455" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_21"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -67.26768493652344 17.105243682861328
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="0.9500467491594254" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_22"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -64.09586334228516 17.358108520507812
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="0.8698177551954333" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_23"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -68.87685394287111 17.717363357543945
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.5256752763863903" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_24"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -73.24838256835938 19.776472091674805
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.1051981638490003" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_25"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -68.64418792724611 17.419992446899414
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.7400848878060882" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_26"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.73865509033203 18.61285972595215
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.983490988676422" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_27"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.99008178710938 19.199398040771484
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.3849337234435706" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_28"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.66058349609375 18.026086807250977
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.8750650335987364" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_29"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.75558471679688 18.90844917297364
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.348509328857598" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_3"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -65.05547332763672 17.395929336547848
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.7062226600577015" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_30"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.97254943847656 18.905242919921875
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.793461943270466" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_31"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -68.26088714599611 17.415166854858402
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.9290992946057808" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_32"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -67.49879455566406 17.40339469909668
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.3439257376140576" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_33"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.89491271972656 18.32115364074707
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="3.0648426690308264" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_34"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.7785873413086 19.199190139770508
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.9719641000414927" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_35"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.81698608398438 17.73089599609375
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.5035403306512576" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_36"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -68.41155242919922 17.121423721313473
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.7230093391684402" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_37"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -69.2620849609375 17.721567153930664
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.7914235124338365" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_38"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.59762573242188 19.19824409484864
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.548587165289212" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_39"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -67.64744567871094 17.111328125
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.1775087746178827" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_4"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -64.32440185546875 17.603424072265625
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.1951839021012343" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_40"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -67.12005615234375 17.396469116210938
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.2177731498760067" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_41"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.42621612548828 17.72970199584961
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.3228896420879885" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_42"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -69.49523162841797 18.017793655395508
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.122574498354421" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_43"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -74.44084167480469 19.76907157897949
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.7304366347127424" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_44"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.36344146728516 18.90725326538086
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.6097700596407187" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_45"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.11587524414061 18.316333770751953
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.7757523332326706" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_46"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -68.11077117919922 17.70677375793457
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.7628026101247176" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_47"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.05171203613281 18.027305603027344
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.8796587187052296" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_48"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -73.40975189208984 19.48709297180176
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.4246020196986726" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_49"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -73.174560546875 19.197813034057614
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.204545531500355" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_5"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -73.80705261230469 19.484752655029297
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.6335070021405373" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_50"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.28639221191406 18.322383880615234
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="3.0046716735343493" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_51"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -73.57164764404297 19.195581436157227
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.6252663053898924" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_52"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.5210189819336 18.61610412597656
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.751702892286504" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_53"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -68.02873992919922 17.116724014282227
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.7292971329195563" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_54"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -68.49308013916016 17.71242904663086
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.779033040814837" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_55"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -63.7261962890625 17.460908889770508
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="0.8093050449871082" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_56"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.27077484130861 18.02408790588379
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.7990114972687183" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_57"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -65.77899169921875 17.18748664855957
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.6655604263301336" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_58"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.8530502319336 19.77718162536621
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.0269559375107224" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_59"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.19183349609375 17.432025909423828
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.8235838192385383" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_6"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -66.00112915039061 17.428699493408207
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.7016696137838423" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_60"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -65.28034210205078 17.638219833374023
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.2929445052499458" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_61"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -67.87908172607422 17.409631729125973
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.7332798565439775" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_62"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.70384216308594 18.614871978759766
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.491279105402082" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_63"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -66.3673095703125 17.380578994750973
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.2946830867541324" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_64"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -73.01354217529297 19.48856544494629
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.062008031692689" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_65"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.12919616699219 18.61488342285156
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.88992993904409" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_66"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -69.88230895996094 18.02132225036621
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.36046626770954" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_67"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.50473022460938 18.319133758544922
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="3.0707176343258364" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_68"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.54352569580078 18.90836334228516
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.1041063398296718" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_69"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -65.64168548583984 17.533567428588867
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.2748612516612754" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_7"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -74.84036254882812 19.76482582092285
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.5417837486655306" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_70"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.9140853881836 18.616514205932614
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.3280761085982298" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_71"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.14895629882812 18.90882110595703
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.160925203535224" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_72"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.22450256347656 19.488927841186523
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.4158125029761357" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_73"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -73.33612060546875 18.904926300048828
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.652496873061714" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_74"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.58295440673828 18.90242576599121
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.65512534525144" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_75"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.34942626953125 18.610042572021484
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.872867210877697" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_76"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -64.69087219238281 17.49980354309082
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.3197563942063388" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_77"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -74.04231262207031 19.772424697875977
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.663975847368381" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_78"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -76.88114166259766 19.51321220397949
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.70654370711918" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_79"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.61844635009766 19.48917388916016
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.1931620333074733" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_8"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -72.38375091552734 19.19971466064453
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.21503970573688" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_80"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -69.02896118164061 17.424100875854492
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.4768621570903204" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_81"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -66.74288940429689 17.388860702514652
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="1.234213359505243" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_82"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -71.20640563964844 19.196264266967773
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.7754684548108832" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+            <pointSource
+            id="L01_7_9"
+            name=""
+            >
+                <pointGeometry>
+                    <gml:Point>
+                        <gml:pos>
+                            -70.03679656982422 17.727745056152344
+                        </gml:pos>
+                    </gml:Point>
+                    <upperSeismoDepth>
+                        0.0
+                    </upperSeismoDepth>
+                    <lowerSeismoDepth>
+                        50.0
+                    </lowerSeismoDepth>
+                </pointGeometry>
+                <magScaleRel>
+                    Leonard2014_Interplate
+                </magScaleRel>
+                <ruptAspectRatio>
+                    1.0
+                </ruptAspectRatio>
+                <truncGutenbergRichterMFD aValue="2.25526461397054" bValue="0.9" maxMag="7.8" minMag="5.0"/>
+                <nodalPlaneDist>
+                    <nodalPlane dip="45.0" probability="0.64" rake="90.0" strike="330.0"/>
+                    <nodalPlane dip="90.0" probability="0.24" rake="0.0" strike="210.0"/>
+                    <nodalPlane dip="30.0" probability="0.12" rake="-90.0" strike="30.0"/>
+                </nodalPlaneDist>
+                <hypoDepthDist>
+                    <hypoDepth depth="5.0" probability="0.18"/>
+                    <hypoDepth depth="15.0" probability="0.32"/>
+                    <hypoDepth depth="25.0" probability="0.28"/>
+                    <hypoDepth depth="35.0" probability="0.22"/>
+                </hypoDepthDist>
+            </pointSource>
+        </sourceGroup>
+    </sourceModel>
+</nrml>

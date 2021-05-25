@@ -2,7 +2,7 @@ Run_Name = "dom_test"
 
 # 0 is for the precomputation
 [pre]
-File_Oiler = "data/DOM_v1/dom_in_forced.geojson"
+File_Oiler = "data/DOM_v1/all_faults.geojson"
 File_out = "data/DOM_v1/sections_nit.geojson"
 File_Mmax_areas = "data/DOM_v1/zone_Mmax.geojson"
 File_Mu = "data/DOM_v1/zone_Mu.geojson"
@@ -11,6 +11,8 @@ rupture_mesh_spacing = 1.5
 jump_dist = 10.0
 apply_sr_reduction = 0.0
 
+
+#####################################################
 # 1 is for the SHERIFS computation input files
 [main]
 # Main input file for SHERIFS
@@ -23,7 +25,7 @@ File_geom = "path/to/file"
 File_prop = "path/to/file"
 
 # if using geojson file (recommended)
-faults_file = "data/DOM_v1/sections_nit.geojson"
+faults_file = "data/DOM_v1/sections.geojson"
 
 # rupture file
 rupture_file = "input/dom_test/ruptures.txt"
@@ -47,6 +49,7 @@ host_model_file = "_.xml"
 # if smooth is used
 smoothing_xml = "/Users/tchartier/venv/src/SHERIFS/data/DOM_v1/zones"
 
+#####################################################
 # 2 is for the SHERIFS paremeters
 [main.parameters]
 # run parameters
@@ -77,13 +80,14 @@ explo_time = 1
 use_multiF = "True"
 
 # More advanced parameters
+
+
 local_MFD = "False"
 
 # If uniform_spending is False, the slip-rate budget
 # is not spent uniformly for the section participating to a rupture,
 # faster faults will slip-more.
 uniform_spending = "True"
-
 
 # If deep analysis is turned on, display intermediate values in the prompt
 # can easily be overwelming for new users!
@@ -99,6 +103,8 @@ option_fast = "True"
 
 # can force the
 overwrite_files = "True"
+
+#####################################################
 # 3 is for various OQ parameters important
 # if the goal is to run a hazard calculation
 [OQ]

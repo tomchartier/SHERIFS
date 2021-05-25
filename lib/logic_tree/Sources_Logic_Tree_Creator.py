@@ -130,7 +130,7 @@ class Sources_Logic_Tree_Creator:
             if force_rerun in ["False","false"] :
                 if os.path.isfile(self.Run_Name+"/LOG/lt_branchs.pkl"):
                     old_branches = pickle.load(open(self.Run_Name+"/LOG/lt_branchs.pkl", 'rb'))
-                    old_indexes = pickle.load(open(self.Run_Name+"/LOG/t_b_id.pkl", 'rb'))
+                    old_indexes = pickle.load(open(self.Run_Name+"/LOG/lt_b_id.pkl", 'rb'))
                 else :
                     old_branches = []
                     old_indexes = []
@@ -362,7 +362,7 @@ class Sources_Logic_Tree_Creator:
                     faults_lon = geom_scenar.faults_lon
                     faults_lat = geom_scenar.faults_lat
 
-                    simplify_faults = True
+                    simplify_faults = self.param["main"]["parameters"]["simplify_faults"]
                     if simplify_faults == True :
                         print("WARNING : fault simplification is applied!!")
                         for i_fault in range(len(faults)):

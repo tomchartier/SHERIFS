@@ -127,6 +127,7 @@ def weight_fault_sampling(picked_bin,rup_in_bin,faults_names,faults_slip_rates,s
                             ratio_w_i = 1.
                     if ratio_w_i > ratio_w:
                         ratio_w = ratio_w_i
+
                 if ratio_w >= 0.:
                     weight_i = ratio_w
                     weight_fault.append(weight_i)
@@ -134,9 +135,15 @@ def weight_fault_sampling(picked_bin,rup_in_bin,faults_names,faults_slip_rates,s
                     weight_i = 0.
                     weight_fault.append(weight_i)
 
-    weight_fault = [i**2 for i in weight_fault]
-    weight_fault = np.array(weight_fault)
-    weight_fault /= weight_fault.sum()
+
+    if sum(weight_fault) == 0.:
+        bin_is_empty = True
+        weight_fault = [0]
+    else :
+        bin_is_empty = False
+        weight_fault = [i**2 for i in weight_fault]
+        weight_fault = np.array(weight_fault)
+        weight_fault /= weight_fault.sum()
 
     return weight_fault
 

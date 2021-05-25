@@ -165,7 +165,7 @@ class Source_Model_Creator:
                 n_cut_f = n_cut_sf + n_cut_mf
                 s_files = []
                 for i in range(n_cut_mf):
-                    f = self.path +'/sm_' + str(self.sample) + '_f_'+str(i+1)+'.xml'
+                    f = self.path +'/sm_'+str(i)+'.xml'
                     s_files.append(f)
                     list_src_files.append(f)
 

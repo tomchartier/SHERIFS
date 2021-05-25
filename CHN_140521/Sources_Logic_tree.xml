@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nrml xmlns:gml="http://www.opengis.net/gml"
+	xmlns="http://openquake.org/xmlns/nrml/0.5">
+	<logicTree logicTreeID="lt1">
+		<logicTreeBranchingLevel branchingLevelID="bl_1">
+			<logicTreeBranchSet uncertaintyType="sourceModel"
+							branchSetID="bs_1">
+				<logicTreeBranch branchID= "b_0">
+					<uncertaintyModel> 
+							ssm/CHN0_sections.xml 
+							CHN_140521/ssm/b_0/sm_0.xml
+							CHN_140521/ssm/b_0/sm_1.xml
+							CHN_140521/ssm/b_0/sm_2.xml
+							CHN_140521/ssm/b_0/sm_3.xml
+							CHN_140521/ssm/b_0/sm_4.xml
+							CHN_140521/ssm/b_0/sm_5.xml
+							CHN_140521/ssm/b_0/sm_6.xml
+							CHN_140521/ssm/b_0/sm_7.xml
+							CHN_140521/ssm/b_0/sm_8.xml
+							CHN_140521/ssm/b_0/sm_9.xml
+							CHN_140521/ssm/b_0/sm_10.xml
+							CHN_140521/ssm/b_0/sm_11.xml
+							CHN_140521/ssm/b_0/sm_12.xml
+							CHN_140521/ssm/b_0/bg_1_1.xml
+							CHN_140521/ssm/b_0/bg_1_2.xml
+							CHN_140521/ssm/b_0/bg_1_3.xml
+							CHN_140521/ssm/b_0/bg_1_4.xml
+							CHN_140521/ssm/b_0/bg_1_5.xml
+							CHN_140521/ssm/b_0/bg_1_6.xml
+							CHN_140521/ssm/b_0/bg_1_7.xml
+							CHN_140521/ssm/b_0/bg_1_8.xml
+							CHN_140521/ssm/b_0/bg_1_9.xml
+							CHN_140521/ssm/b_0/bg_1_10.xml
+							CHN_140521/ssm/b_0/bg_1_11.xml
+							CHN_140521/ssm/b_0/bg_1_12.xml
+							CHN_140521/ssm/b_0/bg_1_13.xml
+							CHN_140521/ssm/b_0/bg_1_14.xml
+							CHN_140521/ssm/b_0/bg_1_15.xml
+							CHN_140521/ssm/b_0/bg_1_16.xml
+							CHN_140521/ssm/b_0/bg_1_17.xml
+							CHN_140521/ssm/b_0/bg_1_18.xml
+							CHN_140521/ssm/b_0/bg_1_19.xml
+					</uncertaintyModel>
+					<uncertaintyWeight>0.5</uncertaintyWeight>
+				</logicTreeBranch>
+				<logicTreeBranch branchID= "b_1">
+					<uncertaintyModel> 
+							ssm/CHN0_sections.xml 
+							CHN_140521/ssm/b_1/sm_0.xml
+							CHN_140521/ssm/b_1/sm_1.xml
+							CHN_140521/ssm/b_1/sm_2.xml
+							CHN_140521/ssm/b_1/sm_3.xml
+							CHN_140521/ssm/b_1/sm_4.xml
+							CHN_140521/ssm/b_1/sm_5.xml
+							CHN_140521/ssm/b_1/sm_6.xml
+							CHN_140521/ssm/b_1/sm_7.xml
+							CHN_140521/ssm/b_1/sm_8.xml
+							CHN_140521/ssm/b_1/sm_9.xml
+							CHN_140521/ssm/b_1/sm_10.xml
+							CHN_140521/ssm/b_1/sm_11.xml
+							CHN_140521/ssm/b_1/sm_12.xml
+							CHN_140521/ssm/b_1/bg_1_1.xml
+							CHN_140521/ssm/b_1/bg_1_2.xml
+							CHN_140521/ssm/b_1/bg_1_3.xml
+							CHN_140521/ssm/b_1/bg_1_4.xml
+							CHN_140521/ssm/b_1/bg_1_5.xml
+							CHN_140521/ssm/b_1/bg_1_6.xml
+							CHN_140521/ssm/b_1/bg_1_7.xml
+							CHN_140521/ssm/b_1/bg_1_8.xml
+							CHN_140521/ssm/b_1/bg_1_9.xml
+							CHN_140521/ssm/b_1/bg_1_10.xml
+							CHN_140521/ssm/b_1/bg_1_11.xml
+							CHN_140521/ssm/b_1/bg_1_12.xml
+							CHN_140521/ssm/b_1/bg_1_13.xml
+							CHN_140521/ssm/b_1/bg_1_14.xml
+							CHN_140521/ssm/b_1/bg_1_15.xml
+							CHN_140521/ssm/b_1/bg_1_16.xml
+							CHN_140521/ssm/b_1/bg_1_17.xml
+							CHN_140521/ssm/b_1/bg_1_18.xml
+							CHN_140521/ssm/b_1/bg_1_19.xml
+					</uncertaintyModel>
+					<uncertaintyWeight>0.5</uncertaintyWeight>
+				</logicTreeBranch>
+			</logicTreeBranchSet>
+		</logicTreeBranchingLevel>
+	</logicTree>
+</nrml>
