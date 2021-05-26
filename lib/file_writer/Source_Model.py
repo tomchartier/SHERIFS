@@ -186,13 +186,27 @@ class Source_Model_Creator:
             #######################################
             #######################################
             '''
+            simplify_faults = self.param["main"]["parameters"]["simplify_faults"]
+            if simplify_faults in ["True","true"] :
+                resample = [False]
+            elif not "resample" in self.param["main"]["parameters"].keys():
+                resample = [False]
+            else :
+                rsp = self.param["main"]["parameters"]["resample"]
+                if rsp[0] in ["True","true"]:
+                    resample = [True]
+                    resample.append(float(rsp[1]))
+                    resample.append(float(rsp[2]))
+                    resample.append(float(rsp[3]))
+
             # write the section files
             sections_xml = self.Run_Name+'/ssm/'+self.Model_name+'_sections.xml'
             if not os.path.exists(sections_xml):
                 txt = wsf.start(self.Model_name)
                 for section_id in range(len(faults_names)):
+                    geotype = "kite"
                     txt = wsf.wrt_section(txt,section_id,faults_names,
-                    faults_data,"kite")
+                    faults_data,geotype,resample)
                 txt = wsf.end(txt)
                 wsf.build(sections_xml,txt)
 
@@ -590,19 +604,19 @@ class Source_Model_Creator:
             #     b_value = (self.b_min + self.b_max)/2.
             # else :
             #     b_value = np.random.triangular(self.b_min,(self.b_min + self.b_max)/2.,self.b_max)
-            mfd_param = {}
-            mfd_param.update({'b_value' : self.b_value})
+            # mfd_param = {}
+            # mfd_param.update({'b_value' : self.b_value})
 
             log_general_parameters_file.write('b_value\t'+str(self.b_value)+'\n')
-            if self.mfd_hyp == "double_GR" :
-                mfd_param.update({'Mrupt' : self.})
-                log_general_parameters_file.write('Mrupt\t'+str(Mrupt)+'\n')
-
-            if self.mfd_hyp == "YC_modified" :
-                Mf = mfd_param['Mf'] #Mmax with the best a priori fit, value for the Marmara sea
-                size_of_bump = mfd_param['size_of_bump'] #in order to modify the respective size of the two parts of the
-                log_general_parameters_file.write('Mf\t'+str(Mf)+'\n')
-                log_general_parameters_file.write('size_of_bump\t'+str(size_of_bump)+'\n')
+            # if self.mfd_hyp == "double_GR" :
+            #     mfd_param.update({'Mrupt' : self.})
+            #     log_general_parameters_file.write('Mrupt\t'+str(Mrupt)+'\n')
+            #
+            # if self.mfd_hyp == "YC_modified" :
+            #     Mf = mfd_param['Mf'] #Mmax with the best a priori fit, value for the Marmara sea
+            #     size_of_bump = mfd_param['size_of_bump'] #in order to modify the respective size of the two parts of the
+            #     log_general_parameters_file.write('Mf\t'+str(Mf)+'\n')
+            #     log_general_parameters_file.write('size_of_bump\t'+str(size_of_bump)+'\n')
 
             log_general_parameters_file.close()
 
@@ -1093,13 +1107,13 @@ class Source_Model_Creator:
 
         self.list_src_files = list_src_files
 
-        '''#######################
-        ### some figures
-        ######################'''
-
-    if self.param["figures"]["print"] in ["true","True"]:
-        make_figures = True
-
-    if make_figure == True :
-        if self.param["figures"]["model_mfd"] in ["true","True"]:
-            plt_model_mfd = True
+        # '''#######################
+        # ### some figures
+        # ######################'''
+        #
+        # if self.param["figures"]["print"] in ["true","True"]:
+        #     make_figures = True
+        #
+        # if make_figure == True :
+        #     if self.param["figures"]["model_mfd"] in ["true","True"]:
+        #         plt_model_mfd = True

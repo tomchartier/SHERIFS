@@ -11,11 +11,12 @@ Models = ["DOM_v1"]
 # Supported MFDs :
 # ["GR", b_value]
 # ["tapered_GR", "b_value"]
-# ["double_GR", "b_value" ...]
-# ["YC", "b_value" ...]
-# ["YC_modified", "b_value" ...]
+# ["double_GR", "b_value","Mrupt"]
+# ["YC", "b_value"=]
+# ["YC_modified", "b_value" , "Mf", "size_of_bump"]
 # WARNING b_value must be indicated as a string
-MFD_shape = [["tapered_GR", "0.90"]]
+MFD_shape = [["tapered_GR", "0.95"]]
+#,["double_GR", "0.95","7.6"],["YC_modified", "0.95" , "7.6", "2."]]
 
 # List of the hypotheses of the shared seismicity between the background
 # and the faults. Each hypothesis used must be defined in the

@@ -107,7 +107,13 @@ option_fast = "True"
 # can force the
 overwrite_files = "True"
 
+# simplifying the sections to straight lines
 simplify_faults = "True"
+
+# resampling the geometry (doesn't matter when simplify faults is True)
+# ["True",min distance between two points km,max distance between two points km
+# ,change in azimuth to consider in degrees]
+resample = ["True","3.","10.","15."]
 
 [figures]
 print = "True"

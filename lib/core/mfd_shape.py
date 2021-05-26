@@ -10,6 +10,7 @@ Populates the magnitude bins with the faults and scenarios that can generate the
 @author: Thomas Chartier
 """
 import numpy as np
+import scipy
 from seismic_moment import mag_to_M0
 
 def GR(mfd_param,bin_mag):
@@ -48,7 +49,7 @@ def user_defined(mfd_param,bin_mag):
 def double_GR(mfd_param,bin_mag):
     b_value = mfd_param['b_value']
     #Mrupt = mfd_param['Mrupt']
-    Mrupt = 6.5
+    Mrupt = mfd_param["Mrupt"]
     Beta =  b_value * np.log(10)
     print('use of the MFD "double GR" with Mrupt = '+str(Mrupt))
     p_MFD = [] #probability distribution
@@ -80,7 +81,41 @@ def YC(mfd_param,bin_mag,Mmax):
         p_MFD.append(pi)
     return p_MFD
 
-def YC_marmara(mfd_param,bin_mag):
+def YC_modified(mfd_param,bin_mag,Mmax):
+    #Youngs and coppersmith 1985, see Makrup et al 2015 for simplified formulation
+    #this equation has been modified in order to have a stable moment for the last three bins of magnitude and keep the
+    # target stable for the GR part of the distribution
+    # these value are good for fitting the not declestered catalog for the greater marmara region
+    # with a b value of 1.15
+    b_value = mfd_param['b_value']
+    Mf = mfd_param['Mf'] #Mmax with the best a priori fit, value for the Marmara sea
+    size_of_bump = mfd_param['size_of_bump'] #in order to modify the respective size of the two parts of the
+    beta = b_value * np.log(10)
+    '''
+    if Mmax <= 7.8 :
+        Mf= 7.5 #Mmax with the best a priori fit, value for the Marmara sea
+        size_of_bump = 0.25 #in order to modify the respective size of the two parts of the
+    else :
+        Mf= 7.8 #Mmax with the best a priori fit, value for the Marmara sea
+        size_of_bump = 0.5 #in order to modify the respective size of the two parts of the
+    '''
+    #Mf= 7.5
+    #size_of_bump = 0.25
+
+    p_MFD = [] #probability distribution
+    for mag in bin_mag :
+        if mag < (Mmax - 0.8) :
+            pi = 0.1 * (((beta*np.exp(-beta*(mag -bin_mag[0])))/(1.-np.exp(-beta*(Mmax-bin_mag[0]))))
+            *np.exp(1./b_value * (Mmax-Mf)))
+        elif mag < (Mmax + 0.09) :
+            pi = 0.1*(((beta*(np.exp(-beta*(Mmax-1.5-bin_mag[0]))))/(1-np.exp(-beta*(Mmax-bin_mag[0]))))
+            *scipy.stats.norm(0, 2).pdf((mag-(Mmax-0.4))*5.)/scipy.stats.norm(0, 2).pdf(0.))*size_of_bump
+        elif mag > (Mmax + 0.09) :
+            pi = 0.
+        p_MFD.append(pi)
+    return p_MFD
+
+def YC_marmara(mfd_param,bin_mag,Mmax):
     #Youngs and coppersmith 1985, see Makrup et al 2015 for simplified formulation
     #this equation has been modified in order to have a stable moment for the last three bins of magnitude and keep the
     # target stable for the GR part of the distribution

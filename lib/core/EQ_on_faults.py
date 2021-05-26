@@ -376,10 +376,10 @@ class EQ_on_faults_from_sr():
             p_MFD = mfd_shape.YC(mfd_param,bin_mag,Mmax)
 
         elif self.mfd_hyp == 'YC_marmara':
-            p_MFD = mfd_shape.YC_marmara(mfd_param,bin_mag)
+            p_MFD = mfd_shape.YC_marmara(mfd_param,bin_mag,Mmax)
 
         elif self.mfd_hyp == 'YC_modified':
-            p_MFD = mfd_shape.YC_modified(mfd_param,bin_mag)
+            p_MFD = mfd_shape.YC_modified(mfd_param,bin_mag,Mmax)
 
         elif self.mfd_hyp == 'UCERF_DV':
             # MFD calculated from the sum of the mfds of the faults of the UCERF

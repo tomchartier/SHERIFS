@@ -291,7 +291,7 @@ class Sources_Logic_Tree_Creator:
                 elif mfd_hyp[0] == "YC_modified" :
                     print("Model : \t\t\t",mfd_hyp[0]," b : ",mfd_hyp[1],
                      " Mf : ",mfd_hyp[2]," size_of_bump : ", mfd_hyp[3])
-                 elif mfd_hyp[0] == "double_GR" :
+                elif mfd_hyp[0] == "double_GR" :
                      print("Model : \t\t\t",mfd_hyp[0]," b : ",mfd_hyp[1],
                       " Mrupt : ",mfd_hyp[2])
                 print("Model : \t\t\t\t",bg_hyp)
@@ -369,8 +369,21 @@ class Sources_Logic_Tree_Creator:
                     faults_lon = geom_scenar.faults_lon
                     faults_lat = geom_scenar.faults_lat
 
+                    # clean up for duplicate points in the geometry
+                    for i_fault in range(len(faults)):
+                        pairs = []
+                        for i,j in zip(faults_lon[i_fault],faults_lat[i_fault]):
+                            pair = [i,j]
+                            if not pair in pairs :
+                                pairs.append(pair)
+                        # if duplicates are found, replace
+                        if len(pairs) != len(faults_lon[i_fault]):
+                            faults_lon[i_fault] = [pair[0] for pair in pairs]
+                            faults_lat[i_fault] = [pair[1] for pair in pairs]
+
+                    # option to simplify faults to a line
                     simplify_faults = self.param["main"]["parameters"]["simplify_faults"]
-                    if simplify_faults == True :
+                    if simplify_faults in ["True","true"] :
                         print("WARNING : fault simplification is applied!!")
                         for i_fault in range(len(faults)):
                             faults_lon[i_fault] = [faults_lon[i_fault][0],faults_lon[i_fault][-1]]
@@ -437,6 +450,12 @@ class Sources_Logic_Tree_Creator:
 
                     print("Faults imported.")
 
+                # updating the geometries in the file
+                id_fault = 0
+                for Fault_name in faults_names:
+                    faults_data[id_fault]["lon"] = faults_lon[index_fault]
+                    faults_data[id_fault]["lat"] = faults_lat[index_fault]
+                    id_fault += 1
 
                 if scl[2] in ['a','A'] :
                     use_all_ScL_data = True
@@ -444,12 +463,12 @@ class Sources_Logic_Tree_Creator:
                     use_all_ScL_data = False
 
                 mfd_param = {}
-                mfd_param.update({'b_value' : mfd_hyp[1]})
+                mfd_param.update({'b_value' : float(mfd_hyp[1])})
                 if mfd_hyp[0] == "YC_modified" :
-                    mfd_param.update({'Mf' : mfd_hyp[2]})
-                    mfd_param.update({'size_of_bump' : mfd_hyp[3]})
-                 elif mfd_hyp[0] == "double_GR" :
-                     mfd_param.update({'Mrupt' : mfd_hyp[2]})
+                    mfd_param.update({'Mf' : float(mfd_hyp[2])})
+                    mfd_param.update({'size_of_bump' : float(mfd_hyp[3])})
+                elif mfd_hyp[0] == "double_GR" :
+                     mfd_param.update({'Mrupt' : float(mfd_hyp[2])})
 
                 # if rerun_the_files == True :
                 #     # Create the source model

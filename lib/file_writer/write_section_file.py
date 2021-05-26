@@ -37,13 +37,14 @@ def start(model_name):
     return txt
 
 
-def wrt_kite_geo(fault_name,faults_names,faults_data,do_resample=False):
+def wrt_kite_geo(fault_name,faults_names,faults_data,resample):
     '''
     txt : str containing the file info
     faults_names : list of the fault names in order (serves for indexing)
     faults_data : dict containing all faults info
-    do_resample : when resample=ing the coordinates is necessary to lower the
-    number of points.
+    resample : list with a boolean and the resample parameters if needed
+                when resampling the coordinates is necessary to lower the
+                number of points.
     '''
 
 #   for Fault_name in faults_in_scenario :
@@ -88,15 +89,16 @@ def wrt_kite_geo(fault_name,faults_names,faults_data,do_resample=False):
         ColLon = list(ColLon)
         ColLat = list(ColLat)
 
+        do_resample = resample[0]
         # does a resampling to reduce the number of points
         if do_resample == True :
             # parameters
             # min distance between two points
-            min_d = 5.
+            min_d = resample[1]
             # max distance between two points
-            max_d = 15.
+            max_d = resample[2]
             # change in azimuth to consider
-            az_d = 15.
+            az_d = resample[3]
 
             resampled_ColLon, resampled_ColLat = [ColLon[0]], [ColLat[0]]
             for i_pt in range(len(ColLon)-2):
@@ -147,26 +149,30 @@ def wrt_kite_geo(fault_name,faults_names,faults_data,do_resample=False):
         compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[-1],ColLon[-1]))
         strike = compass_bearing
         mean_azimuth = (strike + 90.0) % 360
+        use_local_azimuth = False
 
         # loop on profiles
         i_pt = 0
         for x,y in zip(ColLon,ColLat):
-            # local azimuth
-            if [x,y] == [ColLon[0],ColLat[0]]:
-                compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[1],ColLon[1]))
-                strike = compass_bearing
-                azimuth = (strike + 90.0) % 360
-            elif [x,y] == [ColLon[-1],ColLat[-1]]:
-                compass_bearing = calculate_initial_compass_bearing((ColLat[-2],ColLon[-2]),(ColLat[-1],ColLon[-1]))
-                strike = compass_bearing
-                azimuth = (strike + 90.0) % 360
-            else :
-                compass_bearing = calculate_initial_compass_bearing((ColLat[i_pt-1],ColLon[i_pt-1]),
-                (ColLat[i_pt+1],ColLon[i_pt+1]))
-                strike = compass_bearing
-                azimuth = (strike + 90.0) % 360
+            if use_local_azimuth == True :
+                # local azimuth
+                if [x,y] == [ColLon[0],ColLat[0]]:
+                    compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[1],ColLon[1]))
+                    strike = compass_bearing
+                    azimuth = (strike + 90.0) % 360
+                elif [x,y] == [ColLon[-1],ColLat[-1]]:
+                    compass_bearing = calculate_initial_compass_bearing((ColLat[-2],ColLon[-2]),(ColLat[-1],ColLon[-1]))
+                    strike = compass_bearing
+                    azimuth = (strike + 90.0) % 360
+                else :
+                    compass_bearing = calculate_initial_compass_bearing((ColLat[i_pt-1],ColLon[i_pt-1]),
+                    (ColLat[i_pt+1],ColLon[i_pt+1]))
+                    strike = compass_bearing
+                    azimuth = (strike + 90.0) % 360
 
-            azimuth = ((mean_azimuth+azimuth)/2.) % 360
+                azimuth = ((mean_azimuth+azimuth)/2.) % 360
+            else :
+                azimuth = mean_azimuth
 
             txt+='\t\t\t<profile>\n'
             txt+='\t\t\t\t<gml:LineString>\n'
@@ -184,17 +190,18 @@ def wrt_kite_geo(fault_name,faults_names,faults_data,do_resample=False):
 
     return txt
 
-def wrt_section(txt,section_id,faults_names,faults_data,geotype="kite"):
+def wrt_section(txt,section_id,faults_names,faults_data,geotype,resample):
     '''
     txt : str containing the file info
     geotype : type of geometry of the section (kite, complex, or  simple)
+    resample : list with a boolean and the resample parameters if needed
     '''
 
     section_name = faults_names[section_id]
     txt += '    <section name="'+section_name+'" id="'+str(section_id)+'">\n'
 
     if geotype == "kite":
-        out = wrt_kite_geo(section_name,faults_names,faults_data,False)
+        out = wrt_kite_geo(section_name,faults_names,faults_data,resample)
     if geotype == "complex":
         out = wrt_complex_geo()
     if geotype == "simple":
