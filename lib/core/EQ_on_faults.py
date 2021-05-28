@@ -336,6 +336,7 @@ class EQ_on_faults_from_sr():
         bin_mag_fault_prop.append(10.)
         fault_prop_inc = np.append(np.array(fault_prop_inc),1.)
         fault_prop = interp1d(bin_mag_fault_prop,fault_prop_inc)
+        self.fault_prop = fault_prop
 
 
 
@@ -1118,6 +1119,7 @@ class EQ_on_faults_from_sr():
         self.EQ_rate_BG = EQ_rate_BG
 
         self.bin_mag = bin_mag
+        self.rup_rates = rup_rates
 
         log_calculation_file.write('Moment_rate_faults_final calculated using 10^(1.5M+9.1)' + '\t' + str(Total_moment_rate_fault) + '\t' + 'N.m' + '\n')
         log_calculation_file.write('Ratio of NMS slip rate counted in the iterative process: ' + '\t' + str(round((100.) * (aseismic_count/nb_ss_to_spend))) + '\t %\n')

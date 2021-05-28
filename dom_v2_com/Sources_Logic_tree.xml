@@ -5,18 +5,16 @@
 		<logicTreeBranchingLevel branchingLevelID="bl_1">
 			<logicTreeBranchSet uncertaintyType="sourceModel"
 							branchSetID="bs_1">
-				<logicTreeBranch branchID= "b_0">
 					<uncertaintyModel> 
 							ssm/DOM_v1_sections.xml 
-							dom_v2_com/ssm/b_0/sm_0.xml
-							dom_v2_com/ssm/b_0/sm_1.xml
-							dom_v2_com/ssm/b_0/bg_1_1.xml
-							dom_v2_com/ssm/b_0/bg_1_2.xml
-							dom_v2_com/ssm/b_0/bg_1_3.xml
-							dom_v2_com/ssm/b_0/bg_1_4.xml
-							dom_v2_com/ssm/b_0/bg_1_5.xml
-							dom_v2_com/ssm/b_0/bg_1_6.xml
-							dom_v2_com/ssm/b_0/bg_1_7.xml
+							bg_1_1.xml
+							bg_1_3.xml
+							bg_1_2.xml
+							bg_1_6.xml
+							bg_1_7.xml
+							bg_1_5.xml
+							bg_1_4.xml
+							sm_0.xml
 					</uncertaintyModel>
 					<uncertaintyWeight>1.0</uncertaintyWeight>
 				</logicTreeBranch>

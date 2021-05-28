@@ -21,6 +21,9 @@ path_f = path_lib + '/utils'
 sys.path.append(path_f)
 path_f = path_lib + '/sources'
 sys.path.append(path_f)
+path_f = path_lib + '/hm_visual'
+sys.path.append(path_f)
+
 import EQ_on_faults
 import Geometry_scenario
 import select_sr
@@ -28,7 +31,7 @@ from background import bg
 from geometry_tools import *
 import host_model
 import math
-import fault_source
+import fault_source, rates
 import pickle
 import write_section_file as wsf
 import write_multifault_source_file as wmfs
@@ -37,6 +40,7 @@ import matplotlib.path as mplPath
 from seismic_moment import mag_to_M0
 
 import matplotlib.pyplot as plt
+import plt_mfd
 
 class Source_Model_Creator:
     def __init__(self,path,pathlog,param,Model_name,rupture_set,sample,
@@ -1107,13 +1111,26 @@ class Source_Model_Creator:
 
         self.list_src_files = list_src_files
 
-        # '''#######################
-        # ### some figures
-        # ######################'''
-        #
-        # if self.param["figures"]["print"] in ["true","True"]:
-        #     make_figures = True
-        #
-        # if make_figure == True :
-        #     if self.param["figures"]["model_mfd"] in ["true","True"]:
-        #         plt_model_mfd = True
+        '''#######################
+        ### some figures
+        ######################'''
+        if "figures" in self.param.keys():
+            if self.param["figures"]["print"] in ["true","True"]:
+                make_figures = True
+        else :
+            make_figures = False
+
+        if make_figures == True :
+            if self.param["figures"]["model_mfd"] in ["true","True"]:
+                plt_model_mfd = True
+
+        if plt_model_mfd == True :
+            x = MFDs.bin_mag
+            y = rates.get_rate_model(MFDs.rup_rates,MFDs.fault_prop,x)
+            data = False
+            lim = [[x[0]-0.05,x[-1]+0.05],
+            [min(y)/2.,max(y)*2.]]
+            axis = ["magnitude","annual earthquake rates"]
+            path = self.pathlog+'/modelMFD.jpg'
+            title = "MFD of the whole system"
+            plt_mfd.plot(x,y,lim,axis,data,path,title)
