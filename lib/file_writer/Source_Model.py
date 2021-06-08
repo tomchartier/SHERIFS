@@ -1124,13 +1124,28 @@ class Source_Model_Creator:
             if self.param["figures"]["model_mfd"] in ["true","True"]:
                 plt_model_mfd = True
 
+        if "mfd_cat" in self.param["figures"].keys():
+            data = self.param["figures"]["mfd_cat"]
+        else :
+            data = False
+
         if plt_model_mfd == True :
             x = MFDs.bin_mag
             y = rates.get_rate_model(MFDs.rup_rates,MFDs.fault_prop,x)
-            data = False
+
             lim = [[x[0]-0.05,x[-1]+0.05],
             [min(y)/2.,max(y)*2.]]
             axis = ["magnitude","annual earthquake rates"]
-            path = self.pathlog+'/modelMFD.jpg'
+            path = self.pathlog+'/modelMFD.png'
             title = "MFD of the whole system"
             plt_mfd.plot(x,y,lim,axis,data,path,title)
+
+
+        ''' mfd in a more local scale '''
+        part_mfd = False
+        if make_figures == True :
+            if "part_mfd" in self.param["figures"].keys():
+                if self.param["figures"]["part_mfd"] in ["true","True"]:
+                    part_mfd = True
+
+        #if part_mfd == True :

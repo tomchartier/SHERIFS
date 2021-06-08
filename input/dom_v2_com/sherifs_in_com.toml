@@ -122,10 +122,15 @@ print = "True"
 # and the one for the background only
 model_mfd = "True"
 
+# catalog rate
+# mfd_cat is the mfd calculated for the whole model area from the catalog
+# it should be the cumulative MFD
+mfd_cat = [[4.0,5.0,6.0,7.0],[10.0,1.0,0.1,0.01]]
+
 # part_mfd gets the same things than model mfd but for parts of the model
 # defined in the parts_gjson geojson file
 part_mfd = "False"
-parts_gjson = ""
+parts_gjson = "data/DOM_v1/part_MFD.geojson"
 
 # specific_section gets the participation rate (rate of all ruptures involving
 # this section) for a set of predefined sections. This can be useful for

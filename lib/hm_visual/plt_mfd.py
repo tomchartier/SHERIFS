@@ -10,11 +10,11 @@ Version 1.4
 import numpy as np
 import matplotlib.pyplot as plt
 
-def add_data(x,y):
-    y_cum = list(np.cumsum(y.reversed()))
-    y_cum = y_cum.reversed()
-    plt.scatter(x,y_cum, c='grey', s=50, edgecolor='',marker = 'o',alpha = 0.7)
-    plt.plot(x,y,'grey', linewidth = 1 ,alpha = 0.8)
+def add_data(data):
+    x = data[0]
+    y = data[1]
+    #plt.scatter(x,y, c='grey', s=50, edgecolor='',marker = 'o',alpha = 0.7)
+    plt.plot(x,y,'grey', linewidth = 1 ,alpha = 0.8, label='cumulative catalogue MFD')
 
 
 def plot(x,y,lim,axis,data,path,title):
@@ -28,15 +28,16 @@ def plot(x,y,lim,axis,data,path,title):
     title : str, title of the figure
 
     '''
-
-    y_cum = list(np.cumsum(y.reversed()))
-    y_cum = y_cum.reversed()
-    plt.scatter(x,y_cum, c='darkcyan', s=50, edgecolor='',marker = 's',alpha = 0.7)
-    plt.plot(x,y,'darkgreen', linewidth = 2 ,alpha = 0.8)
+    y = list(y)
+    y_cum = list(np.cumsum(np.array(y[::-1])))
+    y_cum = y_cum[::-1]
+    plt.scatter(x,y, c='darkcyan', s=50, edgecolor='None', marker = 's',alpha = 0.7, label='SHERIFS incremental MFD')
+    plt.plot(x,y_cum,'darkgreen', linewidth = 2 ,alpha = 0.8, label='SHERIFS cumulative MFD')
     if not data == False :
-        add_data(x,data)
+        add_data(data)
     plt.yscale('log')
     plt.title(title)
+    plt.legend()
     plt.grid()
     plt.savefig(path,dpi = 180, transparent=True)
     plt.close()

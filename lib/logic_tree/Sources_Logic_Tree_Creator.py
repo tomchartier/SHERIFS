@@ -453,8 +453,8 @@ class Sources_Logic_Tree_Creator:
                 # updating the geometries in the file
                 id_fault = 0
                 for Fault_name in faults_names:
-                    faults_data[id_fault]["lon"] = faults_lon[index_fault]
-                    faults_data[id_fault]["lat"] = faults_lat[index_fault]
+                    faults_data[id_fault]["lon"] = faults_lon[id_fault]
+                    faults_data[id_fault]["lat"] = faults_lat[id_fault]
                     id_fault += 1
 
                 if scl[2] in ['a','A'] :
