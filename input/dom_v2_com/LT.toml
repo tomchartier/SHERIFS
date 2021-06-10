@@ -11,18 +11,28 @@ Models = ["DOM_v1"]
 # Supported MFDs :
 # ["GR", b_value]
 # ["tapered_GR", "b_value"]
-# ["double_GR", "b_value","Mrupt"]
-# ["YC", "b_value"=]
-# ["YC_modified", "b_value" , "Mf", "size_of_bump"]
+# ["double_GR", "b_value" ...]
+# ["YC", "b_value" ...]
+# ["YC_modified", "b_value" ...]
 # WARNING b_value must be indicated as a string
-MFD_shape = [["tapered_GR", "0.95"]]
-#,["double_GR", "0.95","7.6"],["YC_modified", "0.95" , "7.6", "2."]]
+#MFD_shape = [["YC", "0.95"]]
+#MFD_shape = [["double_GR", "1.1", "7.0"]]
+#MFD_shape = [["double_GR", "1.1", "6.7"]] # - a good fit
+#MFD_shape = [["double_GR", "0.9", "6.2"]] 
+#MFD_shape = [["GR", "1.1"]]
+MFD_shape = [["GR", "0.9"]]
+#MFD_shape = [["GR", "0.9"]]
+#MFD_shape = [["YC_modified", "0.90", "6.0", "0.25"]]
 
 # List of the hypotheses of the shared seismicity between the background
 # and the faults. Each hypothesis used must be defined in the
 # bg_seismicity.txt file.
-Background = ["BG_1"]
-#Background = ["BG_1","BG_2"]
+#Background = ["BG_7"]
+#Background = ["BG_5"]
+#Background = ["BG_6"]
+#Background = ["BG_4"]
+Background = ["BG_2"]
+#Background = ["BG_1"]
 
 # List of the hypotheses on the possible rupture sets.
 # Each set must be defined in the rupture_file.

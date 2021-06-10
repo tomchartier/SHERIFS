@@ -61,7 +61,7 @@ force_rerun = "True"
 
 # a fit quality of 5 means that the shape of the modelled MFD
 # is within 5% of the target shape.
-fit_quality = 5
+fit_quality = 30
 
 #nb sample explores random sampling on the slip-rate uncertainty and the
 # uncertainty within the scalling law. sample 1 is always the mean parameters.
@@ -69,7 +69,7 @@ nb_sample = 1
 
 
 #SR increment size (mm/yr)
-dsr =	0.03
+dsr =	0.01
 Mmin = 5.0
 Random_seed = 805
 SR_correl =	"True"
@@ -129,7 +129,7 @@ mfd_cat = [[4.0,5.0,6.0,7.0],[10.0,1.0,0.1,0.01]]
 
 # part_mfd gets the same things than model mfd but for parts of the model
 # defined in the parts_gjson geojson file
-part_mfd = "False"
+part_mfd = "True"
 parts_gjson = "data/DOM_v1/part_MFD.geojson"
 
 # specific_section gets the participation rate (rate of all ruptures involving

@@ -40,7 +40,7 @@ import matplotlib.path as mplPath
 from seismic_moment import mag_to_M0
 
 import matplotlib.pyplot as plt
-import plt_mfd
+import plt_mfd, local_cat
 
 class Source_Model_Creator:
     def __init__(self,path,pathlog,param,Model_name,rupture_set,sample,
@@ -978,13 +978,18 @@ class Source_Model_Creator:
 
         elif sum(MFD) != 0. and self.param["main"]["background"]["option_bg"]=="smooth":
             Mmin_checked = False
+
+            Mmax = M_min+len(EQ_rate_BG)*0.1-1
+            mags = np.linspace(M_min,Mmax,len(EQ_rate_BG))
+
             # read the xml and stores the list of aValues
 
             list_bg_xml = self.list_fbg
             if os.path.isdir(self.fbgpath):
                 list_bg_xml = [self.fbgpath+"/"+i for i in list_bg_xml]
             pts_list = {}
-            sum_rates = 0.
+            #sum_rates = 0.
+            sum_rates = [0. for _ in mags]
 
             for fbg in list_bg_xml:
                 tree = ET.parse(fbg)
@@ -1013,24 +1018,37 @@ class Source_Model_Creator:
                         minMag = nrml[0][0][i_point][i_trGR].get('minMag')
                         bValue = nrml[0][0][i_point][i_trGR].get('bValue')
                         maxMag = nrml[0][0][i_point][i_trGR].get('maxMag')
+                        #sum_rates += float(10.**float(aValue))
+                        mfd_inc = []
+                        i_mag = 0
+                        for mag in mags :
+                            mag_lo = mag - 0.05
+                            mag_hi = mag + 0.05
+                            r = (10 ** (float(aValue) - float(bValue) * mag_lo)
+                            - 10 ** (float(aValue) - float(bValue) * mag_hi))
+                            sum_rates[i_mag] += r
+                            i_mag += 1
+                            mfd_inc.append(r)
+
                         pts_list.update({str_loc:{"aValue":aValue,
                         "bValue":bValue,
                         "maxMag":maxMag,
-                        "minMag":minMag}})
-                        sum_rates += float(10.**float(aValue))
+                        "minMag":minMag,
+                        "mfd_inc":mfd_inc}})
+
+
 
                         if Mmin_checked == False :
                             if float(minMag) < M_min :
                                 print("!!!!")
-                                print("WARNING : BG has a small Mmin than the SHERIFS input")
+                                print("WARNING : BG has a smaller Mmin than the SHERIFS input")
                                 print("!!!!")
                                 Mmin_checked = True
                     i_point +=1
 
             # Normalize to fit the BG MFD
-            Mmax = M_min+len(EQ_rate_BG)*0.1-1
-            mags = np.linspace(M_min,Mmax,len(EQ_rate_BG))
 
+            sum_bg_min = 0.
             i_bg = 0
             for fbg in list_bg_xml:
                 tree = ET.parse(fbg)
@@ -1063,15 +1081,22 @@ class Source_Model_Creator:
                         element = nrml[0][0][i_point][-1].makeelement('occurRates', {})
                         nrml[0][0][i_point][-1].append(element)
                         str_tmp = " "
+                        pt_scl_mfd = []
                         i_mag = 0
                         for mag in mags:
                             mag_lo = mag - 0.05
                             mag_hi = mag + 0.05
                             r = (10 ** (a_value - b_value * mag_lo)
                                 - 10 ** (a_value - b_value * mag_hi))
-                            norm_r = r * ((10.**a_value) / sum_rates)
+                            #norm_r = r * ((10.**a_value) / sum_rates)
+                            norm_r = r / sum_rates[i_mag]
                             str_tmp += str(EQ_rate_BG[i_mag]*norm_r)
                             str_tmp += " "
+                            sum_bg_min += EQ_rate_BG[i_mag]*norm_r
+                            pt_scl_mfd.append(EQ_rate_BG[i_mag]*norm_r)
+                            i_mag += 1
+
+                        pts_list[str_loc].update({"scaled_mfd":pt_scl_mfd})
 
                         nrml[0][0][i_point][-1][0].text =str_tmp
                         nrml[0][0][i_point].remove(nrml[0][0][i_point][i_trGR])
@@ -1080,6 +1105,7 @@ class Source_Model_Creator:
                 fbg_out = self.path + '/bg_'+str(self.sample)+'_'+str(i_bg)+'.xml'
                 tree.write(fbg_out)
                 list_src_files.append(fbg_out)
+
 
 
 
@@ -1140,6 +1166,19 @@ class Source_Model_Creator:
             title = "MFD of the whole system"
             plt_mfd.plot(x,y,lim,axis,data,path,title)
 
+        if plt_model_mfd == True :
+            x = MFDs.bin_mag
+            ft, bgmfd = rates.get_rate_faults_n_bg(MFDs.rup_rates,MFDs.fault_prop,x)
+            ys = [rates.get_rate_model(MFDs.rup_rates,MFDs.fault_prop,x),
+            ft,
+            bgmfd]
+
+            lim = [[x[0]-0.05,x[-1]+0.05],
+            [min(ys[0])/2.,max(ys[0])*2.]]
+            axis = ["magnitude","annual earthquake rates"]
+            path = self.pathlog+'/modelMFD_bg_ft.png'
+            title = "MFD of the whole system, faults, background"
+            plt_mfd.plot_bg_ft(x,ys,lim,axis,path,title)
 
         ''' mfd in a more local scale '''
         part_mfd = False
@@ -1148,4 +1187,40 @@ class Source_Model_Creator:
                 if self.param["figures"]["part_mfd"] in ["true","True"]:
                     part_mfd = True
 
-        #if part_mfd == True :
+        if part_mfd == True :
+            loc_cat = local_cat.read_geojson(self.param["figures"]["parts_gjson"])
+
+            for zone in loc_cat.keys():
+                polypt = loc_cat[zone]["poly"]
+                lons = []
+                lats = []
+                for pt in polypt[0][0] :
+                    lons.append(pt[0])
+                    lats.append(pt[1])
+                poly = []
+                for x1,y1 in zip(lons,lats):
+                    poly.append((x1,y1))
+
+                poly = mplPath.Path(poly)
+
+                txt_no_bg,rate_faults,rate_bg,smooth = local_cat.get_model_rate(poly,
+                OQ_entry_faults,OQ_entry_scenarios,pts_list,MFDs.bin_mag,
+                self.param,faults_data,faults_names,index_faults_in_scenario)
+
+                x = MFDs.bin_mag
+                rate_model = [i+j for i,j in zip(rate_faults,rate_bg)]
+                data = loc_cat[zone]["cat_rates"]
+                lim = [[x[0]-0.05,x[-1]+0.05],
+                [min(rate_model)/2.,max(rate_model)*2.]]
+                axis = ["magnitude","annual earthquake rates"]
+                title = "MFD in zone " + str(zone) + txt_no_bg
+                path = self.pathlog+'/MFD_zone'+str(zone)+'.png'
+
+                if len(data[0]) != len(data[1]):
+                    data = False
+                    print("For zone",zone," : wrong bining")
+                    print("please check the geojson file")
+
+                plt_mfd.local(x,
+                [rate_model,rate_faults,rate_bg,smooth],
+                data,lim,axis,path,title)
