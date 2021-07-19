@@ -51,10 +51,10 @@ param,faults_data,faults_names,index_faults_in_scenario):
             lon = float(lon_lat.split("_")[0])
             lat = float(lon_lat.split("_")[1])
             if poly.contains_point((lon,lat)) == 1:
-                mfd_inc = pts_list[lon_lat]["scaled_mfd"]
-                mfd_smooth = pts_list[lon_lat]["mfd_inc"]
+                scaled_mfd = pts_list[lon_lat]["scaled_mfd"]
+                mfd_smooth = pts_list[lon_lat]["mfd_smooth"]
                 i_mag = 0
-                for r in mfd_inc :
+                for r in scaled_mfd :
                     rate_bg[i_mag]+=r
                     i_mag += 1
                 i_mag = 0
@@ -82,7 +82,7 @@ param,faults_data,faults_names,index_faults_in_scenario):
             i_MFD = np.where(np.array(faults_names) == fault_name)[0][0]
             MFD = OQ_entry_faults[i_MFD]
             i_mag = 0
-            for r in mfd_inc :
+            for r in MFD :
                 rate_faults[i_mag]+=MFD[i_mag]
                 i_mag += 1
 
@@ -108,7 +108,7 @@ param,faults_data,faults_names,index_faults_in_scenario):
             if faults_in_poly != 0 :
                 MFD = OQ_entry_scenarios[index_scenario]
                 i_mag = 0
-                for r in mfd_inc :
+                for r in MFD :
                     rate_faults[i_mag]+=MFD[i_mag] * float(faults_in_poly)/float(len(index_faults_in_sc[0]))
                     i_mag += 1
 

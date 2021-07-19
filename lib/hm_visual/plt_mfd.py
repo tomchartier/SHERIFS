@@ -84,7 +84,8 @@ def plot_bg_ft(x,ys,lim,axis,path,title):
 def local(x,ys,data,lim,axis,path,title):
     '''
     x : list, bining in magnitude
-    y : list, mfd values for whole model, faults, bg (3 x same length as x)
+    y : list, mfd values for whole model, faults, bg
+                and smooth before scalling (4 x same length as x)
     lim : list, 2D of len 2, [[xmin,xmax],[ymin,ymax]]
     axis : list, 2 strings for the axis title x and y
     data : bool or list, False or mfd value of the catalog

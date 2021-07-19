@@ -517,6 +517,9 @@ class Sources_Logic_Tree_Creator:
                 b_path = self.Run_Name + "/ssm/b_" + str(id)
                 list_src_files = [f for f in listdir(b_path) if isfile(join(b_path, f))]
 
+            if not "/ssm/b_" + str(id)+"/single_sec_rup.xml" in list_src_files:
+                list_src_files.append("/ssm/b_" + str(id)+"/single_sec_rup.xml")
+
 
             # write branch in the logic tree file
             line+=('\t\t\t\t\t<uncertaintyModel> \n')
@@ -524,6 +527,7 @@ class Sources_Logic_Tree_Creator:
                 line+="\t\t\t\t\t\t\tssm/"+model+'_sections.xml \n'
 
             for f in list_src_files:
+                f = f.replace(self.Run_Name+'/','')
                 f = f.replace(model+'/','')
                 line+="\t\t\t\t\t\t\t"+f+"\n"
 

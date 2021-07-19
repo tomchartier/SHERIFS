@@ -1,0 +1,169 @@
+Run_Name = "CHN_100621"
+
+dirpath = ""
+
+# 0 is for the precomputation
+[pre]
+File_Oiler = "data/CHN/dom_in_forced.geojson"
+File_out = "data/CHN/sections_nit.geojson"
+File_Mmax_areas = "data/CHN/zone_Mmax.geojson"
+File_Mu = "data/CHN/zone_Mu.geojson"
+Model_name = "CHN0"
+rupture_mesh_spacing = 2.0
+jump_dist = 10.0
+apply_sr_reduction = 0.15
+
+
+#####################################################
+# 1 is for the SHERIFS computation input files
+[main]
+# Main input file for SHERIFS
+
+# fault_input_type : geojson, txtsherifs
+fault_input_type = "geojson"
+
+# if using txt file a la SHERIFS
+File_geom = "path/to/file"
+File_prop = "path/to/file"
+
+# if using geojson file (recommended)
+faults_file = "data/CHN/sections.geojson"
+
+# rupture file
+rupture_file = "input/CHN_100621/ruptures.txt"
+
+# Logic Tree file
+LT_file = "input/CHN_100621/LT.toml"
+
+# optional
+local_MFD_file = "data/CHN/mfd_area.geojson"
+
+[main.background]
+# option_bg : smooth, zone, none
+option_bg = "smooth"
+# bg geometry
+File_bg = "data/CHN/bg.geojson"
+# if option zone
+file_prop_bg = "data/CHN/Background_properties.txt"
+# with option zone, possibility to use a host model
+use_host_model = "False"
+host_model_file = "_.xml"
+# if smooth is used
+smoothing_xml = "/Users/tchartier/venv/src/chn20/model/crustal_distributed/m03_layer1/oq/zones"
+
+#####################################################
+# 2 is for the SHERIFS paremeters
+[main.parameters]
+# run parameters
+
+# if force_ruren is True, all the branches are ran again (important if fault
+# parameters have changed). If False, only new branches are ran, useful for
+# speeding up calculation when adding new branches to the logic tree.
+force_rerun = "False"
+
+# a fit quality of 5 means that the shape of the modelled MFD
+# is within 5% of the target shape.
+fit_quality = 5
+
+#nb sample explores random sampling on the slip-rate uncertainty and the
+# uncertainty within the scalling law. sample 1 is always the mean parameters.
+nb_sample = 1
+
+
+#SR increment size (mm/yr)
+dsr =	0.01
+Mmin = 4.5
+Random_seed = 805
+SR_correl =	"True"
+Mmax_range =	[0.0,	10.0]
+explo_time = 1
+
+# use the multifault typology (recommended True)
+use_multiF = "True"
+
+# More advanced parameters
+
+
+local_MFD = "True"
+
+# If uniform_spending is False, the slip-rate budget
+# is not spent uniformly for the section participating to a rupture,
+# faster faults will slip-more.
+#uniform_spending = "False"
+uniform_spending = "True"
+
+# If deep analysis is turned on, display intermediate values in the prompt
+# can easily be overwelming for new users!
+deep_analysis = "True"
+
+# Option to not to the weighting of the ruptures at every loop but only
+# every few loops.
+faster_rup_weight = "True"
+# if true, indicate the number of rupture weight sampling
+nb_weigthings_rup_sampling = 33
+# lin of log
+type_weigthings_rup_sampling = "lin"
+
+# loop several time if the faults has a much higher slip-rate
+# than the slowest faults in the system saving calculation time
+option_fast = "True"
+
+# can force the
+overwrite_files = "True"
+
+# simplifying the sections to straight lines
+simplify_faults = "True"
+vertical_faults = "True"
+
+# resampling the geometry (doesn't matter when simplify faults is True)
+# ["True",min distance between two points km,max distance between two points km
+# ,change in azimuth to consider in degrees]
+resample = ["True","3.","10.","15."]
+
+[figures]
+print = "True"
+
+# model_mfd gets the mfd for the whole model, the one for the faults only,
+# and the one for the background only
+model_mfd = "True"
+
+# catalog rate
+# mfd_cat is the mfd calculated for the whole model area from the catalog
+# it should be the cumulative MFD
+mfd_cat = "False"
+
+# part_mfd gets the same things than model mfd but for parts of the model
+# defined in the parts_gjson geojson file
+part_mfd = "True"
+parts_gjson = "data/CHN/mfd_area.geojson"
+
+# specific_section gets the participation rate (rate of all ruptures involving
+# this section) for a set of predefined sections. This can be useful for
+# comparing with paleoseismicity rates. sections is defined as a list of str.
+specific_section = "False"
+sections = ["1", "2"]
+
+#####################################################
+# 3 is for various OQ parameters important
+# if the goal is to run a hazard calculation
+[OQ]
+Option_map = 	"False"
+Site_Longitude = 90.0
+Site_Latitude =	30.0
+Vs30 = 	800.0
+Site_Z1000 = 	100.0
+Site_Z2500 = 	5.0
+nb_LT_samp = 	0
+rup_mesh = 	2.0
+source_discr = 	5.0
+investigation_time = 	50
+# Probability of exceedance
+poe = 	0.1
+trunc_lvl = 	3
+max_dist =	300
+intensity_i = 	"PGA	0.08	1.5	10"
+# intensity_i = 	"SA(0.1)	0.08	1.5	10"
+# intensity_i = 	"SA(0.1)	0.08	1.5	10"
+
+# 4 is for the SHERIFS post precessing
+[post]

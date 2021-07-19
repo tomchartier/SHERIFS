@@ -16,6 +16,30 @@ from scipy.interpolate import interp1d
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 
+def seconds_to_str(seconds):
+    time_str = " "
+    if seconds >= 60 :
+        minutes = seconds / 60.
+        if seconds > 60*60 :
+            hours = seconds / (60.*60.)
+            if seconds > 60*60*24 :
+                days = seconds / (60.*60.*24.)
+                time_str += str(int(days))+" d "
+                time_str += str(int(hours-days*24.))+" h "
+                time_str += str(int(minutes-hours*60.))+" m "
+                time_str += str(int(seconds-minutes*60.))+" s"
+            else :
+                time_str += str(int(hours))+" h "
+                time_str += str(int(minutes-hours*60.))+" m "
+                time_str += str(int(seconds-minutes*60.))+" s"
+        else :
+            time_str += str(int(minutes))+" m "
+            time_str += str(int(seconds-minutes*60.))+" s"
+    else :
+        time_str += str(int(seconds))+" s"
+
+    return time_str
+
 def progress(model_MFD,calculation_log,ratio_done,print_percent,rup_rates,fault_prop,bin_mag):
     if ratio_done > 0.01 and ratio_done <= 0.25 and print_percent == True :
         rate_in_model = rates.get_rate_model(rup_rates,fault_prop,bin_mag)
@@ -148,7 +172,7 @@ def weight_fault_sampling(picked_bin,rup_in_bin,faults_names,faults_slip_rates,s
     return weight_fault
 
 
-def variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup,faults_names):
+def variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup,faults_names,sum_fault_budget):
     # spends the slip rate correlated with the slip-rate of the faults involeved in the rupture
     nb_sdr_used = 0
     sr_involved = []
@@ -159,9 +183,10 @@ def variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use
         #M_slip_repartition[index].append(picked_rup)
         M_slip_repartition[str(faults_names[index])][str(picked_rup)] += 1
         faults_budget[index]+=-(1*factor)
+        sum_fault_budget+=-(1*factor)
         slip_rate_use_per_fault[index] += size_of_increment
         nb_sdr_used+=(1*factor)
-    return M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used
+    return M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used,sum_fault_budget
 
 
 def link_rup_mfd_area(rup_rates,f_mfd_area,faults_lon,faults_lat,bin_mag,bg_ratio):

@@ -35,6 +35,7 @@ import fault_source, rates
 import pickle
 import write_section_file as wsf
 import write_multifault_source_file as wmfs
+import write_single_sources as wss
 import xml.etree.ElementTree as ET
 import matplotlib.path as mplPath
 from seismic_moment import mag_to_M0
@@ -203,6 +204,16 @@ class Source_Model_Creator:
                     resample.append(float(rsp[2]))
                     resample.append(float(rsp[3]))
 
+            if "vertical_faults" in self.param["main"]["parameters"].keys():
+                vertical_faults = self.param["main"]["parameters"]["vertical_faults"]
+                if vertical_faults in ["True","true"] :
+                    vertical_faults = True
+                else :
+                    vertical_faults = False
+            else :
+                vertical_faults = False
+
+
             # write the section files
             sections_xml = self.Run_Name+'/ssm/'+self.Model_name+'_sections.xml'
             if not os.path.exists(sections_xml):
@@ -210,7 +221,7 @@ class Source_Model_Creator:
                 for section_id in range(len(faults_names)):
                     geotype = "kite"
                     txt = wsf.wrt_section(txt,section_id,faults_names,
-                    faults_data,geotype,resample)
+                    faults_data,geotype,resample,vertical_faults)
                 txt = wsf.end(txt)
                 wsf.build(sections_xml,txt)
 
@@ -470,6 +481,9 @@ class Source_Model_Creator:
                 f = list(dict_txt.keys())[0]
 
             #loop on simple faults
+            single_f_xml = self.path +'/single_sec_rup.xml'
+            trt = faults_data[0]['domain'] #TODO do a group for each
+            single_txt = wss.start(self.Model_name,trt)
             for index_fault,fault_name in zip(range(len(faults_names)),faults_names):
                 if index_fault in f_in_bg:
                     # write the single fault ruptures in the file
@@ -485,23 +499,29 @@ class Source_Model_Creator:
 
                         trt = str(fault_trt)
                         rake = faults_data[index_fault]['rake']
-
+                        geotype = "kite"
                         name = "single_fault_"+fault_name
-                        if cut_sm_file == False :
-                            txt = wmfs.wrt_multifault_source(txt,MFD,
-                                self.Mmin,explo_time,rake,[index_fault])
-                        else :
-                            if not dict_n_rup[f] < max_rup_per_file :
-                                i = 0
-                                while dict_n_rup[f] > max_rup_per_file:
-                                    i+=1
-                                    f = list(dict_txt.keys())[i]
-                            txt = dict_txt[f]
-                            dict_txt[f] = wmfs.wrt_multifault_source(txt,MFD,
-                                self.Mmin,explo_time,rake,[index_fault])
-                            dict_n_rup[f] += 1
+                        single_txt = wss.wrt_source(single_txt,index_fault,
+                                        faults_names,faults_data,
+                                        geotype,resample,vertical_faults,
+                                        fault_trt,M_min,MFD,ScL_oq)
+                        # if cut_sm_file == False :
+                        #     txt = wmfs.wrt_multifault_source(txt,MFD,
+                        #         self.Mmin,explo_time,rake,[index_fault])
+                        # else :
+                        #     if not dict_n_rup[f] < max_rup_per_file :
+                        #         i = 0
+                        #         while dict_n_rup[f] > max_rup_per_file:
+                        #             i+=1
+                        #             f = list(dict_txt.keys())[i]
+                        #     txt = dict_txt[f]
+                        #     dict_txt[f] = wmfs.wrt_multifault_source(txt,MFD,
+                        #         self.Mmin,explo_time,rake,[index_fault])
+                        #     dict_n_rup[f] += 1
 
-
+            # build file
+            single_txt = wss.end(single_txt)
+            wss.build(single_f_xml,single_txt)
 
             # loop on the multifault_rup
             if len(self.rupture_set) != 0 :
@@ -882,7 +902,7 @@ class Source_Model_Creator:
                     if sc_in == True:
                         use_non_param = True
                         if use_non_param == False:
-                            line,ID_number = fault_source. write_characteristic_scenario(scenarios_names,
+                            line,ID_number = fault_source.write_characteristic_scenario(scenarios_names,
                                                                                         OQ_entry_scenarios,
                                                                                         index_faults_in_scenario,
                                                                                         scenario,
@@ -894,7 +914,7 @@ class Source_Model_Creator:
                                                                                         ID_number)
                         else :
 
-                            line,ID_number = fault_source. write_non_parametric_source(scenario,
+                            line,ID_number = fault_source.write_non_parametric_source(scenario,
                                                                                         scenarios_names,
                                                                                         OQ_entry_scenarios,
                                                                                         index_faults_in_scenario,
@@ -1019,7 +1039,7 @@ class Source_Model_Creator:
                         bValue = nrml[0][0][i_point][i_trGR].get('bValue')
                         maxMag = nrml[0][0][i_point][i_trGR].get('maxMag')
                         #sum_rates += float(10.**float(aValue))
-                        mfd_inc = []
+                        mfd_smooth = []
                         i_mag = 0
                         for mag in mags :
                             mag_lo = mag - 0.05
@@ -1028,13 +1048,13 @@ class Source_Model_Creator:
                             - 10 ** (float(aValue) - float(bValue) * mag_hi))
                             sum_rates[i_mag] += r
                             i_mag += 1
-                            mfd_inc.append(r)
+                            mfd_smooth.append(r)
 
                         pts_list.update({str_loc:{"aValue":aValue,
                         "bValue":bValue,
                         "maxMag":maxMag,
                         "minMag":minMag,
-                        "mfd_inc":mfd_inc}})
+                        "mfd_smooth":mfd_smooth}})
 
 
 

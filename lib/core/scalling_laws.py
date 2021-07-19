@@ -167,7 +167,7 @@ class Calc_Mmax():
 
                         if self.faults_mecanism[index_fault] == 'S':
                             Mmax_i = coeff[2][0] + coeff[2][1] * np.log10(length/1000.) + coeff[2][2]
-                    self.Mmax_faults.append(round(Mmax_i,1))
+                    self.Mmax_faults.append(float("{:.1f}".format(Mmax_i)))
 
                     index_fault += 1
 
@@ -184,7 +184,7 @@ class Calc_Mmax():
 
                         if scenario_mecanism[index_scenario] == 'S':
                             Mmax_i = coeff[2][0] + coeff[2][1] * np.log10(length/1000.) + coeff[2][2]
-                    self.Mmax_scenario.append(round(Mmax_i,1))
+                    self.Mmax_scenario.append(float("{:.1f}".format(Mmax_i)))
 
                     index_scenario += 1
 
@@ -203,7 +203,7 @@ class Calc_Mmax():
 
                         if self.faults_mecanism[index_fault] == 'S':
                             Mmax_i = coeff[2][3] + coeff[2][4] * np.log10(area/1000000.) + coeff[2][5]
-                    self.Mmax_faults.append(round(Mmax_i,1))
+                    self.Mmax_faults.append(float("{:.1f}".format(Mmax_i)))
 
                     index_fault += 1
 
@@ -220,7 +220,7 @@ class Calc_Mmax():
 
                         if scenario_mecanism[index_scenario] == 'S':
                             Mmax_i = coeff[2][3] + coeff[2][4] * np.log10(area/1000000.) + coeff[2][5]
-                    self.Mmax_scenario.append(round(Mmax_i,1))
+                    self.Mmax_scenario.append(float("{:.1f}".format(Mmax_i)))
 
                     index_scenario += 1
 
@@ -267,7 +267,7 @@ class Calc_Mmax():
                             Mmax_min = 2. / 3. (coeff[1][1] + coeff[1][0] * np.log10(length)) - 6.07
                             Mmax_max = 2. / 3. (coeff[1][2] + coeff[1][0] * np.log10(length)) - 6.07
                             Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
-                    self.Mmax_faults.append(round(Mmax_i,1))
+                    self.Mmax_faults.append(float("{:.1f}".format(Mmax_i)))
 
                     index_fault += 1
 
@@ -294,7 +294,7 @@ class Calc_Mmax():
                             Mmax_min = 2. / 3. * (coeff[1][1] + coeff[1][0] * np.log10(length)) - 6.07
                             Mmax_max = 2. / 3. * (coeff[1][2] + coeff[1][0] * np.log10(length)) - 6.07
                             Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
-                    self.Mmax_scenario.append(round(Mmax_i,1))
+                    self.Mmax_scenario.append(float("{:.1f}".format(Mmax_i)))
 
                     index_scenario += 1
 
@@ -311,7 +311,7 @@ class Calc_Mmax():
                         Mmax_min = 2. / 3. * (coeff[1][4] + coeff[1][3] * np.log10(area)) - 6.07
                         Mmax_max = 2. / 3. * (coeff[1][5] + coeff[1][3] * np.log10(area)) - 6.07
                         Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
-                    self.Mmax_faults.append(round(Mmax_i,1))
+                    self.Mmax_faults.append(float("{:.1f}".format(Mmax_i)))
 
                     index_fault += 1
 
@@ -326,7 +326,7 @@ class Calc_Mmax():
                         Mmax_min = 2. / 3. * (coeff[1][4] + coeff[1][3] * np.log10(area)) - 6.07
                         Mmax_max = 2. / 3. * (coeff[1][5] + coeff[1][3] * np.log10(area)) - 6.07
                         Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
-                    self.Mmax_scenario.append(round(Mmax_i,1))
+                    self.Mmax_scenario.append(float("{:.1f}".format(Mmax_i)))
 
                     index_scenario += 1
 
@@ -350,7 +350,7 @@ class Calc_Mmax():
                   Mmax_i = np.log10(area) + 3.98 + d_i * 0.03
                 else:
                   Mmax_i = 4./3.* np.log10(area) + 3.07 + d_i * 0.04
-                self.Mmax_faults.append(round(Mmax_i,1))
+                self.Mmax_faults.append(float("{:.1f}".format(Mmax_i)))
                 index_fault += 1
 
 
@@ -361,7 +361,7 @@ class Calc_Mmax():
                   Mmax_i = np.log10(area) + 3.98 + d_i * 0.03
                 else:
                   Mmax_i = 4./3.* np.log10(area) + 3.07 + d_i * 0.04
-                self.Mmax_scenario.append(round(Mmax_i,1))
+                self.Mmax_scenario.append(float("{:.1f}".format(Mmax_i)))
                 index_scenario += 1
 
 
@@ -420,7 +420,7 @@ class Calc_Mmax():
 
                     if self.faults_mecanism[index_fault] == 'Sub':
                         Mmax_i = (np.log10(length/1000.) - (coeff[3][0]))/(coeff[3][1]) + coeff[3][2]
-                    self.Mmax_faults.append(round(Mmax_i,1))
+                    self.Mmax_faults.append(float("{:.1f}".format(Mmax_i)))
 
                     index_fault += 1
 
@@ -437,7 +437,7 @@ class Calc_Mmax():
 
                     if scenario_mecanism[index_scenario] == 'Sub':
                         Mmax_i = (np.log10(length/1000.) - (coeff[3][0]))/(coeff[3][1]) + coeff[3][2]
-                    self.Mmax_scenario.append(round(Mmax_i,1))
+                    self.Mmax_scenario.append(float("{:.1f}".format(Mmax_i)))
 
                     index_scenario += 1
 
@@ -456,7 +456,7 @@ class Calc_Mmax():
 
                     if self.faults_mecanism[index_fault] == 'Sub':
                         Mmax_i = (np.log10(area/1000000.) - (coeff[3][3]))/(coeff[3][4]) + coeff[3][5]
-                    self.Mmax_faults.append(round(Mmax_i,1))
+                    self.Mmax_faults.append(float("{:.1f}".format(Mmax_i)))
 
                     index_fault += 1
 
@@ -474,7 +474,7 @@ class Calc_Mmax():
 
                     if scenario_mecanism[index_scenario] == 'Sub':
                         Mmax_i = (np.log10(area/1000000.) - (coeff[3][3]))/(coeff[3][4]) + coeff[3][5]
-                    self.Mmax_scenario.append(round(Mmax_i,1))
+                    self.Mmax_scenario.append(float("{:.1f}".format(Mmax_i)))
 
                     index_scenario += 1
 
@@ -505,7 +505,7 @@ class Calc_Mmax():
                 width = area/length
                 Mmax_i = np.log10(area)+2./3.*np.log10(max(1.,np.sqrt(area/width**2.))/((1.+max(1.,area/(width**2.*7.4)))/2.))+3.98
                 Mmax_i = Mmax_i + d_i * 0.2
-                self.Mmax_faults.append(round(Mmax_i,1))
+                self.Mmax_faults.append(float("{:.1f}".format(Mmax_i)))
                 index_fault += 1
 
 
@@ -514,5 +514,5 @@ class Calc_Mmax():
                 area = area/1000000.
                 Mmax_i = np.log10(area)+2./3.*np.log10(max(1.,np.sqrt(area/width**2.))/((1.+max(1.,area/(width**2.*7.4)))/2.))+3.98
                 Mmax_i = Mmax_i + d_i * 0.2
-                self.Mmax_scenario.append(round(Mmax_i,1))
+                self.Mmax_scenario.append(float("{:.1f}".format(Mmax_i)))
                 index_scenario += 1

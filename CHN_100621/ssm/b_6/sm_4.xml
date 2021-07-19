@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nrml xmlns:gml="http://www.opengis.net/gml"
+	xmlns="http://openquake.org/xmlns/nrml/0.5">
+<sourceModel name="Hazard Model" investigation_time="1">
+	<sourceGroup name="group 1" rup_interdep="indep"
+        src_interdep="indep"  tectonicRegion="Active Shallow Crust">
+        <multiFaultSource id="4" name="multifaultsource_4">
+				<multiPlanesRupture probs_occur="0.99998194 0.00001806">
+					<magnitude>7.800000000000001</magnitude>
+					<sectionIndexes indexes="1828,1829,1830,1831,1832,1833,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2071,2072"/>
+					<rake>0.2379874569859698</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999113 0.00000887">
+					<magnitude>8.0</magnitude>
+					<sectionIndexes indexes="1824,1825,1826,1827,1828,1829,1830,1831,1832,1833,1932,1933,1934,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2071,2072"/>
+					<rake>-6.2583432493006885</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998717 0.00001283">
+					<magnitude>7.200000000000001</magnitude>
+					<sectionIndexes indexes="1833,2025,2026,2027"/>
+					<rake>15.166701712247182</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99997888 0.00002112">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="1860,1877,1879"/>
+					<rake>-55.67825514513864</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999249 0.00000751">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="1932,1933,1934,2022,2023,2110,2111"/>
+					<rake>-54.80061084534623</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999311 0.00000689">
+					<magnitude>8.0</magnitude>
+					<sectionIndexes indexes="1833,1934,1948,1949,1950,1951,2022,2023,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2071,2072,2110,2111,2112"/>
+					<rake>-11.60790726290692</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999024 0.00000976">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="1833,1934,1948,1949,1950,1951,2022,2023,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2071,2072,2110,2111,2112"/>
+					<rake>-11.60790726290692</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999469 0.00000531">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="1832,1833,1932,1933,1934,1948,1949,1950,1951,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2110,2111"/>
+					<rake>-3.473358791736495</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998699 0.00001301">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="1952,1953,1954,1955,1956,1957,1958,1959"/>
+					<rake>-70.32497532337962</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998615 0.00001385">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="1959,1960,1961,1962,1966,1967,1968"/>
+					<rake>-69.82770409032335</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998984 0.00001016">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="1956,1957,1958,1959,1960,1961,1962,1963,1966,1967,1968"/>
+					<rake>-69.31433561524885</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998720 0.00001280">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="1962,1967,1968,1969,1970"/>
+					<rake>-74.53452341248136</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998987 0.00001013">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="1961,1962,1963,1964,1965,1968,1969,1970"/>
+					<rake>-69.20949814515268</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998207 0.00001793">
+					<magnitude>7.200000000000001</magnitude>
+					<sectionIndexes indexes="1971,1972,2119,2120,2121"/>
+					<rake>-31.14483773309585</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998710 0.00001290">
+					<magnitude>7.4</magnitude>
+					<sectionIndexes indexes="1990,2003,2004,2013,2014,2015,2346,2347"/>
+					<rake>-35.01270925145321</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998868 0.00001132">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="1988,1989,1990,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2345,2346,2347"/>
+					<rake>-24.298955450992008</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99997272 0.00002728">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="2002,2017,2018,2020,2301"/>
+					<rake>-2.926604054597712</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998949 0.00001051">
+					<magnitude>7.5</magnitude>
+					<sectionIndexes indexes="2002,2143,2301,2385"/>
+					<rake>0.3559376129898837</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999200 0.00000800">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="2059,2060,2061,2062,2063,2064,2073,2074,2075,2093"/>
+					<rake>-65.97247457152879</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99998934 0.00001066">
+					<magnitude>7.6000000000000005</magnitude>
+					<sectionIndexes indexes="2060,2061,2062,2063,2064,2073,2074,2075,2076,2093"/>
+					<rake>-65.5519950880028</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999222 0.00000778">
+					<magnitude>7.700000000000001</magnitude>
+					<sectionIndexes indexes="2060,2061,2062,2063,2064,2073,2074,2075,2076,2077,2093"/>
+					<rake>-66.42871472457142</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999460 0.00000540">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="2082,2083,2084,2085,2086,2087,2088,2089,2090"/>
+					<rake>-33.64179099028702</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999191 0.00000809">
+					<magnitude>8.0</magnitude>
+					<sectionIndexes indexes="1974,1975,1977,1978,2006,2007,2008,2334,2335,2336,2337,2338,2339,2340,2341,2342,2343,2344,2345"/>
+					<rake>-4.1148901863412854</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999258 0.00000742">
+					<magnitude>7.9</magnitude>
+					<sectionIndexes indexes="2351,2352,2353,2354,2355,2356,2357,2437,2438,2439,2440,2441,2442,2443"/>
+					<rake>-59.56906888965615</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999346 0.00000654">
+					<magnitude>8.100000000000001</magnitude>
+					<sectionIndexes indexes="2002,2019,2301,2308,2309,2380,2381,2382,2383,2385,2386,2387,2388,2389,2390,2391,2392,2393,2394,2395,2396"/>
+					<rake>-34.61723784218873</rake>
+				</multiPlanesRupture>
+				<multiPlanesRupture probs_occur="0.99999332 0.00000668">
+					<magnitude>8.4</magnitude>
+					<sectionIndexes indexes="640,641,642,643,749,750,751,755,756,757,758,759,760,761,762,763,764,782,783,784,785,786,787,788,789,790,791,792,793,798,799,800,801,802,803,804,805,806,807,808,809,810,811,812,841,842,843,844,845,846,847,848"/>
+					<rake>-44.21944707389251</rake>
+				</multiPlanesRupture>
+	    </multiFaultSource>
+	</sourceGroup>
+    </sourceModel>
+</nrml>

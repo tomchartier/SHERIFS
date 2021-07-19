@@ -72,6 +72,8 @@ class EQ_on_faults_from_sr():
         Mmax_range = self.Mmax_range
 
 
+        inti_core_time = time.time()
+
         #####################################################################
         #faults data
         #####################################################################
@@ -180,6 +182,21 @@ class EQ_on_faults_from_sr():
                 scenario_i_width = np.mean(np.take(faults_width,i))
                 scenario_width.append(scenario_i_width)
 
+            '''
+            check the max dimention for a single fault according to the
+            aspect ratio
+            '''
+            f_len_ar, f_width_ar, f_area_ar = [], [], []
+            ar = self.param["main"]["parameters"]["aspect_ratio"]
+            for l, w in zip(self.faults_length,self.faults_width):
+                if l < (w * ar) :
+                    f_len_ar.append(l)
+                    f_width_ar.append(l* ar)
+                    f_area_ar.append(l*l* ar)
+                else :
+                    f_len_ar.append(l)
+                    f_width_ar.append(w)
+                    f_area_ar.append(l*w)
 
 
             '''##################################################################
@@ -203,10 +220,10 @@ class EQ_on_faults_from_sr():
                 log_Mmax_file=open(run_name+'/LOG/'+model_name +'_Log_Mmax_sample_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.txt','w')
 
                 if loop_Mmax == 1 :
-                    Mmaxs = scalling_laws.Calc_Mmax(self.faults_area,scenario_area,self.faults_length,scenario_length,self.faults_width,scenario_width,self.selected_ScL,
+                    Mmaxs = scalling_laws.Calc_Mmax(f_area_ar,scenario_area,f_len_ar,scenario_length,f_width_ar,scenario_width,self.selected_ScL,
                                                     self.dimention_used,self.use_all_ScL_data,self.faults_mecanism,index_faults_in_scenario, self.sample)
                 else :
-                    Mmaxs = scalling_laws.Calc_Mmax(self.faults_area,scenario_area,self.faults_length,scenario_length,self.faults_width,scenario_width,self.selected_ScL,
+                    Mmaxs = scalling_laws.Calc_Mmax(f_area_ar,scenario_area,f_len_ar,scenario_length,f_width_ar,scenario_width,self.selected_ScL,
                                                     self.dimention_used,self.use_all_ScL_data,self.faults_mecanism,index_faults_in_scenario, 10)
 
                 Mmax_faults = Mmaxs.Mmax_faults #Mmax of each fault
@@ -489,6 +506,7 @@ class EQ_on_faults_from_sr():
         ######################'''
         TARGET = []
         nb_ss_to_spend = float(sum(faults_budget.values()))
+        sum_fault_budget = nb_ss_to_spend
         print("Number of dsr to spend : "+ str(nb_ss_to_spend))
         print("Min of sdr :",min(faults_budget.values()))
         print("Max of sdr :",max(faults_budget.values()))
@@ -524,6 +542,7 @@ class EQ_on_faults_from_sr():
         else :
             faster_rup_weight = False
 
+
         # loop several time if the faults are much faster than the min ones
         # saving time on the random sampling and the calculation of the weights
         option_fast = self.param["main"]["parameters"]["option_fast"]
@@ -542,20 +561,32 @@ class EQ_on_faults_from_sr():
 
         #log the time used for several parts
         time_weight_rupt = 0.
+        time_clean_w_rupt = 0.
         time_target_building = 0.
         time_checking_target_reach = 0.
         time_spending_dsr = 0.
+        time_checking_empty_bin = 0.
+        time_checking_empty_faults = 0.
+
 
         # Does the temporary weighting
-        budget_init = sum(faults_budget.values())
+        budget_init = sum_fault_budget #sum(faults_budget.values())
 
         if faster_rup_weight == True :
             nb_weigthings_rup_sampling = int(self.param["main"]["parameters"]["nb_weigthings_rup_sampling"])
-            weigthing_built = [int(i) for i in np.logspace(0.,np.log10(budget_init),nb_weigthings_rup_sampling)]
+            if "type_weigthings_rup_sampling" in self.param["main"]["parameters"].keys():
+                type_weigthings_rup_sampling = self.param["main"]["parameters"]["type_weigthings_rup_sampling"]
+            else :
+                type_weigthings_rup_sampling = "lin"
+            if type_weigthings_rup_sampling == "log":
+                weigthing_built = [int(i) for i in np.logspace(0.,np.log10(budget_init),nb_weigthings_rup_sampling)]
+            if type_weigthings_rup_sampling == "lin":
+                weigthing_built = [int(i) for i in np.linspace(0.,budget_init,nb_weigthings_rup_sampling)]
         else :
             weigthing_built = [int(i) for i in range(budget_init)]
 
         weigthing_built.reverse()
+
         weigth_rup_sample = 0
 
         slip_rate_use_per_fault = np.zeros(len(faults_names))
@@ -574,19 +605,12 @@ class EQ_on_faults_from_sr():
         picked_empty_rup = 0
         old_percent = '0000'
 
-        while sum(faults_budget.values()) != 0 : # as long as there is some slip-rate to spend we keep going
-            ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
+        while sum_fault_budget != 0 : # sum(faults_budget.values()) as long as there is some slip-rate to spend we keep going
+            ratio_done = 1. - float(sum_fault_budget)/nb_ss_to_spend
             if ratio_done > 0.01 :
                 model_MFD, self.calculation_log_file,print_percent = core_utils.progress(model_MFD,self.calculation_log_file,ratio_done,print_percent,rup_rates,fault_prop,bin_mag)
 
             number_of_loops += 1
-
-
-#                    print("picked an empty rup : ",picked_empty_rup,"times",len(empty_rups),len(rup_rates))
-
-
-                    #print("n_w_work",n_w_work,"n_w_crash",n_w_crash,weight_rup.sum())
-
 
             if len(empty_bins) != len(bin_mag):
                 ''' Calculate the new target shape in each bin in terms of moment rate '''
@@ -605,18 +629,40 @@ class EQ_on_faults_from_sr():
                 # deep analysis mode : display intermediate values of variable here
                 ########
                 if deep_analysis == True:
-                    percent = round((1.-float(sum(faults_budget.values()))/float(nb_ss_to_spend)) * 100.)
+                    percent = round((1.-float(sum_fault_budget)/float(nb_ss_to_spend)) * 100.)
                     percent = '{:04d}'.format(percent)
                     #if str(number_of_loops)[-4:] == "0000" or str(number_of_loops)[-4:] == "5000" :
                     if percent != old_percent :
                         old_percent = percent
                         print("\nnumber_of_loops",number_of_loops)
-                        print("budget left : ",sum(faults_budget.values())," | ",percent,"%")
-                        print("time building target at time i : ",round(time_target_building),"s")
-                        print("time weighting rupture pick : ",round(time_weight_rupt),"s")
-                        print("time checking target reach : ",round(time_checking_target_reach),"s")
-                        print("time spending dsr : ",round(time_spending_dsr),"s")
-                        print("max target : ", max(target_i),"| last bin w : ",str(target_i[-1]))
+                        print("budget left : ",sum_fault_budget," | ",percent,"%")
+                        time_str = core_utils.seconds_to_str(time_target_building)
+                        print("time building target at time i : ",time_str)
+                        time_str = core_utils.seconds_to_str(time_weight_rupt)
+                        print("time weighting rupture pick : ",time_str)
+                        time_str = core_utils.seconds_to_str(time_clean_w_rupt)
+                        print("time cleaning weighting rupture weigth : ",time_str)
+                        time_str = core_utils.seconds_to_str(time_checking_target_reach)
+                        print("time checking target reach : ",time_str)
+                        time_str = core_utils.seconds_to_str(time_checking_empty_bin)
+                        print("time checking empty bins : ",time_str)
+                        time_str = core_utils.seconds_to_str(time_checking_empty_faults)
+                        print("time checking empty faults : ",time_str)
+                        time_str = core_utils.seconds_to_str(time_target_building)
+                        print("time spending dsr : ",time_str)
+                        time_str = core_utils.seconds_to_str(time.time()-inti_core_time)
+                        print("total core time : ",time_str)
+                        tot_core_time = time.time()-inti_core_time
+                        unaccounted_t = tot_core_time - (time_target_building+
+                        time_weight_rupt+
+                        time_clean_w_rupt+
+                        time_checking_target_reach+
+                        time_checking_empty_bin+
+                        time_checking_empty_faults+
+                        time_spending_dsr)
+                        time_str = core_utils.seconds_to_str(unaccounted_t)
+                        print("unaccounted time : ", time_str)
+                        print("max target : ", round(max(target_i),4),"| last bin w : ",str(round(target_i[-1],6)))
                         print("Empty mag bins:")
                         print(empty_bins)
                         budget_last_bin = 0
@@ -646,14 +692,20 @@ class EQ_on_faults_from_sr():
                 picked_bin = np.random.choice(len(bin_mag), 1, p = target_i)[0]
                 mag = bin_mag[picked_bin] #magnitude of that bin
 
+                tmp = time.time()
                 # if len(empty_bins) != 0 :
                 # testing if bin is not empty
-                not_empty_rup = []
-                for i_rup in rup_in_bin[picked_bin]:
-                    if not str(i_rup) in empty_rups :
-                        not_empty_rup.append(i_rup)
-                if len(not_empty_rup) == 0 :
-                    empty_bins.append(picked_bin)
+                if not picked_bin in empty_bins:
+                    empty_in_bin = set(rup_in_bin[picked_bin]) & set(empty_rups)
+                    if len(empty_in_bin) == len(rup_in_bin[picked_bin]):
+                        empty_bins.append(picked_bin)
+                # not_empty_rup = []
+                # for i_rup in rup_in_bin[picked_bin]:
+                #     if not str(i_rup) in empty_rups :
+                #         not_empty_rup.append(i_rup)
+                # if len(not_empty_rup) == 0 :
+                #     empty_bins.append(picked_bin)
+                time_checking_empty_bin += time.time() - tmp
 
 
                 if not picked_bin in empty_bins:
@@ -663,10 +715,10 @@ class EQ_on_faults_from_sr():
                     do_rup_weight = False
                     if number_of_loops == 1 :
                         do_rup_weight = True
-                    if sum(faults_budget.values()) < weigthing_built[weigth_rup_sample]:
+                    if sum_fault_budget < weigthing_built[weigth_rup_sample]:
                         do_rup_weight = True
-                    if number_of_loops - loop_last_rup_w > 50 :
-                        do_rup_weight = True
+                    # if number_of_loops - loop_last_rup_w > 50 :
+                    #     do_rup_weight = True
 
                     if do_rup_weight == True :
                         loop_last_rup_w = number_of_loops
@@ -690,7 +742,9 @@ class EQ_on_faults_from_sr():
                                 if local_MFD == True :
                                     # we check if local a local MFD is followed, if not, the ruptures that can help
                                     # to fit the local MFD are boosted or demotted.
-                                    factor_on_weight = core_utils.check_local_mfd(rup_rates, rup_in_bin[index_mag], index_mag, bin_mag, local_mfds, associated_rup, associated_weight)
+                                    factor_on_weight = core_utils.check_local_mfd(rup_rates,
+                                     rup_in_bin[index_mag], index_mag, bin_mag, local_mfds,
+                                      associated_rup, associated_weight)
                                     weight_rup_i = np.array([i*w for i,w in zip(weight_rup_i,factor_on_weight)])
                                     weight_rup_i /= weight_rup_i.sum()
 
@@ -699,41 +753,54 @@ class EQ_on_faults_from_sr():
 
                                 w_rup_binmag.append(weight_rup_i)
 
-                    time_weight_rupt += time.time() - tmp
+                        time_weight_rupt += time.time() - tmp
+
+                        # Cleaning up the weights
+                        # to avoid nans and doesn't sum to 1
+                        tmp = time.time()
+
+                        for index_mag in list_of_bins:
+                            if not index_mag in empty_bins :
+                                weight_rup = w_rup_binmag[index_mag]
+                                if (set(rup_in_bin[index_mag]) & set(empty_rups)) :
+                                    i=0
+                                    for i_rup in rup_in_bin[index_mag]:
+                                        if str(i_rup) in empty_rups : #the rup is empty
+                                            weight_rup[i]= 0.
+                                        i+=1
+
+                                weight_rup = list(weight_rup)
+                                sum_weight_rup = sum(weight_rup)
+                                if sum(weight_rup) == 0. :
+                                    # print("Sum of the rupture weights in 0")
+                                    # exit()
+                                    empty_bins.append(index_mag)
+
+                                if not index_mag in empty_bins :
+                                    if sum_weight_rup != 1.0:
+                                        weight_rup = [float(i)/sum_weight_rup for i in weight_rup]
+                                    if math.isnan(sum(weight_rup)):
+                                        print("WARNING : sum rup weight is nan")
+                                        nb_nans = 0
+                                        id = 0
+                                        for i in weight_rup:
+                                            if math.isnan(i):
+                                                nb_nans += 1
+                                            weight_rup[id] = 0.
+                                            id += 1
+
+                                w_rup_binmag[index_mag] = weight_rup
+
+                        time_clean_w_rupt += time.time() - tmp
+
+
+
+
 
                     if faster_rup_weight == True :
                         weight_rup = w_rup_binmag[picked_bin]
                     else :
                         weight_rup = w_rup_binmag[0]
-
-                    i=0
-                    for i_rup in rup_in_bin[picked_bin]:
-                        if str(i_rup) in empty_rups : #the rup is empty
-                            weight_rup[i]= 0.
-                        i+=1
-
-                    #weight_rup = w_rup_binmag[picked_bin]
-                    weight_rup = list(weight_rup)
-
-                    if sum(weight_rup) != 1.0:
-                        weight_rup = [float(i)/sum(weight_rup) for i in weight_rup]
-                        #weight_rup = weight_rup*(1./weight_rup.sum())
-
-                    if sum(weight_rup) == 0. :
-                        print("Sum of the rupture weights in 0")
-                        exit()
-
-                    if math.isnan(sum(weight_rup)):
-                        print("WARNING : sum rup weight is nan")
-                        nb_nans = 0
-                        id = 0
-                        for i in weight_rup:
-                            if math.isnan(i):
-                                nb_nans += 1
-                            weight_rup[id] = 0.
-                            id += 1
-
-
                     # i = 0
                     # for i_rup in rup_in_bin[picked_bin]:
                     #     if str(i_rup) in empty_rups : #the rup is empty
@@ -909,7 +976,8 @@ class EQ_on_faults_from_sr():
                                         for loop_spending in range(nb_loop_spending):
                                             #M_slip_repartition[index].append(picked_rup)
                                             M_slip_repartition[str(faults_names[index])][str(picked_rup)] += 1
-                                        faults_budget[index]+=-1 * nb_loop_spending
+                                        faults_budget[index] += -1 * nb_loop_spending
+                                        sum_fault_budget += -1 * nb_loop_spending
                                         slip_rate_use_per_fault[index] += size_of_increment * nb_loop_spending
                                     rup_rates[str(picked_rup)]['rates'][picked_bin] += rate_i * nb_loop_spending
                                     rate_in_model[picked_bin] += rate_i * nb_loop_spending
@@ -917,7 +985,7 @@ class EQ_on_faults_from_sr():
                                 else :
                                     moment_rate_i = 0.
                                     for loop_spending in range(nb_loop_spending):
-                                        M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used = core_utils.variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup,faults_names)
+                                        M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used,sum_fault_budget = core_utils.variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup,faults_names,sum_fault_budget)
                                             #adding to the rate
                                         rup_rates[str(picked_rup)]['rates'][picked_bin] += rate_i*(nb_sdr_used)
                                         rate_in_model[picked_bin] +=  rate_i*(nb_sdr_used)
@@ -941,6 +1009,7 @@ class EQ_on_faults_from_sr():
                                         #M_slip_repartition[index].append(picked_rup)
                                         M_slip_repartition[str(faults_names[index])][str(picked_rup)] += 1
                                     faults_budget[index]+=-1 * nb_loop_spending
+                                    sum_fault_budget += -1 * nb_loop_spending
                                     slip_rate_use_per_fault[index] += size_of_increment * nb_loop_spending
                                 rup_rates[str(picked_rup)]['rates'][picked_bin] += rate_i * nb_loop_spending
                                 rate_in_model[picked_bin] +=  rate_i * nb_loop_spending
@@ -948,7 +1017,7 @@ class EQ_on_faults_from_sr():
                             else :
                                 moment_rate_i = 0.
                                 for loop_spending in range(nb_loop_spending):
-                                    M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used = core_utils.variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup,faults_names)
+                                    M_slip_repartition,faults_budget,slip_rate_use_per_fault,nb_sdr_used,sum_fault_budget = core_utils.variable_spending(index_fault,M_slip_repartition,faults_budget,slip_rate_use_per_fault,size_of_increment,faults_slip_rates,picked_rup,faults_names,sum_fault_budget)
                                         #adding to the rate
                                     rup_rates[str(picked_rup)]['rates'][picked_bin] += rate_i*(nb_sdr_used)
                                     rate_in_model[picked_bin] +=  rate_i*(nb_sdr_used)
@@ -971,24 +1040,33 @@ class EQ_on_faults_from_sr():
 #                    number_of_loops_before = number_of_loops
                     #if the fault has no more slip to spare, the scenarios and the fault are remove for the picking in order to have a faster picking
 
+
+                tmp = time.time()
                 # Checking is the bin is empty
-                for index_mag in range(len(bin_mag)):
-                    if not index_mag in empty_bins :
-                        nb_rup_not_empty = 0
-                        for i_rup in rup_in_bin[index_mag] :
+                if number_of_loops > number_of_loops_before+500:
+                    number_of_loops_before = number_of_loops
+                    for index_mag in range(len(bin_mag)):
+                        if not index_mag in empty_bins :
+                            nb_rup_not_empty = 0
+                            # empty_in_bin = set(rup_in_bin[index_mag]) & set(empty_rups)
+                            # empty_in_bin = [i for i in rup_in_bin[index_mag] if i in empty_rups]
+                            # if len(empty_in_bin) == len(rup_in_bin[index_mag]):
+                            #     empty_bins.append(picked_bin)
+                            for i_rup in rup_in_bin[index_mag] :
+                                if nb_rup_not_empty == 0 :
+                                    rup_is_empty = False
+                                    for index_fault in rup_rates.get(str(i_rup)).get('involved_faults'):
+                                        if faults_budget[index_fault] <= 0:
+                                            rup_is_empty = True
+                                    if rup_is_empty == False :
+                                        nb_rup_not_empty += 1
+                                        #rup_in_bin[index_mag].remove(i_rup)
                             if nb_rup_not_empty == 0 :
-                                rup_is_empty = False
-                                for index_fault in rup_rates.get(str(i_rup)).get('involved_faults'):
-                                    if faults_budget[index_fault] <= 0:
-                                        rup_is_empty = True
-                                if rup_is_empty == False :
-                                    nb_rup_not_empty += 1
-                                    #rup_in_bin[index_mag].remove(i_rup)
-                        if nb_rup_not_empty == 0 :
-                            empty_bins.append(index_mag)
+                                empty_bins.append(index_mag)
+                time_checking_empty_bin += time.time() - tmp
 
-
-                len_faults_budget.append(sum(faults_budget.values()))
+                tmp = time.time()
+                len_faults_budget.append(sum_fault_budget)
                 #does a check to see if the remainingfaults that still have some slip rate fit in one of the bin of are too small
                 if len(len_faults_budget) > 3 :
                     if len_faults_budget[-2] == len_faults_budget[-1] :
@@ -996,10 +1074,11 @@ class EQ_on_faults_from_sr():
                     if number_of_loops_for_nothing_before<number_of_loops_for_nothing-100:
                         number_of_loops_for_nothing_before = number_of_loops_for_nothing
                         if len_faults_budget[-1] == len_faults_budget[-10] :
-                            rup_still_used = []
-                            for rup_i in rup_in_bin:
-                                rup_still_used += rup_i
-                            rup_still_used = set(rup_still_used)
+                            # rup_still_used = []
+                            # for rup_i in rup_in_bin[picked_bin]:
+                            #     rup_still_used += rup_i
+                            # rup_still_used = set(rup_still_used)
+                            rup_still_used = [i for i in rup_in_bin[picked_bin] if not i in empty_rups]
                             fault_still_used = []
                             for rup_i in rup_still_used:
                                 fault_still_used += list(rup_rates.get(str(rup_i)).get('involved_faults'))
@@ -1007,24 +1086,27 @@ class EQ_on_faults_from_sr():
                             for fault,index_fault in zip(faults_names,range(len(faults_names))) :
                                 if not (index_fault in fault_still_used) and (faults_budget[index_fault] > 0):
                                     while faults_budget[index_fault] > 0 :
-                                        ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
+                                        ratio_done = 1. - float(sum_fault_budget)/nb_ss_to_spend
                                         if ratio_done > 0.01 :
                                             model_MFD, self.calculation_log_file,print_percent = core_utils.progress(model_MFD,self.calculation_log_file,ratio_done,print_percent,rup_rates,fault_prop,bin_mag)
                                         faults_budget[index_fault]+=-1
+                                        sum_fault_budget+=-1
                                         #M_slip_repartition[index_fault].append('NMS')
                                         M_slip_repartition[str(faults_names[index_fault])]['NMS'] += 1
                                         aseismic_count += 1
+                time_checking_empty_faults += time.time() - tmp
             else:
                 print('-target filled-')
                 self.calculation_log_file.write('\n-target filled-')
-                while sum(faults_budget.values())!=0: # as long as there is some slip-rate to spend we keep going
+                while sum_fault_budget!=0: # as long as there is some slip-rate to spend we keep going
 
-                    ratio_done = 1. - float(sum(faults_budget.values()))/nb_ss_to_spend
+                    ratio_done = 1. - float(sum_fault_budget)/nb_ss_to_spend
                     if ratio_done > 0.01 :
                         model_MFD, self.calculation_log_file,print_percent = core_utils.progress(model_MFD,self.calculation_log_file,ratio_done,print_percent,rup_rates,fault_prop,bin_mag)
                     for index_fault in range(len(faults_names)):
                         if faults_budget[index_fault] > 0 :
                             faults_budget[index_fault]+=-1
+                            sum_fault_budget+=-1
 #                            M_slip_repartition[index_fault].append('NMS')
                             M_slip_repartition[str(faults_names[index_fault])]['NMS'] += 1
                             aseismic_count += 1

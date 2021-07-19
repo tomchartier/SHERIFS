@@ -37,7 +37,7 @@ def start(model_name):
     return txt
 
 
-def wrt_kite_geo(fault_name,faults_names,faults_data,resample):
+def wrt_kite_geo(fault_name,faults_names,faults_data,resample,vertical_faults):
     '''
     txt : str containing the file info
     faults_names : list of the fault names in order (serves for indexing)
@@ -45,6 +45,7 @@ def wrt_kite_geo(fault_name,faults_names,faults_data,resample):
     resample : list with a boolean and the resample parameters if needed
                 when resampling the coordinates is necessary to lower the
                 number of points.
+    vertical_faults : bool , option to write all faults vertical
     '''
 
 #   for Fault_name in faults_in_scenario :
@@ -63,9 +64,13 @@ def wrt_kite_geo(fault_name,faults_names,faults_data,resample):
         usd = faults_data[index_fault]['upper_sismo_depth']
         lsd = faults_data[index_fault]['lower_sismo_depth']
         # Similar to :meth:`from_fault_data`, we just don't resample edges
-        dip_tan = math.tan(math.radians(faults_data[index_fault]['dip']))
-        hdist_top = usd / dip_tan
-        hdist_bottom = lsd / dip_tan
+        if vertical_faults == False :
+            dip_tan = math.tan(math.radians(faults_data[index_fault]['dip']))
+            hdist_top = usd / dip_tan
+            hdist_bottom = lsd / dip_tan
+        else :
+            hdist_top = 0.
+            hdist_bottom = 0.
 
         # orienting the arrays in order to respect OQ right hand rule
         compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[-1],ColLon[-1]))
@@ -190,18 +195,20 @@ def wrt_kite_geo(fault_name,faults_names,faults_data,resample):
 
     return txt
 
-def wrt_section(txt,section_id,faults_names,faults_data,geotype,resample):
+def wrt_section(txt,section_id,faults_names,faults_data,geotype,resample,vertical_faults):
     '''
     txt : str containing the file info
     geotype : type of geometry of the section (kite, complex, or  simple)
     resample : list with a boolean and the resample parameters if needed
+    vertical_faults : bool, option to force all faults vertical
     '''
 
     section_name = faults_names[section_id]
     txt += '    <section name="'+section_name+'" id="'+str(section_id)+'">\n'
 
     if geotype == "kite":
-        out = wrt_kite_geo(section_name,faults_names,faults_data,resample)
+        out = wrt_kite_geo(section_name,faults_names,faults_data,
+        resample,vertical_faults)
     if geotype == "complex":
         out = wrt_complex_geo()
     if geotype == "simple":
