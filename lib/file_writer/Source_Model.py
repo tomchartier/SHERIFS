@@ -91,7 +91,7 @@ class Source_Model_Creator:
             if param["main"]["background"]["use_host_model"] in ["true","True"]:
                 self.use_host_model = True
                 self.host_model_file = param["main"]["background"]["host_model_file"]
-                self.file_prop_bg =  param["main"]["background"]["file_prop_bg"]
+            self.file_prop_bg =  param["main"]["background"]["file_prop_bg"]
 
         self.faults_names = faults_names
         self.scenarios_names = scenarios_names
@@ -106,6 +106,8 @@ class Source_Model_Creator:
         self.initialize()
 
     def initialize(self):
+
+        path = self.param["dirpath"]
 
         explo_time = self.param["main"]["parameters"]["explo_time"]
 
@@ -180,6 +182,10 @@ class Source_Model_Creator:
                     dict_txt.update({f:''})
                     dict_n_rup.update({f:0})
 
+        include_all_faults = False
+        if "include_all_faults" in self.param["main"]["background"].keys():
+            if self.param["main"]["background"]["include_all_faults"] in ["True","true"]:
+                include_all_faults = True
 
 
 
@@ -215,7 +221,7 @@ class Source_Model_Creator:
 
 
             # write the section files
-            sections_xml = self.Run_Name+'/ssm/'+self.Model_name+'_sections.xml'
+            sections_xml = path+self.Run_Name+'/ssm/'+self.Model_name+'_sections.xml'
             if not os.path.exists(sections_xml):
                 txt = wsf.start(self.Model_name)
                 for section_id in range(len(faults_names)):
@@ -449,15 +455,25 @@ class Source_Model_Creator:
             Poly_bg = []
             for x1,y1 in zip(Lon_bg,Lat_bg):
                 Poly_bg.append((x1,y1))
-            bbPath_BG = mplPath.Path(Poly_bg)
+            try :
+                bbPath_BG = mplPath.Path(Poly_bg)
+            except :
+                print("ERROR, please make sure the model name matches in the bg file")
 
             # find the faults in the bg
+
             f_in_bg = []
             for index_fault,fault_name in zip(range(len(faults_names)),faults_names):
                 for lon,lat in zip(faults_data[index_fault]['lon'],faults_data[index_fault]['lat']):
                     if bbPath_BG.contains_point((lon,lat)):
                         f_in_bg.append(index_fault)
 
+            outside_faults = []
+            if include_all_faults == True :
+                for index_fault,fault_name in zip(range(len(faults_names)),faults_names):
+                    if not index_fault in f_in_bg:
+                        f_in_bg.append(index_fault)
+                        outside_faults.append(index_fault)
 
             source_id = 0
 
@@ -855,12 +871,19 @@ class Source_Model_Creator:
                 Poly_bg.append((x1,y1))
             bbPath_BG = mplPath.Path(Poly_bg)
 
-            # find the faults in the bg
+            # # find the faults in the bg
             f_in_bg = []
             for index_fault,fault_name in zip(range(len(faults_names)),faults_names):
                 for lon,lat in zip(faults_data[index_fault]['lon'],faults_data[index_fault]['lat']):
                     if bbPath_BG.contains_point((lon,lat)):
                         f_in_bg.append(index_fault)
+
+            outside_faults = []
+            if include_all_faults == True :
+                for index_fault,fault_name in zip(range(len(faults_names)),faults_names):
+                    if not index_fault in f_in_bg:
+                        f_in_bg.append(index_fault)
+                        outside_faults.append(index_fault)
 
             ########################################################
             #loop on simple faults
@@ -947,8 +970,9 @@ class Source_Model_Creator:
         #     do_bg_in_SHERIFS = True
 
         if sum(MFD) != 0. and self.param["main"]["background"]["option_bg"] == "zone":
-            bg_file = open(self.path +'/Source_model_bg_' + str(self.sample) + '.xml','w')
+            bg_file = self.path +'/bg_' + str(self.sample) + '.xml'
             list_src_files.append(bg_file)
+            bg_file = open(bg_file,'w')
             # Initiate the xml file
             line='<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
             line+='<nrml xmlns:gml="http://www.opengis.net/gml"\n'
@@ -1006,8 +1030,9 @@ class Source_Model_Creator:
 
             list_bg_xml = self.list_fbg
             if os.path.isdir(self.fbgpath):
-                list_bg_xml = [self.fbgpath+"/"+i for i in list_bg_xml]
-            pts_list = {}
+                list_bg_xml = [self.fbgpath+"/"+i for i in list_bg_xml if '.xml' in i]
+            pts_list = {} # points in the background area
+            pts_out_list = {} # points outside the background area
             #sum_rates = 0.
             sum_rates = [0. for _ in mags]
 
@@ -1033,30 +1058,28 @@ class Source_Model_Creator:
                             i_trGR = i_child
                         i_child+=1
 
-                    if pt_in_BG == True :
-                        aValue = nrml[0][0][i_point][i_trGR].get('aValue')
-                        minMag = nrml[0][0][i_point][i_trGR].get('minMag')
-                        bValue = nrml[0][0][i_point][i_trGR].get('bValue')
-                        maxMag = nrml[0][0][i_point][i_trGR].get('maxMag')
-                        #sum_rates += float(10.**float(aValue))
-                        mfd_smooth = []
-                        i_mag = 0
-                        for mag in mags :
-                            mag_lo = mag - 0.05
-                            mag_hi = mag + 0.05
-                            r = (10 ** (float(aValue) - float(bValue) * mag_lo)
-                            - 10 ** (float(aValue) - float(bValue) * mag_hi))
-                            sum_rates[i_mag] += r
-                            i_mag += 1
-                            mfd_smooth.append(r)
+                    aValue = nrml[0][0][i_point][i_trGR].get('aValue')
+                    minMag = nrml[0][0][i_point][i_trGR].get('minMag')
+                    bValue = nrml[0][0][i_point][i_trGR].get('bValue')
+                    maxMag = nrml[0][0][i_point][i_trGR].get('maxMag')
+                    #sum_rates += float(10.**float(aValue))
+                    mfd_smooth = []
+                    i_mag = 0
+                    for mag in mags :
+                        mag_lo = mag - 0.05
+                        mag_hi = mag + 0.05
+                        r = (10 ** (float(aValue) - float(bValue) * mag_lo)
+                        - 10 ** (float(aValue) - float(bValue) * mag_hi))
+                        sum_rates[i_mag] += r
+                        i_mag += 1
+                        mfd_smooth.append(r)
 
+                    if pt_in_BG == True :
                         pts_list.update({str_loc:{"aValue":aValue,
                         "bValue":bValue,
                         "maxMag":maxMag,
                         "minMag":minMag,
                         "mfd_smooth":mfd_smooth}})
-
-
 
                         if Mmin_checked == False :
                             if float(minMag) < M_min :
@@ -1064,10 +1087,76 @@ class Source_Model_Creator:
                                 print("WARNING : BG has a smaller Mmin than the SHERIFS input")
                                 print("!!!!")
                                 Mmin_checked = True
+
+                    else: #the point is outside
+                        if include_all_faults == True:
+                            pt_very_far = True
+                            lon_lat_distance_criteria = 1.
+                            # find if point is far from some faults outsite
+                            i=0
+                            while pt_very_far == False and i < len(outside_faults):
+                                i_fault = outside_faults[i]
+                                mean_lon = np.mean(faults_data[index_fault]['lon'])
+                                mean_lat = np.mean(faults_data[index_fault]['lat'])
+                                if abs(float(s_tmp[0]) - mean_lon) < lon_lat_distance_criteria :
+                                    pt_very_far = False
+                                if abs(float(s_tmp[1]) - mean_lat) < lon_lat_distance_criteria :
+                                    pt_very_far = False
+                                i+=1
+
+                            # find distance to fault mean location
+                            if pt_very_far == False :
+                                dist_critera = 50. #km
+                                dist = 1000000.
+                                closest_fault = "nope"
+                                for i_fault in outside_faults :
+                                    mean_lon = np.mean(faults_data[index_fault]['lon'])
+                                    mean_lat = np.mean(faults_data[index_fault]['lat'])
+                                    dist_i = distance(mean_lon, mean_lat, float(s_tmp[0]), float(s_tmp[1]))
+                                    if dist_i < dist_critera :
+                                        for lon_f,lat_f in zip(faults_data[index_fault]['lon'],faults_data[index_fault]['lat']):
+                                            dist_i = distance(mean_lon, mean_lat, float(s_tmp[0]), float(s_tmp[1]))
+                                            if dist_i < dist :
+                                                dist = dist_i
+                                                closest_fault = i_fault
+                                    if dist_i < dist :
+                                        dist = dist_i
+                                        closest_fault = i_fault
+                                closest_dist = dist
+
+
+                                pts_out_list.update({str_loc:{"aValue":aValue,
+                                "bValue":bValue,
+                                "maxMag":maxMag,
+                                "minMag":minMag,
+                                "mfd_smooth":mfd_smooth,
+                                "distance":closest_dist,
+                                "closest_fault":i_fault}})
                     i_point +=1
 
-            # Normalize to fit the BG MFD
+            # for each faults outside the background
+            # find the number of points close to the fault
+            nb_pt_in_buff = {}
+            if include_all_faults == True:
+                for i_fault in outside_faults :
+                    buffer_1 = 10. #km
+                    buffer_2 = 20. #km
 
+                    nb_buf1 = 0
+                    nb_buf2 = 0
+                    #loop on the out_points
+                    for str_loc in pts_out_list.keys():
+                        if pts_out_list[str_loc]["closest_fault"] == i_fault:
+                            if pts_out_list[str_loc]["closest_dist"] < buffer_1:
+                                nb_buf1 += 1
+                            elif pts_out_list[str_loc]["closest_dist"] < buffer_2:
+                                nb_buf2 += 1
+                    nb_pt_in_buff.update({i_fault:{"nb_buf1":nb_buf1,"nb_buf2":nb_buf2}})
+
+
+
+
+            # Normalize to fit the BG MFD
             sum_bg_min = 0.
             i_bg = 0
             for fbg in list_bg_xml:
@@ -1085,13 +1174,13 @@ class Source_Model_Creator:
                             s_tmp = pointSource[i_child][0][0].text
                             s_tmp=s_tmp.replace('\n','')
                             s_tmp=[float(i) for i in s_tmp.split(' ') if i != '']
-                            if bbPath_BG.contains_point((s_tmp[0],s_tmp[1])) == 1:
-                                pt_in_BG = True
+                            # if bbPath_BG.contains_point((s_tmp[0],s_tmp[1])) == 1:
+                            #     pt_in_BG = True
                             str_loc = str(s_tmp[0])+'_'+str(s_tmp[1])
                         if "truncGutenbergRichterMFD" in str(child) :
                             i_trGR = i_child
                         i_child +=1
-                    if pt_in_BG == True :
+                    if str_loc in pts_list.keys() : # the point is in the background
                         b_value = float(pts_list[str_loc]["bValue"])
                         a_value = float(pts_list[str_loc]["aValue"])
 
@@ -1120,6 +1209,63 @@ class Source_Model_Creator:
 
                         nrml[0][0][i_point][-1][0].text =str_tmp
                         nrml[0][0][i_point].remove(nrml[0][0][i_point][i_trGR])
+
+
+                    if include_all_faults == True :
+                        if str_loc in pts_out_list.keys() :
+                            # the point is outside the background
+                            # BUT close to faults
+                            b_value = float(pts_list[str_loc]["bValue"])
+                            a_value = float(pts_list[str_loc]["aValue"])
+
+                            attrib = {"minMag":str(M_min), "binWidth":"0.10"}
+                            element = nrml[0][0][i_point].makeelement('incrementalMFD', attrib)
+                            nrml[0][0][i_point].append(element)
+                            element = nrml[0][0][i_point][-1].makeelement('occurRates', {})
+                            nrml[0][0][i_point][-1].append(element)
+                            str_tmp = " "
+                            pt_scl_mfd = []
+
+                            #get closest fault
+                            i_fault = pts_out_list[str_loc]["closest_fault"]
+                            #find ruptures of the closest faults
+                            mfd_single_clst_f = OQ_entry_faults[i_fault]
+                            id_ruptures = []
+                            mfd_mlt_clst_f = []
+                            for scenario_i,mfd_i in zip(index_faults_in_scenario,OQ_entry_scenarios):
+                                if i_fault in scenario_i:
+                                    id_ruptures.append(scenario_i)
+                                    mfd_mlt_clst_f.append(mfd_i)
+
+                            i_mag = 0
+                            for mag in mags:
+                                mag_lo = mag - 0.05
+                                mag_hi = mag + 0.05
+                                r = (10 ** (a_value - b_value * mag_lo)
+                                    - 10 ** (a_value - b_value * mag_hi))
+
+                                if mag >= 6.5 :
+                                    buffer_to_use = "nb_buf2"
+                                else :
+                                    buffer_to_use = "nb_buf1"
+                                # remove the seismicity associated with the closest fault
+                                reduction = 0.
+                                for f_in_rup,mfd_i in zip(id_ruptures,mfd_mlt_clst_f):
+                                    reduction += mfd_i[i_mag] / float(len(f_in_rup)*nb_pt_in_buff[i_fault][buffer_to_use])
+                                if reduction > r :
+                                    r = 0.
+                                else :
+                                    r -= reduction
+                                str_tmp += str(r)
+                                str_tmp += " "
+                                pt_scl_mfd.append(r)
+                                i_mag += 1
+
+                            pts_out_list[str_loc].update({"scaled_mfd":pt_scl_mfd})
+
+                            nrml[0][0][i_point][-1][0].text =str_tmp
+                            nrml[0][0][i_point].remove(nrml[0][0][i_point][i_trGR])
+
                     i_point+=1
                 i_bg += 1
                 fbg_out = self.path + '/bg_'+str(self.sample)+'_'+str(i_bg)+'.xml'
@@ -1163,9 +1309,12 @@ class Source_Model_Creator:
         if "figures" in self.param.keys():
             if self.param["figures"]["print"] in ["true","True"]:
                 make_figures = True
+            else :
+                make_figures = False
         else :
             make_figures = False
 
+        plt_model_mfd = False
         if make_figures == True :
             if self.param["figures"]["model_mfd"] in ["true","True"]:
                 plt_model_mfd = True

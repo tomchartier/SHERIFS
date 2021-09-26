@@ -47,7 +47,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
     rups_area = []
     rups_rake = []
     rups_mag = []
-    
+
     target_section =False
     if target_section == True:
         # this is to pring details about one given section
@@ -66,18 +66,18 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
         rake = f_for_sherifs[si]["rake"]
         mag = wc1994_median_mag( rup_area, rake)
         index_mag = np.where(binning_in_mag==round(mag,1))[0][0]
-        
+
         for sk in new_rup:
             f_for_sherifs[sk]["rup_id"].append(rup_id)
             nb_rup_per_bin[sk][index_mag]+=1
             f_for_sherifs[sk]["max_length"] = sections_lengths_tot[si]
-            
+
         rups_length.append(sections_lengths_tot[si])
         rups_area.append(rup_area)
         rups_rake.append(f_for_sherifs[si]["rake"])
         rups_mag.append(mag)
-        
-        
+
+
         full_fault = False
         len_2 = len(id_sections_fault[f_for_sherifs[new_rup[0]]["oiler_id"]])
         if len_2 == len(new_rup):
@@ -86,7 +86,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
         rup_f_jump.append([])
 
         rup_id+=1
-        
+
     #ruptures in the faults
     for si in range(nb_sections):
         fi = f_for_sherifs[si]["oiler_id"]
@@ -98,14 +98,14 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                 new_rup = sorted(list(set(new_rup)))
                 rup_length = sum([sections_lengths_tot[sk] for sk in new_rup])
                 max_length = min([f_for_sherifs[i]["max_possible_length"] for sk in new_rup])
-                
+
                 rup_area = sum([sections_areas_tot[sk] for sk in new_rup])
                 max_mmax = min([f_for_sherifs[sk]["max_possible_Mmax"] for sk in new_rup])
                 rake = sum([sections_areas_tot[sk]*f_for_sherifs[sk]["rake"] for sk in new_rup])/rup_area
                 mag = wc1994_median_mag( rup_area, rake)
                 index_mag = np.where(binning_in_mag==round(mag,1))[0][0]
-                
-                
+
+
                 if len(new_rup)>1 and rup_length < max_length:
                     if mag <= max_mmax :
                         if not new_rup in rup :
@@ -125,7 +125,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                                 rups_area.append(rup_area)
                                 rups_rake.append(rake)
                                 rups_mag.append(mag)
-                                
+
 
                                 full_fault = False
                                 if nb_fault_invo == 1:
@@ -150,7 +150,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
         print("ruptures :")
         for rup_i in [rup[i] for i in f_for_sherifs[look_at]["rup_id"]]:
             print(rup_i)
-            
+
 
     print("\nNumber of rup without jumps: ",len(rup),"\n")
 
@@ -172,24 +172,24 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
             si_rup = f_for_sherifs[si]["rup_id"]
             for sj in jumps :
                 sj_rup = f_for_sherifs[sj]["rup_id"]
-                
+
                 # removing rupture id if the other fault is already in it.
                 sj_rup = [i for i in sj_rup if not si in rup[i]]
                 sii_rup = [i for i in si_rup if not sj in rup[i]]
-                
+
                 for id_rup_i in sii_rup :
-                    
+
                     # Filter if the rupture to pair is alredy quite large
                     # If it is large, it can only pair with full fault ruptures
                     if rups_length[id_rup_i] > max_length/2.:
                         sjj_rup = [j for j in sj_rup if full_fault_rup[j] == True]
                     else:
                         sjj_rup = [j for j in sj_rup if rups_length[j] < max_length/2.]
-                        
+
                     for id_rup_j in sjj_rup :
                         # boolean to know if we need to build to rupture
                         build = True
-                        
+
                         # Looking if the number of jumps doesn't exceed the max
                         nb_jumps = len(rup_f_jump[id_rup_j]+rup_f_jump[id_rup_i])+1
                         if nb_jumps <= max_fault_jumps:
@@ -197,7 +197,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                         else:
                             build = False
                             too_many_jumps += 1
-                         
+
                         # Looking if the number of zigzag doesn't exceed the max
                         if build == True:
                             jump_i = sorted([f_for_sherifs[si]["oiler_id"],f_for_sherifs[sj]["oiler_id"]])
@@ -207,7 +207,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                             else:
                                 build = False
                                 too_many_zig_zag += 1
-                                
+
                         # Looking if these ruptures have been paired before already
                         if build == True:
                             if id_rup_j in rup_paired[id_rup_i]:
@@ -217,15 +217,15 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                             if id_rup_i in rup_paired[id_rup_j] :
                                 build = False
                                 already_paired += 1
-                                
+
                         # Looking if the length isn't larger than the max
                         if build == True:
                             new_rup = rup[id_rup_i]+rup[id_rup_j]
                             new_rup = sorted(list(set(new_rup)))
                             rup_length = rups_length[id_rup_i] + rups_length[id_rup_j]
                             max_length = min([f_for_sherifs[sk]["max_possible_length"] for sk in new_rup])
-                            
-                            
+
+
                             #rup_area = sum([sections_areas_tot[i] for i in new_rup])
                             rup_area = rups_area[id_rup_i] + rups_area[id_rup_j]
                             max_mmax = min([f_for_sherifs[sk]["max_possible_Mmax"] for sk in new_rup])
@@ -234,8 +234,8 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                                     )/rup_area
                             mag = wc1994_median_mag( rup_area, rake)
                             index_mag = np.where(binning_in_mag==round(mag,1))[0][0]
-                            
-                            
+
+
                             if rup_length > max_length :
                                 build = False
                                 too_long += 1
@@ -246,8 +246,8 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                                 too_big += 1
                                 rup_paired[id_rup_i].append(id_rup_j)
                                 rup_paired[id_rup_j].append(id_rup_i)
-                                
-                                                    
+
+
                         if build == True:
                             if not new_rup in rup:
                                 build = True
@@ -258,7 +258,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                                 already_created += 1
                                 rup_paired[id_rup_i].append(id_rup_j)
                                 rup_paired[id_rup_j].append(id_rup_i)
-                                                              
+
                         if build == True:
                             if nb_fault_invo <= max_fault_invo:
                                 build = True
@@ -267,12 +267,12 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                                 too_many_faults += 1
                                 rup_paired[id_rup_i].append(id_rup_j)
                                 rup_paired[id_rup_j].append(id_rup_i)
-                               
+
                         # Test is ruptures are getting too diverse
                         if build == True:
                             test_using_length = False
                             test_using_mag = True
-                            
+
                             if test_using_length == True :
                                 nb_rup_sec = [len(f_for_sherifs[i]["rup_id"]) for i in new_rup]
                                 max_nb_rup_i = max(nb_rup_sec)
@@ -322,7 +322,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                                                             print(id_rup_j+id_rup_i,test_rup,
                                                                   "already there|nb_i_to_remove:",nb_i_to_remove)
                                             grp_i+=1
-                            
+
                             elif test_using_mag == True :
                                 #mean number of rup already in this bin for the sections involved
                                 nb_i = np.mean([nb_rup_per_bin[sk][index_mag] for sk in new_rup])
@@ -344,7 +344,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                                 rup_paired[id_rup_i].append(id_rup_j)
                                 rup_paired[id_rup_j].append(id_rup_i)
 
-                                
+
                         ##################
                         # Add the rupture
                         ##################
@@ -365,9 +365,9 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
                             rups_mag.append(mag)
                             full_fault_rup.append(False)
                             rup_f_jump.append(rup_f_jump[id_rup_j]+rup_f_jump[id_rup_i]+[jump_i])
-                            
-                            
-                            
+
+
+
                             if "000" == str(l)[-3:]:# or "500" == str(l)[-3:]:
                                 print(l, "ruptures   |   active section :",si,
                                       " |    not_diverse_enough :",not_diverse_enough)
@@ -380,7 +380,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
         print("\n -> Number of rup with ",loop," loops: ",len(rup))
         loop += 1
 
-        
+
     print("\n########\n")
     print("Total ruptures : ", len(rup))
     print("The longest rupture is : ", round(max(rups_length))," km.")
@@ -395,7 +395,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
     print("Number of ruptures not used because not diverse enough : ", not_diverse_enough)
     print("Number of ruptures not used because too long : ", too_long)
     print("Number of ruptures not used because magnitude was too large : ", too_big)
-    
+
     if target_section == True:
         print("\n########\n")
         print("ruptures for the look_at :","    look_at id is ",look_at)
@@ -404,19 +404,18 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
             if rup.count(rup[i]) != 1:
                 print("error")
             print(i,rup[i], round(rups_length[i]),'km | M :', rups_mag[i])
-        
+
     duration = time.time() - t0
     print("\n\nIt took ",round(duration,3),"seconds to find all the ruptures.")
-    
+
     return rup
-    
-    
-    
-def write_rupt_file(rup,Run_Name):
+
+
+
+def write_rupt_file(rup,Run_Name,Set_Name):
     f_name = "input/"+Run_Name+"/ruptures.txt"
     f= open(f_name,'w')
-    set_name = "set_test"
-    f.write("set "+set_name+"\n")
+    f.write("set "+Set_Name+"\n")
     for rup_i in rup :
         if len(rup_i) > 1 :
             line = ""
@@ -427,7 +426,7 @@ def write_rupt_file(rup,Run_Name):
     f.close()
 
     print("Rupture file built")
-    
+
 def visu_rup(f_for_sherifs,rup,rups_length,rups_mag,path):
     north_shift = 0.08
 

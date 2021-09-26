@@ -64,8 +64,9 @@ def build_rup(input_file):
     #         jump_dist = float(line.split(':')[1].replace(' ',''))
     #     if "apply_sr_reduction" in line :
     #         apply_sr_reduction = float(line.split(':')[1].replace(' ',''))
-    
+
     Run_Name = param["Run_Name"]
+    Set_Name = param["pre"]["Set_Name"]
     File_Oiler = param["pre"]["File_Oiler"]
     File_out = param["pre"]["File_out"]
     File_Mmax_areas = param["pre"]["File_Mmax_areas"]
@@ -136,7 +137,7 @@ def build_rup(input_file):
     write_section_json(f_for_sherifs,File_out)
 
     # write SHERIFS input file for ruptures
-    write_rupt_file(rup,Run_Name)
+    write_rupt_file(rup,Run_Name,Set_Name)
 
     # Create visualization of ruptures
     #visu_rup(f_for_sherifs,rup,rups_length,rups_mag,path)

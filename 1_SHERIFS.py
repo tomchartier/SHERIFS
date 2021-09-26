@@ -96,15 +96,21 @@ def SHERIFS(input_file):
             fbgpath = None
     '''
     Run_Name = param["Run_Name"]
+
+    path = param["dirpath"]
+    if not path[-1]=="/":
+        path += "/"
+        param["dirpath"] = path
+
     #create folder structure
-    if not os.path.exists(str(Run_Name)):
-        os.makedirs(str(Run_Name))
-    if not os.path.exists(str(Run_Name) + '/results'):
-         os.makedirs(str(Run_Name) + '/results')
-    if not os.path.exists(str(Run_Name) + '/LOG'):
-         os.makedirs(str(Run_Name) + '/LOG')
-    if not os.path.exists(str(Run_Name) + '/ssm'):
-         os.makedirs(str(Run_Name) + '/ssm')
+    if not os.path.exists(path+str(Run_Name)):
+        os.makedirs(path+str(Run_Name))
+    if not os.path.exists(path+str(Run_Name) + '/results'):
+         os.makedirs(path+str(Run_Name) + '/results')
+    if not os.path.exists(path+str(Run_Name) + '/LOG'):
+         os.makedirs(path+str(Run_Name) + '/LOG')
+    if not os.path.exists(path+str(Run_Name) + '/ssm'):
+         os.makedirs(path+str(Run_Name) + '/ssm')
 
     #Domain_in_model = []
 
@@ -119,7 +125,7 @@ def SHERIFS(input_file):
     Mmax_range = OQ_job_Creator.Mmax_range
     #fit_quality = 5 #maximum misfit between the model and the target (in %)
     '''
-    calculation_log_file = open(Run_Name+'/calculation_log.txt','w')
+    calculation_log_file = open(path+Run_Name+'/calculation_log.txt','w')
 
     '''
     sltc = Sources_Logic_Tree_Creator(Run_Name,File_geom,

@@ -78,12 +78,13 @@ class Sources_Logic_Tree_Creator:
         self.initialize()
 
     def initialize(self):
-        LT_file = self.Run_Name+'/Sources_Logic_tree.xml'
+        path = self.param["dirpath"]
+        LT_file = path+self.Run_Name+'/Sources_Logic_tree.xml'
 
         #LT_log_name  =  'input/'+str(self.Run_Name)+'/LT_log.txt'
         LT_log_name  =  self.param["main"]["LT_file"]
 
-        lt_info_file = open(self.Run_Name + '/ssm/lt_branches_id.txt','w')
+        lt_info_file = open(path+self.Run_Name + '/ssm/lt_branches_id.txt','w')
 
         lt_info_file.write("id\tmodel\tmfd\trup_set\tbackground\tscaling\t")
         lt_info_file.write("sample\n")
@@ -128,9 +129,9 @@ class Sources_Logic_Tree_Creator:
 
             force_rerun = self.param["main"]["parameters"]["force_rerun"]
             if force_rerun in ["False","false"] :
-                if os.path.isfile(self.Run_Name+"/LOG/lt_branchs.pkl"):
-                    old_branches = pickle.load(open(self.Run_Name+"/LOG/lt_branchs.pkl", 'rb'))
-                    old_indexes = pickle.load(open(self.Run_Name+"/LOG/lt_b_id.pkl", 'rb'))
+                if os.path.isfile(path+self.Run_Name+"/LOG/lt_branchs.pkl"):
+                    old_branches = pickle.load(open(path+self.Run_Name+"/LOG/lt_branchs.pkl", 'rb'))
+                    old_indexes = pickle.load(open(path+self.Run_Name+"/LOG/lt_b_id.pkl", 'rb'))
                 else :
                     old_branches = []
                     old_indexes = []
@@ -178,10 +179,10 @@ class Sources_Logic_Tree_Creator:
 
                 lt_info_file.write(str(id)+"\t")
                 lt_info_file.write(str(bi[0])+"\t")
-                lt_info_file.write(' '.join(str(i for i in bi[1]))+"\t")
+                lt_info_file.write(' '.join([i for i in bi[1]])+"\t")
                 lt_info_file.write(str(bi[3])+"\t")
                 lt_info_file.write(str(bi[2])+"\t")
-                lt_info_file.write(' '.join(str(i for i in bi[4]))+"\t")
+                lt_info_file.write(' '.join([i for i in bi[4]])+"\t")
                 lt_info_file.write(str(bi[5])+"\n")
 
             lt_info_file.close()
@@ -259,23 +260,25 @@ class Sources_Logic_Tree_Creator:
 
             if branch["run_branch"]==True:
 
-                b_path = self.Run_Name + "/ssm/b_" + str(id)
-                log_path = self.Run_Name + "/ssm/log_b_" + str(id)
+                b_path = path+self.Run_Name + "/ssm/b_" + str(id)
+                log_path = path+self.Run_Name + "/ssm/log_b_" + str(id)
                 if not os.path.exists(b_path):
                     os.makedirs(b_path)
                     print("running branch id ",str(id)," for the first time")
                 else :
-                    files = glob.glob(b_path+"/*")
-                    for f in files:
-                        os.remove(f)
-                    print("rerunning branch id ",str(id))
+                    if self.param['main']['parameters']['force_rerun'] in ['true','True']:
+                        files = glob.glob(b_path+"/*")
+                        for f in files:
+                            os.remove(f)
+                        print("rerunning branch id ",str(id))
                 # creating of cleaning the log
                 if not os.path.exists(log_path):
                     os.makedirs(log_path)
                 else :
-                    files = glob.glob(log_path+"/*")
-                    for f in files:
-                        os.remove(f)
+                    if self.param['main']['parameters']['force_rerun'] in ['true','True']:
+                        files = glob.glob(log_path+"/*")
+                        for f in files:
+                            os.remove(f)
 
                 line+=('\t\t\t\t<logicTreeBranch branchID= "b_' +str(id)+ '">\n')
 
@@ -394,7 +397,7 @@ class Sources_Logic_Tree_Creator:
 
                     print("\t - importing faults properties")
                     re_use = True
-                    f_prop_tmp = str(self.Run_Name)+'/LOG/'+model_hyp+'_prop.pkl'
+                    f_prop_tmp = path+str(self.Run_Name)+'/LOG/'+model_hyp+'_prop.pkl'
 
                     if not os.path.isfile(f_prop_tmp):
                         re_use = False
@@ -514,7 +517,7 @@ class Sources_Logic_Tree_Creator:
                 print()
 
                 # find all the files in the folder
-                b_path = self.Run_Name + "/ssm/b_" + str(id)
+                b_path = path+self.Run_Name + "/ssm/b_" + str(id)
                 list_src_files = [f for f in listdir(b_path) if isfile(join(b_path, f))]
 
             if not "/ssm/b_" + str(id)+"/single_sec_rup.xml" in list_src_files:
@@ -527,7 +530,7 @@ class Sources_Logic_Tree_Creator:
                 line+="\t\t\t\t\t\t\tssm/"+model+'_sections.xml \n'
 
             for f in list_src_files:
-                f = f.replace(self.Run_Name+'/','')
+                f = f.replace(path+self.Run_Name+'/','')
                 f = f.replace(model+'/','')
                 line+="\t\t\t\t\t\t\t"+f+"\n"
 
@@ -552,14 +555,14 @@ class Sources_Logic_Tree_Creator:
         line+='\t</logicTree>\n'
         line+='</nrml>\n'
 
-        LT_file = str(self.Run_Name)+'/Sources_Logic_tree.xml'
+        LT_file = path+str(self.Run_Name)+'/Sources_Logic_tree.xml'
         XMLfile=open(LT_file,'w')
         XMLfile.write(line)
         XMLfile.close()
 
-        with open(self.Run_Name+"/LOG/lt_branchs.pkl", 'wb') as f:
+        with open(path+self.Run_Name+"/LOG/lt_branchs.pkl", 'wb') as f:
             pickle.dump(branches, f)
-        with open(self.Run_Name+"/LOG/lt_b_id.pkl", 'wb') as f:
+        with open(path+self.Run_Name+"/LOG/lt_b_id.pkl", 'wb') as f:
             pickle.dump(used_id, f)
 
         #
