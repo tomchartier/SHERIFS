@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nrml xmlns:gml="http://www.opengis.net/gml"
+	xmlns="http://openquake.org/xmlns/nrml/0.5">
+	<sourceModel name="Single Fault Rupture Sources">
+		<sourceGroup name="group 0" tectonicRegion="Active Shallow Crust">
+    <kiteFaultSource name="2" id="2" tectonicRegion="Active Shallow Crust">
+			<kiteFaultGeometry>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						104.52949 30.73064 0.00 104.02122 30.99479 10.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						104.28945 30.39018 0.00 103.78298 30.65435 10.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			</kiteFaultGeometry>
+        <magScaleRel> WC1994 </magScaleRel>
+        <ruptAspectRatio> 1.0 </ruptAspectRatio>
+        <incrementalMFD minMag="4.0" binWidth="0.10">
+        <occurRates> 0.0 0.0 0.04394351566412545 0.06221925333087209 0.022023929051559796 0.015591747727627092 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</occurRates>
+        </incrementalMFD>
+        <rake> 20.0</rake>
+        </kiteFaultSource>
+    <kiteFaultSource name="3" id="3" tectonicRegion="Active Shallow Crust">
+			<kiteFaultGeometry>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						104.28945 30.39018 0.00 103.73772 30.57473 10.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						104.13615 30.05067 0.00 103.58634 30.23523 10.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			</kiteFaultGeometry>
+        <magScaleRel> WC1994 </magScaleRel>
+        <ruptAspectRatio> 1.0 </ruptAspectRatio>
+        <incrementalMFD minMag="4.0" binWidth="0.10">
+        <occurRates> 0.08194970451751614 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</occurRates>
+        </incrementalMFD>
+        <rake> 20.0</rake>
+        </kiteFaultSource>
+    <kiteFaultSource name="4" id="4" tectonicRegion="Active Shallow Crust">
+			<kiteFaultGeometry>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						104.13615 30.05067 0.00 103.56136 30.16415 10.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						104.08936 29.87492 0.00 103.51559 29.98841 10.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			</kiteFaultGeometry>
+        <magScaleRel> WC1994 </magScaleRel>
+        <ruptAspectRatio> 1.0 </ruptAspectRatio>
+        <incrementalMFD minMag="4.0" binWidth="0.10">
+        <occurRates> 0.040119956440070374 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</occurRates>
+        </incrementalMFD>
+        <rake> 20.0</rake>
+        </kiteFaultSource>
+    <kiteFaultSource name="5" id="5" tectonicRegion="Active Shallow Crust">
+			<kiteFaultGeometry>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						104.08936 29.87492 0.00 103.69115 30.25089 10.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						103.56079 29.45344 0.00 103.16427 29.82942 10.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			</kiteFaultGeometry>
+        <magScaleRel> WC1994 </magScaleRel>
+        <ruptAspectRatio> 1.0 </ruptAspectRatio>
+        <incrementalMFD minMag="4.0" binWidth="0.10">
+        <occurRates> 0.0 0.19662156537990358 0.13919740832971278 0.04927210921210898 0.0 0.0 0.03496480812847044 0.02475318851635097 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</occurRates>
+        </incrementalMFD>
+        <rake> 20.0</rake>
+        </kiteFaultSource>
+    <kiteFaultSource name="7" id="7" tectonicRegion="Active Shallow Crust">
+			<kiteFaultGeometry>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						104.07643 31.32362 0.00 103.76550 31.48680 20.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						103.94570 31.14217 0.00 103.63537 31.30535 20.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			</kiteFaultGeometry>
+        <magScaleRel> WC1994 </magScaleRel>
+        <ruptAspectRatio> 1.0 </ruptAspectRatio>
+        <incrementalMFD minMag="4.0" binWidth="0.10">
+        <occurRates> 0.032842435245904654 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</occurRates>
+        </incrementalMFD>
+        <rake> 20.0</rake>
+        </kiteFaultSource>
+    <kiteFaultSource name="15" id="15" tectonicRegion="Active Shallow Crust">
+			<kiteFaultGeometry>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						103.08002 30.27802 0.00 102.86995 30.47788 30.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						102.63723 29.92995 0.00 102.42790 30.12981 30.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			</kiteFaultGeometry>
+        <magScaleRel> WC1994 </magScaleRel>
+        <ruptAspectRatio> 1.0 </ruptAspectRatio>
+        <incrementalMFD minMag="4.0" binWidth="0.10">
+        <occurRates> 0.17028084644864 0.0 0.04267129318565204 0.03020896212500205 0.04277261477403054 0.04542103847454239 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</occurRates>
+        </incrementalMFD>
+        <rake> 20.0</rake>
+        </kiteFaultSource>
+        </sourceGroup>
+    </sourceModel>
+</nrml>

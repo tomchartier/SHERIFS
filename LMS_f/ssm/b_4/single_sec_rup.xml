@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nrml xmlns:gml="http://www.opengis.net/gml"
+	xmlns="http://openquake.org/xmlns/nrml/0.5">
+	<sourceModel name="Single Fault Rupture Sources">
+		<sourceGroup name="group 0" tectonicRegion="Active Shallow Crust">
+    <kiteFaultSource name="5" id="5" tectonicRegion="Active Shallow Crust">
+			<kiteFaultGeometry>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						104.08936 29.87492 0.00 103.69115 30.25089 10.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						103.56079 29.45344 0.00 103.16427 29.82942 10.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			</kiteFaultGeometry>
+        <magScaleRel> WC1994 </magScaleRel>
+        <ruptAspectRatio> 1.0 </ruptAspectRatio>
+        <incrementalMFD minMag="4.0" binWidth="0.10">
+        <occurRates> 0.0 0.0 0.24359546457699738 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</occurRates>
+        </incrementalMFD>
+        <rake> 20.0</rake>
+        </kiteFaultSource>
+    <kiteFaultSource name="15" id="15" tectonicRegion="Active Shallow Crust">
+			<kiteFaultGeometry>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						103.08002 30.27802 0.00 102.86995 30.47788 30.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			<profile>
+				<gml:LineString>
+					<gml:posList>
+						102.63723 29.92995 0.00 102.42790 30.12981 30.00
+					</gml:posList>
+				</gml:LineString>
+			</profile>
+			</kiteFaultGeometry>
+        <magScaleRel> WC1994 </magScaleRel>
+        <ruptAspectRatio> 1.0 </ruptAspectRatio>
+        <incrementalMFD minMag="4.0" binWidth="0.10">
+        <occurRates> 0.29799148128512 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</occurRates>
+        </incrementalMFD>
+        <rake> 20.0</rake>
+        </kiteFaultSource>
+        </sourceGroup>
+    </sourceModel>
+</nrml>
