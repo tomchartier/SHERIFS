@@ -42,10 +42,10 @@ import Plot_mfd
 import Participation_rates
 import plt_catalog
 import plot_FtF_GIF
-import tkinter as tk
-from tkinter import ttk, Label, Text, INSERT,END, StringVar,Listbox,Button,Entry,Checkbutton
-from tkinter.ttk import Combobox
-from tkinter import messagebox
+# import tkinter as tk
+# from tkinter import ttk, Label, Text, INSERT,END, StringVar,Listbox,Button,Entry,Checkbutton
+# from tkinter.ttk import Combobox
+# from tkinter import messagebox
 import pandas as pd
 import matplotlib.cm as cmx
 import matplotlib.colors as colors
@@ -56,11 +56,11 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.collections import PolyCollection
 
 
-w_sc_nb = tk.Tk()
-w_sc_nb.title('OK?')
-label = Label(w_sc_nb, text='\n\n\n\n\n\n        Everything is working well           \n\nYou can close this window\nand start with SHERIFS\n\n\n\n')
-label.pack()
-w_sc_nb.mainloop()
+# w_sc_nb = tk.Tk()
+# w_sc_nb.title('OK?')
+# label = Label(w_sc_nb, text='\n\n\n\n\n\n        Everything is working well           \n\nYou can close this window\nand start with SHERIFS\n\n\n\n')
+# label.pack()
+# w_sc_nb.mainloop()
 
 print('\n\n\n\nEverything is OK\n\n\n\n')
 print('')
