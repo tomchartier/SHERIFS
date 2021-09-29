@@ -483,6 +483,8 @@ class Source_Model_Creator:
             # write source file
             if cut_sm_file == False :
                 source_xml = self.path +'/Source_model_' + str(self.sample) + '.xml'
+
+                list_src_files.append(source_xml)
                 trt = faults_data[0]['domain']
                 txt = wmfs.start(explo_time,trt)
                 name = "multifaultsource"
