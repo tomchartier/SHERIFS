@@ -9,97 +9,9 @@
 					<uncertaintyModel> 
 							ssm/CHN0_sections.xml 
 							ssm/b_0/bg_1_1.xml
-							/ssm/b_0/single_sec_rup.xml
+							ssm/b_0/single_sec_rup.xml
 					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_1">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_1/bg_2_1.xml
-							/ssm/b_1/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_2">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_2/bg_3_1.xml
-							/ssm/b_2/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_3">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_3/bg_1_1.xml
-							/ssm/b_3/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_4">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_4/bg_2_1.xml
-							/ssm/b_4/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_5">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_5/bg_3_1.xml
-							/ssm/b_5/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_6">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_6/bg_1_1.xml
-							/ssm/b_6/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_7">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_7/bg_2_1.xml
-							/ssm/b_7/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_8">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_8/bg_3_1.xml
-							/ssm/b_8/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_9">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_9/bg_1_1.xml
-							/ssm/b_9/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_10">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_10/bg_2_1.xml
-							/ssm/b_10/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
-				</logicTreeBranch>
-				<logicTreeBranch branchID= "b_11">
-					<uncertaintyModel> 
-							ssm/CHN0_sections.xml 
-							ssm/b_11/bg_3_1.xml
-							/ssm/b_11/single_sec_rup.xml
-					</uncertaintyModel>
-					<uncertaintyWeight>0.08333</uncertaintyWeight>
+					<uncertaintyWeight>1.0</uncertaintyWeight>
 				</logicTreeBranch>
 			</logicTreeBranchSet>
 		</logicTreeBranchingLevel>

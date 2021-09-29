@@ -149,7 +149,7 @@ def wrt_kite_geo(fault_name,faults_names,faults_data,resample,vertical_faults):
                     print("min dist :",round(min_dist_tmp),"id: ",faults_data[index_fault]['name'])
 
 
-        txt='\t\t\t<kiteFaultGeometry>\n'
+        txt='\t\t\t<kiteSurface>\n'
 
         #mean azimuth of the section
         compass_bearing = calculate_initial_compass_bearing((ColLat[0],ColLon[0]),(ColLat[-1],ColLon[-1]))
@@ -192,7 +192,7 @@ def wrt_kite_geo(fault_name,faults_names,faults_data,resample,vertical_faults):
             txt+='\t\t\t</profile>\n'
             i_pt +=1
 
-        txt+='\t\t\t</kiteFaultGeometry>\n'
+        txt+='\t\t\t</kiteSurface>\n'
 
     return txt
 

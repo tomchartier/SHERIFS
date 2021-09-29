@@ -1,13 +1,13 @@
 Run_Name = "LMS_f"
 
-dirpath = "/Users/tchartier/Desktop/sherifs_training/"
+dirpath = ""
 
 # 0 is for the precomputation
 [pre]
 File_Oiler = "data/LMS_f/faults_raw_2.geojson"
 File_out = "data/LMS_f/sections.geojson"
 File_Mmax_areas = "data/LMS_f/zone_Mmax.geojson"
-File_Mu = "data/CHN/zone_Mu.geojson"
+File_Mu = "data/LMS_f/zone_Mu.geojson"
 Model_name = "CHN0"
 Set_Name = "set_1"
 rupture_mesh_spacing = 2.0
@@ -67,15 +67,15 @@ force_rerun = "True"
 
 # a fit quality of 5 means that the shape of the modelled MFD
 # is within 5% of the target shape.
-fit_quality = 5
+fit_quality = 10
 
 #nb sample explores random sampling on the slip-rate uncertainty and the
 # uncertainty within the scalling law. sample 1 is always the mean parameters.
-nb_sample = 3
+nb_sample = 1
 
 
 #SR increment size (mm/yr)
-dsr =	0.005
+dsr =	0.0001
 Mmin = 4.0
 Random_seed = 805
 SR_correl =	"True"
@@ -101,7 +101,7 @@ deep_analysis = "False"
 
 # Option to not to the weighting of the ruptures at every loop but only
 # every few loops.
-faster_rup_weight = "True"
+faster_rup_weight = "True" # WARNING False is having an issue
 # if true, indicate the number of rupture weight sampling
 nb_weigthings_rup_sampling = 33
 # lin of log
@@ -109,19 +109,19 @@ type_weigthings_rup_sampling = "lin"
 
 # loop several time if the faults has a much higher slip-rate
 # than the slowest faults in the system saving calculation time
-option_fast = "True"
+option_fast = "False"
 
 # can force the
 overwrite_files = "True"
 
 # simplifying the sections to straight lines
-simplify_faults = "True"
+simplify_faults = "False"
 vertical_faults = "False"
 
 # resampling the geometry (doesn't matter when simplify faults is True)
 # ["True",min distance between two points km,max distance between two points km
 # ,change in azimuth to consider in degrees]
-resample = ["True","3.","10.","15."]
+resample = ["False","3.","10.","15."]
 
 [figures]
 print = "True"

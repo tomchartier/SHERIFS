@@ -570,7 +570,7 @@ class EQ_on_faults_from_sr():
 
 
         # Does the temporary weighting
-        budget_init = sum_fault_budget #sum(faults_budget.values())
+        budget_init = int(sum_fault_budget) #sum(faults_budget.values())
 
         if faster_rup_weight == True :
             nb_weigthings_rup_sampling = int(self.param["main"]["parameters"]["nb_weigthings_rup_sampling"])

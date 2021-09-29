@@ -98,9 +98,10 @@ def SHERIFS(input_file):
     Run_Name = param["Run_Name"]
 
     path = param["dirpath"]
-    if not path[-1]=="/":
-        path += "/"
-        param["dirpath"] = path
+    if len(path)!= 0:
+        if not path[-1]=="/":
+            path += "/"
+            param["dirpath"] = path
 
     #create folder structure
     if not os.path.exists(path+str(Run_Name)):

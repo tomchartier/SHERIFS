@@ -209,6 +209,9 @@ class Source_Model_Creator:
                     resample.append(float(rsp[1]))
                     resample.append(float(rsp[2]))
                     resample.append(float(rsp[3]))
+                else :
+                    resample = [False]
+
 
             if "vertical_faults" in self.param["main"]["parameters"].keys():
                 vertical_faults = self.param["main"]["parameters"]["vertical_faults"]
