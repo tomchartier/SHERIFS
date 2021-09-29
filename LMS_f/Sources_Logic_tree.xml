@@ -12,7 +12,16 @@
 							ssm/b_0/bg_1.xml
 							ssm/b_0/single_sec_rup.xml
 					</uncertaintyModel>
-					<uncertaintyWeight>1.0</uncertaintyWeight>
+					<uncertaintyWeight>0.5</uncertaintyWeight>
+				</logicTreeBranch>
+				<logicTreeBranch branchID= "b_1">
+					<uncertaintyModel> 
+							ssm/CHN0_sections.xml 
+							ssm/b_1/Source_model_1.xml
+							ssm/b_1/bg_1.xml
+							ssm/b_1/single_sec_rup.xml
+					</uncertaintyModel>
+					<uncertaintyWeight>0.5</uncertaintyWeight>
 				</logicTreeBranch>
 			</logicTreeBranchSet>
 		</logicTreeBranchingLevel>

@@ -1434,17 +1434,24 @@ class Source_Model_Creator:
 
                 x = MFDs.bin_mag
                 rate_model = [i+j for i,j in zip(rate_faults,rate_bg)]
-                data = loc_cat[zone]["cat_rates"]
                 lim = [[x[0]-0.05,x[-1]+0.05],
                 [min(rate_model)/2.,max(rate_model)*2.]]
                 axis = ["magnitude","annual earthquake rates"]
                 title = "MFD in zone " + str(zone) + txt_no_bg
                 path = self.pathlog+'/MFD_zone'+str(zone)+'.png'
-
-                if len(data[0]) != len(data[1]):
+                if "cat_rates" in loc_cat[zone].keys():
+                    data = loc_cat[zone]["cat_rates"]
+                else :
                     data = False
-                    print("For zone",zone," : wrong bining")
-                    print("please check the geojson file")
+                if data == None:
+                    data = False
+                if data == True :
+                    if len(data[0]) == 0:
+                        data = False
+                    if len(data[0]) != len(data[1]):
+                        data = False
+                        print("For zone",zone," : wrong bining")
+                        print("please check the geojson file")
 
                 plt_mfd.local(x,
                 [rate_model,rate_faults,rate_bg,smooth],

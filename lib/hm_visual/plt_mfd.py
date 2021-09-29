@@ -14,7 +14,7 @@ def add_data(data):
     x = data[0]
     y = data[1]
     #plt.scatter(x,y, c='grey', s=50, edgecolor='',marker = 'o',alpha = 0.7)
-    plt.plot(x,y,'grey', linewidth = 1 ,alpha = 0.8, label='cumulative catalogue MFD')
+    plt.plot(x,y,'k', linewidth = 3 ,alpha = 0.8, label='cumulative catalogue MFD')
 
 
 def plot(x,y,lim,axis,data,path,title):
@@ -113,11 +113,11 @@ def local(x,ys,data,lim,axis,path,title):
     plt.plot(x,y_cum,'blue', linewidth = 2 ,
     alpha = 0.8, label='Background cumulative MFD')
 
-    y = list(ys[3])
-    y_cum = list(np.cumsum(np.array(y[::-1])))
-    y_cum = y_cum[::-1]
-    plt.plot(x,y_cum,'blue', linewidth = 0.5 ,
-    alpha = 0.8, label='smoothing MFD (preSHERIFS)')
+    # y = list(ys[3])
+    # y_cum = list(np.cumsum(np.array(y[::-1])))
+    # y_cum = y_cum[::-1]
+    # plt.plot(x,y_cum,'blue', linewidth = 0.5 ,
+    # alpha = 0.8, label='smoothing MFD (preSHERIFS)')
 
     if not data == False :
         add_data(data)
@@ -126,5 +126,5 @@ def local(x,ys,data,lim,axis,path,title):
     plt.title(title)
     plt.legend()
     plt.grid()
-    plt.savefig(path,dpi = 180, transparent=True)
+    plt.savefig(path,dpi = 180, transparent=False)
     plt.close()
