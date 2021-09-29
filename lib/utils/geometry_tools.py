@@ -28,11 +28,11 @@ def points_aligned(a, b, c):
     dotproduct = (c[0] - a[0]) * (b[0] - a[0]) + (c[1] - a[1])*(b[1] - a[1])
     if dotproduct < 0:
         return False
-    
+
     squaredlengthba = (b[0]-a[0])*(b[0] - a[0]) + (b[1] - a[1])*(b[1]-a[1])
     if dotproduct > squaredlengthba:
         return False
-    
+
     return True
 
 
@@ -73,8 +73,9 @@ def point_at(lon, lat, azimuth, distance):
 
     return lons, lats
 
-    
-  
+def PolyArea(x,y):
+    return 0.5*np.abs(np.dot(x,np.roll(y,1))-np.dot(y,np.roll(x,1)))
+
 def area_of_polygon(x, y):
     """Calculates the area of an arbitrary polygon given its verticies"""
     # first, does the list of vertices
@@ -103,8 +104,7 @@ def area_of_polygon(x, y):
                  inn.append(1)
              else:
                  inn.append(0)
-    #print len(x),len(x_vertices),inn
-    
+    # print(len(x),len(x_vertices),inn)
     area = 0.0
     for i in range(-1, len(x_vertices)-1):
         area += x_vertices[i] * (y_vertices[i+1] - y_vertices[i-1])
@@ -129,7 +129,7 @@ def line_intersection(line1, line2):
     return x, y
 
 
-                          
+
 def calculate_initial_compass_bearing(pointA, pointB):
     """
     Calculates the bearing between two points.
@@ -187,4 +187,3 @@ def distance(lon1, lat1, lon2, lat2):
     c = 2 * asin(sqrt(a))
     km = 6367 * c
     return km
-

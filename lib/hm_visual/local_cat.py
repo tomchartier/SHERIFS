@@ -30,7 +30,7 @@ def read_geojson(file):
     return loc_cat
 
 def get_model_rate(poly,OQ_entry_faults,OQ_entry_scenarios,pts_list,bin_mag,
-param,faults_data,faults_names,index_faults_in_scenario):
+param,faults_data,faults_names,index_faults_in_scenario,local_zone_mfd):
     '''
     poly : polypath , polygon of the zone
     OQ_entry_faults : list, rates and info on each single fault rupture
@@ -41,6 +41,7 @@ param,faults_data,faults_names,index_faults_in_scenario):
     faults_data : dict, data of the faults
     faults_names : list , list of the names of the faults
     index_faults_in_scenario : list, list of the indexes of faults for each scenario
+    local_zone_mfd : list, mfd of the bg seismicity if bg was (or is) a uiform zone
 
     '''
     rate_bg = np.zeros_like(bin_mag)
@@ -62,6 +63,9 @@ param,faults_data,faults_names,index_faults_in_scenario):
                     smooth[i_mag]+=r
                     i_mag += 1
 
+    elif param["main"]["background"]["option_bg"]=="zone" :
+        txt_no_bg = ""
+        rate_bg = local_zone_mfd
     else :
         txt_no_bg = " BG NOT INCLUDED"
 

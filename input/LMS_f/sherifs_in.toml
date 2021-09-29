@@ -137,7 +137,7 @@ mfd_cat = "False"
 
 # part_mfd gets the same things than model mfd but for parts of the model
 # defined in the parts_gjson geojson file
-part_mfd = "False"
+part_mfd = "True"
 parts_gjson = "data/LMS_f/mfd_area.geojson"
 
 # specific_section gets the participation rate (rate of all ruptures involving

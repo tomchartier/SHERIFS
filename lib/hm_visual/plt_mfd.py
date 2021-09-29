@@ -39,7 +39,7 @@ def plot(x,y,lim,axis,data,path,title):
     plt.title(title)
     plt.legend()
     plt.grid()
-    plt.savefig(path,dpi = 180, transparent=True)
+    plt.savefig(path,dpi = 180, transparent=False)
     plt.close()
 
 def plot_bg_ft(x,ys,lim,axis,path,title):
@@ -77,7 +77,7 @@ def plot_bg_ft(x,ys,lim,axis,path,title):
     plt.title(title)
     plt.legend()
     plt.grid()
-    plt.savefig(path,dpi = 180, transparent=True)
+    plt.savefig(path,dpi = 180, transparent=False)
     plt.close()
 
 
