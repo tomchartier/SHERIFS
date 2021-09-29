@@ -41,7 +41,7 @@ local_MFD_file = "data/LMS_f/mfd_area.geojson"
 
 [main.background]
 # option_bg : smooth, zone, none
-option_bg = "smooth"
+option_bg = "zone"
 # bg geometry
 File_bg = "data/LMS_f/bg.geojson"
 # if option zone
@@ -76,7 +76,7 @@ nb_sample = 1
 
 #SR increment size (mm/yr)
 dsr =	0.0001
-Mmin = 4.0
+Mmin = 5.0
 Random_seed = 805
 SR_correl =	"True"
 Mmax_range =	[0.0,	10.0]
@@ -121,7 +121,7 @@ vertical_faults = "False"
 # resampling the geometry (doesn't matter when simplify faults is True)
 # ["True",min distance between two points km,max distance between two points km
 # ,change in azimuth to consider in degrees]
-resample = ["False","3.","10.","15."]
+resample = ["True","3.","10.","15."]
 
 [figures]
 print = "True"
@@ -138,7 +138,7 @@ mfd_cat = "False"
 # part_mfd gets the same things than model mfd but for parts of the model
 # defined in the parts_gjson geojson file
 part_mfd = "False"
-parts_gjson = "data/CHN/mfd_area.geojson"
+parts_gjson = "data/LMS_f/mfd_area.geojson"
 
 # specific_section gets the participation rate (rate of all ruptures involving
 # this section) for a set of predefined sections. This can be useful for
