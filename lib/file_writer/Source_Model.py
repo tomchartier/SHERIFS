@@ -41,7 +41,10 @@ import matplotlib.path as mplPath
 from seismic_moment import mag_to_M0
 
 import matplotlib.pyplot as plt
-import plt_mfd, local_cat
+import plt_mfd, local_cat, geometry_tools
+
+
+from geojson import Feature,FeatureCollection,dump,LineString
 
 class Source_Model_Creator:
     def __init__(self,path,pathlog,param,Model_name,rupture_set,sample,
@@ -209,6 +212,9 @@ class Source_Model_Creator:
                     resample.append(float(rsp[1]))
                     resample.append(float(rsp[2]))
                     resample.append(float(rsp[3]))
+                else :
+                    resample = [False]
+
 
             if "vertical_faults" in self.param["main"]["parameters"].keys():
                 vertical_faults = self.param["main"]["parameters"]["vertical_faults"]
@@ -424,7 +430,8 @@ class Source_Model_Creator:
                                     MFDs.OQ_entry_faults,
                                     MFDs.scenarios_names,
                                     MFDs.OQ_entry_scenarios,
-                                    MFDs.index_faults_in_scenario
+                                    MFDs.index_faults_in_scenario,
+                                    MFDs.M_slip_repartition
                                     ]
                     pickle.dump(MFDs_to_pkl, f)
 
@@ -439,6 +446,7 @@ class Source_Model_Creator:
             scenarios_names = MFDs_to_pkl[3]
             OQ_entry_scenarios = MFDs_to_pkl[4]
             index_faults_in_scenario = MFDs_to_pkl[5]
+            M_slip_repartition = MFDs_to_pkl[6]
 
             # sclaling law as called by openquake
             if self.selected_ScL == 'Le2010' :
@@ -480,6 +488,8 @@ class Source_Model_Creator:
             # write source file
             if cut_sm_file == False :
                 source_xml = self.path +'/Source_model_' + str(self.sample) + '.xml'
+
+                list_src_files.append(source_xml)
                 trt = faults_data[0]['domain']
                 txt = wmfs.start(explo_time,trt)
                 name = "multifaultsource"
@@ -838,7 +848,8 @@ class Source_Model_Creator:
                                     MFDs.OQ_entry_faults,
                                     MFDs.scenarios_names,
                                     MFDs.OQ_entry_scenarios,
-                                    MFDs.index_faults_in_scenario
+                                    MFDs.index_faults_in_scenario,
+                                    MFDs.M_slip_repartition
                                     ]
                     pickle.dump(MFDs_to_pkl, f)
 
@@ -853,6 +864,7 @@ class Source_Model_Creator:
             scenarios_names = MFDs_to_pkl[3]
             OQ_entry_scenarios = MFDs_to_pkl[4]
             index_faults_in_scenario = MFDs_to_pkl[5]
+            M_slip_repartition = MFDs_to_pkl[6]
 
             # sclaling law as called by openquake
             if self.selected_ScL == 'Le2010' :
@@ -968,8 +980,10 @@ class Source_Model_Creator:
         #     do_bg_in_SHERIFS = False
         # else :
         #     do_bg_in_SHERIFS = True
+        pts_list = {}
 
         if sum(MFD) != 0. and self.param["main"]["background"]["option_bg"] == "zone":
+
             bg_file = self.path +'/bg_' + str(self.sample) + '.xml'
             list_src_files.append(bg_file)
             bg_file = open(bg_file,'w')
@@ -1303,6 +1317,41 @@ class Source_Model_Creator:
 
         self.list_src_files = list_src_files
 
+
+
+
+        '''#############################
+        ### Exporting the results in a Geojson
+        ##############################'''
+        features = []
+        for si in range(len(faults_data)):
+            sections = []
+            geom = []
+            for lon_i,lat_i in zip(faults_data[si]["lon"],faults_data[si]["lat"]):
+                geom.append((lon_i,lat_i))
+            geom = LineString(list(geom))
+            properties = {}
+            for key in faults_data[si].keys():
+                if not key in ['lat','lon']:
+                    properties.update({key:faults_data[si][key]})
+            # add NMS
+            NMS = float(M_slip_repartition[faults_data[si]["name"]]["NMS"])
+            sumdsr=0.
+            for key in M_slip_repartition[faults_data[si]["name"]].keys():
+                sumdsr+=M_slip_repartition[faults_data[si]["name"]][key]
+            properties.update({"NMS":NMS/float(sumdsr)})
+            # add nb rup
+            # add Mmax
+            # add rates
+            features.append(Feature(geometry=geom, properties=properties))
+        feature_collection = FeatureCollection(features)
+
+        with open(self.pathlog+'/out_sections.geojson', 'w') as f:
+           dump(feature_collection, f)
+
+
+
+
         '''#######################
         ### some figures
         ######################'''
@@ -1370,25 +1419,39 @@ class Source_Model_Creator:
                 for x1,y1 in zip(lons,lats):
                     poly.append((x1,y1))
 
+                # get the ratio of bg included in the zone
+                area_zone = geometry_tools.PolyArea(lons,lats)
+                area_bg = geometry_tools.PolyArea(Lon_bg,Lat_bg)
+                ratio_area = float(area_zone)/float(area_bg)
+                local_zone_mfd = [i*ratio_area for i in EQ_rate_BG]
+
                 poly = mplPath.Path(poly)
+
 
                 txt_no_bg,rate_faults,rate_bg,smooth = local_cat.get_model_rate(poly,
                 OQ_entry_faults,OQ_entry_scenarios,pts_list,MFDs.bin_mag,
-                self.param,faults_data,faults_names,index_faults_in_scenario)
+                self.param,faults_data,faults_names,index_faults_in_scenario,local_zone_mfd)
 
                 x = MFDs.bin_mag
                 rate_model = [i+j for i,j in zip(rate_faults,rate_bg)]
-                data = loc_cat[zone]["cat_rates"]
                 lim = [[x[0]-0.05,x[-1]+0.05],
                 [min(rate_model)/2.,max(rate_model)*2.]]
                 axis = ["magnitude","annual earthquake rates"]
                 title = "MFD in zone " + str(zone) + txt_no_bg
                 path = self.pathlog+'/MFD_zone'+str(zone)+'.png'
-
-                if len(data[0]) != len(data[1]):
+                if "cat_rates" in loc_cat[zone].keys():
+                    data = loc_cat[zone]["cat_rates"]
+                else :
                     data = False
-                    print("For zone",zone," : wrong bining")
-                    print("please check the geojson file")
+                if data == None:
+                    data = False
+                if data == True :
+                    if len(data[0]) == 0:
+                        data = False
+                    if len(data[0]) != len(data[1]):
+                        data = False
+                        print("For zone",zone," : wrong bining")
+                        print("please check the geojson file")
 
                 plt_mfd.local(x,
                 [rate_model,rate_faults,rate_bg,smooth],

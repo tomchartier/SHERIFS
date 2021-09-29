@@ -1,13 +1,13 @@
 Run_Name = "LMS_f"
 
-dirpath = "/Users/tchartier/Desktop/sherifs_training/"
+dirpath = ""
 
 # 0 is for the precomputation
 [pre]
-File_Oiler = "data/LMS_f/faults_raw_2.geojson"
+File_Oiler = "data/LMS_f/faults_data.geojson"
 File_out = "data/LMS_f/sections.geojson"
 File_Mmax_areas = "data/LMS_f/zone_Mmax.geojson"
-File_Mu = "data/CHN/zone_Mu.geojson"
+File_Mu = "data/LMS_f/zone_Mu.geojson"
 Model_name = "CHN0"
 Set_Name = "set_1"
 rupture_mesh_spacing = 2.0
@@ -41,7 +41,7 @@ local_MFD_file = "data/LMS_f/mfd_area.geojson"
 
 [main.background]
 # option_bg : smooth, zone, none
-option_bg = "smooth"
+option_bg = "zone"
 # bg geometry
 File_bg = "data/LMS_f/bg.geojson"
 # if option zone
@@ -67,16 +67,16 @@ force_rerun = "True"
 
 # a fit quality of 5 means that the shape of the modelled MFD
 # is within 5% of the target shape.
-fit_quality = 5
+fit_quality = 10
 
 #nb sample explores random sampling on the slip-rate uncertainty and the
 # uncertainty within the scalling law. sample 1 is always the mean parameters.
-nb_sample = 3
+nb_sample = 1
 
 
 #SR increment size (mm/yr)
-dsr =	0.005
-Mmin = 4.0
+dsr =	0.0001
+Mmin = 5.0
 Random_seed = 805
 SR_correl =	"True"
 Mmax_range =	[0.0,	10.0]
@@ -101,7 +101,7 @@ deep_analysis = "False"
 
 # Option to not to the weighting of the ruptures at every loop but only
 # every few loops.
-faster_rup_weight = "True"
+faster_rup_weight = "True" # WARNING False is having an issue
 # if true, indicate the number of rupture weight sampling
 nb_weigthings_rup_sampling = 33
 # lin of log
@@ -109,13 +109,13 @@ type_weigthings_rup_sampling = "lin"
 
 # loop several time if the faults has a much higher slip-rate
 # than the slowest faults in the system saving calculation time
-option_fast = "True"
+option_fast = "False"
 
 # can force the
 overwrite_files = "True"
 
 # simplifying the sections to straight lines
-simplify_faults = "True"
+simplify_faults = "False"
 vertical_faults = "False"
 
 # resampling the geometry (doesn't matter when simplify faults is True)
@@ -137,8 +137,8 @@ mfd_cat = "False"
 
 # part_mfd gets the same things than model mfd but for parts of the model
 # defined in the parts_gjson geojson file
-part_mfd = "False"
-parts_gjson = "data/CHN/mfd_area.geojson"
+part_mfd = "True"
+parts_gjson = "data/LMS_f/mfd_area.geojson"
 
 # specific_section gets the participation rate (rate of all ruptures involving
 # this section) for a set of predefined sections. This can be useful for

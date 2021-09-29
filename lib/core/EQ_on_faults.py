@@ -570,7 +570,7 @@ class EQ_on_faults_from_sr():
 
 
         # Does the temporary weighting
-        budget_init = sum_fault_budget #sum(faults_budget.values())
+        budget_init = int(sum_fault_budget) #sum(faults_budget.values())
 
         if faster_rup_weight == True :
             nb_weigthings_rup_sampling = int(self.param["main"]["parameters"]["nb_weigthings_rup_sampling"])
@@ -1202,6 +1202,8 @@ class EQ_on_faults_from_sr():
 
         self.bin_mag = bin_mag
         self.rup_rates = rup_rates
+        self.M_slip_repartition = M_slip_repartition
+
 
         log_calculation_file.write('Moment_rate_faults_final calculated using 10^(1.5M+9.1)' + '\t' + str(Total_moment_rate_fault) + '\t' + 'N.m' + '\n')
         log_calculation_file.write('Ratio of NMS slip rate counted in the iterative process: ' + '\t' + str(round((100.) * (aseismic_count/nb_ss_to_spend))) + '\t %\n')

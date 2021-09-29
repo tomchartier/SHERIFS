@@ -125,7 +125,7 @@ def build_rup(input_file):
     binning_in_mag, nb_rup_per_bin = mag_bin_distr(f_for_sherifs)
 
     # CORE : create the list of ruptures
-    rup = build_scenarios(f_for_sherifs,
+    rup,rup_param = build_scenarios(f_for_sherifs,
     id_sections_fault,
     sections_areas_tot,
     sections_lengths_tot,
@@ -140,7 +140,7 @@ def build_rup(input_file):
     write_rupt_file(rup,Run_Name,Set_Name)
 
     # Create visualization of ruptures
-    #visu_rup(f_for_sherifs,rup,rups_length,rups_mag,path)
+    visu_rup(f_for_sherifs,rup,rup_param[0],rup_param[1],path)
 
     fin = time.time()-debut
     days = int(fin / 24. / 60. / 60.)

@@ -408,7 +408,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
     duration = time.time() - t0
     print("\n\nIt took ",round(duration,3),"seconds to find all the ruptures.")
 
-    return rup
+    return rup,[rups_length,rups_mag]
 
 
 
@@ -428,10 +428,14 @@ def write_rupt_file(rup,Run_Name,Set_Name):
     print("Rupture file built")
 
 def visu_rup(f_for_sherifs,rup,rups_length,rups_mag,path):
+    from shapely.geometry import MultiPoint
+    from geojson import Feature,FeatureCollection,dump
+    import os
+
     north_shift = 0.08
 
     for s in range(len(f_for_sherifs)):
-        if len(f_for_sherifs[s]["rup_id"]) > 5. :
+        if len(f_for_sherifs[s]["rup_id"]) > 3. :
             features = []
             sections = []
             z = 0
@@ -453,5 +457,8 @@ def visu_rup(f_for_sherifs,rup,rups_length,rups_mag,path):
                     z+=1
                 id_rup+=1
             feature_collection = FeatureCollection(features)
-            with open(path+'/rup_sec/visual_rup_'+str(s)+'.geojson', 'w') as f:
+
+            if not os.path.exists(path+'/qgis/rups'):
+                os.makedirs(path+'/qgis/rups')
+            with open(path+'/qgis/rups/rup_'+str(s)+'.geojson', 'w') as f:
                dump(feature_collection, f)
