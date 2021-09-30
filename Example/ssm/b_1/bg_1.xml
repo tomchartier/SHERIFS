@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nrml xmlns:gml="http://www.opengis.net/gml"
+	xmlns="http://openquake.org/xmlns/nrml/0.5">
+	<sourceModel name="Hazard Model">
+		<sourceGroup
+name="group 2"
+rup_interdep="indep"
+src_interdep="indep"
+tectonicRegion="Active Shallow Crust"
+>
+		<areaSource id="57" name="Background" tectonicRegion="Active Shallow Crust">
+			<areaGeometry>
+				<gml:Polygon>
+					<gml:exterior>
+						<gml:LinearRing>
+							<gml:posList>
+								101.943419 29.07367
+								101.793512 30.272929
+								102.888989 31.679752
+								104.088248 32.61379
+								105.22985 32.233256
+								105.933262 31.287687
+								105.31057 30.099959
+								104.399594 28.946825
+								103.07349 28.404853
+								101.943419 29.07367
+							</gml:posList>
+						</gml:LinearRing>
+					</gml:exterior>
+				</gml:Polygon>
+				<upperSeismoDepth>0.0</upperSeismoDepth>
+				<lowerSeismoDepth>8.0</lowerSeismoDepth>
+			</areaGeometry>
+			<magScaleRel>WC1994</magScaleRel>
+			<ruptAspectRatio>1.0</ruptAspectRatio>
+			<incrementalMFD binWidth="0.10" minMag="5.0">
+			<occurRates> 0.02754263217569465 0.02149561788695687 0.016742753436049154 0.013005767285324587 0.010098638306574695 0.007815461867334629 0.005878030555144242 0.004388970083824109 0.0032546342132841652 0.0023900500691146557 0.0017353716565111372 0.00135521604032848 0.0010566823629623886 0.000822774466233581 0.0006396513609274397 0.000496637570699213 0.0003647700663603759 0.000265010772518804 0.0001898639084228839 0.00013358070556602727 8.935842680464459e-05 5.976993955241576e-05 3.749963418950634e-05 2.083098251616711e-05 8.644107468000689e-06 3.362782126557387e-07 2.6397975893245583e-07 1.9074469513156495e-07 1.2555585396245962e-07 7.385717031861639e-08 2.977872030155077e-08 9.911808660744645e-09</occurRates>
+			</incrementalMFD>
+			<nodalPlaneDist>
+				<nodalPlane probability="0.7" strike="270.0" dip="60.0" rake="-90.0" />
+				<nodalPlane probability="0.3" strike="90.0" dip="60.0" rake="-90.0" />
+			</nodalPlaneDist>
+			<hypoDepthDist>
+				<hypoDepth probability="0.2" depth="2.0" />
+				<hypoDepth probability="0.3" depth="4.0" />
+				<hypoDepth probability="0.3" depth="6.0" />
+				<hypoDepth probability="0.2" depth="8.0" />
+			</hypoDepthDist>
+		</areaSource>
+	</sourceGroup>
+	</sourceModel>
+</nrml>
