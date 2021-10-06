@@ -62,9 +62,6 @@ setup(
     license="LGPL2.1",
     platforms=["any"],
     package_data={"sherifs": ["README.md", "LICENSE"]},
-    entry_points={
-        'console_scripts': ['sherifs = sherifs.__main__:sherifs'],
-    },
     include_package_data=True,
     zip_safe=False,
 )
