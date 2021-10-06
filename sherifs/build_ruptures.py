@@ -25,6 +25,7 @@ from sherifs.precom.jumps import *
 
 # If you are running SHERIFS with spyder define "input_file" here. Then run.
 
+
 def build_rup(input_file):
     debut = time.time()
 
@@ -74,12 +75,8 @@ def build_rup(input_file):
     force_jump_on_fault = force_jump_list()
 
     # find jumps
-    section_jump = find_jumps(f_for_sherifs,
-    assso_fault,
-    id_sections_fault,
-    jump_dist,
-    path,
-    force_jump_on_fault)
+    section_jump = find_jumps(f_for_sherifs, assso_fault, id_sections_fault,
+                              jump_dist, path, force_jump_on_fault)
 
     # export section points
     export_sections_pts(f_for_sherifs,path)
@@ -88,23 +85,17 @@ def build_rup(input_file):
     f_for_sherifs = find_sections_Mmax(f_for_sherifs,File_Mmax_areas)
 
     # create SHERIFS input dict for fault prperties
-    f_for_sherifs = to_sherifs(f_for_sherifs,
-    faults,
-    Model_name,
-    apply_sr_reduction,
-    f_mu)
+    f_for_sherifs = to_sherifs(f_for_sherifs, faults, Model_name,
+                               apply_sr_reduction, f_mu)
 
     # create binning in mag
     binning_in_mag, nb_rup_per_bin = mag_bin_distr(f_for_sherifs)
 
     # CORE : create the list of ruptures
-    rup, rup_param = build_scenarios(f_for_sherifs,
-    id_sections_fault,
-    sections_areas_tot,
-    sections_lengths_tot,
-    binning_in_mag,
-    nb_rup_per_bin,
-    section_jump)
+    rup, rup_param = build_scenarios(f_for_sherifs, id_sections_fault,
+                                     sections_areas_tot, sections_lengths_tot,
+                                     binning_in_mag, nb_rup_per_bin,
+                                     section_jump)
 
     # write SHERIFS input file for faults
     write_section_json(f_for_sherifs, File_out)
@@ -120,15 +111,17 @@ def build_rup(input_file):
     hours = int((fin - days * 24. * 60. * 60.) / 60. / 60.)
     minutes = int((fin - days * 24. * 60. * 60. - hours* 60. * 60. ) / 60.)
     seconds = (fin - days * 24. * 60. * 60. - hours* 60. * 60.  - minutes * 60.)
-    print("The calculation took: " + str(days) + ' days, ' + str(hours) + ' hours, ' + str(minutes) + ' minutes and ' + str(seconds) + ' seconds.')
-
+    print("The calculation took: " + str(days) + ' days, ' + str(hours) +
+          ' hours, ' + str(minutes) + ' minutes and ' + str(seconds) +
+          ' seconds.')
 
 
 def main(argv):
     """ Run SHERIFS"""
 
     p = sap.Script(build_rup)
-    p.arg(name='input_file', help='.txt file with the information concerning the run.')
+    msg = '.txt file with the information concerning the run.'
+    p.arg(name='input_file', help=msg)
 
     if len(argv) < 1:
         print(p.help())
