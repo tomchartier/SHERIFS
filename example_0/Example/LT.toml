@@ -1,0 +1,32 @@
+# This file defines the different hypotheses explored in the Logic tree
+# Each variable is a node of the logic tree and hypotheses are presented in
+# a list with the format ["hypothesis_1","hypothesis_2",...]
+
+# List of the models. They must correspond with the tags in the files
+# describing the faults
+Models = ["Example"]
+
+# List of the MDF shapes. Each MFD shape is describe by a list with the name of
+# the shape followed by the parameters.
+# Supported MFDs :
+# ["GR", b_value]
+# ["tapered_GR", "b_value"]
+# ["double_GR", "b_value","Mrupt"]
+# ["YC", "b_value"=]
+# ["YC_modified", "b_value" , "Mf", "size_of_bump"]
+# WARNING b_value must be indicated as a string
+#MFD_shape = [["tapered_GR", "0.95"],["tapered_GR", "0.90"],["GR", "0.95"]]
+MFD_shape = [["tapered_GR", "0.9"]]
+# List of the hypotheses of the shared seismicity between the background
+# and the faults. Each hypothesis used must be defined in the
+# bg_seismicity.txt file.
+Background = ["BG_1","BG_3"]
+
+# List of the hypotheses on the possible rupture sets.
+# Each set must be defined in the rupture_file.
+scenario_set = ["set_1"]
+
+#  List of the scalling laws hypotheses
+# structure : ["name_scalling", "Area" or "Length", "m" or "a"]
+# m and a are option to use mechanism dependent scalling or not.
+Scaling_Laws = [["WC1994", "Area", "m"]]
