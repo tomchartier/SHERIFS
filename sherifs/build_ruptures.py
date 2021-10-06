@@ -11,75 +11,48 @@ using as input the geojson file from the global fault database
 contact : thomas.chartier@globalquakemodel.org
 """
 
-import time
 import os
 import sys
-path_actuel=os.path.dirname(os.path.abspath(__file__))
-path_lib = path_actuel + '/lib'
-sys.path.append(path_lib)
-path_f = path_lib + '/precom'
-sys.path.append(path_f)
-from lib.utils import sap
-from read_precomp_files import read_oiler_file
-from precomp_utils import *
-from build_scenarios import *
-from build_sections import *
-from jumps import *
+import time
 import toml
+
+from sherifs.utils import sap
+from sherifs.precom.read_precomp_files import read_oiler_file
+from sherifs.precom.precomp_utils import *
+from sherifs.precom.build_scenarios import *
+from sherifs.precom.build_sections import *
+from sherifs.precom.jumps import *
 
 # If you are running SHERIFS with spyder define "input_file" here. Then run.
 
 def build_rup(input_file):
     debut = time.time()
 
-
-    print ('\nPreparting the rutpures for SHERIFS\n')
+    print('\nPreparing the ruptures for SHERIFS\n')
 
     # Load the input file
     param = toml.load(input_file)
 
-    # lines = open(input_file,'r').readlines()
-    # lines = [line.rstrip('\n') for line in lines]
-    # apply_sr_reduction = 0.
-    # for line in lines:
-    #     if "Run_Name" in line :
-    #         Run_Name = line.split(':')[1].replace(' ','')
-    #     if "File_Oiler" in line :
-    #         File_Oiler = line.split(':')[1].replace(' ','')
-    #     if "File_out" in line :
-    #         File_out = line.split(':')[1].replace(' ','')
-    #     if "File_Mmax_areas" in line :
-    #         File_Mmax_areas = line.split(':')[1].replace(' ','')
-    #     if "Model_name" in line :
-    #         Model_name = line.split(':')[1].replace(' ','')
-    #     if "rupture_mesh_spacing" in line :
-    #         rupture_mesh_spacing = float(line.split(':')[1].replace(' ',''))
-    #
-    #
-    #
-    #     if "File_Mu" in line :
-    #         f_mu = line.split(':')[1].replace(' ','')
-    #
-    #     if "jump_dist" in line :
-    #         jump_dist = float(line.split(':')[1].replace(' ',''))
-    #     if "apply_sr_reduction" in line :
-    #         apply_sr_reduction = float(line.split(':')[1].replace(' ',''))
+    # This is the path to the .toml file. All the paths in this file are
+    # relative to its position
+    root = os.path.dirname(input_file)
 
     Run_Name = param["Run_Name"]
     Set_Name = param["pre"]["Set_Name"]
-    File_Oiler = param["pre"]["File_Oiler"]
-    File_out = param["pre"]["File_out"]
-    File_Mmax_areas = param["pre"]["File_Mmax_areas"]
+
+    File_Oiler = os.path.join(root, param["pre"]["File_Oiler"])
+    File_out = os.path.join(root, param["pre"]["File_out"])
+    File_Mmax_areas = os.path.join(root, param["pre"]["File_Mmax_areas"])
     Model_name = param["pre"]["Model_name"]
     rupture_mesh_spacing = param["pre"]["rupture_mesh_spacing"]
-    f_mu = param["pre"]["File_Mu"]
+    f_mu = os.path.join(root, param["pre"]["File_Mu"])
     jump_dist = param["pre"]["jump_dist"]
     apply_sr_reduction = param["pre"]["apply_sr_reduction"]
 
-    path = "input/"+Run_Name
+    path = os.path.join(root, "../Example" + Run_Name)
 
     # Reading things
-    faults,nb_faults = read_oiler_file(File_Oiler)
+    faults, nb_faults = read_oiler_file(File_Oiler)
 
     #bounding box for faults
     maxmin_pt_lon, maxmin_pt_lat = find_bounding_box(faults)
@@ -125,7 +98,7 @@ def build_rup(input_file):
     binning_in_mag, nb_rup_per_bin = mag_bin_distr(f_for_sherifs)
 
     # CORE : create the list of ruptures
-    rup,rup_param = build_scenarios(f_for_sherifs,
+    rup, rup_param = build_scenarios(f_for_sherifs,
     id_sections_fault,
     sections_areas_tot,
     sections_lengths_tot,
@@ -134,13 +107,13 @@ def build_rup(input_file):
     section_jump)
 
     # write SHERIFS input file for faults
-    write_section_json(f_for_sherifs,File_out)
+    write_section_json(f_for_sherifs, File_out)
 
     # write SHERIFS input file for ruptures
-    write_rupt_file(rup,Run_Name,Set_Name)
+    write_rupt_file(root, rup, Run_Name, Set_Name)
 
     # Create visualization of ruptures
-    visu_rup(f_for_sherifs,rup,rup_param[0],rup_param[1],path)
+    visu_rup(f_for_sherifs, rup, rup_param[0], rup_param[1], path)
 
     fin = time.time()-debut
     days = int(fin / 24. / 60. / 60.)

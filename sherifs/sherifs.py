@@ -6,14 +6,15 @@ Seismic Hazard and Earthquake Rates In Fault Systems
 
 Version 1.3
 
-The Seismic Hazard and Earthquake Rates In Fault Systems (SHERIFS) program, is an open source collection of
-tools for calculating the rates of earthquakes on each fault of a fault system
-allowing complex Fault to Fault ruptures following the methodology presented
-in Chartier et al 2017. It includes a set of tools for checking and visualizing input and outputs
-and producing JPEG illustrations.It is released under the GNU Lesser General Public License.
-The SHERIFS program is a code developed in the framework of the PhD thesis of Thomas Chartier
-under the supervision of Oona Scotti (IRSN) and Hélène Lyon-Caen (ENS).
-
+The Seismic Hazard and Earthquake Rates In Fault Systems (SHERIFS) program, is
+an open source collection of tools for calculating the rates of earthquakes on
+each fault of a fault system allowing complex Fault to Fault ruptures following
+the methodology presented in Chartier et al 2017. It includes a set of tools
+for checking and visualizing input and outputs and producing JPEG
+illustrations. It is released under the GNU Lesser General Public License.  The
+SHERIFS program is a code developed in the framework of the PhD thesis of
+Thomas Chartier under the supervision of Oona Scotti (IRSN) and Hélène
+Lyon-Caen (ENS).
 
 @author: Thomas Chartier
 contact : chartier@geologie.ens.fr
@@ -22,27 +23,18 @@ contact : chartier@geologie.ens.fr
 import time
 import os
 import sys
-from lib.utils import sap
+from sherifs.utils import sap
 import toml
 
-# If you are running SHERIFS with spyder define "input_file" here. Then run.
 
 def SHERIFS(input_file):
     debut = time.time()
 
-    path_actuel=os.path.dirname(os.path.abspath(__file__))
-    path_lib = path_actuel + '/lib'
-    sys.path.append(path_lib)
-    path_f = path_lib + '/logic_tree'
-    sys.path.append(path_f)
-    path_f = path_lib + '/file_writer'
-    sys.path.append(path_f)
+    from sherifs.logic_tree.Sources_Logic_Tree_Creator import (
+        Sources_Logic_Tree_Creator)
+    from sherifs.file_writer.OQ_job_Creator import OQ_job_Creator
 
-    #from GMPE_Logic_Tree_Creator import GMPE_Logic_Tree_Creator
-    from Sources_Logic_Tree_Creator import Sources_Logic_Tree_Creator
-    from OQ_job_Creator import OQ_job_Creator
-
-    print ('\nRunning SHERIFS version 1.3\n')
+    print('\nRunning SHERIFS version 1.3\n')
 
     '''###########################'''
     '''       Input files         '''
@@ -103,15 +95,15 @@ def SHERIFS(input_file):
             path += "/"
             param["dirpath"] = path
 
-    #create folder structure
+    # Create folder structure
     if not os.path.exists(path+str(Run_Name)):
         os.makedirs(path+str(Run_Name))
     if not os.path.exists(path+str(Run_Name) + '/results'):
-         os.makedirs(path+str(Run_Name) + '/results')
+        os.makedirs(path+str(Run_Name) + '/results')
     if not os.path.exists(path+str(Run_Name) + '/LOG'):
-         os.makedirs(path+str(Run_Name) + '/LOG')
+        os.makedirs(path+str(Run_Name) + '/LOG')
     if not os.path.exists(path+str(Run_Name) + '/ssm'):
-         os.makedirs(path+str(Run_Name) + '/ssm')
+        os.makedirs(path+str(Run_Name) + '/ssm')
 
     #Domain_in_model = []
 
@@ -138,8 +130,7 @@ def SHERIFS(input_file):
                                     #create the source models logic tree
     '''
 
-    Sources_Logic_Tree_Creator(param,calculation_log_file)
-                                #create the source models logic tree
+    Sources_Logic_Tree_Creator(param, calculation_log_file)
 
     calculation_log_file.close()
 
@@ -150,14 +141,12 @@ def SHERIFS(input_file):
     #if build_GMPE_LT == True:
     #    GMPE_Logic_Tree_Creator(Run_Name,Domain_in_model) #create the logic tree of GMPEs
 
-
     fin = time.time()-debut
     days = int(fin / 24. / 60. / 60.)
     hours = int((fin - days * 24. * 60. * 60.) / 60. / 60.)
     minutes = int((fin - days * 24. * 60. * 60. - hours* 60. * 60. ) / 60.)
     seconds = (fin - days * 24. * 60. * 60. - hours* 60. * 60.  - minutes * 60.)
     print("The calculation took: " + str(days) + ' days, ' + str(hours) + ' hours, ' + str(minutes) + ' minutes and ' + str(seconds) + ' seconds.')
-
 
 
 def main(argv):
