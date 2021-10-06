@@ -47,7 +47,7 @@ setup(
     author_email='thomas.chartier@globalquakemodel.org',
     maintainer='Thomas Chartier',
     maintainer_email='thomas.chartier@globalquakemodel.org',
-    classifiers=(
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Education',
         'Intended Audience :: Science/Research',
@@ -55,7 +55,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
         'Topic :: Scientific/Engineering',
-    ),
+    ],
     namespace_packages=['sherifs'],
     keywords="seismic hazard",
     license="LGPL2.1",
