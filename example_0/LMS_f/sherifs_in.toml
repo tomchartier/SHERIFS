@@ -1,6 +1,5 @@
-Run_Name = "Example"
-
-dirpath = ""
+Run_Name = "example"
+dirpath = "../input"
 
 # 0 is for the precomputation
 
@@ -35,7 +34,7 @@ faults_file = "../data/Example/sections.geojson"
 rupture_file = "../Example/ruptures.txt"
 
 # Logic Tree file
-LT_file = "../Example/LT.toml"
+LT_file = "../input/example/LT.toml"
 
 # optional
 local_MFD_file = "../data/Example/mfd_area.geojson"
@@ -51,7 +50,7 @@ file_prop_bg = "../data/Example/Background_properties.txt"
 use_host_model = "False"
 host_model_file = "_.xml"
 # if smooth is used
-smoothing_xml = "../Example/bg"
+smoothing_xml = "../input/example/bg"
 
 # if include all faults is tru, include faults even outside the background
 include_all_faults = "True"

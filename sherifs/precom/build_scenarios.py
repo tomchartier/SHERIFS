@@ -7,8 +7,9 @@ Seismic Hazard and Earthquake Rates In Fault Systems
 import os
 import time
 import numpy as np
-from pathlib import Path
 from sherifs.precom.precomp_utils import *
+from shapely.geometry import MultiPoint
+from geojson import Feature, FeatureCollection, dump
 
 
 def mag_bin_distr(f_for_sherifs):
@@ -413,11 +414,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
 
 def write_rupt_file(root, rup, Run_Name, Set_Name):
 
-    f_name = "input/"+Run_Name+"/ruptures.txt"
-    folder = os.path.join(root, 'input', Run_Name)
-    Path(folder).mkdir(parents=True, exist_ok=True)
-    f_name = os.path.join(folder, 'ruptures.txt')
-
+    f_name = os.path.join(root, 'ruptures.txt')
     f = open(f_name, 'w')
     f.write("set "+Set_Name+"\n")
     for rup_i in rup:
@@ -432,16 +429,11 @@ def write_rupt_file(root, rup, Run_Name, Set_Name):
     print("Rupture file built")
 
 def visu_rup(f_for_sherifs, rup, rups_length, rups_mag, path):
-    from shapely.geometry import MultiPoint
-    from geojson import Feature, FeatureCollection,dump
-    import os
 
     north_shift = 0.08
-
     for s in range(len(f_for_sherifs)):
         if len(f_for_sherifs[s]["rup_id"]) > 3. :
             features = []
-            sections = []
             z = 0
             id_rup = 0
             for rup_i in rup :

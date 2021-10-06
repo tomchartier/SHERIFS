@@ -15,6 +15,7 @@ import os
 import sys
 import time
 import toml
+from pathlib import Path
 
 from sherifs.utils import sap
 from sherifs.precom.read_precomp_files import read_oiler_file
@@ -38,6 +39,10 @@ def build_rup(input_file):
     # relative to its position
     root = os.path.dirname(input_file)
 
+    # This is the path where the output from build_ruptures will be created
+    dirpath = os.path.join(root, param["dirpath"])
+    Path(dirpath).mkdir(parents=True, exist_ok=True)
+
     Run_Name = param["Run_Name"]
     Set_Name = param["pre"]["Set_Name"]
 
@@ -50,7 +55,7 @@ def build_rup(input_file):
     jump_dist = param["pre"]["jump_dist"]
     apply_sr_reduction = param["pre"]["apply_sr_reduction"]
 
-    path = os.path.join(root, "../Example" + Run_Name)
+    path = os.path.join(dirpath, Run_Name)
 
     # Reading things
     faults, nb_faults = read_oiler_file(File_Oiler)
@@ -79,7 +84,7 @@ def build_rup(input_file):
                               jump_dist, path, force_jump_on_fault)
 
     # export section points
-    export_sections_pts(f_for_sherifs,path)
+    export_sections_pts(f_for_sherifs, path)
 
     # find max rupture size for each section
     f_for_sherifs = find_sections_Mmax(f_for_sherifs,File_Mmax_areas)
@@ -101,7 +106,7 @@ def build_rup(input_file):
     write_section_json(f_for_sherifs, File_out)
 
     # write SHERIFS input file for ruptures
-    write_rupt_file(root, rup, Run_Name, Set_Name)
+    write_rupt_file(path, rup, Run_Name, Set_Name)
 
     # Create visualization of ruptures
     visu_rup(f_for_sherifs, rup, rup_param[0], rup_param[1], path)

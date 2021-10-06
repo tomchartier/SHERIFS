@@ -28,6 +28,7 @@ from sherifs.file_writer.Source_Model import *
 
 
 class Sources_Logic_Tree_Creator:
+
     def __init__(self, param, calculation_log_file):
         self.param = param
 
@@ -67,26 +68,25 @@ class Sources_Logic_Tree_Creator:
         self.initialize()
 
     def initialize(self):
-        path = self.param["dirpath"]
-        LT_file = path+self.Run_Name+'/Sources_Logic_tree.xml'
+        path = self.param["path"]
+        LT_file = os.path.join(path, self.Run_Name, 'Sources_Logic_tree.xml')
+        LT_log_name = os.path.join(path, self.Run_Name,
+                                   self.param["main"]["LT_file"])
 
-        #LT_log_name  =  'input/'+str(self.Run_Name)+'/LT_log.txt'
-        LT_log_name  =  self.param["main"]["LT_file"]
-
-        lt_info_file = open(path+self.Run_Name + '/ssm/lt_branches_id.txt','w')
+        tmp = os.path.join(path, self.Run_Name, 'ssm', 'lt_branches_id.txt')
+        lt_info_file = open(tmp, 'w')
 
         lt_info_file.write("id\tmodel\tmfd\trup_set\tbackground\tscaling\t")
         lt_info_file.write("sample\n")
 
 #        reading_file = False
-        if not os.path.exists(LT_log_name) :
-            print('ERROR : Please provide a LT_file file \n \
-             See the user manual for guidelines and \
-              the example for file setup example.')
-            #print('ERROR : Please provide a LT_log.txt file \n See the user manual for guidelines and the example for file setup example.')
+        if not os.path.exists(LT_log_name):
+            msg = "Did not find {:s}\n".format(LT_log_name)
+            msg += "Please provide a LT_file file. See the user manual for "
+            msg += "guidelines and the example for file setup example"
+            print(msg)
             exit()
-
-        else : #get from the xml file
+        else :
             LT = toml.load(LT_log_name)
             model_hyps = LT["Models"]
             mfd_hyps = LT["MFD_shape"]
