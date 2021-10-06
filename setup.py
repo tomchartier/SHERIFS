@@ -38,8 +38,7 @@ setup(
     description=README,
     url=url,
     packages=find_packages(exclude=['tests', 'tests.*']),
-    # Minimal requirements, for a complete list see requirements-*.txt
-    # matplotlib is brought by the openquake engine
+    # Minimal requirements, for a complete list see requirements.txt
     install_requires=[
         'geojson',
     ],
