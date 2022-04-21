@@ -869,7 +869,7 @@ class Source_Model_Creator:
             # sclaling law as called by openquake
             if self.selected_ScL == 'Le2010' :
                 ScL_oq = 'Leonard2014_SCR'
-            if self.selected_ScL == 'WC1994' :
+            elif self.selected_ScL == 'WC1994' :
                 ScL_oq = 'WC1994'
             else : #default Scaling relationship for opanquake
                 ScL_oq = 'WC1994'
