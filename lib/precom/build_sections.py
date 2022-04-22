@@ -29,6 +29,13 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
     sections_areas_tot = []
     id_sections_fault = []
 
+
+    #TODO clean up hard variables
+    max_section_length = 25.
+    max_num_sections = 6
+    #use for the intermolation if the fault is not precise enough
+    distance_resolution = 1.
+
     if not os.path.exists(path+"/qgis"):
         os.makedirs(path+"/qgis")
     file_section_tips = open(path+"/qgis/sect_tips.csv",'w')
@@ -47,12 +54,12 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
         id_sections_fault_i = []
 
         # if the number of points is too small for the length, we interpolate new points
-        if len(lons_tot) < f_lengths[fi]/3.:
+        if len(lons_tot) < f_lengths[fi]/distance_resolution:
             inter_lon_i, inter_lat_i = [], []
 
             for i in range(len(lons_tot)-1):
                 di = distance(lons_tot[i],lats_tot[i],lons_tot[i+1],lats_tot[i+1])
-                nb_extra_pts = int(di/3.)
+                nb_extra_pts = int(di/distance_resolution)
                 if i == len(lons_tot)-2 :
                     if nb_extra_pts > 1:
                         inter_lon_i += list(np.linspace(lons_tot[i],
@@ -78,7 +85,7 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
             lons_tot, lats_tot = inter_lon_i, inter_lat_i
 
 
-        if f_lengths[fi] < 35. : #TODO clean up hard variables
+        if f_lengths[fi] < max_section_length :
             f_name = str(fi)
             f_id += 1
             f_for_sherifs.update({f_id:{'f_name' : f_name,
@@ -101,22 +108,23 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
             for i in range(len(lons_tot)-1):
                 dists.append(distance(lons_tot[i],lats_tot[i],
                                      lons_tot[i+1],lats_tot[i+1]))
-            if f_lengths[fi] < 125. :
-                if max(dists) > 25. :
+            if f_lengths[fi] < max_section_length*max_num_sections :
+                if max(dists) > max_section_length :
                     section_lenght = max(dists)
                     nb_sections = int(round(f_lengths[fi]/section_lenght))
                 else :
                     nb_sections = 1
                     section_lenght = f_lengths[fi]/float(nb_sections)
-                    while section_lenght > 25.  :
+                    while section_lenght > max_section_length  :
                         nb_sections += 1
                         section_lenght = f_lengths[fi]/float(nb_sections)
 
             else :
-                if max(dists) > f_lengths[fi]/5. :
-                    nb_sections = 5
+                if max(dists) > f_lengths[fi]/(max_num_sections-1) :
+                    nb_sections = max_num_sections-1
                 else :
-                    nb_sections = 6
+                    nb_sections = max_num_sections
+
 
             if nb_sections != 1 :
                 # Find cutting points
@@ -171,6 +179,7 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
                     sections_lengths_tot.append(length)
                     sections_areas_tot.append(area)
                     id_sections_fault_i.append(f_id)
+
                 #for the last one :
                 if do_last == True:
                     lons = lons_tot[index_cut:]
@@ -251,6 +260,9 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
 
     if round(sum(sections_lengths_tot)) != round(sum(f_lengths)):
         print("!!!!!\n ERROR! There are ",round(sum(f_lengths)-sum(sections_lengths_tot)), " km of faults missing.")
+
+
+
 
     return f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot
 
