@@ -17,6 +17,96 @@ from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 
 
+def converts_to_sections(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
+
+    # for all faults longer than 50 km cut them either in roughly 25 km long sections
+    # or in 5 sections if the faults is longer than 25 x 5 = 125 km
+    f_for_sherifs = {}
+    f_lons = []
+    f_lats = []
+    f_id = -1
+    sections_lengths_tot = []
+    sections_areas_tot = []
+    id_sections_fault = []
+
+
+    #TODO clean up hard variables
+    max_section_length = 40.
+    max_num_sections = 6
+
+    #use for the intermolation if the fault is not precise enough
+    distance_resolution = 0.5
+
+    if not os.path.exists(path+"/qgis"):
+        os.makedirs(path+"/qgis")
+    file_section_tips = open(path+"/qgis/sect_tips.csv",'w')
+    file_section_tips.write("lon,lat\n")
+
+    # check if the smallest fault is large enough for discretization
+    error_msg = "A fault is too small for the discretization. Min length :"
+    error_msg += str(round(min(f_lengths),3))
+    error_msg += " km."
+    assert (min(f_lengths)> 2. * rupture_mesh_spacing), error_msg
+
+    nb_faults = len(faults)
+    for fi in range(nb_faults):
+        lons_tot = [i[0] for i in faults[fi]['geometry']["coordinates"]]
+        lats_tot = [i[1] for i in faults[fi]['geometry']["coordinates"]]
+        id_sections_fault_i = []
+
+        # if the number of points is too small for the length, we interpolate new points
+        if len(lons_tot) < f_lengths[fi]/distance_resolution:
+            inter_lon_i, inter_lat_i = [], []
+
+            for i in range(len(lons_tot)-1):
+                di = distance(lons_tot[i],lats_tot[i],lons_tot[i+1],lats_tot[i+1])
+                nb_extra_pts = int(di/distance_resolution)
+                if i == len(lons_tot)-2 :
+                    if nb_extra_pts > 1:
+                        inter_lon_i += list(np.linspace(lons_tot[i],
+                                                        lons_tot[i+1],
+                                                        nb_extra_pts))
+                        inter_lat_i += list(np.linspace(lats_tot[i],
+                                                        lats_tot[i+1],
+                                                        nb_extra_pts))
+                    else :
+                        inter_lon_i += [lons_tot[i],lons_tot[i+1]]
+                        inter_lat_i += [lats_tot[i],lats_tot[i+1]]
+                else :
+                    if nb_extra_pts > 1:
+                        inter_lon_i += list(np.linspace(lons_tot[i],
+                                                        lons_tot[i+1],
+                                                        nb_extra_pts))[:-1]
+                        inter_lat_i += list(np.linspace(lats_tot[i],
+                                                        lats_tot[i+1],
+                                                        nb_extra_pts))[:-1]
+                    else :
+                        inter_lon_i += [lons_tot[i],lons_tot[i+1]][:-1]
+                        inter_lat_i += [lats_tot[i],lats_tot[i+1]][:-1]
+            lons_tot, lats_tot = inter_lon_i, inter_lat_i
+
+
+        f_name = str(fi)
+        f_id += 1
+        f_for_sherifs.update({f_id:{'f_name' : f_name,
+                             'lons' : lons_tot,
+                             'lats' : lats_tot,
+                             'oiler_id' : fi,
+                            'oiler_name' : faults[fi]['properties']["name"],
+                                'oiler_fid' : faults[fi]['properties']["fid"],
+                             'length' : f_lengths[fi]}})
+
+        file_section_tips.write(str(lons_tot[0])+","+str(lats_tot[0])+"\n")
+        file_section_tips.write(str(lons_tot[-1])+","+str(lats_tot[-1])+"\n")
+
+        sections_lengths_tot.append(f_lengths[fi])
+        sections_areas_tot.append(f_areas[fi])
+        id_sections_fault_i.append(f_id)
+
+        id_sections_fault.append(id_sections_fault_i)
+
+    return f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot
+
 def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
 
     # for all faults longer than 50 km cut them either in roughly 25 km long sections
@@ -31,10 +121,10 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
 
 
     #TODO clean up hard variables
-    max_section_length = 25.
+    max_section_length = 40.
     max_num_sections = 6
     #use for the intermolation if the fault is not precise enough
-    distance_resolution = 1.
+    distance_resolution = 0.5
 
     if not os.path.exists(path+"/qgis"):
         os.makedirs(path+"/qgis")

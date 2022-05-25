@@ -78,6 +78,13 @@ def build_rup(input_file):
 
     path = "input/"+Run_Name
 
+    if  "sectionning" in param["pre"].keys() :
+        if param["pre"]["sectionning"] in ["false","False"]:
+            do_sectionning = False
+        else :
+            do_sectionning = True
+
+
     # Reading things
     faults,nb_faults = read_oiler_file(File_Oiler)
 
@@ -90,12 +97,20 @@ def build_rup(input_file):
     # calc fault dimensions
     f_lengths, f_areas = calc_f_dims(faults,)
 
-    # cutting into smaller sections
-    f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot = cut_faults(faults,
-    f_lengths,
-    f_areas,
-    path,
-    rupture_mesh_spacing)
+    if do_sectionning == True :
+        # cutting into smaller sections
+        f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot = cut_faults(faults,
+        f_lengths,
+        f_areas,
+        path,
+        rupture_mesh_spacing)
+    else :
+        # converts faults to sections 
+        f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot = converts_to_sections(faults,
+        f_lengths,
+        f_areas,
+        path,
+        rupture_mesh_spacing)
 
     # force jumps
     force_jump_on_fault = force_jump_list()
