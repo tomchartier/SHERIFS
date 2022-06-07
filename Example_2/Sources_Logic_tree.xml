@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nrml xmlns:gml="http://www.opengis.net/gml"
+	xmlns="http://openquake.org/xmlns/nrml/0.5">
+	<logicTree logicTreeID="lt1">
+		<logicTreeBranchingLevel branchingLevelID="bl_1">
+			<logicTreeBranchSet uncertaintyType="sourceModel"
+							branchSetID="bs_1">
+				<logicTreeBranch branchID= "b_0">
+					<uncertaintyModel> 
+							ssm/Example_sections.xml 
+							ssm/b_0/Source_model_1.xml
+							ssm/b_0/bg_1.xml
+							ssm/b_0/single_sec_rup.xml
+					</uncertaintyModel>
+					<uncertaintyWeight>0.5</uncertaintyWeight>
+				</logicTreeBranch>
+				<logicTreeBranch branchID= "b_1">
+					<uncertaintyModel> 
+							ssm/Example_sections.xml 
+							ssm/b_1/Source_model_1.xml
+							ssm/b_1/bg_1.xml
+							ssm/b_1/single_sec_rup.xml
+					</uncertaintyModel>
+					<uncertaintyWeight>0.5</uncertaintyWeight>
+				</logicTreeBranch>
+			</logicTreeBranchSet>
+		</logicTreeBranchingLevel>
+	</logicTree>
+</nrml>
