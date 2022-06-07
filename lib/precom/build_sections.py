@@ -88,12 +88,18 @@ def converts_to_sections(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
 
         f_name = str(fi)
         f_id += 1
+        try:
+            oiler_name = faults[fi]['properties']["name"]
+            oiler_fid = faults[fi]['properties']["fid"]
+        except :
+            oiler_name = None
+            oiler_fid = f_id
         f_for_sherifs.update({f_id:{'f_name' : f_name,
                              'lons' : lons_tot,
                              'lats' : lats_tot,
-                             'oiler_id' : fi,
-                            'oiler_name' : faults[fi]['properties']["name"],
-                                'oiler_fid' : faults[fi]['properties']["fid"],
+                             'oiler_id' : oiler_fid,
+                            'oiler_name' : oiler_name,
+                            'oiler_fid' : oiler_fid,
                              'length' : f_lengths[fi]}})
 
         file_section_tips.write(str(lons_tot[0])+","+str(lats_tot[0])+"\n")
@@ -440,10 +446,17 @@ def to_sherifs(f_for_sherifs,faults,Model_name,apply_sr_reduction,f_mu):
     # top - bottom - dip - orientation - defaults
     for si in range(nb_sections):
         fi = f_for_sherifs[si]["oiler_id"]
-        f_for_sherifs[si]["up_s_d"] = faults[fi]['properties']["usd"]
-        f_for_sherifs[si]["lo_s_d"] = faults[fi]['properties']["lsd"]
-        f_for_sherifs[si]["dip"] = faults[fi]['properties']["dip"]
-        f_for_sherifs[si]["oriented"] = faults[fi]['properties']["dip_dir"]
+        if not f_for_sherifs[si]["oiler_name"] == None :
+            f_for_sherifs[si]["up_s_d"] = faults[fi]['properties']["usd"]
+            f_for_sherifs[si]["lo_s_d"] = faults[fi]['properties']["lsd"]
+            f_for_sherifs[si]["dip"] = faults[fi]['properties']["dip"]
+            f_for_sherifs[si]["oriented"] = faults[fi]['properties']["dip_dir"]
+        else :
+            f_for_sherifs[si]["up_s_d"] = faults[si]['properties']["up_s_d"]
+            f_for_sherifs[si]["lo_s_d"] = faults[si]['properties']["lo_s_d"]
+            f_for_sherifs[si]["dip"] = faults[si]['properties']["dip"]
+            f_for_sherifs[si]["oriented"] = faults[si]['properties']["oriented"]
+
 
         # default for now but can be changed later
         f_for_sherifs[si]["Domain"] = "Active Shallow Crust"
@@ -457,36 +470,44 @@ def to_sherifs(f_for_sherifs,faults,Model_name,apply_sr_reduction,f_mu):
     # slip rate and mechanism
     for si in range(nb_sections):
         fi = f_for_sherifs[si]["oiler_id"]
-        if "v_rl" in faults[fi]['properties'].keys():
-            #using the format of the GEM GFDB
-            v_rl = abs(faults[fi]['properties']["v_rl"])
-            v_ex = faults[fi]['properties']["v_ex"]
-            slip_rate_moy = (v_rl**2 + v_ex**2)**0.5
-            err = (faults[fi]['properties']["e_rl"]**2 + faults[fi]['properties']["e_ex"]**2)**0.5
-            slip_rate_min = slip_rate_moy - err
-            slip_rate_max = slip_rate_moy + err
-            if slip_rate_min < 0. :
-                print("ERROR - slip rate min is negative !")
+        if f_for_sherifs[si]["oiler_name"] == None :
+            fi = si
+            slip_rate_moy = abs(faults[fi]['properties']["sr_mean"])
+            slip_rate_min = abs(faults[fi]['properties']["sr_min"])
+            slip_rate_max = abs(faults[fi]['properties']["sr_max"])
+            rake = faults[fi]['properties']["rake"]
+        else:
+            if "v_rl" in faults[fi]['properties'].keys():
+                #using the format of the GEM GFDB
+                v_rl = abs(faults[fi]['properties']["v_rl"])
+                v_ex = faults[fi]['properties']["v_ex"]
+                slip_rate_moy = (v_rl**2 + v_ex**2)**0.5
+                err = (faults[fi]['properties']["e_rl"]**2 + faults[fi]['properties']["e_ex"]**2)**0.5
+                slip_rate_min = slip_rate_moy - err
+                slip_rate_max = slip_rate_moy + err
+                if slip_rate_min < 0. :
+                    print("ERROR - slip rate min is negative !")
 
-            if v_ex != 0. :
-                if abs(v_ex) < v_rl :
-                    rake = degrees(acos(abs(v_ex) / v_rl))
+                if v_ex != 0. :
+                    if abs(v_ex) < v_rl :
+                        rake = degrees(acos(abs(v_ex) / v_rl))
+                    else :
+                        rake = degrees(acos(v_rl / abs(v_ex)))
+                    if v_ex < 0 :
+                        rake = -rake
                 else :
-                    rake = degrees(acos(v_rl / abs(v_ex)))
-                if v_ex < 0 :
-                    rake = -rake
-            else :
-                rake = 0.
-        elif "sr" in faults[fi]['properties'].keys():
-            #using slip-rate direclty
-            slip_rate_moy = abs(faults[fi]['properties']["sr"])
-            err = abs(faults[fi]['properties']["e_sr"])
-            slip_rate_min = slip_rate_moy - err
-            slip_rate_max = slip_rate_moy + err
-            rake = abs(faults[fi]['properties']["rake"])
+                    rake = 0.
+            elif "sr" in faults[fi]['properties'].keys():
+                #using slip-rate direclty
+                slip_rate_moy = abs(faults[fi]['properties']["sr"])
+                err = abs(faults[fi]['properties']["e_sr"])
+                slip_rate_min = slip_rate_moy - err
+                slip_rate_max = slip_rate_moy + err
+                rake = abs(faults[fi]['properties']["rake"])
 
-        else :
-            print("Please check the format of the input geojson file")
+
+            else :
+                print("Please check the format of the input geojson file")
 
 
 

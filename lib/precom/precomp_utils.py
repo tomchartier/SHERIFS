@@ -31,7 +31,7 @@ def fault_length(lons,lats):
     for i in range(len(lons)-1):
         length += distance(lons[i], lats[i], lons[i+1], lats[i+1])
     return length
-    
+
 def find_bounding_box(faults):
     nb_faults = len(faults)
     maxmin_pt_lon, maxmin_pt_lat = [], []
@@ -41,7 +41,7 @@ def find_bounding_box(faults):
         maxmin_pt_lat.append([np.min([i[1] for i in faults[fi]['geometry']["coordinates"]]),
                              np.max([i[1] for i in faults[fi]['geometry']["coordinates"]])])
     return maxmin_pt_lon, maxmin_pt_lat
-    
+
 def find_possible_asso(maxmin_pt_lon,maxmin_pt_lat,plot_fig=False):
     d = 0.5
     assso_fault = []
@@ -62,7 +62,7 @@ def find_possible_asso(maxmin_pt_lon,maxmin_pt_lat,plot_fig=False):
             j_fault+=1
         assso_fault_i = list(set(assso_fault_i))
         assso_fault.append(assso_fault_i)
-        
+
     if plot_fig == True :
         x =[]
         for i in assso_fault:
@@ -71,7 +71,7 @@ def find_possible_asso(maxmin_pt_lon,maxmin_pt_lat,plot_fig=False):
         plt.xlabel("number of close faults to be considered for rupture jump")
         plt.ylabel("number of faults in this situation")
         plt.show()
-    
+
     return assso_fault
 
 def calc_f_dims(faults,plt_fig=False):
@@ -84,10 +84,16 @@ def calc_f_dims(faults,plt_fig=False):
 
         length_i = fault_length(lons_i,lats_i)
         f_lengths.append(length_i)
-        width_i =((faults[fi]['properties']['lsd']-
-                  faults[fi]['properties']['usd'])/
-                  sin(radians(faults[fi]['properties']['dip'])))
-        
+        try :
+            width_i =((faults[fi]['properties']['lsd']-
+                      faults[fi]['properties']['usd'])/
+                      sin(radians(faults[fi]['properties']['dip'])))
+        except :
+            width_i =((faults[fi]['properties']['lo_s_d']-
+                      faults[fi]['properties']['up_s_d'])/
+                      sin(radians(faults[fi]['properties']['dip'])))
+
+
         f_areas.append(length_i*width_i)
     if plt_fig ==True:
         plt.hist(f_lengths)
@@ -99,7 +105,7 @@ def calc_f_dims(faults,plt_fig=False):
     return f_lengths, f_areas
 
 
-      
+
 def calculate_initial_compass_bearing(pointA, pointB):
     """
     Calculates the bearing between two points.
@@ -169,8 +175,8 @@ def wc1994_median_mag( area, rake):
     else:
         # normal
         return 3.93 + 1.02 * np.log10(area)
-    
-    
+
+
 def mag_to_M0(mag):
     #returns Mo for a given mag
     M0 = 10. ** (1.5 * mag + 9.1)
