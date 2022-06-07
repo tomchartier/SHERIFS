@@ -162,11 +162,14 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
     too_many_jumps = 0
     too_many_zig_zag = 0
     not_diverse_enough = 0
+    
+    max_length = min([f_for_sherifs[sk]["max_possible_length"] for sk in range(nb_sections)])
 
     while last_l != len(rup):
         print("\n##\n-> Loop",loop)
         last_l = len(rup)
         for si in range(nb_sections):
+
             sec_fi = id_sections_fault[fi] #sections of the fault fi
             jumps = section_jump[si]
             si_rup = f_for_sherifs[si]["rup_id"]

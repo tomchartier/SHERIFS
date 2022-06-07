@@ -369,6 +369,9 @@ class Source_Model_Creator:
             re_use_mfd_pkl= True
             if not os.path.isfile(f_pkl_mdf):
                 re_use_mfd_pkl = False
+            if self.param["main"]["parameters"]["force_rerun"] == True :
+                re_use_mfd_pkl = False
+
             if re_use_mfd_pkl == False:
                 while abs(ratio_test-1) >self.fit_quality or math.isnan(ratio_test) == True:
                     MFDs = EQ_on_faults.EQ_on_faults_from_sr(self.Run_Name,
@@ -515,7 +518,6 @@ class Source_Model_Creator:
                     # write the single fault ruptures in the file
                     i_MFD = np.where(np.array(faults_names) == fault_name)[0][0]
                     MFD = OQ_entry_faults[i_MFD]
-
                     if sum(MFD)!=0:
                         source_id = source_id + 1
                         Fault_Name = self.Model_name + '_' + str(fault_name)
@@ -869,7 +871,7 @@ class Source_Model_Creator:
             # sclaling law as called by openquake
             if self.selected_ScL == 'Le2010' :
                 ScL_oq = 'Leonard2014_SCR'
-            if self.selected_ScL == 'WC1994' :
+            elif self.selected_ScL == 'WC1994' :
                 ScL_oq = 'WC1994'
             else : #default Scaling relationship for opanquake
                 ScL_oq = 'WC1994'

@@ -31,6 +31,7 @@ class Calc_Mmax():
 
         self.initialize()
     def initialize(self):
+
         self.Mmax_faults = [] #Mmax of each fault
         self.Mmax_scenario = [] #Mmax of each scenario
 
@@ -190,6 +191,7 @@ class Calc_Mmax():
 
 
             if self.dimention_used in ['A','Area'] : #the area is used
+                apply_dirty_fix = True
                 index_fault = 0
                 for area in self.faults_area:
                     if self.use_all_ScL_data == True :
@@ -203,8 +205,9 @@ class Calc_Mmax():
 
                         if self.faults_mecanism[index_fault] == 'S':
                             Mmax_i = coeff[2][3] + coeff[2][4] * np.log10(area/1000000.) + coeff[2][5]
+                    if apply_dirty_fix == True :
+                        Mmax_i -= 0.13
                     self.Mmax_faults.append(float("{:.1f}".format(Mmax_i)))
-
                     index_fault += 1
 
                 index_scenario = 0
@@ -264,8 +267,8 @@ class Calc_Mmax():
                             Mmax_max = 2. / 3. * (8.28 + 2.5 * np.log10(length)) - 6.07
                             Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
                         else :
-                            Mmax_min = 2. / 3. (coeff[1][1] + coeff[1][0] * np.log10(length)) - 6.07
-                            Mmax_max = 2. / 3. (coeff[1][2] + coeff[1][0] * np.log10(length)) - 6.07
+                            Mmax_min = 2. / 3. * (coeff[1][1] + coeff[1][0] * np.log10(length)) - 6.07
+                            Mmax_max = 2. / 3. * (coeff[1][2] + coeff[1][0] * np.log10(length)) - 6.07
                             Mmax_i = Mmax_min + d_le10 * (Mmax_max - Mmax_min)
                     self.Mmax_faults.append(float("{:.1f}".format(Mmax_i)))
 

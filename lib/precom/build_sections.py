@@ -17,7 +17,7 @@ from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 
 
-def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
+def converts_to_sections(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
 
     # for all faults longer than 50 km cut them either in roughly 25 km long sections
     # or in 5 sections if the faults is longer than 25 x 5 = 125 km
@@ -28,6 +28,14 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
     sections_lengths_tot = []
     sections_areas_tot = []
     id_sections_fault = []
+
+
+    #TODO clean up hard variables
+    max_section_length = 40.
+    max_num_sections = 6
+
+    #use for the intermolation if the fault is not precise enough
+    distance_resolution = 0.5
 
     if not os.path.exists(path+"/qgis"):
         os.makedirs(path+"/qgis")
@@ -47,12 +55,12 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
         id_sections_fault_i = []
 
         # if the number of points is too small for the length, we interpolate new points
-        if len(lons_tot) < f_lengths[fi]/3.:
+        if len(lons_tot) < f_lengths[fi]/distance_resolution:
             inter_lon_i, inter_lat_i = [], []
 
             for i in range(len(lons_tot)-1):
                 di = distance(lons_tot[i],lats_tot[i],lons_tot[i+1],lats_tot[i+1])
-                nb_extra_pts = int(di/3.)
+                nb_extra_pts = int(di/distance_resolution)
                 if i == len(lons_tot)-2 :
                     if nb_extra_pts > 1:
                         inter_lon_i += list(np.linspace(lons_tot[i],
@@ -78,7 +86,102 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
             lons_tot, lats_tot = inter_lon_i, inter_lat_i
 
 
-        if f_lengths[fi] < 35. : #TODO clean up hard variables
+        f_name = str(fi)
+        f_id += 1
+        try:
+            oiler_name = faults[fi]['properties']["name"]
+            oiler_fid = faults[fi]['properties']["fid"]
+        except :
+            oiler_name = None
+            oiler_fid = f_id
+        f_for_sherifs.update({f_id:{'f_name' : f_name,
+                             'lons' : lons_tot,
+                             'lats' : lats_tot,
+                             'oiler_id' : oiler_fid,
+                            'oiler_name' : oiler_name,
+                            'oiler_fid' : oiler_fid,
+                             'length' : f_lengths[fi]}})
+
+        file_section_tips.write(str(lons_tot[0])+","+str(lats_tot[0])+"\n")
+        file_section_tips.write(str(lons_tot[-1])+","+str(lats_tot[-1])+"\n")
+
+        sections_lengths_tot.append(f_lengths[fi])
+        sections_areas_tot.append(f_areas[fi])
+        id_sections_fault_i.append(f_id)
+
+        id_sections_fault.append(id_sections_fault_i)
+
+    return f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot
+
+def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
+
+    # for all faults longer than 50 km cut them either in roughly 25 km long sections
+    # or in 5 sections if the faults is longer than 25 x 5 = 125 km
+    f_for_sherifs = {}
+    f_lons = []
+    f_lats = []
+    f_id = -1
+    sections_lengths_tot = []
+    sections_areas_tot = []
+    id_sections_fault = []
+
+
+    #TODO clean up hard variables
+    max_section_length = 40.
+    max_num_sections = 6
+    #use for the intermolation if the fault is not precise enough
+    distance_resolution = 0.5
+
+    if not os.path.exists(path+"/qgis"):
+        os.makedirs(path+"/qgis")
+    file_section_tips = open(path+"/qgis/sect_tips.csv",'w')
+    file_section_tips.write("lon,lat\n")
+
+    # check if the smallest fault is large enough for discretization
+    error_msg = "A fault is too small for the discretization. Min length :"
+    error_msg += str(round(min(f_lengths),3))
+    error_msg += " km."
+    assert (min(f_lengths)> 2. * rupture_mesh_spacing), error_msg
+
+    nb_faults = len(faults)
+    for fi in range(nb_faults):
+        lons_tot = [i[0] for i in faults[fi]['geometry']["coordinates"]]
+        lats_tot = [i[1] for i in faults[fi]['geometry']["coordinates"]]
+        id_sections_fault_i = []
+
+        # if the number of points is too small for the length, we interpolate new points
+        if len(lons_tot) < f_lengths[fi]/distance_resolution:
+            inter_lon_i, inter_lat_i = [], []
+
+            for i in range(len(lons_tot)-1):
+                di = distance(lons_tot[i],lats_tot[i],lons_tot[i+1],lats_tot[i+1])
+                nb_extra_pts = int(di/distance_resolution)
+                if i == len(lons_tot)-2 :
+                    if nb_extra_pts > 1:
+                        inter_lon_i += list(np.linspace(lons_tot[i],
+                                                        lons_tot[i+1],
+                                                        nb_extra_pts))
+                        inter_lat_i += list(np.linspace(lats_tot[i],
+                                                        lats_tot[i+1],
+                                                        nb_extra_pts))
+                    else :
+                        inter_lon_i += [lons_tot[i],lons_tot[i+1]]
+                        inter_lat_i += [lats_tot[i],lats_tot[i+1]]
+                else :
+                    if nb_extra_pts > 1:
+                        inter_lon_i += list(np.linspace(lons_tot[i],
+                                                        lons_tot[i+1],
+                                                        nb_extra_pts))[:-1]
+                        inter_lat_i += list(np.linspace(lats_tot[i],
+                                                        lats_tot[i+1],
+                                                        nb_extra_pts))[:-1]
+                    else :
+                        inter_lon_i += [lons_tot[i],lons_tot[i+1]][:-1]
+                        inter_lat_i += [lats_tot[i],lats_tot[i+1]][:-1]
+            lons_tot, lats_tot = inter_lon_i, inter_lat_i
+
+
+        if f_lengths[fi] < max_section_length :
             f_name = str(fi)
             f_id += 1
             f_for_sherifs.update({f_id:{'f_name' : f_name,
@@ -101,22 +204,23 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
             for i in range(len(lons_tot)-1):
                 dists.append(distance(lons_tot[i],lats_tot[i],
                                      lons_tot[i+1],lats_tot[i+1]))
-            if f_lengths[fi] < 125. :
-                if max(dists) > 25. :
+            if f_lengths[fi] < max_section_length*max_num_sections :
+                if max(dists) > max_section_length :
                     section_lenght = max(dists)
                     nb_sections = int(round(f_lengths[fi]/section_lenght))
                 else :
                     nb_sections = 1
                     section_lenght = f_lengths[fi]/float(nb_sections)
-                    while section_lenght > 25.  :
+                    while section_lenght > max_section_length  :
                         nb_sections += 1
                         section_lenght = f_lengths[fi]/float(nb_sections)
 
             else :
-                if max(dists) > f_lengths[fi]/5. :
-                    nb_sections = 5
+                if max(dists) > f_lengths[fi]/(max_num_sections-1) :
+                    nb_sections = max_num_sections-1
                 else :
-                    nb_sections = 6
+                    nb_sections = max_num_sections
+
 
             if nb_sections != 1 :
                 # Find cutting points
@@ -171,6 +275,7 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
                     sections_lengths_tot.append(length)
                     sections_areas_tot.append(area)
                     id_sections_fault_i.append(f_id)
+
                 #for the last one :
                 if do_last == True:
                     lons = lons_tot[index_cut:]
@@ -251,6 +356,9 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
 
     if round(sum(sections_lengths_tot)) != round(sum(f_lengths)):
         print("!!!!!\n ERROR! There are ",round(sum(f_lengths)-sum(sections_lengths_tot)), " km of faults missing.")
+
+
+
 
     return f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot
 
@@ -338,10 +446,17 @@ def to_sherifs(f_for_sherifs,faults,Model_name,apply_sr_reduction,f_mu):
     # top - bottom - dip - orientation - defaults
     for si in range(nb_sections):
         fi = f_for_sherifs[si]["oiler_id"]
-        f_for_sherifs[si]["up_s_d"] = faults[fi]['properties']["usd"]
-        f_for_sherifs[si]["lo_s_d"] = faults[fi]['properties']["lsd"]
-        f_for_sherifs[si]["dip"] = faults[fi]['properties']["dip"]
-        f_for_sherifs[si]["oriented"] = faults[fi]['properties']["dip_dir"]
+        if not f_for_sherifs[si]["oiler_name"] == None :
+            f_for_sherifs[si]["up_s_d"] = faults[fi]['properties']["usd"]
+            f_for_sherifs[si]["lo_s_d"] = faults[fi]['properties']["lsd"]
+            f_for_sherifs[si]["dip"] = faults[fi]['properties']["dip"]
+            f_for_sherifs[si]["oriented"] = faults[fi]['properties']["dip_dir"]
+        else :
+            f_for_sherifs[si]["up_s_d"] = faults[si]['properties']["up_s_d"]
+            f_for_sherifs[si]["lo_s_d"] = faults[si]['properties']["lo_s_d"]
+            f_for_sherifs[si]["dip"] = faults[si]['properties']["dip"]
+            f_for_sherifs[si]["oriented"] = faults[si]['properties']["oriented"]
+
 
         # default for now but can be changed later
         f_for_sherifs[si]["Domain"] = "Active Shallow Crust"
@@ -355,36 +470,44 @@ def to_sherifs(f_for_sherifs,faults,Model_name,apply_sr_reduction,f_mu):
     # slip rate and mechanism
     for si in range(nb_sections):
         fi = f_for_sherifs[si]["oiler_id"]
-        if "v_rl" in faults[fi]['properties'].keys():
-            #using the format of the GEM GFDB
-            v_rl = abs(faults[fi]['properties']["v_rl"])
-            v_ex = faults[fi]['properties']["v_ex"]
-            slip_rate_moy = (v_rl**2 + v_ex**2)**0.5
-            err = (faults[fi]['properties']["e_rl"]**2 + faults[fi]['properties']["e_ex"]**2)**0.5
-            slip_rate_min = slip_rate_moy - err
-            slip_rate_max = slip_rate_moy + err
-            if slip_rate_min < 0. :
-                print("ERROR - slip rate min is negative !")
+        if f_for_sherifs[si]["oiler_name"] == None :
+            fi = si
+            slip_rate_moy = abs(faults[fi]['properties']["sr_mean"])
+            slip_rate_min = abs(faults[fi]['properties']["sr_min"])
+            slip_rate_max = abs(faults[fi]['properties']["sr_max"])
+            rake = faults[fi]['properties']["rake"]
+        else:
+            if "v_rl" in faults[fi]['properties'].keys():
+                #using the format of the GEM GFDB
+                v_rl = abs(faults[fi]['properties']["v_rl"])
+                v_ex = faults[fi]['properties']["v_ex"]
+                slip_rate_moy = (v_rl**2 + v_ex**2)**0.5
+                err = (faults[fi]['properties']["e_rl"]**2 + faults[fi]['properties']["e_ex"]**2)**0.5
+                slip_rate_min = slip_rate_moy - err
+                slip_rate_max = slip_rate_moy + err
+                if slip_rate_min < 0. :
+                    print("ERROR - slip rate min is negative !")
 
-            if v_ex != 0. :
-                if abs(v_ex) < v_rl :
-                    rake = degrees(acos(abs(v_ex) / v_rl))
+                if v_ex != 0. :
+                    if abs(v_ex) < v_rl :
+                        rake = degrees(acos(abs(v_ex) / v_rl))
+                    else :
+                        rake = degrees(acos(v_rl / abs(v_ex)))
+                    if v_ex < 0 :
+                        rake = -rake
                 else :
-                    rake = degrees(acos(v_rl / abs(v_ex)))
-                if v_ex < 0 :
-                    rake = -rake
-            else :
-                rake = 0.
-        elif "sr" in faults[fi]['properties'].keys():
-            #using slip-rate direclty
-            slip_rate_moy = abs(faults[fi]['properties']["sr"])
-            err = abs(faults[fi]['properties']["e_sr"])
-            slip_rate_min = slip_rate_moy - err
-            slip_rate_max = slip_rate_moy + err
-            rake = abs(faults[fi]['properties']["rake"])
+                    rake = 0.
+            elif "sr" in faults[fi]['properties'].keys():
+                #using slip-rate direclty
+                slip_rate_moy = abs(faults[fi]['properties']["sr"])
+                err = abs(faults[fi]['properties']["e_sr"])
+                slip_rate_min = slip_rate_moy - err
+                slip_rate_max = slip_rate_moy + err
+                rake = abs(faults[fi]['properties']["rake"])
 
-        else :
-            print("Please check the format of the input geojson file")
+
+            else :
+                print("Please check the format of the input geojson file")
 
 
 

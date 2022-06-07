@@ -48,7 +48,7 @@ class Sources_Logic_Tree_Creator:
         if param["main"]["fault_input_type"] == "geojson" :
             self.faults_file = param["main"]["faults_file"]
             self.File_geom = self.faults_file #geometry is included
-        elif param[1]["fault_input_type"] == "txtsherifs" :
+        elif param["main"]["fault_input_type"] == "txtsherifs" :
             self.File_geom = param["main"]["File_geom"]
             self.File_prop = param["main"]["File_prop"]
 
@@ -166,6 +166,10 @@ class Sources_Logic_Tree_Creator:
 
                 if not id in used_id:
                     used_id.append(id)
+
+                if self.overwrite in ["True","true"] :
+                    rerun_bi = True
+
                 dict_LT.update({id:{
                                 "run_branch" : rerun_bi,
                                 "model" : bi[0],
@@ -186,7 +190,6 @@ class Sources_Logic_Tree_Creator:
                 lt_info_file.write(str(bi[5])+"\n")
 
             lt_info_file.close()
-
 
             # Extract the background hypotheses
             if not self.param["main"]["background"]["option_bg"] \
@@ -368,12 +371,16 @@ class Sources_Logic_Tree_Creator:
                     faults_data = {}
                     index_fault = 0
                     #extractions of the geometries of the faults
-                    geom_scenar = Geometry_scenario.Geom_scenar(faults_names,self.File_geom,model_hyp)
+                    if self.param["main"]["parameters"]["simplify_faults"]:
+                        simplify = True
+                    else :
+                        simplify
+                    geom_scenar = Geometry_scenario.Geom_scenar(faults_names,self.File_geom,model_hyp,simplify)
                     faults_lon = geom_scenar.faults_lon
                     faults_lat = geom_scenar.faults_lat
 
                     # clean up for duplicate points in the geometry
-                    for i_fault in range(len(faults)):
+                    for i_fault in range(len(faults_names)):
                         pairs = []
                         for i,j in zip(faults_lon[i_fault],faults_lat[i_fault]):
                             pair = [i,j]
@@ -388,7 +395,7 @@ class Sources_Logic_Tree_Creator:
                     simplify_faults = self.param["main"]["parameters"]["simplify_faults"]
                     if simplify_faults in ["True","true"] :
                         print("WARNING : fault simplification is applied!!")
-                        for i_fault in range(len(faults)):
+                        for i_fault in range(len(faults_names)):
                             faults_lon[i_fault] = [faults_lon[i_fault][0],faults_lon[i_fault][-1]]
                             faults_lat[i_fault] = [faults_lat[i_fault][0],faults_lat[i_fault][-1]]
 
@@ -411,9 +418,10 @@ class Sources_Logic_Tree_Creator:
                             dip = self.dip
                             upper_sismo_depth = self.upper_sismo_depth
                             lower_sismo_depth = self.lower_sismo_depth
-                            width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip))
-                            length = geom_scenar.length[index_fault] * 1000.
-                            area = length * width * 1000.
+                            width = (lower_sismo_depth - upper_sismo_depth) / math.sin(math.radians(dip)) * 1000. #m
+                            length = geom_scenar.length[index_fault] * 1000. #m
+                            area = length * width  #m2
+
 
                             if self.rake> -135. and self.rake< -45:
                                 mecanism = 'N'

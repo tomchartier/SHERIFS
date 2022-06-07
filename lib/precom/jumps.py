@@ -34,18 +34,18 @@ def find_jumps(f_for_sherifs,assso_fault,id_sections_fault,jump_dist,path,force_
         fi = f_for_sherifs[si]["oiler_id"]
         lons_i = f_for_sherifs[si]["lons"]
         lats_i = f_for_sherifs[si]["lats"]
-        
-            
+
+
         for fj in assso_fault[fi]:
             if fi != fj :
                 for sj in id_sections_fault[fj]:
-                    
+
                     shortest_pt = 100000
                     jump = False
                     maybe = False
                     lons_j = f_for_sherifs[sj]["lons"]
                     lats_j = f_for_sherifs[sj]["lats"]
-                    
+
                     for lon_i, lat_i in zip(lons_i,lats_i):
                         for lon_j, lat_j in zip(lons_j,lats_j):
                             dist = distance(lon_i, lat_i, lon_j, lat_j)
@@ -54,7 +54,7 @@ def find_jumps(f_for_sherifs,assso_fault,id_sections_fault,jump_dist,path,force_
                                 save = [lon_i, lat_i, lon_j, lat_j]
                     if shortest_pt < d_jump :
                         jump=True
-                        
+
                     if jump == True :
                         azi = calculate_initial_compass_bearing([lats_i[0],lons_i[0]],
                                                                 [lats_i[-1],lons_i[-1]])
@@ -64,7 +64,7 @@ def find_jumps(f_for_sherifs,assso_fault,id_sections_fault,jump_dist,path,force_
                             jump = False
                         if abs(azi-azj) > 255. and abs(azi-azj) < 185. :
                             jump = False
-                    
+
                     # check if the force need to be forced
                     if (jump == False
                     and f_for_sherifs[si]["oiler_name"] == f_for_sherifs[sj]["oiler_name"] and
@@ -97,7 +97,7 @@ def find_jumps(f_for_sherifs,assso_fault,id_sections_fault,jump_dist,path,force_
     #                             print(shortest_pt_k,shortest_pt)
     #                             print(f_for_sherifs[si]["oiler_fid"],f_for_sherifs[sj]["oiler_fid"])
     #                             print()
-                            
+
                     if jump == True :
                         si_jump.append(sj)
                         file_jumps_1.write(str(save[0])+','+str(save[1])+'\n')
@@ -113,6 +113,5 @@ def find_jumps(f_for_sherifs,assso_fault,id_sections_fault,jump_dist,path,force_
     file_jumps_line.close()
 
     print("There are ",sum([len(i) for i in section_jump]),"jumps.")
-    
+
     return section_jump
-    
