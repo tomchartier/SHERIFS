@@ -38,37 +38,8 @@ def build_rup(input_file):
     # Load the input file
     param = toml.load(input_file)
 
-    # lines = open(input_file,'r').readlines()
-    # lines = [line.rstrip('\n') for line in lines]
-    # apply_sr_reduction = 0.
-    # for line in lines:
-    #     if "Run_Name" in line :
-    #         Run_Name = line.split(':')[1].replace(' ','')
-    #     if "File_Oiler" in line :
-    #         File_Oiler = line.split(':')[1].replace(' ','')
-    #     if "File_out" in line :
-    #         File_out = line.split(':')[1].replace(' ','')
-    #     if "File_Mmax_areas" in line :
-    #         File_Mmax_areas = line.split(':')[1].replace(' ','')
-    #     if "Model_name" in line :
-    #         Model_name = line.split(':')[1].replace(' ','')
-    #     if "rupture_mesh_spacing" in line :
-    #         rupture_mesh_spacing = float(line.split(':')[1].replace(' ',''))
-    #
-    #
-    #
-    #     if "File_Mu" in line :
-    #         f_mu = line.split(':')[1].replace(' ','')
-    #
-    #     if "jump_dist" in line :
-    #         jump_dist = float(line.split(':')[1].replace(' ',''))
-    #     if "apply_sr_reduction" in line :
-    #         apply_sr_reduction = float(line.split(':')[1].replace(' ',''))
-
     Run_Name = param["Run_Name"]
     Set_Name = param["pre"]["Set_Name"]
-    File_Oiler = param["pre"]["File_Oiler"]
-    File_out = param["pre"]["File_out"]
     File_Mmax_areas = param["pre"]["File_Mmax_areas"]
     Model_name = param["pre"]["Model_name"]
     rupture_mesh_spacing = param["pre"]["rupture_mesh_spacing"]
@@ -78,15 +49,19 @@ def build_rup(input_file):
 
     path = "input/"+Run_Name
 
-    if  "sectionning" in param["pre"].keys() :
-        if param["pre"]["sectionning"] in ["false","False"]:
-            do_sectionning = False
-        else :
-            do_sectionning = True
+    if  "File_Oiler" in param["pre"].keys() :
+        do_sectionning = True
+        File_faults = param["pre"]["File_Oiler"]
+        File_out = param["pre"]["File_out"]
+
+    else :
+        do_sectionning = False
+        File_faults = param["pre"]["File_sections"]
+        File_out = File_faults
 
 
     # Reading things
-    faults,nb_faults = read_oiler_file(File_Oiler)
+    faults,nb_faults = read_oiler_file(File_faults)
 
     #bounding box for faults
     maxmin_pt_lon, maxmin_pt_lat = find_bounding_box(faults)
@@ -105,7 +80,7 @@ def build_rup(input_file):
         path,
         rupture_mesh_spacing)
     else :
-        # converts faults to sections 
+        # converts faults to sections
         f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot = converts_to_sections(faults,
         f_lengths,
         f_areas,

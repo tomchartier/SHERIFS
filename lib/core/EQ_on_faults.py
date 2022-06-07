@@ -1191,6 +1191,7 @@ class EQ_on_faults_from_sr():
         self.OQ_entry_scenarios = []
         for i in range(len(faults_names)):
             self.OQ_entry_faults.append(rup_rates.get(str(i)).get('rates'))
+            
         i_end = i+1
         if np.size(scenarios_names) != 0 :
             for j in range(len(scenarios_names)):

@@ -204,8 +204,9 @@ def wrt_source(txt,section_id,faults_names,faults_data,
     resample : list with a boolean and the resample parameters if needed
     vertical_faults : bool, option to force all faults vertical
     '''
-
     section_name = faults_names[section_id]
+
+
     txt += '    <kiteFaultSource name="'+section_name+'" id="'+str(section_id)+'" tectonicRegion="'+trt+'">\n'
 
     if geotype == "kite":
