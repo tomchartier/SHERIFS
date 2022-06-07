@@ -4,10 +4,10 @@ dirpath = ""
 
 # 0 is for the precomputation
 [pre]
-File_sections = "data/Example/sections.geojson"
-File_Mmax_areas = "data/Example/zone_Mmax.geojson"
-File_Mu = "data/Example/zone_Mu.geojson"
-Model_name = "Example"
+File_sections = "data/Example_2/sections.geojson"
+File_Mmax_areas = "data/Example_2/zone_Mmax.geojson"
+File_Mu = "data/Example_2/zone_Mu.geojson"
+Model_name = "Example_2"
 Set_Name = "set_1"
 rupture_mesh_spacing = 2.0
 jump_dist = 10.0
@@ -27,29 +27,29 @@ File_geom = "path/to/file"
 File_prop = "path/to/file"
 
 # if using geojson file (recommended)
-faults_file = "data/Example/sections.geojson"
+faults_file = "data/Example_2/sections.geojson"
 
 # rupture file
-rupture_file = "input/Example/ruptures.txt"
+rupture_file = "input/Example_2/ruptures.txt"
 
 # Logic Tree file
-LT_file = "input/Example/LT.toml"
+LT_file = "input/Example_2/LT.toml"
 
 # optional
-local_MFD_file = "data/Example/mfd_area.geojson"
+local_MFD_file = "data/Example_2/mfd_area.geojson"
 
 [main.background]
 # option_bg : smooth, zone, none
 option_bg = "zone"
 # bg geometry
-File_bg = "data/Example/bg.geojson"
+File_bg = "data/Example_2/bg.geojson"
 # if option zone
-file_prop_bg = "data/Example/Background_properties.txt"
+file_prop_bg = "data/Example_2/Background_properties.txt"
 # with option zone, possibility to use a host model
 use_host_model = "False"
 host_model_file = "_.xml"
 # if smooth is used
-smoothing_xml = "input/Example/bg"
+smoothing_xml = "input/Example_2/bg"
 
 # if include all faults is tru, include faults even outside the background
 include_all_faults = "True"
@@ -137,7 +137,7 @@ mfd_cat = "False"
 # part_mfd gets the same things than model mfd but for parts of the model
 # defined in the parts_gjson geojson file
 part_mfd = "True"
-parts_gjson = "data/Example/mfd_area.geojson"
+parts_gjson = "data/Example_2/mfd_area.geojson"
 
 # specific_section gets the participation rate (rate of all ruptures involving
 # this section) for a set of predefined sections. This can be useful for
