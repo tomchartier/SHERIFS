@@ -1319,7 +1319,22 @@ class Source_Model_Creator:
 
         self.list_src_files = list_src_files
 
+        '''#############################
+        ### Get the particiaption rates of faults
+        ##############################'''
+        import participation_rates as p_rates
+        dict_p_rates, mfd_total = p_rates.get_all_participation_rates(MFDs_to_pkl,self.param,faults_names)
+        bin_mag = p_rates.get_bin_mag(mfd_total,self.Mmin)
 
+        # plot the participation Rates
+        all_participation_rates = []
+        if not os.path.isdir(self.pathlog+'/participation_rates'):
+            os.makedirs(self.pathlog+'/participation_rates')
+        for fault in faults_names :
+            incremental_rate,cumulative_rate = p_rates.extract_rates(fault_name,dict_p_rates)
+            all_participation_rates.append(cumulative_rate)
+            ptf = self.pathlog+'/participation_rates/'+str(fault_name)+'.png'
+            p_rates.plot_participation_rates(bin_mag,incremental_rate,cumulative_rate,fault_name,ptf)
 
 
         '''#############################
@@ -1344,7 +1359,12 @@ class Source_Model_Creator:
             properties.update({"NMS":NMS/float(sumdsr)})
             # add nb rup
             # add Mmax
-            # add rates
+            # properties.update({"Mmax": Mmax })
+            # add participation rates
+            all_participation_rates
+            properties.update({"participation_rates": all_participation_rates[si] })
+
+            # create feature
             features.append(Feature(geometry=geom, properties=properties))
         feature_collection = FeatureCollection(features)
 
