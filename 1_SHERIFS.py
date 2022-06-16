@@ -24,6 +24,7 @@ import os
 import sys
 from lib.utils import sap
 import toml
+import shutil
 
 # If you are running SHERIFS with spyder define "input_file" here. Then run.
 
@@ -103,6 +104,10 @@ def SHERIFS(input_file):
             path += "/"
             param["dirpath"] = path
 
+    # if rerun is forced, delete everything
+    if param['main']['parameters']['force_rerun'] in ['true','True']:
+        if os.path.exists(path+str(Run_Name)):
+            shutil.rmtree(path+str(Run_Name))
     #create folder structure
     if not os.path.exists(path+str(Run_Name)):
         os.makedirs(path+str(Run_Name))
