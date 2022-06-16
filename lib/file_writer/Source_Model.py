@@ -1330,7 +1330,7 @@ class Source_Model_Creator:
         all_participation_rates = []
         if not os.path.isdir(self.pathlog+'/participation_rates'):
             os.makedirs(self.pathlog+'/participation_rates')
-        for fault in faults_names :
+        for fault_name in faults_names :
             incremental_rate,cumulative_rate = p_rates.extract_rates(fault_name,dict_p_rates)
             all_participation_rates.append(cumulative_rate)
             ptf = self.pathlog+'/participation_rates/'+str(fault_name)+'.png'

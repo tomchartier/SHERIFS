@@ -275,10 +275,18 @@ class Sources_Logic_Tree_Creator:
                             os.remove(f)
                         print("rerunning branch id ",str(id))
                 # creating of cleaning the log
+
                 if not os.path.exists(log_path):
                     os.makedirs(log_path)
                 else :
                     if self.param['main']['parameters']['force_rerun'] in ['true','True']:
+                        import shutil
+
+                        shutil.rmtree('./'+self.Run_Name)
+                        files = glob.glob(log_path+"/participation_rates/*")
+                        for f in files:
+                            os.remove(f)
+                        os.dir
                         files = glob.glob(log_path+"/*")
                         for f in files:
                             os.remove(f)

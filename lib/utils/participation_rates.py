@@ -32,8 +32,10 @@ def get_all_participation_rates(data,param,fault_names) :
     with open(param["main"]["rupture_file"], newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter='\t', quotechar='|')
         next(spamreader)
+        rup_id = 0
         for row in spamreader:
-            ruptures.update({row[0]:[str(i) for i in row[1].split(' ')[:-1]]})
+            ruptures.update({rup_id:[str(i) for i in row[0].split(' ')[:-1]]})
+            rup_id += 1
     """
     # get the properties of the faults
     prop_file = open(path + '../../LOG/ModelMultiFaultsTest_prop.pkl','rb')
