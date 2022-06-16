@@ -44,6 +44,7 @@ def get_all_participation_rates(data,param,fault_names) :
     """
 
     dict_p_rates = {}
+    all_non_zero_rups = []
     for fault_name in fault_names:
         """
         fault_id = None
@@ -57,13 +58,17 @@ def get_all_participation_rates(data,param,fault_names) :
         p_rate = [x + y for x, y in zip(p_rate, mfd_singles[fault_id])]
 
         i_sc = 0
+        non_zero_rups = 0
         for involved_faults_i in involved_faults:
             if fault_id in involved_faults_i:
                 p_rate = [x + y for x, y in zip(p_rate, mfd_multi[i_sc])]
+                if sum(mfd_multi[i_sc]) != 0. :
+                    non_zero_rups += 1
             i_sc += 1
         dict_p_rates.update({fault_name:p_rate})
+        all_non_zero_rups.append(non_zero_rups)
 
-    return dict_p_rates, mfd_total
+    return dict_p_rates, mfd_total, all_non_zero_rups
 
 
 def get_bin_mag(mfd_total,Mmin):

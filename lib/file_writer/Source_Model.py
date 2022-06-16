@@ -1325,7 +1325,7 @@ class Source_Model_Creator:
         import participation_rates as p_rates
         from section_info import get_nonzero_Mmax
 
-        dict_p_rates, mfd_total = p_rates.get_all_participation_rates(MFDs_to_pkl,self.param,faults_names)
+        dict_p_rates, mfd_total, all_non_zero_rups = p_rates.get_all_participation_rates(MFDs_to_pkl,self.param,faults_names)
         bin_mag = p_rates.get_bin_mag(mfd_total,self.Mmin)
 
         # plot the participation Rates
@@ -1340,6 +1340,7 @@ class Source_Model_Creator:
             p_rates.plot_participation_rates(bin_mag,incremental_rate,cumulative_rate,fault_name,ptf)
 
             # get the Mmax for the section
+            # Mmax here is the largest magnitude with a non zero rate
             Mmax = get_nonzero_Mmax(bin_mag,cumulative_rate)
 
         '''#############################
@@ -1362,11 +1363,9 @@ class Source_Model_Creator:
             for key in M_slip_repartition[faults_data[si]["name"]].keys():
                 sumdsr+=M_slip_repartition[faults_data[si]["name"]][key]
             properties.update({"NMS":NMS/float(sumdsr)})
-            # add nb rup
-            # add Mmax
+            # this is the number of ruptures with a non zero rate
+            properties.update({"nb_rup": float(all_non_zero_rups[si]) })
             properties.update({"Mmax": float(Mmax) })
-            # add participation rates
-            all_participation_rates
             properties.update({"participation_rates": [bin_mag,all_participation_rates[si]] })
 
             # create feature
