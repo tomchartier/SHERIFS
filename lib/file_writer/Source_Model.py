@@ -1367,7 +1367,7 @@ class Source_Model_Creator:
             properties.update({"Mmax": float(Mmax) })
             # add participation rates
             all_participation_rates
-            properties.update({"participation_rates": all_participation_rates[si] })
+            properties.update({"participation_rates": [bin_mag,all_participation_rates[si]] })
 
             # create feature
             features.append(Feature(geometry=geom, properties=properties))
