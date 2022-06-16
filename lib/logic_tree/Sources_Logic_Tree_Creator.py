@@ -84,6 +84,7 @@ class Sources_Logic_Tree_Creator:
         #LT_log_name  =  'input/'+str(self.Run_Name)+'/LT_log.txt'
         LT_log_name  =  self.param["main"]["LT_file"]
 
+
         lt_info_file = open(path+self.Run_Name + '/ssm/lt_branches_id.txt','w')
 
         lt_info_file.write("id\tmodel\tmfd\trup_set\tbackground\tscaling\t")
@@ -275,13 +276,19 @@ class Sources_Logic_Tree_Creator:
                             os.remove(f)
                         print("rerunning branch id ",str(id))
                 # creating of cleaning the log
+
                 if not os.path.exists(log_path):
                     os.makedirs(log_path)
-                else :
-                    if self.param['main']['parameters']['force_rerun'] in ['true','True']:
-                        files = glob.glob(log_path+"/*")
-                        for f in files:
-                            os.remove(f)
+
+                    """
+                    files = glob.glob(log_path+"/participation_rates/*")
+                    for f in files:
+                        os.remove(f)
+                    os.dir
+                    files = glob.glob(log_path+"/*")
+                    for f in files:
+                        os.remove(f)
+                    """
 
                 line+=('\t\t\t\t<logicTreeBranch branchID= "b_' +str(id)+ '">\n')
 
