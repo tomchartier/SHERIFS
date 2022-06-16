@@ -283,6 +283,7 @@ class Sources_Logic_Tree_Creator:
                         import shutil
 
                         shutil.rmtree('./'+self.Run_Name)
+                        """
                         files = glob.glob(log_path+"/participation_rates/*")
                         for f in files:
                             os.remove(f)
@@ -290,6 +291,7 @@ class Sources_Logic_Tree_Creator:
                         files = glob.glob(log_path+"/*")
                         for f in files:
                             os.remove(f)
+                        """
 
                 line+=('\t\t\t\t<logicTreeBranch branchID= "b_' +str(id)+ '">\n')
 
