@@ -4,6 +4,7 @@ This modules exctracts the participation rate for a given fault
 
 import pickle, csv
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def get_all_participation_rates(data,param,fault_names) :
@@ -15,7 +16,7 @@ def get_all_participation_rates(data,param,fault_names) :
 
     # mfd for the single faults ruptures
     mfd_singles = data[2]
-    mfd_total = [0 for _ in mfd_singles]
+    mfd_total = [0 for _ in mfd_singles[0]]
     for i in range(len(mfd_singles)):
         mfd_total = [x + y for x, y in zip(mfd_total, mfd_singles[i])]
 
@@ -57,11 +58,12 @@ def get_all_participation_rates(data,param,fault_names) :
         p_rate = [0 for _ in mfd_total]
         p_rate = [x + y for x, y in zip(p_rate, mfd_singles[fault_id])]
 
+
         i_sc = 0
         non_zero_rups = 0
         for involved_faults_i in involved_faults:
-            if fault_id in involved_faults_i:
-                p_rate = [x + y for x, y in zip(p_rate, mfd_multi[i_sc])]
+            if fault_id in list(involved_faults_i[0]):
+                p_rate = [sum(x) for x in zip(p_rate, mfd_multi[i_sc])]
                 if sum(mfd_multi[i_sc]) != 0. :
                     non_zero_rups += 1
             i_sc += 1
