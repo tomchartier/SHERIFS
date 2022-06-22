@@ -446,11 +446,12 @@ def to_sherifs(f_for_sherifs,faults,Model_name,apply_sr_reduction,f_mu):
     # top - bottom - dip - orientation - defaults
     for si in range(nb_sections):
         fi = f_for_sherifs[si]["oiler_id"]
-        if not f_for_sherifs[si]["oiler_name"] == None :
+        if "usd" in faults[fi]['properties'].keys() and f_for_sherifs[si]["oiler_name"] != None :
             f_for_sherifs[si]["up_s_d"] = faults[fi]['properties']["usd"]
             f_for_sherifs[si]["lo_s_d"] = faults[fi]['properties']["lsd"]
             f_for_sherifs[si]["dip"] = faults[fi]['properties']["dip"]
             f_for_sherifs[si]["oriented"] = faults[fi]['properties']["dip_dir"]
+
         else :
             f_for_sherifs[si]["up_s_d"] = faults[si]['properties']["up_s_d"]
             f_for_sherifs[si]["lo_s_d"] = faults[si]['properties']["lo_s_d"]
@@ -510,12 +511,21 @@ def to_sherifs(f_for_sherifs,faults,Model_name,apply_sr_reduction,f_mu):
                 print("Please check the format of the input geojson file")
 
 
+        if "rake" in faults[fi]['properties'].keys():
+            f_for_sherifs[si]["rake"] = faults[fi]['properties']["rake"]
+        else :
+            f_for_sherifs[si]["rake"] = rake
 
-        f_for_sherifs[si]["rake"] = rake
 
-        f_for_sherifs[si]["slip_rate_min"] = slip_rate_min * (1.-apply_sr_reduction)
-        f_for_sherifs[si]["slip_rate_moy"] = slip_rate_moy * (1.-apply_sr_reduction)
-        f_for_sherifs[si]["slip_rate_max"] = slip_rate_max * (1.-apply_sr_reduction)
+        if "sr_mean" in faults[fi]['properties'].keys():
+            f_for_sherifs[si]["slip_rate_min"] = faults[fi]['properties']["sr_min"]
+            f_for_sherifs[si]["slip_rate_moy"] = faults[fi]['properties']["sr_mean"]
+            f_for_sherifs[si]["slip_rate_max"] = faults[fi]['properties']["sr_max"]
+
+        else :
+            f_for_sherifs[si]["slip_rate_min"] = slip_rate_min * (1.-apply_sr_reduction)
+            f_for_sherifs[si]["slip_rate_moy"] = slip_rate_moy * (1.-apply_sr_reduction)
+            f_for_sherifs[si]["slip_rate_max"] = slip_rate_max * (1.-apply_sr_reduction)
 
 
         f_for_sherifs[si]["model"] = Model_name

@@ -38,25 +38,29 @@ def build_rup(input_file):
     # Load the input file
     param = toml.load(input_file)
 
+    dirpath = param["dirpath"]
+    if dirpath[-1] != "/":
+        dirpath += "/"
+
     Run_Name = param["Run_Name"]
     Set_Name = param["pre"]["Set_Name"]
-    File_Mmax_areas = param["pre"]["File_Mmax_areas"]
+    File_Mmax_areas = dirpath + param["pre"]["File_Mmax_areas"]
     Model_name = param["pre"]["Model_name"]
     rupture_mesh_spacing = param["pre"]["rupture_mesh_spacing"]
-    f_mu = param["pre"]["File_Mu"]
+    f_mu = dirpath + param["pre"]["File_Mu"]
     jump_dist = param["pre"]["jump_dist"]
     apply_sr_reduction = param["pre"]["apply_sr_reduction"]
 
-    path = "input/"+Run_Name
+    path = dirpath + "input/"+Run_Name
 
     if  "File_Oiler" in param["pre"].keys() :
         do_sectionning = True
-        File_faults = param["pre"]["File_Oiler"]
-        File_out = param["pre"]["File_out"]
+        File_faults = dirpath + param["pre"]["File_Oiler"]
+        File_out = dirpath + param["pre"]["File_out"]
 
     else :
         do_sectionning = False
-        File_faults = param["pre"]["File_sections"]
+        File_faults = dirpath + param["pre"]["File_sections"]
         File_out = File_faults
 
 
@@ -127,7 +131,7 @@ def build_rup(input_file):
     write_section_json(f_for_sherifs,File_out)
 
     # write SHERIFS input file for ruptures
-    write_rupt_file(rup,Run_Name,Set_Name)
+    write_rupt_file(rup,Run_Name,Set_Name,dirpath)
 
     # Create visualization of ruptures
     visu_rup(f_for_sherifs,rup,rup_param[0],rup_param[1],path)

@@ -162,7 +162,7 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
     too_many_jumps = 0
     too_many_zig_zag = 0
     not_diverse_enough = 0
-    
+
     max_length = min([f_for_sherifs[sk]["max_possible_length"] for sk in range(nb_sections)])
 
     while last_l != len(rup):
@@ -415,8 +415,8 @@ def build_scenarios(f_for_sherifs,id_sections_fault,sections_areas_tot,sections_
 
 
 
-def write_rupt_file(rup,Run_Name,Set_Name):
-    f_name = "input/"+Run_Name+"/ruptures.txt"
+def write_rupt_file(rup,Run_Name,Set_Name, dirpath):
+    f_name = dirpath + "input/"+Run_Name+"/ruptures.txt"
     f= open(f_name,'w')
     f.write("set "+Set_Name+"\n")
     for rup_i in rup :
