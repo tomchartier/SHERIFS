@@ -88,13 +88,13 @@ class Source_Model_Creator:
 
         # background option and parameters
         if not param["main"]["background"]["option_bg"] in ["None","none"]:
-            self.File_bg = param["main"]["background"]["File_bg"]
+            self.File_bg = param["dirpath"]+param["main"]["background"]["File_bg"]
 
         if param["main"]["background"]["option_bg"] == "zone":
             if param["main"]["background"]["use_host_model"] in ["true","True"]:
                 self.use_host_model = True
-                self.host_model_file = param["main"]["background"]["host_model_file"]
-            self.file_prop_bg =  param["main"]["background"]["file_prop_bg"]
+                self.host_model_file = param["dirpath"]+param["main"]["background"]["host_model_file"]
+            self.file_prop_bg =  param["dirpath"]+param["main"]["background"]["file_prop_bg"]
 
         self.faults_names = faults_names
         self.scenarios_names = scenarios_names

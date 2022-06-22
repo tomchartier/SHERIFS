@@ -30,7 +30,7 @@ def get_all_participation_rates(data,param,fault_names) :
 
     # get rupture file
     ruptures = {}
-    with open(param["main"]["rupture_file"], newline='') as csvfile:
+    with open(param["dirpath"]+param["main"]["rupture_file"], newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter='\t', quotechar='|')
         next(spamreader)
         rup_id = 0

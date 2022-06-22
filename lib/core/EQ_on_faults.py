@@ -104,7 +104,7 @@ class EQ_on_faults_from_sr():
          self.branch["scl"][1] + "_" + self.branch["scl"][2]
         set_name = self.branch["set"]
         #f_bin_pop = self.path +'/Log/bin_pop_'+str(self.sample)+'.pkl'
-        f_mmax = run_name+'/LOG/'+model_name +'_mmax_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
+        f_mmax = self.param["dirpath"]+run_name+'/LOG/'+model_name +'_mmax_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
         if not os.path.isfile(f_mmax):
             re_use = False
         if re_use == False:
@@ -217,7 +217,7 @@ class EQ_on_faults_from_sr():
             while Mmax< Mmaxmin or Mmax > Mmaxmax :
                 # file containing the log of the maximal magnitude of each fault and each scenario
 #                log_Mmax_file=open(self.path +'/Log/Mmax_sample_' + str(self.sample) + '.txt','w')
-                log_Mmax_file=open(run_name+'/LOG/'+model_name +'_Log_Mmax_sample_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.txt','w')
+                log_Mmax_file=open(self.param["dirpath"]+run_name+'/LOG/'+model_name +'_Log_Mmax_sample_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.txt','w')
 
                 if loop_Mmax == 1 :
                     Mmaxs = scalling_laws.Calc_Mmax(f_area_ar,scenario_area,f_len_ar,scenario_length,f_width_ar,scenario_width,self.selected_ScL,
@@ -336,7 +336,7 @@ class EQ_on_faults_from_sr():
         # For each bin, find which fault and which scenario populates it.
         #####################################################################'''
 
-        f_bin_pop = run_name+'/LOG/'+model_name +'_bin_pop_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
+        f_bin_pop = self.param["dirpath"]+run_name+'/LOG/'+model_name +'_bin_pop_'+scl_name+'_'+set_name+'_'+str(self.sample)+'.pkl'
         if not os.path.isfile(f_bin_pop):
             re_use = False
         rup_in_bin = populate_bins.pop(bin_mag,index_rup,rup_rates,M_min,re_use,f_bin_pop)
@@ -1191,7 +1191,7 @@ class EQ_on_faults_from_sr():
         self.OQ_entry_scenarios = []
         for i in range(len(faults_names)):
             self.OQ_entry_faults.append(rup_rates.get(str(i)).get('rates'))
-            
+
         i_end = i+1
         if np.size(scenarios_names) != 0 :
             for j in range(len(scenarios_names)):

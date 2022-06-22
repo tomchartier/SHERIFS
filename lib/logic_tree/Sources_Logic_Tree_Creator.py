@@ -42,19 +42,20 @@ class Sources_Logic_Tree_Creator:
     def __init__(self,param,calculation_log_file):
         self.param = param
 
+        path = self.param["dirpath"]
         # initiat the parameters
         self.Run_Name = param["Run_Name"]
 
         if param["main"]["fault_input_type"] == "geojson" :
-            self.faults_file = param["main"]["faults_file"]
+            self.faults_file = path+ param["main"]["faults_file"]
             self.File_geom = self.faults_file #geometry is included
         elif param["main"]["fault_input_type"] == "txtsherifs" :
-            self.File_geom = param["main"]["File_geom"]
-            self.File_prop = param["main"]["File_prop"]
+            self.File_geom = path+ param["main"]["File_geom"]
+            self.File_prop = path+ param["main"]["File_prop"]
 
         # find the background option
         if param["main"]["background"]["option_bg"] == "smooth":
-            fbgpath = param["main"]["background"]["smoothing_xml"]
+            fbgpath = param["dirpath"]+param["main"]["background"]["smoothing_xml"]
             if os.path.isdir(fbgpath):
                 list_fbg = [f for f in listdir(fbgpath) if isfile(join(fbgpath, f))]
             else :
@@ -82,7 +83,7 @@ class Sources_Logic_Tree_Creator:
         LT_file = path+self.Run_Name+'/Sources_Logic_tree.xml'
 
         #LT_log_name  =  'input/'+str(self.Run_Name)+'/LT_log.txt'
-        LT_log_name  =  self.param["main"]["LT_file"]
+        LT_log_name  =  path+ self.param["main"]["LT_file"]
 
 
         lt_info_file = open(path+self.Run_Name + '/ssm/lt_branches_id.txt','w')
@@ -198,7 +199,7 @@ class Sources_Logic_Tree_Creator:
                 # setting the ration of seismicity that is in the background
                 try:
                     available_bg = read_input.extract_bg_input(
-                    'input/'+self.Run_Name+'/bg_seismicity.txt')
+                    path+'input/'+self.Run_Name+'/bg_seismicity.txt')
                 except:
                     print('Error related to the background file \n'+
                     'Please make sure input/run_name/bg_seismicity.txt \
@@ -208,7 +209,7 @@ class Sources_Logic_Tree_Creator:
 
             # extracting the rupture scenarios
             try:
-                rupt_file = self.param["main"]["rupture_file"]
+                rupt_file = path+self.param["main"]["rupture_file"]
                 available_sets = read_input.extract_sc_input(rupt_file)
             except:
                 print('Error related to the rupture scenario set file \n'+
