@@ -28,7 +28,6 @@ from OQ_job_Creator import OQ_job_Creator
 import xml.etree.ElementTree as ET
 import numpy as np
 import math
-from mpl_toolkits.basemap import Basemap
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.path import Path
@@ -42,10 +41,6 @@ import Plot_mfd
 import Participation_rates
 import plt_catalog
 import plot_FtF_GIF
-# import tkinter as tk
-# from tkinter import ttk, Label, Text, INSERT,END, StringVar,Listbox,Button,Entry,Checkbutton
-# from tkinter.ttk import Combobox
-# from tkinter import messagebox
 import pandas as pd
 import matplotlib.cm as cmx
 import matplotlib.colors as colors
@@ -54,13 +49,8 @@ from glob import glob
 import xml.etree.ElementTree as ET
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.collections import PolyCollection
-
-
-# w_sc_nb = tk.Tk()
-# w_sc_nb.title('OK?')
-# label = Label(w_sc_nb, text='\n\n\n\n\n\n        Everything is working well           \n\nYou can close this window\nand start with SHERIFS\n\n\n\n')
-# label.pack()
-# w_sc_nb.mainloop()
+import toml
+import pickle
 
 print('\n\n\n\nEverything is OK\n\n\n\n')
 print('')
