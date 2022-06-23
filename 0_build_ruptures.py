@@ -51,6 +51,23 @@ def build_rup(input_file):
     jump_dist = param["pre"]["jump_dist"]
     apply_sr_reduction = param["pre"]["apply_sr_reduction"]
 
+    sectionning_param = {}
+    if "max_section_length" in param["pre"].keys():
+        sectionning_param.update({"max_section_length":param["pre"]["max_section_length"]})
+    else :
+        sectionning_param.update({"max_section_length":40.0})
+
+    if "max_num_sections" in param["pre"].keys():
+        sectionning_param.update({"max_num_sections":param["pre"]["max_num_sections"]})
+    else :
+        sectionning_param.update({"max_num_sections":6})
+
+    if "distance_resolution" in param["pre"].keys():
+        sectionning_param.update({"distance_resolution":param["pre"]["distance_resolution"]})
+    else :
+        sectionning_param.update({"distance_resolution":0.5})
+
+
     path = dirpath + "input/"+Run_Name
 
     if  "File_Oiler" in param["pre"].keys() :
@@ -82,14 +99,16 @@ def build_rup(input_file):
         f_lengths,
         f_areas,
         path,
-        rupture_mesh_spacing)
+        rupture_mesh_spacing,
+        sectionning_param)
     else :
         # converts faults to sections
         f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot = converts_to_sections(faults,
         f_lengths,
         f_areas,
         path,
-        rupture_mesh_spacing)
+        rupture_mesh_spacing,
+        sectionning_param)
 
     # force jumps
     force_jump_on_fault = force_jump_list()

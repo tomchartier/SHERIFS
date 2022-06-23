@@ -17,7 +17,7 @@ from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 
 
-def converts_to_sections(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
+def converts_to_sections(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_param):
 
     # for all faults longer than 50 km cut them either in roughly 25 km long sections
     # or in 5 sections if the faults is longer than 25 x 5 = 125 km
@@ -29,13 +29,8 @@ def converts_to_sections(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
     sections_areas_tot = []
     id_sections_fault = []
 
-
-    #TODO clean up hard variables
-    max_section_length = 40.
-    max_num_sections = 6
-
-    #use for the intermolation if the fault is not precise enough
-    distance_resolution = 0.5
+    # use for the intermolation if the fault is not precise enough
+    distance_resolution = sectionning_param["distance_resolution"]
 
     if not os.path.exists(path+"/qgis"):
         os.makedirs(path+"/qgis")
@@ -113,7 +108,7 @@ def converts_to_sections(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
 
     return f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot
 
-def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
+def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_param):
 
     # for all faults longer than 50 km cut them either in roughly 25 km long sections
     # or in 5 sections if the faults is longer than 25 x 5 = 125 km
@@ -126,11 +121,13 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
     id_sections_fault = []
 
 
-    #TODO clean up hard variables
-    max_section_length = 40.
-    max_num_sections = 6
-    #use for the intermolation if the fault is not precise enough
-    distance_resolution = 0.5
+    # sectionning parameters
+    max_section_length = sectionning_param["max_section_length"]
+    max_num_sections = sectionning_param["max_num_sections"]
+
+    # use for the intermolation if the fault is not precise enough
+    distance_resolution = sectionning_param["distance_resolution"]
+
 
     if not os.path.exists(path+"/qgis"):
         os.makedirs(path+"/qgis")
@@ -253,10 +250,15 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
                     length = 0.
                     for i in range(len(lons)-1):
                         length += distance(lons[i],lats[i],lons[i+1],lats[i+1])
+                    if "lsd" in faults[fi]['properties'].keys():
+                        width =((faults[fi]['properties']['lsd']-
+                                  faults[fi]['properties']['usd'])/
+                                  sin(radians(faults[fi]['properties']['dip'])))
+                    else :
+                        width =((faults[fi]['properties']['lo_s_d']-
+                                  faults[fi]['properties']['up_s_d'])/
+                                  sin(radians(faults[fi]['properties']['dip'])))
 
-                    width =((faults[fi]['properties']['lsd']-
-                              faults[fi]['properties']['usd'])/
-                              sin(radians(faults[fi]['properties']['dip'])))
                     area = length*width
                     f_name = str(fi)+"_"+str(cut)
                     f_id += 1
@@ -283,9 +285,14 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing):
                     f_name = str(fi)+"_"+str(cut)
                     f_id += 1
                     length = fault_length(lons,lats)
-                    width =((faults[fi]['properties']['lsd']-
-                              faults[fi]['properties']['usd'])/
-                              sin(radians(faults[fi]['properties']['dip'])))
+                    if "lsd" in faults[fi]['properties'].keys():
+                        width =((faults[fi]['properties']['lsd']-
+                                  faults[fi]['properties']['usd'])/
+                                  sin(radians(faults[fi]['properties']['dip'])))
+                    else :
+                        width =((faults[fi]['properties']['lo_s_d']-
+                                  faults[fi]['properties']['up_s_d'])/
+                                  sin(radians(faults[fi]['properties']['dip'])))
 
                     # check if the width is large enought for the discretization
                     error_msg = "A fault is too thin for the discretization. Fault name :"
@@ -453,10 +460,10 @@ def to_sherifs(f_for_sherifs,faults,Model_name,apply_sr_reduction,f_mu):
             f_for_sherifs[si]["oriented"] = faults[fi]['properties']["dip_dir"]
 
         else :
-            f_for_sherifs[si]["up_s_d"] = faults[si]['properties']["up_s_d"]
-            f_for_sherifs[si]["lo_s_d"] = faults[si]['properties']["lo_s_d"]
-            f_for_sherifs[si]["dip"] = faults[si]['properties']["dip"]
-            f_for_sherifs[si]["oriented"] = faults[si]['properties']["oriented"]
+            f_for_sherifs[si]["up_s_d"] = faults[fi]['properties']["up_s_d"]
+            f_for_sherifs[si]["lo_s_d"] = faults[fi]['properties']["lo_s_d"]
+            f_for_sherifs[si]["dip"] = faults[fi]['properties']["dip"]
+            f_for_sherifs[si]["oriented"] = faults[fi]['properties']["oriented"]
 
 
         # default for now but can be changed later
