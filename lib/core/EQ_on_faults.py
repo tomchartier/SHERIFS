@@ -605,7 +605,7 @@ class EQ_on_faults_from_sr():
         picked_empty_rup = 0
         old_percent = '0000'
 
-        while sum_fault_budget != 0 : # sum(faults_budget.values()) as long as there is some slip-rate to spend we keep going
+        while sum_fault_budget > 0 : # sum(faults_budget.values()) as long as there is some slip-rate to spend we keep going
             ratio_done = 1. - float(sum_fault_budget)/nb_ss_to_spend
             if ratio_done > 0.01 :
                 model_MFD, self.calculation_log_file,print_percent = core_utils.progress(model_MFD,self.calculation_log_file,ratio_done,print_percent,rup_rates,fault_prop,bin_mag)
