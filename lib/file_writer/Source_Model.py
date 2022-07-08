@@ -1361,6 +1361,7 @@ class Source_Model_Creator:
             # get the Mmax for the section
             # Mmax here is the largest magnitude with a non zero rate
             Mmax = get_nonzero_Mmax(bin_mag,cumulative_rate)
+            sections_Mmax.append(Mmax)
 
         '''#############################
         ### Exporting the results in a Geojson
@@ -1384,7 +1385,7 @@ class Source_Model_Creator:
             properties.update({"NMS":NMS/float(sumdsr)})
             # this is the number of ruptures with a non zero rate
             properties.update({"nb_rup": float(all_non_zero_rups[si]) })
-            properties.update({"Mmax": float(Mmax) })
+            properties.update({"Mmax": float(sections_Mmax[si]) })
             properties.update({"participation_rates": [bin_mag,all_participation_rates[si]] })
 
             # create feature
