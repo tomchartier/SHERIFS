@@ -1388,6 +1388,26 @@ class Source_Model_Creator:
             properties.update({"Mmax": float(sections_Mmax[si]) })
             properties.update({"participation_rates": [bin_mag,all_participation_rates[si]] })
 
+            # indicator to see if the fault might be limiting
+            # indicator is 1 if the fault might be limiting the system
+            nms_i = NMS/float(sumdsr)
+            mmax_i = sections_Mmax[si]
+            if mmax_i >= max(sections_Mmax) - 0.3 :
+                if nms_i < 0.1 :
+                    indicator = 1. - nms_i
+                else :
+                    indicator = 0.
+            elif mmax_i >= max(sections_Mmax) - 0.5 :
+                if nms_i < 0.05 :
+                    indicator = 1. - nms_i
+                else :
+                    indicator = 0.
+            else :
+                indicator = 0.
+                
+            properties.update({"might_to_be_limiting": round(indicator,2) })
+
+
             # create feature
             features.append(Feature(geometry=geom, properties=properties))
         feature_collection = FeatureCollection(features)
