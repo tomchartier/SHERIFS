@@ -12,6 +12,8 @@ import geojson
 import xml.etree.ElementTree as ET
 import mfd_shape
 
+from geometry_tools import distance
+
 class bg():
     """
     Extract the geometry and properities of the background.
@@ -70,7 +72,17 @@ class bg():
 
         return upperSeismoDepth, lowerSeismoDepth, ruptAspectRatio, nodalPlanes, hypoDepths
 
-    def get_multipoints(EQ_rate_BG,M_min,bbPath_BG,list_bg_xml,pathssm,pathlog,list_src_files):
+    def get_multipoints(EQ_rate_BG,
+                        M_min,
+                        bbPath_BG,
+                        list_bg_xml,
+                        include_all_faults,
+                        outside_faults,
+                        faults_data,
+                        OQ_entry_faults,
+                        pathssm,
+                        pathlog,
+                        list_src_files):
         """
         Import the multipoint sources from a list of xml and create a list
         of PointSources with the modified rates to fit the background rates
@@ -82,12 +94,18 @@ class bg():
         M_min : float, Mmin for the model
         bbPath_BG: mplPath.Path, ploygon of the background
         list_bg_xml : str, path to the smooth seismicity background xml files
+        include_all_faults : bool, if faults outside of the bg are included
+        outside_faults : list, list of the faults outside of the bg
+        faults_data : dict, fault information
+        OQ_entry_faults : list, mfd for single fault ruptres
         pathssm : str, path to the the folder containing a list of xml files
         pathlog : str, log folder for the branch
         list_src_files : list, list of path of the xml source files for oq
 
 
         """
+
+        sharp_dist_criteria = 15. # km (TODO move out)
 
         Mmin_checked = False
 
@@ -99,7 +117,8 @@ class bg():
         # read the xml and stores the list of aValues
         pts_list = {} # points in the background area
         pts_out_list = {} # points outside the background area
-        list_pt_loc_in = []
+        list_pt_loc_in, list_pt_loc_out = [], []
+        faults_out_pts = []
         #sum_rates = 0.
         sum_rates_in = [0. for _ in mags]
         id_bg = 0
@@ -126,17 +145,52 @@ class bg():
                                 list_pts=[float(i) for i in s_tmp.split(' ') if i != '']
                                 for id_pt in range(int(len(list_pts)/2)):
                                     pt_in_BG = False
+                                    close_to_out_fault = False
                                     lon, lat = list_pts[id_pt*2], list_pts[id_pt*2+1]
 
                                     str_loc = str(lon)+'_'+str(lat)
                                     if bbPath_BG.contains_point((lon,lat)) == 1:
                                         pt_in_BG = True
                                         list_pt_loc_in.append(str_loc)
+                                    else :
+                                        list_pt_loc_out.append(id_pt)
+
+
+                                        # if point is close to an outside fault
+                                        # first, check roughly
+                                        pt_very_far = True
+                                        rough_dist_crateria = 80 #km
+                                        for i_fault in outside_faults :
+                                            if pt_very_far == True :
+                                                mean_lon = np.mean(faults_data[i_fault]['lon'])
+                                                mean_lat = np.mean(faults_data[i_fault]['lat'])
+                                                dist_i = distance(mean_lon, mean_lat, lon, lat)
+                                                if dist_i < rough_dist_crateria :
+                                                    pt_very_far = False
+
+                                        # find distance to fault mean location
+                                        if pt_very_far == False :
+                                            dist = 1000000.
+                                            closest_fault = "nope"
+                                            for i_fault in outside_faults :
+                                                for lon_f,lat_f in zip(faults_data[i_fault]['lon'],faults_data[i_fault]['lat']):
+                                                    dist_i = distance(lon_f, lat_f, lon, lat)
+                                                    if dist_i < dist :
+                                                        dist = dist_i
+                                                        closest_fault = i_fault
+                                            closest_dist = dist
+                                            if closest_dist < sharp_dist_criteria :
+                                                close_to_out_fault = True
+                                                faults_out_pts.append(closest_fault)
+
                                     point_data.update({id_pt:{'lon':lon,
                                                               'lat':lat,
                                                             'pt_in_BG':pt_in_BG,
                                                             'id_bg':id_bg,
-                                                            'str_loc':str_loc}})
+                                                            'str_loc':str_loc,
+                                                            'close_to_out_fault':close_to_out_fault}})
+                                    if close_to_out_fault :
+                                        point_data[id_pt].update({'closest_fault':closest_fault})
 
                             if "upperSeismoDepth" in str(grandchild) :
                                 upperSeismoDepth = multiPointSource[i_geom][i_grandchild].text
@@ -238,19 +292,21 @@ class bg():
                 line+='\t\t\t\t\t\t\t '+str(point_data[id_pt]['lon'])+' '+str(point_data[id_pt]['lat'])+'\n'
                 line+='\t\t\t\t\t\t</gml:pos>\n'
                 line+='\t\t\t\t\t</gml:Point>\n'
-                line+='\t\t\t\t<upperSeismoDepth>\n'
-                line+='\t\t\t\t'+str(bg_info[i_bg]['upperSeismoDepth'])+'\n'
-                line+='\t\t\t\t</upperSeismoDepth>\n'
-                line+='\t\t\t\t<lowerSeismoDepth>\n'
-                line+='\t\t\t\t'+str(bg_info[i_bg]['lowerSeismoDepth'])+'\n'
-                line+='\t\t\t\t</lowerSeismoDepth>\n'
+                line+='\t\t\t\t<upperSeismoDepth>'
+                line+='\t\t\t\t'+str(bg_info[i_bg]['upperSeismoDepth'])
+                line+='</upperSeismoDepth>\n'
+                line+='\t\t\t\t<lowerSeismoDepth>'
+                line+='\t\t\t\t'+str(bg_info[i_bg]['lowerSeismoDepth'])
+                line+='</lowerSeismoDepth>\n'
                 line+='\t\t\t\t</pointGeometry>\n'
-                line+='\t\t\t\t<magScaleRel>\n'
-                line+='\t\t\t\t'+str(bg_info[i_bg]['magScaleRel'])+'\n'
-                line+='\t\t\t\t</magScaleRel>\n'
-                line+='\t\t\t\t<ruptAspectRatio>\n'
-                line+='\t\t\t\t'+str(bg_info[i_bg]['ruptAspectRatio'])+'\n'
-                line+='\t\t\t\t</ruptAspectRatio>\n'
+                line+='\t\t\t\t<magScaleRel>'
+                line+='\t\t\t\t'+str(bg_info[i_bg]['magScaleRel'])
+                line+='</magScaleRel>\n'
+                line+='\t\t\t\t<ruptAspectRatio>'
+                line+='\t\t\t\t'+str(bg_info[i_bg]['ruptAspectRatio'])
+                line+='</ruptAspectRatio>\n'
+
+                # WORKING OF THE MFD
                 line+='\t\t\t<incrementalMFD binWidth=\"0.10\" minMag="'+ str(M_min)+'">\n'
                 mfd = point_data[id_pt]['mfd']
                 mfd_init = mfd
@@ -260,6 +316,28 @@ class bg():
                         weight_pt = mfd[i_m]/sum_rates_in[i_m]
                         mod_mfd.append(EQ_rate_BG[i_m] * weight_pt)
                     mfd = mod_mfd
+                if include_all_faults : # if there are faults outside the bg
+                    if point_data[id_pt]['close_to_out_fault'] :
+                        ### ONLY DOING THE REDUCTION CONSIDERING SINGLE FAULT RUPTURES
+                        # get closest fault
+                        i_fault = point_data[id_pt]["closest_fault"]
+                        # find ruptures of the closest faults
+                        mfd_single_clst_f = OQ_entry_faults[i_fault]
+                        mod_mfd = []
+
+                        for i_m in range(min(len(mfd),len(mfd_single_clst_f))):
+                            nb_pt_close = faults_out_pts.count(i_fault)
+                            reduction = mfd_single_clst_f[i_m]/float(nb_pt_close)
+                            mod_ri = mfd[i_m]-reduction
+                            # the reduction is up to 50 %, not more
+                            if mod_ri >= mfd[i_m] * 0.5 :
+                                mod_mfd.append(mod_ri)
+                            else :
+                                mod_mfd.append(mfd[i_m]* 0.5)
+                        mfd = mod_mfd
+
+
+
                 line+='\t\t\t<occurRates> ' + ' '.join(list(map(str, mfd))) + '</occurRates>\n'
 
                 # log the mfd values for csv

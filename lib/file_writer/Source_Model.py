@@ -1061,6 +1061,10 @@ class Source_Model_Creator:
                                 M_min,
                                 bbPath_BG,
                                 list_bg_xml,
+                                include_all_faults,
+                                outside_faults,
+                                faults_data,
+                                OQ_entry_faults,
                                 self.path,
                                 self.pathlog,
                                 list_src_files)
@@ -1367,7 +1371,7 @@ class Source_Model_Creator:
         ### Exporting the results in a Geojson
         ##############################'''
         features = []
-        for si in range(len(faults_data)):
+        for si in f_in_bg:
             sections = []
             geom = []
             for lon_i,lat_i in zip(faults_data[si]["lon"],faults_data[si]["lat"]):
@@ -1404,7 +1408,7 @@ class Source_Model_Creator:
                     indicator = 0.
             else :
                 indicator = 0.
-                
+
             properties.update({"might_to_be_limiting": round(indicator,2) })
 
 
