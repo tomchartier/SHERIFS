@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nrml
+xmlns="http://openquake.org/xmlns/nrml/0.5"
+xmlns:gml="http://www.opengis.net/gml"
+>
+    <sourceModel
+    investigation_time="1.0"
+    name="test"
+    >
+        <sourceGroup
+        name="group 1"
+        rup_interdep="indep"
+        src_interdep="indep"
+        tectonicRegion="Active Shallow Crust"
+        >
+            <nonParametricSeismicSource
+            id="test"
+            name="test"
+            >
+                <multiPlanesRupture
+                probs_occur="0.9244 0.0756"
+                >
+                    <magnitude>
+                        6.9
+                    </magnitude>
+                    <rake>
+                        0.0
+                    </rake>
+                    <hypocenter depth="7.5" lat="0.15" lon="0.1"/>
+                    <kiteSurface>
+                        <profile>
+                            <gml:LineString>
+                                <gml:posList>
+                                    0.0 0.0 0.0 0.0 0.3 15.0
+                                </gml:posList>
+                            </gml:LineString>
+                        </profile>
+                        <profile>
+                            <gml:LineString>
+                                <gml:posList>
+                                    0.2 0.0 0.0 0.2 0.3 15.0
+                                </gml:posList>
+                            </gml:LineString>
+                        </profile>
+                    </kiteSurface>
+                    <kiteSurface>
+                        <profile>
+                            <gml:LineString>
+                                <gml:posList>
+                                    0.0 0.1 0.0 0.0 0.4 15.0
+                                </gml:posList>
+                            </gml:LineString>
+                        </profile>
+                        <profile>
+                            <gml:LineString>
+                                <gml:posList>
+                                    0.2 0.1 0.0 0.2 0.4 15.0
+                                </gml:posList>
+                            </gml:LineString>
+                        </profile>
+                    </kiteSurface>
+                </multiPlanesRupture>
+            </nonParametricSeismicSource>
+        </sourceGroup>
+    </sourceModel>
+</nrml>
