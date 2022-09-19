@@ -19,6 +19,10 @@ path_lib = path_actuel + '/lib'
 sys.path.append(path_lib)
 path_f = path_lib + '/precom'
 sys.path.append(path_f)
+path_f = path_lib + '/sources'
+sys.path.append(path_f)
+path_f = path_lib + '/utils'
+sys.path.append(path_f)
 from lib.utils import sap
 from read_precomp_files import read_oiler_file
 from precomp_utils import *
@@ -39,8 +43,9 @@ def build_rup(input_file):
     param = toml.load(input_file)
 
     dirpath = param["dirpath"]
-    if dirpath[-1] != "/":
-        dirpath += "/"
+    if dirpath != '' :
+        if dirpath[-1] != "/":
+            dirpath += "/"
 
     Run_Name = param["Run_Name"]
     Set_Name = param["pre"]["Set_Name"]
@@ -91,7 +96,7 @@ def build_rup(input_file):
     assso_fault = find_possible_asso(maxmin_pt_lon,maxmin_pt_lat)
 
     # calc fault dimensions
-    f_lengths, f_areas = calc_f_dims(faults,)
+    f_lengths, f_areas = calc_f_dims(faults,param)
 
     if do_sectionning == True :
         # cutting into smaller sections
@@ -100,7 +105,8 @@ def build_rup(input_file):
         f_areas,
         path,
         rupture_mesh_spacing,
-        sectionning_param)
+        sectionning_param,
+        param)
     else :
         # converts faults to sections
         f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot = converts_to_sections(faults,

@@ -8,13 +8,14 @@ Version 1.2
 """
 import numpy as np
 import os
-from precomp_utils import distance, fault_length, calculate_initial_compass_bearing
+from precomp_utils import distance, fault_length, calculate_initial_compass_bearing, get_fault_dimentions
 import matplotlib.pyplot as plt
 from math import pi, cos, radians , sin, asin, sqrt, atan2, degrees, acos, radians
 import geojson
 from geojson import LineString, Feature, FeatureCollection, dump, MultiPoint
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
+from kite_for_sherifs import *
 
 
 def converts_to_sections(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_param):
@@ -108,7 +109,7 @@ def converts_to_sections(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sect
 
     return f_for_sherifs,id_sections_fault,sections_areas_tot,sections_lengths_tot
 
-def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_param):
+def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_param,param):
 
     # for all faults longer than 50 km cut them either in roughly 25 km long sections
     # or in 5 sections if the faults is longer than 25 x 5 = 125 km
@@ -235,8 +236,8 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_pa
 
                             # check for major azimut change
                             if dist > av_section_len * 0.3 and dist > 2. * rupture_mesh_spacing:
-                                az1 = calculate_initial_compass_bearing([lons_tot[index_cut-1],lats_tot[index_cut-1]], [lons_tot[index_cut],lats_tot[index_cut]])
-                                az2 = calculate_initial_compass_bearing([lons_tot[index_cut],lats_tot[index_cut]], [lons_tot[index_cut+1],lats_tot[index_cut+1]])
+                                az1 = calculate_initial_compass_bearing((lons_tot[index_cut-1],lats_tot[index_cut-1]), (lons_tot[index_cut],lats_tot[index_cut]))
+                                az2 = calculate_initial_compass_bearing((lons_tot[index_cut],lats_tot[index_cut]), (lons_tot[index_cut+1],lats_tot[index_cut+1]))
                                 if abs(az1-az2) % 360 > 60. :
                                     dist = 100000.
                         except IndexError:
@@ -247,6 +248,10 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_pa
                     # feed the dico
                     lons = lons_tot[index_0:index_cut+1]
                     lats = lats_tot[index_0:index_cut+1]
+
+                    area, length, width = get_fault_dimentions(lons,lats,faults,fi,param)
+
+                    '''
                     length = 0.
                     for i in range(len(lons)-1):
                         length += distance(lons[i],lats[i],lons[i+1],lats[i+1])
@@ -260,6 +265,9 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_pa
                                   sin(radians(faults[fi]['properties']['dip'])))
 
                     area = length*width
+                    '''
+
+
                     f_name = str(fi)+"_"+str(cut)
                     f_id += 1
                     f_for_sherifs.update({f_id:{'f_name' : f_name,
@@ -284,6 +292,9 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_pa
                     lats = lats_tot[index_cut:]
                     f_name = str(fi)+"_"+str(cut)
                     f_id += 1
+
+                    area, length, width = get_fault_dimentions(lons,lats,faults,fi,param)
+                    '''
                     length = fault_length(lons,lats)
                     if "lsd" in faults[fi]['properties'].keys():
                         width =((faults[fi]['properties']['lsd']-
@@ -293,7 +304,7 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_pa
                         width =((faults[fi]['properties']['lo_s_d']-
                                   faults[fi]['properties']['up_s_d'])/
                                   sin(radians(faults[fi]['properties']['dip'])))
-
+                    '''
                     # check if the width is large enought for the discretization
                     error_msg = "A fault is too thin for the discretization. Fault name :"
                     error_msg += str(faults[fi]['properties']["fid"])
@@ -301,8 +312,9 @@ def cut_faults(faults,f_lengths,f_areas,path,rupture_mesh_spacing,sectionning_pa
                     error_msg += str(round(width,2))
                     error_msg += " km."
                     assert (width > 2. * rupture_mesh_spacing), error_msg
-
+                    '''
                     area = length*width
+                    '''
         #             length = 0.
         #             for i in range(len(lons)-1):
         #                 length += distance(lons[i],lats[i],lons[i+1],lats[i+1])
