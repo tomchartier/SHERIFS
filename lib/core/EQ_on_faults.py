@@ -63,6 +63,10 @@ class EQ_on_faults_from_sr():
 
         self.initialize()
     def initialize(self):
+
+        seed = int(self.param['main']['parameters']['Random_seed'])
+        print(seed,type(seed))
+        np.random.seed = seed
         #####################################################################
         # input fixed values
         #####################################################################
